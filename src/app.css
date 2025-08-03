@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+
+@keyframes outline-fade-out {
+	from {
+		outline-color: var(--color-blue-500);
+	}
+	to {
+		outline-color: transparent;
+	}
+}

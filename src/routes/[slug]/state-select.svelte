@@ -1,0 +1,54 @@
+<script lang="ts">
+	import {
+		femenineCourseStateLabels,
+		courseStates,
+		type CourseState,
+		masculineCourseStateLabels
+	} from '$lib/course-state';
+
+	type Props = {
+		id: string;
+		value: CourseState;
+		isEnabled: boolean;
+		onchange?: (event: Event) => void;
+		gender?: 'femenine' | 'masculine';
+	};
+
+	let { id, isEnabled, value = $bindable(), onchange, gender = 'femenine' }: Props = $props();
+
+	const stateSelectBackgroundColors = {
+		[courseStates.notTaken]: 'bg-gray-600',
+		[courseStates.inProgress]: 'bg-blue-600',
+		[courseStates.taken]: 'bg-amber-600',
+		[courseStates.passed]: 'bg-green-600'
+	} as const;
+</script>
+
+<select
+	{id}
+	bind:value
+	{onchange}
+	disabled={!isEnabled}
+	class={[
+		stateSelectBackgroundColors[value],
+		!isEnabled && 'opacity-50',
+		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors select-none',
+		'focus:outline-2 focus:outline-offset-2 focus:outline-blue-500'
+	]}
+>
+	{#each Object.values(courseStates) as state}
+		<option value={state}
+			>{gender === 'femenine'
+				? femenineCourseStateLabels[state]
+				: masculineCourseStateLabels[state]}</option
+		>
+	{/each}
+</select>
+
+<style>
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+</style>
