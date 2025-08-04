@@ -154,7 +154,7 @@
 			· Creado por
 			<a
 				href="https://valentincosta.com"
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+				class="whitespace-nowrap text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>
 				Valentín Costa
 			</a>
