@@ -3,7 +3,7 @@
 	import { courseTags } from '$lib/course-tag';
 	import type { Course } from '$lib/course.svelte';
 	import type { Year } from '$lib/year.svelte';
-	import StatItem from './stat-item.svelte';
+	import Stat from './stat.svelte';
 
 	type Props = {
 		courses: Course[];
@@ -29,26 +29,26 @@
 	);
 </script>
 
-<ul class="grid grid-cols-2 gap-3">
-	<StatItem
+<ul class="grid gap-2 px-3">
+	<Stat
 		label="Materias aprobadas"
 		value={`${passedCourses.length} de ${courses.length}`}
 		progress={(passedCourses.length / courses.length) * 100}
 	/>
-	<StatItem
-		label="Años aprobados"
-		value={`${passedYears.length} de ${years.length}`}
-		progress={(passedYears.length / years.length) * 100}
-	/>
-	<StatItem
+	<Stat
 		label="Materias obligatorias aprobadas"
 		value={`${passedMandatoryCourses.length} de ${mandatoryCourses.length}`}
 		progress={(passedMandatoryCourses.length / mandatoryCourses.length) * 100}
 	/>
-	<StatItem label="Horas en curso" value={`${inProgressCourseHours} hs`} />
-	<StatItem
+	<Stat
 		label="Materias electivas aprobadas"
 		value={`${passedElectiveCourses.length} de ${electiveCourses.length}`}
 		progress={(passedElectiveCourses.length / electiveCourses.length) * 100}
 	/>
+	<Stat
+		label="Años aprobados"
+		value={`${passedYears.length} de ${years.length}`}
+		progress={(passedYears.length / years.length) * 100}
+	/>
+	<Stat label="Horas en curso" value={`${inProgressCourseHours} hs`} />
 </ul>

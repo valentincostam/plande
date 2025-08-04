@@ -500,5 +500,42 @@ export const utnFrcuIsiData = {
 	degree: 'Ingeniería en Sistemas de Información',
 	years: 5,
 	college: 'UTN FRCU',
-	studyProgram: 'Plan de Estudios 2023'
+	studyProgram: 'Plan de Estudios 2023',
+
+	sources: [
+		{
+			id: 1,
+			label: 'Plan de Estudios 2023',
+			href: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2023/PLAN-INGENIERIA-SISTEMAS.pdf'
+		},
+		{
+			id: 2,
+			label: 'Ordenanza N° 1877 - Diseño Curricular',
+			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/8.pdf'
+		},
+		{
+			id: 3,
+			label: 'Ordenanza N° 1878 - Régimen de Correlativas y Equivalencias',
+			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/9.pdf'
+		},
+		{
+			id: 4,
+			label: 'Resolución Nº 356/2022 CD - Implementación Plan de Transición',
+			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/10.pdf'
+		}
+	],
+	notes: [
+		{
+			id: 1,
+			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada** (200 horas), es necesario cumplir con los requisitos para cursar _Proyecto Final_.'
+		},
+		{
+			id: 2,
+			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+		},
+		{
+			id: 3,
+			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
+		}
+	]
 };

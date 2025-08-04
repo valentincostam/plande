@@ -8,6 +8,8 @@
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams } from '$lib/url-state-parameter';
 	import ShareButton from './share-button.svelte';
+	import { marked } from 'marked';
+
 	let { data }: PageProps = $props();
 
 	let isStrictModeEnabled = $state(data.isStrictModeEnabled);
@@ -58,72 +60,43 @@
 			<Stats {courses} {years} />
 		</section>
 
-		<section class="px-3 md:px-0">
-			<h3 class="p-3 text-lg font-bold">Notas importantes</h3>
-			<ul class="grid list-disc gap-3 px-9">
-				<li>
-					Para iniciar y acreditar la <strong>Práctica Profesional Supervisada</strong> (200 horas),
-					es necesario cumplir con los requisitos para cursar <em>Proyecto Final</em>.
-				</li>
-				<li>
-					En Plande, la <strong>Práctica Profesional Supervisada</strong> tiene una carga horaria de
-					6 horas semanales. Este número es arbitrario, orientativo, obtenido de dividir las 200 horas
-					totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía
-					de acuerdo a cómo realice la práctica cada estudiante.
-				</li>
-				<li>
-					Para rendir <strong>Proyecto Final</strong>, es necesario aprobar todas las asignaturas
-					del Plan de Estudios.
-				</li>
-			</ul>
-		</section>
+		{#if data.notes}
+			<section class="px-3 md:px-0">
+				<h3 class="p-3 text-lg font-bold">Notas</h3>
+				<ul class="grid list-disc gap-3 px-9">
+					{#each data.notes as note}
+						<li>
+							{@html marked(note.text)}
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
 
-		<section class="px-3 md:px-0">
-			<h3 class="p-3 text-lg font-bold">Fuentes</h3>
-			<ul class="grid list-disc gap-3 px-9">
-				<li>
-					<a
-						class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-						href="https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2023/PLAN-INGENIERIA-SISTEMAS.pdf"
-					>
-						Plan de Estudios 2023
-					</a>
-				</li>
-				<li>
-					<a
-						class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-						href="https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/8.pdf"
-					>
-						Ordenanza N° 1877 - Diseño Curricular
-					</a>
-				</li>
-				<li>
-					<a
-						class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-						href="https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/9.pdf"
-					>
-						Ordenanza N° 1878 - Régimen de Correlativas y Equivalencias
-					</a>
-				</li>
-				<li>
-					<a
-						class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-						href="https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/10.pdf"
-					>
-						Resolución Nº 356/2022 CD - Implementación Plan de Transición
-					</a>
-				</li>
-			</ul>
-		</section>
+		{#if data.sources}
+			<section class="px-3 md:px-0">
+				<h3 class="p-3 text-lg font-bold">Fuentes</h3>
+				<ul class="grid list-disc gap-3 px-9">
+					{#each data.sources as source}
+						<li>
+							<a
+								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+								href={source.href}
+							>
+								{source.label}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
 
 		<section class="px-3 md:px-0">
 			<div class="grid gap-3 rounded-md bg-gray-100 p-5 text-xs text-gray-600">
 				<p>
-					<strong
-						>Plande está en su primera versión y podría tener errores o información incompleta</strong
-					>. No tomen decisiones cruciales sobre sus estudios basándose únicamente en la información
-					proporcionada aquí. Recuerden consultar a sus asesores académicos o fuentes oficiales de
-					la {data.college}
+					<strong>Plande podría tener errores o información incompleta</strong>. No tomen decisiones
+					cruciales sobre sus estudios basándose únicamente en la información proporcionada aquí.
+					Recuerden consultar a sus asesores académicos o fuentes oficiales de la {data.college}
 					para obtener orientación precisa y actualizada.
 				</p>
 				<p>
@@ -137,7 +110,7 @@
 
 	<footer class="grid gap-6 px-6">
 		<p class="text-center text-sm">
-			Por comentarios, sugerencias o reportes de errores,
+			Por comentarios, sugerencias o errores,
 			<a
 				href="mailto:valentincostam+plande@gmail.com"
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"

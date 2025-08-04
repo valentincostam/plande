@@ -11,17 +11,14 @@
 	let { label, value, progress, class: className }: Props = $props();
 </script>
 
-<li
-	class={[
-		'relative flex flex-col items-center justify-center overflow-hidden rounded-md bg-gray-200 p-3',
-		className
-	]}
->
-	<span class="text-center text-gray-700">{label}</span>
-	<span class="text-xl">{value}</span>
+<li class={['overflow-hidden rounded-md bg-gray-200', className]}>
+	<div class="flex items-center justify-between gap-3 p-3">
+		<span class="text-gray-700">{label}</span>
+		<span class="text-right whitespace-nowrap text-gray-900">{value}</span>
+	</div>
 
 	{#if progress}
-		<div class="absolute bottom-0 h-1 w-full bg-gray-300">
+		<div class="h-1 w-full bg-gray-300">
 			<div class="h-full rounded-full bg-green-500" style={`width: ${progress}%`}></div>
 		</div>
 	{/if}
