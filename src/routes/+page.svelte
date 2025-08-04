@@ -28,14 +28,14 @@
 
 				<MessageBubble
 					author="Amigo"
-					message="cuanto te falta pa recibirte?"
+					message="cuanto te falta para recibirte?"
 					time="19:28"
 					color="green"
 				/>
 
 				<MessageBubble
 					author="Vos"
-					message="plande.com/utn-frcu-isi?estado=A34C2A2"
+					message="https://plande.com/utn-frcu-isi?estado=A34C2A2"
 					time="19:31"
 					color="blue"
 					isOutgoing

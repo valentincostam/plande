@@ -47,8 +47,14 @@
 
 <style>
 	select {
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
+		-webkit-text-align-last: center;
+		text-align-last: center;
+	}
+
+	/* Fallback para iOS Safari/Chrome que no respetan text-align en selects */
+	@supports (-webkit-touch-callout: none) {
+		select {
+			text-indent: calc(50% - 1.5ch);
+		}
 	}
 </style>

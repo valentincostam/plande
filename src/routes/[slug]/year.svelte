@@ -33,7 +33,7 @@
 
 <article>
 	<header
-		class="sticky top-0 z-10 flex items-center justify-between bg-white p-3 before:absolute before:-start-1 before:h-full before:w-1 before:bg-white after:absolute after:-end-1 after:h-full after:w-1 after:bg-white"
+		class="sticky top-0 z-10 flex items-center justify-between bg-white p-3 shadow-[-2px_0_0_#FFFFFF,2px_0_0_#FFFFFF]"
 	>
 		<h2 class="text-lg font-bold">
 			{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año

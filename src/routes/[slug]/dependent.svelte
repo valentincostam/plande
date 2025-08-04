@@ -27,9 +27,11 @@
 		>
 			{dependent.dependentCourse.name}
 		</a>
-		({dependent.dependentCourse.year}<sup
-			>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
-		>
-		año) necesita esta materia al menos <StatePill state={dependent.requiredState} />
+		(<span class="whitespace-nowrap">
+			{dependent.dependentCourse.year}<sup
+				>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
+			>
+			año
+		</span>) necesita esta materia al menos <StatePill state={dependent.requiredState} />
 	</span>
 </li>

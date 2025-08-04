@@ -31,10 +31,12 @@
 		>
 			{requirement.requiredCourse.name}
 		</a>
-		({requirement.requiredCourse.year}<sup
-			>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
-		>
-		año) debe estar al menos
+		(<span class="whitespace-nowrap">
+			{requirement.requiredCourse.year}<sup
+				>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
+			>
+			año
+		</span>) debe estar al menos
 		<StatePill state={requirement.requiredState} />
 
 		{#if !isRequirementMet}
