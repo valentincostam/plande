@@ -29,26 +29,18 @@
 	);
 </script>
 
-<ul class="grid gap-2 px-3">
-	<Stat
-		label="Materias aprobadas"
-		value={`${passedCourses.length} de ${courses.length}`}
-		progress={(passedCourses.length / courses.length) * 100}
-	/>
+<ul class="grid gap-2">
+	<Stat label="Materias aprobadas" value={passedCourses.length} total={courses.length} />
 	<Stat
 		label="Materias obligatorias aprobadas"
-		value={`${passedMandatoryCourses.length} de ${mandatoryCourses.length}`}
-		progress={(passedMandatoryCourses.length / mandatoryCourses.length) * 100}
+		value={passedMandatoryCourses.length}
+		total={mandatoryCourses.length}
 	/>
 	<Stat
 		label="Materias electivas aprobadas"
-		value={`${passedElectiveCourses.length} de ${electiveCourses.length}`}
-		progress={(passedElectiveCourses.length / electiveCourses.length) * 100}
+		value={passedElectiveCourses.length}
+		total={electiveCourses.length}
 	/>
-	<Stat
-		label="Años aprobados"
-		value={`${passedYears.length} de ${years.length}`}
-		progress={(passedYears.length / years.length) * 100}
-	/>
-	<Stat label="Horas en curso" value={`${inProgressCourseHours} hs`} />
+	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
+	<Stat label="Horas en curso" value={inProgressCourseHours} />
 </ul>

@@ -55,8 +55,8 @@
 			<ShareButton {title} />
 		</section>
 
-		<section class="px-3 md:px-0">
-			<h3 class="p-3 text-lg font-bold">Estadísticas</h3>
+		<section>
+			<h3 class="px-6 py-3 text-lg font-bold">Estadísticas</h3>
 			<Stats {courses} {years} />
 		</section>
 

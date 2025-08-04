@@ -4,22 +4,30 @@
 	type Props = {
 		class?: ClassValue;
 		label: string;
-		progress?: number;
-		value: string;
+		value: number;
+		total?: number;
 	};
 
-	let { label, value, progress, class: className }: Props = $props();
+	let { label, value, total, class: className }: Props = $props();
+
+	const progress = $derived(total ? (value / total) * 100 : 0);
 </script>
 
-<li class={['overflow-hidden rounded-md bg-gray-200', className]}>
-	<div class="flex items-center justify-between gap-3 p-3">
+<li class={['overflow-hidden bg-gray-200 md:rounded-md', className]}>
+	<div class="flex items-center justify-between gap-3 px-6 py-3">
 		<span class="text-gray-700">{label}</span>
-		<span class="text-right whitespace-nowrap text-gray-900">{value}</span>
+		<div class="flex items-center gap-0.5">
+			<span class="text-center text-2xl font-bold whitespace-nowrap text-gray-600">{value}</span>
+			{#if total}
+				<span class="text-center text-xs text-gray-500">/</span>
+				<span class="text-center text-xs text-gray-500">{total}</span>
+			{/if}
+		</div>
 	</div>
 
 	{#if progress}
 		<div class="h-1 w-full bg-gray-300">
-			<div class="h-full rounded-full bg-green-500" style={`width: ${progress}%`}></div>
+			<div class="h-full bg-green-500" style={`width: ${progress}%`}></div>
 		</div>
 	{/if}
 </li>
