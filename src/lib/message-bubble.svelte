@@ -10,10 +10,10 @@
 	let { author, message, time, color, isOutgoing = false }: Props = $props();
 
 	const colorClasses = {
-		pink: { avatar: 'bg-pink-400', name: 'text-pink-600' },
-		blue: { avatar: 'bg-blue-400', name: 'text-blue-600' },
-		green: { avatar: 'bg-green-400', name: 'text-green-600' },
-		purple: { avatar: 'bg-purple-400', name: 'text-purple-600' }
+		pink: { avatar: 'bg-rose-400', name: 'text-rose-500' },
+		blue: { avatar: 'bg-sky-400', name: 'text-sky-500' },
+		green: { avatar: 'bg-emerald-400', name: 'text-emerald-500' },
+		purple: { avatar: 'bg-purple-400', name: 'text-purple-500' }
 	};
 
 	const initial = author.charAt(0).toUpperCase();

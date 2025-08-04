@@ -45,7 +45,7 @@
 		<section class="grid gap-3 px-6">
 			<h2 class="text-lg font-bold">Planes de Estudios</h2>
 			<ul class="grid gap-3">
-				<li>
+				<li class="grid gap-1">
 					<span class="font-bold">UTN FRCU</span>
 					<ul class="list-disc pl-5">
 						<li>
