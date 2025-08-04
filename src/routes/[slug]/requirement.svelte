@@ -24,7 +24,7 @@
 		<CloseIcon class="h-5 w-5 flex-none stroke-red-700" />
 	{/if}
 
-	<span class={[isRequirementMet && 'opacity-70']}>
+	<span>
 		<a
 			href={`#${toKebabCase(requirement.requiredCourse.name)}`}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"

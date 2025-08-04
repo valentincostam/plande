@@ -116,7 +116,7 @@
 			</ul>
 		</section>
 
-		<section class="px-6">
+		<section class="px-3 md:px-0">
 			<div class="grid gap-3 rounded-md bg-gray-100 p-5 text-xs text-gray-600">
 				<p>
 					<strong
@@ -135,20 +135,22 @@
 		</section>
 	</main>
 
-	<footer class="px-6">
+	<footer class="grid gap-6 px-6">
+		<p class="text-center text-sm">
+			Por comentarios, sugerencias o reportes de errores,
+			<a
+				href="mailto:valentincostam+plande@gmail.com"
+				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+			>
+				escribime
+			</a>.
+		</p>
 		<p class="text-center text-sm">
 			<a
 				href="/"
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Plande</a
 			>
-			·
-			<a
-				href="mailto:valentincostam+plande@gmail.com"
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>
-				Enviar comentarios
-			</a>
 			· Creado por
 			<a
 				href="https://valentincosta.com"
