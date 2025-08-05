@@ -10,14 +10,16 @@
 	let { time, isOutgoing = false, children }: Props = $props();
 
 	const bgColor = isOutgoing ? 'bg-[#D9FDD3]' : 'bg-white';
+	const rounded = isOutgoing ? 'rounded-tr-none' : 'rounded-tl-none';
 	const triangleColor = isOutgoing ? 'text-[#D9FDD3]' : 'text-white';
 	const trianglePosition = isOutgoing ? '-right-2' : '-left-2';
 </script>
 
 <div
 	class={[
-		'relative max-w-xs rounded-[7.5px] rounded-tl-none px-2 pt-1.5 pb-2 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)]',
-		bgColor
+		'relative max-w-xs rounded-[7.5px]  px-2 pt-1.5 pb-2 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)]',
+		bgColor,
+		rounded
 	]}
 >
 	<span class={['absolute top-0 z-10 h-2 w-2 rounded-full', trianglePosition, triangleColor]}

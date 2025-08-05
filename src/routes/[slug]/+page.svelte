@@ -63,20 +63,20 @@
 		{#if data.notes}
 			<section>
 				<h3 class="px-6 py-3 text-lg font-bold">Notas</h3>
-				<ul class="grid list-disc gap-3 px-9">
+				<ol class="grid list-decimal gap-3 px-12">
 					{#each data.notes as note}
 						<li>
 							{@html marked(note.text)}
 						</li>
 					{/each}
-				</ul>
+				</ol>
 			</section>
 		{/if}
 
 		{#if data.sources}
 			<section>
 				<h3 class="px-6 py-3 text-lg font-bold">Fuentes</h3>
-				<ul class="grid list-disc gap-3 px-9">
+				<ol class="grid list-decimal gap-3 px-12">
 					{#each data.sources as source}
 						<li>
 							<a
@@ -87,7 +87,7 @@
 							</a>
 						</li>
 					{/each}
-				</ul>
+				</ol>
 			</section>
 		{/if}
 
