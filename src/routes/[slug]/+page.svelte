@@ -57,7 +57,7 @@
 
 		<section>
 			<h3 class="px-6 py-3 text-lg font-bold">Estadísticas</h3>
-			<Stats {courses} {years} />
+			<Stats {courses} {years} requiredElectiveHours={data.requiredElectiveHours} />
 		</section>
 
 		{#if data.notes}

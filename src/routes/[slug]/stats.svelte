@@ -8,9 +8,10 @@
 	type Props = {
 		courses: Course[];
 		years: Year[];
+		requiredElectiveHours?: number;
 	};
 
-	let { courses, years }: Props = $props();
+	let { courses, years, requiredElectiveHours }: Props = $props();
 
 	const passedCourses = $derived(courses.filter((course) => course.state === courseStates.passed));
 	const passedYears = $derived(years.filter((year) => year.state === courseStates.passed));
@@ -27,6 +28,9 @@
 	const passedMandatoryCourses = $derived(
 		mandatoryCourses.filter((course) => course.state === courseStates.passed)
 	);
+	const passedElectiveHours = $derived(
+		passedElectiveCourses.reduce((acc, course) => acc + course.hours, 0)
+	);
 </script>
 
 <ul class="grid gap-2">
@@ -41,6 +45,13 @@
 		value={passedElectiveCourses.length}
 		total={electiveCourses.length}
 	/>
+	{#if requiredElectiveHours}
+		<Stat
+			label="Horas electivas aprobadas"
+			value={passedElectiveHours}
+			total={requiredElectiveHours}
+		/>
+	{/if}
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
 	<Stat label="Horas en curso" value={inProgressCourseHours} />
 </ul>
