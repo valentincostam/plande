@@ -13,23 +13,38 @@
 
 	let { courses, years, requiredElectiveHours }: Props = $props();
 
+	const someCourseHasHours = courses.some((course) => course.hours);
+
+	const hasOptativeCourses = courses.some((course) => course.tag === courseTags.optative);
+
+	const hasElectiveCourses = courses.some((course) => course.tag === courseTags.elective);
+
 	const passedCourses = $derived(courses.filter((course) => course.state === courseStates.passed));
+
 	const passedYears = $derived(years.filter((year) => year.state === courseStates.passed));
+
 	const inProgressCourseHours = $derived(
 		courses
 			.filter((course) => course.state === courseStates.inProgress)
-			.reduce((acc, course) => acc + course.hours, 0)
+			.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
-	const electiveCourses = courses.filter((course) => course.tag === courseTags.elective);
+
+	const electiveCourses = courses.filter(
+		(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
+	);
+
 	const passedElectiveCourses = $derived(
 		electiveCourses.filter((course) => course.state === courseStates.passed)
 	);
+
 	const mandatoryCourses = $derived(courses.filter((course) => course.tag !== courseTags.elective));
+
 	const passedMandatoryCourses = $derived(
 		mandatoryCourses.filter((course) => course.state === courseStates.passed)
 	);
+
 	const passedElectiveHours = $derived(
-		passedElectiveCourses.reduce((acc, course) => acc + course.hours, 0)
+		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
 </script>
 
@@ -40,11 +55,13 @@
 		value={passedMandatoryCourses.length}
 		total={mandatoryCourses.length}
 	/>
-	<Stat
-		label="Materias electivas aprobadas"
-		value={passedElectiveCourses.length}
-		total={electiveCourses.length}
-	/>
+	{#if hasElectiveCourses || hasOptativeCourses}
+		<Stat
+			label={hasOptativeCourses ? 'Materias optativas aprobadas' : 'Materias electivas aprobadas'}
+			value={passedElectiveCourses.length}
+			total={electiveCourses.length}
+		/>
+	{/if}
 	{#if requiredElectiveHours}
 		<Stat
 			label="Horas electivas aprobadas"
@@ -53,5 +70,7 @@
 		/>
 	{/if}
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
-	<Stat label="Horas en curso" value={inProgressCourseHours} />
+	{#if someCourseHasHours}
+		<Stat label="Horas en curso" value={inProgressCourseHours} />
+	{/if}
 </ul>

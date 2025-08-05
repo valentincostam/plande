@@ -12,7 +12,7 @@ export type RawCourse = {
 	id: number;
 	name: string;
 	year: number;
-	hours: number;
+	hours?: number;
 	term: CourseTerm;
 	requirements?: RawCourseRequirement[];
 	tag?: CourseTag;

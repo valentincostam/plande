@@ -66,11 +66,16 @@
 					>
 				{/if}
 			</span>
-			<span
-				class={[hoursColors[course.state], 'shrink-0 text-sm whitespace-nowrap transition-colors']}
-			>
-				{course.hours} hs
-			</span>
+			{#if course.hours}
+				<span
+					class={[
+						hoursColors[course.state],
+						'shrink-0 text-sm whitespace-nowrap transition-colors'
+					]}
+				>
+					{course.hours} hs
+				</span>
+			{/if}
 		</button>
 		<StateSelect
 			id={`${toKebabCase(course.name)}-state-select`}

@@ -20,7 +20,7 @@ type CourseProperties = {
 	name: string;
 	year: number;
 	term: CourseTerm;
-	hours: number;
+	hours?: number;
 	requirements?: CourseRequirement[];
 	tag?: CourseTag;
 	state?: CourseState;
@@ -33,7 +33,7 @@ export class Course {
 	name: string;
 	year: number;
 	term: CourseTerm;
-	hours: number;
+	hours?: number;
 	tag?: CourseTag;
 	state: CourseState;
 	requirements: CourseRequirement[];

@@ -47,6 +47,16 @@
 						</li>
 					</ul>
 				</li>
+				<li class="grid gap-1">
+					<span class="font-bold">UCU FAU</span>
+					<ul class="list-disc pl-5">
+						<li>
+							<a href="/ucu-fau-arq" class="text-blue-800 underline-offset-2 hover:underline"
+								>Arquitectura</a
+							>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</section>
 	</main>

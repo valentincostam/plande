@@ -61,8 +61,8 @@
 		</section>
 
 		{#if data.notes}
-			<section class="px-3 md:px-0">
-				<h3 class="p-3 text-lg font-bold">Notas</h3>
+			<section>
+				<h3 class="px-6 py-3 text-lg font-bold">Notas</h3>
 				<ul class="grid list-disc gap-3 px-9">
 					{#each data.notes as note}
 						<li>
@@ -74,8 +74,8 @@
 		{/if}
 
 		{#if data.sources}
-			<section class="px-3 md:px-0">
-				<h3 class="p-3 text-lg font-bold">Fuentes</h3>
+			<section>
+				<h3 class="px-6 py-3 text-lg font-bold">Fuentes</h3>
 				<ul class="grid list-disc gap-3 px-9">
 					{#each data.sources as source}
 						<li>
@@ -91,8 +91,8 @@
 			</section>
 		{/if}
 
-		<section class="px-3 md:px-0">
-			<div class="grid gap-3 rounded-md bg-gray-100 p-5 text-xs text-gray-600">
+		<section>
+			<div class="grid gap-3 bg-gray-100 p-6 text-xs text-gray-600 md:rounded-md">
 				<p>
 					<strong>Plande podría tener errores o información incompleta</strong>. No tomen decisiones
 					cruciales sobre sus estudios basándose únicamente en la información proporcionada aquí.

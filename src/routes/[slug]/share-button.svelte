@@ -39,7 +39,7 @@
 
 <button
 	{onclick}
-	class="relative mx-auto flex items-center justify-center gap-3 overflow-hidden rounded-md bg-blue-700 px-6 py-3 text-left text-white transition-colors select-none active:translate-y-0.5"
+	class="relative mx-auto flex items-center justify-center gap-3 overflow-hidden rounded-md bg-blue-700 px-6 py-3 text-left text-white transition-colors select-none"
 >
 	<ShareIcon class="w-5 shrink-0" />
 

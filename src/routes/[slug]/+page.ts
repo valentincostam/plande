@@ -3,6 +3,7 @@ import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { utnFrcuIsiData } from './utn-frcu-isi-data';
 import { utnFrcuIeData } from './utn-frcu-ie-data';
+import { ucuFauArqData } from './ucu-fau-arq';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -22,6 +23,14 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'utn-frcu-ie') {
 		return {
 			...utnFrcuIeData,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled
+		};
+	}
+
+	if (slug === 'ucu-fau-arq') {
+		return {
+			...ucuFauArqData,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
