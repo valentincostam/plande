@@ -81,7 +81,7 @@
 						<li>
 							<a
 								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-								href={source.href}
+								href={source.url}
 							>
 								{source.label}
 							</a>

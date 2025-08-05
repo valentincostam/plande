@@ -506,22 +506,22 @@ export const utnFrcuIsiData = {
 		{
 			id: 1,
 			label: 'Plan de Estudios 2023',
-			href: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2023/PLAN-INGENIERIA-SISTEMAS.pdf'
+			url: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2023/PLAN-INGENIERIA-SISTEMAS.pdf'
 		},
 		{
 			id: 2,
 			label: 'Ordenanza N° 1877 - Diseño Curricular',
-			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/8.pdf'
+			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/8.pdf'
 		},
 		{
 			id: 3,
 			label: 'Ordenanza N° 1878 - Régimen de Correlativas y Equivalencias',
-			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/9.pdf'
+			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/9.pdf'
 		},
 		{
 			id: 4,
 			label: 'Resolución Nº 356/2022 CD - Implementación Plan de Transición',
-			href: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/10.pdf'
+			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/10.pdf'
 		}
 	],
 	notes: [

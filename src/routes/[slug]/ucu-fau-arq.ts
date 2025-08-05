@@ -359,6 +359,13 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 48,
+		name: 'Práctica Profesional Supervisada',
+		term: courseTerms.annual,
+		year: 5,
+		requirements: []
+	},
+	{
+		id: 49,
 		name: 'Proyecto Final',
 		term: courseTerms.annual,
 		year: 5,
@@ -372,6 +379,23 @@ export const ucuFauArqData = {
 	years: 5,
 	college: 'UCU FAU',
 	studyProgram: 'Plan de Estudios 2007',
+	sources: [
+		{
+			id: 1,
+			label: 'Plan de Estudios',
+			url: 'https://ucu.edu.ar/project/arquitecto-a/'
+		},
+		{
+			id: 2,
+			label: 'Correlativas para cursar',
+			url: 'https://drive.google.com/file/d/1M6FKoKi3z9XypMPOVQdY_1h9lwD_Dwra/view'
+		},
+		{
+			id: 3,
+			label: 'Correlativas para rendir',
+			url: 'https://drive.google.com/file/d/1ovdo9xZ1tckg38yiMiDbhBsiRnGvfu8d/view'
+		}
+	],
 	notes: [
 		{
 			id: 1,
