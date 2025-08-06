@@ -92,7 +92,9 @@
 	{#if isExpanded}
 		<div class="px-3 pb-3" transition:slide>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
-				<li><strong>Carga horaria:</strong> {course.hours} horas semanales</li>
+				{#if course.hours}
+					<li><strong>Carga horaria:</strong> {course.hours} horas semanales</li>
+				{/if}
 				{#if course.requirementsForEnrollment.length > 0}
 					<li class="grid gap-2">
 						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y aprobar'}</strong
