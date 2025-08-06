@@ -34,6 +34,24 @@
 				</ChatMessage>
 			</div>
 		</section>
+
+		<section class="px-6 md:px-0">
+			<div
+				class="grid grid-cols-2 gap-3 rounded-md bg-neutral-100 p-3 text-center sm:grid-cols-[1fr_max-content_1fr] sm:items-center"
+			>
+				<div class="col-span-2 sm:col-span-1 sm:col-start-2">
+					<h2 class="text-lg font-bold">
+						Tu progreso académico <span class="whitespace-nowrap">en un link</span>
+					</h2>
+					<p class="text-gray-700">
+						Elegí el plan de estudios de tu carrera y empezá a registrar tu avance
+					</p>
+				</div>
+				<div class="justify-self-end text-4xl sm:col-start-1 sm:row-start-1">👇</div>
+				<div class="justify-self-start text-4xl">🧑‍🎓</div>
+			</div>
+		</section>
+
 		<section class="grid gap-3 px-6">
 			<h2 class="text-lg font-bold">Planes de Estudios</h2>
 			<ul class="grid gap-3">
