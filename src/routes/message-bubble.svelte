@@ -17,7 +17,7 @@
 
 <div
 	class={[
-		'relative max-w-xs rounded-[7.5px]  px-2 pt-1.5 pb-2 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)]',
+		'relative rounded-[7.5px]  px-2 pt-1.5 pb-2 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)]',
 		bgColor,
 		rounded
 	]}
