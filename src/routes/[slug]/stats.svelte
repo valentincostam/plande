@@ -37,7 +37,11 @@
 		electiveCourses.filter((course) => course.state === courseStates.passed)
 	);
 
-	const mandatoryCourses = $derived(courses.filter((course) => course.tag !== courseTags.elective));
+	const mandatoryCourses = $derived(
+		courses.filter(
+			(course) => course.tag !== courseTags.elective && course.tag !== courseTags.optative
+		)
+	);
 
 	const passedMandatoryCourses = $derived(
 		mandatoryCourses.filter((course) => course.state === courseStates.passed)

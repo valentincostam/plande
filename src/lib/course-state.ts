@@ -63,11 +63,12 @@ export const hoursColors = {
 	[courseStates.passed]: 'text-green-500'
 } as const;
 
+const unneededLetterRegex = new RegExp(
+	`[${courseStateLabelsInitials[courseStates.notTaken].toLowerCase()}]+$`,
+	'i'
+);
+
 const trimUnneededCoursesStatesLetters = (coursesStatesLetters: string) => {
-	const unneededLetterRegex = new RegExp(
-		`[${courseStateLabelsInitials[courseStates.notTaken]}]+$`,
-		'i'
-	);
 	return coursesStatesLetters.replace(unneededLetterRegex, '');
 };
 
@@ -116,7 +117,9 @@ export const decodeCoursesStates = (letters: string) => {
 };
 
 export const encodeCoursesStates = (states: CourseState[]) => {
-	const stateLetters = states.map((state) => courseStateLabelsInitials[state]).join('');
+	const stateLetters = states
+		.map((state) => courseStateLabelsInitials[state].toLowerCase())
+		.join('');
 	const trimmedStateLetters = trimUnneededCoursesStatesLetters(stateLetters);
 	return compressCoursesStatesLetters(trimmedStateLetters);
 };
