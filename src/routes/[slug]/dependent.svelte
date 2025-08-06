@@ -13,11 +13,11 @@
 	let { dependent, isRequirementMet }: Props = $props();
 </script>
 
-<li class="flex gap-1">
+<li class="flex items-baseline gap-1 leading-relaxed">
 	{#if isRequirementMet}
-		<CheckIcon class="h-5 w-5 flex-none stroke-green-700" />
+		<CheckIcon class="h-5 w-5 flex-none translate-y-1.5 stroke-green-700" />
 	{:else}
-		<CloseIcon class="h-5 w-5 flex-none stroke-red-700" />
+		<CloseIcon class="h-5 w-5 flex-none translate-y-1 stroke-red-700" />
 	{/if}
 
 	<span>
