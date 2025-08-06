@@ -17,9 +17,10 @@
 
 	type Props = {
 		course: Course;
+		hasRequirementsForCompletion?: boolean;
 	};
 
-	let { course }: Props = $props();
+	let { course, hasRequirementsForCompletion }: Props = $props();
 
 	let isExpanded = $state(false);
 
@@ -30,7 +31,10 @@
 	const isDependentRequirementMet = (
 		courseState: CourseState,
 		dependentRequiredState: CourseState
-	) => [dependentRequiredState, courseStates.passed].includes(courseState);
+	) =>
+		courseState === courseStates.passed ||
+		courseState === dependentRequiredState ||
+		(dependentRequiredState === courseStates.inProgress && courseState === courseStates.taken);
 </script>
 
 <li
@@ -81,6 +85,7 @@
 			id={`${toKebabCase(course.name)}-state-select`}
 			bind:value={course.state}
 			isEnabled={course.isEnabled}
+			canPass={course.canPass}
 		/>
 	</div>
 
@@ -88,20 +93,38 @@
 		<div class="px-3 pb-3" transition:slide>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
 				<li><strong>Carga horaria:</strong> {course.hours} horas semanales</li>
-				{#if course.requirements.length > 0}
+				{#if course.requirementsForEnrollment.length > 0}
 					<li class="grid gap-2">
-						<strong>Requisitos</strong>
+						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y aprobar'}</strong
+						>
 						<ul class="grid gap-2">
-							{#each course.requirements as requirement}
+							{#each course.requirementsForEnrollment as requirement}
 								<Requirement {requirement} />
 							{/each}
 						</ul>
 					</li>
 				{:else}
 					<li>
-						<strong>Requisitos:</strong>
-						Ninguno
+						<strong
+							>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y aprobar'}:</strong
+						> Ninguno
 					</li>
+				{/if}
+				{#if hasRequirementsForCompletion}
+					{#if course.requirementsForCompletion.length > 0}
+						<li class="grid gap-2">
+							<strong>Requisitos para aprobar</strong>
+							<ul class="grid gap-2">
+								{#each course.requirementsForCompletion as requirement}
+									<Requirement {requirement} />
+								{/each}
+							</ul>
+						</li>
+					{:else}
+						<li>
+							<strong>Requisitos para aprobar:</strong> Ninguno
+						</li>
+					{/if}
 				{/if}
 				{#if course.dependents.length > 0}
 					<li class="grid gap-2">
@@ -120,8 +143,7 @@
 					</li>
 				{:else}
 					<li>
-						<strong>Correlativas:</strong>
-						Ninguna
+						<strong>Correlativas:</strong> Ninguna
 					</li>
 				{/if}
 			</ul>

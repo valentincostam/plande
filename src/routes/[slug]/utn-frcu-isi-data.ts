@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
-import type { RawCourse } from '$lib/raw-course';
+import { requiredFor, type RawCourse } from '$lib/raw-course';
 
 const courses: RawCourse[] = [
 	{
@@ -75,8 +75,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 2,
 		requirements: [
-			{ id: 1, requiredCourseId: 1, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 5, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 1,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 5,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -86,8 +96,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 2,
 		requirements: [
-			{ id: 1, requiredCourseId: 6, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 8, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 6,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 8,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.integrative
 	},
@@ -105,7 +125,14 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.firstSemester,
 		year: 2,
-		requirements: [{ id: 1, requiredCourseId: 2, requiredState: courseStates.taken }]
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 2,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 10,
@@ -114,8 +141,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 2,
 		requirements: [
-			{ id: 1, requiredCourseId: 4, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 6, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 4,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 6,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -125,8 +162,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 2,
 		requirements: [
-			{ id: 1, requiredCourseId: 4, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 6, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 4,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 6,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -135,7 +182,14 @@ const courses: RawCourse[] = [
 		hours: 8,
 		term: courseTerms.secondSemester,
 		year: 2,
-		requirements: [{ id: 1, requiredCourseId: 7, requiredState: courseStates.taken }]
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 7,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 16,
@@ -144,9 +198,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 1, requiredState: courseStates.passed },
-			{ id: 4, requiredCourseId: 5, requiredState: courseStates.passed },
-			{ id: 5, requiredCourseId: 14, requiredState: courseStates.taken }
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 14,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -156,8 +225,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 5, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 9, requiredState: courseStates.taken }
+			{
+				id: 3,
+				requiredCourseId: 5,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 9,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -167,8 +246,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 1, requiredState: courseStates.passed },
-			{ id: 4, requiredCourseId: 5, requiredState: courseStates.passed }
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -178,10 +267,30 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 10, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 15, requiredState: courseStates.taken },
-			{ id: 6, requiredCourseId: 4, requiredState: courseStates.passed },
-			{ id: 8, requiredCourseId: 6, requiredState: courseStates.passed }
+			{
+				id: 3,
+				requiredCourseId: 10,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -191,10 +300,30 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 12, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 15, requiredState: courseStates.taken },
-			{ id: 6, requiredCourseId: 4, requiredState: courseStates.passed },
-			{ id: 8, requiredCourseId: 6, requiredState: courseStates.passed }
+			{
+				id: 3,
+				requiredCourseId: 12,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -204,8 +333,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			{ id: 6, requiredCourseId: 7, requiredState: courseStates.passed },
-			{ id: 8, requiredCourseId: 9, requiredState: courseStates.passed }
+			{
+				id: 6,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -215,8 +354,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			{ id: 6, requiredCourseId: 1, requiredState: courseStates.taken },
-			{ id: 8, requiredCourseId: 5, requiredState: courseStates.taken }
+			{
+				id: 6,
+				requiredCourseId: 1,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 5,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -225,7 +374,14 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 3,
-		requirements: [{ id: 3, requiredCourseId: 8, requiredState: courseStates.passed }],
+		requirements: [
+			{
+				id: 3,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		],
 		tag: courseTags.elective
 	},
 	{
@@ -234,7 +390,14 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 3,
-		requirements: [{ id: 3, requiredCourseId: 18, requiredState: courseStates.taken }],
+		requirements: [
+			{
+				id: 3,
+				requiredCourseId: 18,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		],
 		tag: courseTags.elective
 	},
 	{
@@ -244,11 +407,36 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 3,
 		requirements: [
-			{ id: 3, requiredCourseId: 12, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 15, requiredState: courseStates.taken },
-			{ id: 6, requiredCourseId: 2, requiredState: courseStates.passed },
-			{ id: 9, requiredCourseId: 6, requiredState: courseStates.passed },
-			{ id: 8, requiredCourseId: 8, requiredState: courseStates.passed }
+			{
+				id: 3,
+				requiredCourseId: 12,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.integrative
 	},
@@ -258,7 +446,14 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.firstSemester,
 		year: 4,
-		requirements: [{ id: 1, requiredCourseId: 3, requiredState: courseStates.taken }]
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 3,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 27,
@@ -267,8 +462,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 13, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 21, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 13,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 21,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -278,8 +483,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 22, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 14, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 22,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -289,8 +504,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 25, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 15, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 25,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.elective
 	},
@@ -301,11 +526,36 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 19, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 20, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 25, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 10, requiredState: courseStates.passed },
-			{ id: 5, requiredCourseId: 12, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 19,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 20,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 25,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -315,9 +565,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 16, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 17, requiredState: courseStates.taken },
-			{ id: 5, requiredCourseId: 14, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 16,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 17,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -326,7 +591,14 @@ const courses: RawCourse[] = [
 		hours: 8,
 		term: courseTerms.secondSemester,
 		year: 4,
-		requirements: [{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken }],
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		],
 		tag: courseTags.elective
 	},
 	{
@@ -336,8 +608,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 16, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 22, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 16,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 22,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -347,9 +629,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
-			{ id: 1, requiredCourseId: 18, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 25, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 15, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 18,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 25,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.integrative
 	},
@@ -360,9 +657,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 28, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 16, requiredState: courseStates.passed },
-			{ id: 3, requiredCourseId: 22, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 28,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -372,9 +684,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 13, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 33, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 25, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 13,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -384,8 +711,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 30, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 34, requiredState: courseStates.taken }
+			{
+				id: 1,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 34,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.elective
 	},
@@ -396,10 +733,30 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 34, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 20, requiredState: courseStates.passed },
-			{ id: 4, requiredCourseId: 21, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 34,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -409,8 +766,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 13, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.elective
 	},
@@ -421,9 +788,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 28, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 19, requiredState: courseStates.passed },
-			{ id: 3, requiredCourseId: 22, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 28,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -433,9 +815,24 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 26, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 34, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 18, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 26,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 34,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	},
 	{
@@ -445,8 +842,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 19, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.elective
 	},
@@ -457,8 +864,18 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 19, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.elective
 	},
@@ -469,12 +886,42 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 30, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 34, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 10, requiredState: courseStates.passed },
-			{ id: 5, requiredCourseId: 20, requiredState: courseStates.passed },
-			{ id: 6, requiredCourseId: 25, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 34,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		],
 		tag: courseTags.integrative
 	},
@@ -485,12 +932,42 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 5,
 		requirements: [
-			{ id: 1, requiredCourseId: 27, requiredState: courseStates.taken },
-			{ id: 2, requiredCourseId: 30, requiredState: courseStates.taken },
-			{ id: 3, requiredCourseId: 34, requiredState: courseStates.taken },
-			{ id: 4, requiredCourseId: 10, requiredState: courseStates.passed },
-			{ id: 5, requiredCourseId: 20, requiredState: courseStates.passed },
-			{ id: 6, requiredCourseId: 25, requiredState: courseStates.passed }
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 34,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
 		]
 	}
 ];
@@ -502,6 +979,7 @@ export const utnFrcuIsiData = {
 	college: 'UTN FRCU',
 	studyProgram: 'Plan de Estudios 2023',
 	requiredElectiveHours: 40,
+	hasRequirementsForCompletion: false,
 	sources: [
 		{
 			id: 1,

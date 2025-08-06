@@ -10,11 +10,19 @@
 		id: string;
 		value: CourseState;
 		isEnabled: boolean;
+		canPass: boolean;
 		onchange?: (event: Event) => void;
 		gender?: 'femenine' | 'masculine';
 	};
 
-	let { id, isEnabled, value = $bindable(), onchange, gender = 'femenine' }: Props = $props();
+	let {
+		id,
+		isEnabled,
+		value = $bindable(),
+		onchange,
+		gender = 'femenine',
+		canPass
+	}: Props = $props();
 
 	const stateSelectBackgroundColors = {
 		[courseStates.notTaken]: 'bg-gray-600',
@@ -37,11 +45,9 @@
 	]}
 >
 	{#each Object.values(courseStates) as state}
-		<option value={state}
-			>{gender === 'femenine'
-				? femenineCourseStateLabels[state]
-				: masculineCourseStateLabels[state]}</option
-		>
+		<option value={state} disabled={!canPass && state === courseStates.passed}>
+			{gender === 'femenine' ? femenineCourseStateLabels[state] : masculineCourseStateLabels[state]}
+		</option>
 	{/each}
 </select>
 

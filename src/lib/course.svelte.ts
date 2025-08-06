@@ -1,18 +1,25 @@
 import { courseStates, type CourseState } from './course-state';
 import type { CourseTag } from './course-tag';
 import type { CourseTerm } from './course-term';
-import type { RawCourse, RawCourseRequirement } from './raw-course';
+import {
+	requiredFor,
+	type RawCourse,
+	type RawCourseRequirement,
+	type RequiredFor
+} from './raw-course';
 
 export type CourseRequirement = {
 	id: number;
 	requiredCourse: Course;
 	requiredState: CourseState;
+	requiredFor: RequiredFor;
 };
 
 export type CourseDependent = {
 	requiredCourseId: number;
 	dependentCourse: Course;
 	requiredState: CourseState;
+	requiredFor: RequiredFor;
 };
 
 type CourseProperties = {
@@ -21,7 +28,8 @@ type CourseProperties = {
 	year: number;
 	term: CourseTerm;
 	hours?: number;
-	requirements?: CourseRequirement[];
+	requirementsForEnrollment?: CourseRequirement[];
+	requirementsForCompletion?: CourseRequirement[];
 	tag?: CourseTag;
 	state?: CourseState;
 	dependents?: CourseDependent[];
@@ -36,16 +44,30 @@ export class Course {
 	hours?: number;
 	tag?: CourseTag;
 	state: CourseState;
-	requirements: CourseRequirement[];
+	requirementsForEnrollment: CourseRequirement[];
+	requirementsForCompletion: CourseRequirement[];
 	dependents: CourseDependent[];
 	isStrictModeEnabled: () => boolean;
 	isEnabled = $derived.by(() => {
 		if (!this.isStrictModeEnabled()) return true;
 
-		return this.requirements.every(
+		return this.requirementsForEnrollment.every(
 			(req) =>
+				req.requiredCourse.state === courseStates.passed ||
 				req.requiredCourse.state === req.requiredState ||
-				req.requiredCourse.state === courseStates.passed
+				(req.requiredState === courseStates.inProgress &&
+					req.requiredCourse.state === courseStates.taken)
+		);
+	});
+	canPass = $derived.by(() => {
+		return (
+			!this.requirementsForCompletion ||
+			this.requirementsForCompletion.length === 0 ||
+			this.requirementsForCompletion.every(
+				(req) =>
+					req.requiredCourse.state === courseStates.passed ||
+					req.requiredCourse.state === req.requiredState
+			)
 		);
 	});
 
@@ -54,7 +76,8 @@ export class Course {
 		this.name = properties.name;
 		this.year = properties.year;
 		this.term = properties.term;
-		this.requirements = properties.requirements || [];
+		this.requirementsForEnrollment = properties.requirementsForEnrollment || [];
+		this.requirementsForCompletion = properties.requirementsForCompletion || [];
 		this.tag = properties.tag;
 		this.hours = properties.hours;
 		this.state = $state(properties.state || courseStates.notTaken);
@@ -98,14 +121,31 @@ const createCourseRequirement = (
 	return {
 		id: requirement.id,
 		requiredCourse,
-		requiredState: requirement.requiredState
+		requiredState: requirement.requiredState,
+		requiredFor: requirement.requiredFor
 	};
 };
 
-const createCourseRequirements = (course: RawCourse, allCourses: Course[]): CourseRequirement[] => {
+const createCourseRequirementsForEnrollment = (
+	course: RawCourse,
+	allCourses: Course[]
+): CourseRequirement[] => {
 	if (!course.requirements) return [];
 
-	return course.requirements.map((requirement) => createCourseRequirement(requirement, allCourses));
+	return course.requirements
+		.filter((requirement) => requirement.requiredFor === requiredFor.enroll)
+		.map((requirement) => createCourseRequirement(requirement, allCourses));
+};
+
+const createCourseRequirementsForCompletion = (
+	course: RawCourse,
+	allCourses: Course[]
+): CourseRequirement[] => {
+	if (!course.requirements) return [];
+
+	return course.requirements
+		.filter((requirement) => requirement.requiredFor === requiredFor.complete)
+		.map((requirement) => createCourseRequirement(requirement, allCourses));
 };
 
 const createCourseDependent = (
@@ -114,7 +154,8 @@ const createCourseDependent = (
 ): CourseDependent => ({
 	requiredCourseId: requirement.requiredCourse.id,
 	dependentCourse: course,
-	requiredState: requirement.requiredState
+	requiredState: requirement.requiredState,
+	requiredFor: requirement.requiredFor
 });
 
 export const createCourses = (
@@ -131,13 +172,16 @@ export const createCourses = (
 		const rawCourse = rawCourses.find((raw) => raw.id === course.id);
 
 		if (rawCourse) {
-			course.requirements = createCourseRequirements(rawCourse, courses);
+			course.requirementsForEnrollment = createCourseRequirementsForEnrollment(rawCourse, courses);
+			course.requirementsForCompletion = createCourseRequirementsForCompletion(rawCourse, courses);
 		}
 	});
 
 	const allCourseDependents = courses.flatMap(
 		(course) =>
-			course.requirements?.map((requirement) => createCourseDependent(requirement, course)) ?? []
+			course.requirementsForEnrollment?.map((requirement) =>
+				createCourseDependent(requirement, course)
+			) ?? []
 	);
 
 	const courseDependentsMap = allCourseDependents.reduce(

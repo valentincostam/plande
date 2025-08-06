@@ -12,6 +12,7 @@ export class Year {
 	courses: Course[];
 	state: CourseState;
 	isEnabled = $derived.by(() => this.courses.every((course) => course.isEnabled));
+	canPass = $derived.by(() => this.courses.every((course) => course.canPass));
 
 	constructor({ year, courses }: YearProperties) {
 		this.year = year;

@@ -44,7 +44,7 @@
 
 	<main class="grid gap-9">
 		{#each years as year}
-			<Year {year} />
+			<Year {year} hasRequirementsForCompletion={data.hasRequirementsForCompletion} />
 		{/each}
 
 		<section class="px-3 md:px-0">
