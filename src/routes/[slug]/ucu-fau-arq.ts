@@ -8,7 +8,6 @@ const courses: RawCourse[] = [
 	{
 		id: 1,
 		name: 'Introducción a la Arquitectura',
-		hours: 0,
 		term: courseTerms.firstSemester,
 		year: 1,
 		requirements: []
@@ -16,7 +15,6 @@ const courses: RawCourse[] = [
 	{
 		id: 2,
 		name: 'Técnicas de Representación I',
-		hours: 0,
 		term: courseTerms.annual,
 		year: 1,
 		requirements: []
@@ -24,7 +22,6 @@ const courses: RawCourse[] = [
 	{
 		id: 3,
 		name: 'Sistemas de Representación I',
-		hours: 0,
 		term: courseTerms.annual,
 		year: 1,
 		requirements: []
@@ -32,7 +29,6 @@ const courses: RawCourse[] = [
 	{
 		id: 4,
 		name: 'Matemática I',
-		hours: 0,
 		term: courseTerms.firstSemester,
 		year: 1,
 		requirements: []
@@ -40,7 +36,6 @@ const courses: RawCourse[] = [
 	{
 		id: 5,
 		name: 'Introducción a la Construcción',
-		hours: 0,
 		term: courseTerms.firstSemester,
 		year: 1,
 		requirements: []
@@ -48,21 +43,29 @@ const courses: RawCourse[] = [
 	{
 		id: 6,
 		name: 'Arquitectura I',
-		hours: 0,
 		term: courseTerms.secondSemester,
 		year: 1,
 		requirements: [
+			// Introducción a la Arquitectura passed
 			{
 				id: 1,
 				requiredCourseId: 1,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
+			// Técnicas de Representación I inProgress
 			{
 				id: 2,
 				requiredCourseId: 2,
 				requiredState: courseStates.inProgress,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -72,11 +75,19 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 1,
 		requirements: [
+			// Matemática I taken
 			{
 				id: 1,
 				requiredCourseId: 4,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -91,6 +102,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 5,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 2,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -113,6 +131,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 6,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -127,6 +166,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 2,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -141,6 +187,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 3,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Sistemas de Representación I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 3,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -161,6 +214,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 7,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 4,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -175,6 +242,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 4,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -197,6 +271,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 8,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 3,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -226,6 +314,41 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.inProgress,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 6,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -255,6 +378,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 12,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática III e Introducción a la Física passed for complete
+			{
+				id: 6,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -270,6 +414,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 13,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Computación Gráfica I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -285,6 +443,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 14,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 2,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -300,6 +479,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 15,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -331,6 +517,48 @@ const courses: RawCourse[] = [
 				requiredCourseId: 16,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura III passed for complete
+			{
+				id: 7,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -346,6 +574,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 8,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación II passed for complete
+			{
+				id: 9,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -361,6 +603,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 11,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Sistemas de Representación II passed for complete
+			{
+				id: 10,
+				requiredCourseId: 11,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -397,6 +646,34 @@ const courses: RawCourse[] = [
 				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática III e Introducción a la Física passed for complete
+			{
+				id: 7,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras I passed for complete
+			{
+				id: 8,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -433,6 +710,34 @@ const courses: RawCourse[] = [
 				requiredCourseId: 19,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 5,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 6,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 7,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones II passed for complete
+			{
+				id: 8,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -455,6 +760,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura II passed for complete
+			{
+				id: 4,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -470,6 +789,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 18,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Computación Gráfica I passed for complete
+			{
+				id: 6,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Computación Gráfica II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		],
 		tag: courseTags.optative
@@ -493,6 +833,55 @@ const courses: RawCourse[] = [
 				requiredCourseId: 23,
 				requiredState: courseStates.inProgress,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura III passed for complete
+			{
+				id: 8,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura IV passed for complete
+			{
+				id: 9,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -536,6 +925,41 @@ const courses: RawCourse[] = [
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 6,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática III e Introducción a la Física passed for complete
+			{
+				id: 8,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras I passed for complete
+			{
+				id: 9,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras II passed for complete
+			{
+				id: 10,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -579,6 +1003,41 @@ const courses: RawCourse[] = [
 				requiredCourseId: 26,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 6,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 7,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 8,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones II passed for complete
+			{
+				id: 9,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones II passed for complete
+			{
+				id: 10,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -608,6 +1067,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 27,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura III passed for complete
+			{
+				id: 6,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -623,6 +1103,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 8,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Construcciones I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -647,6 +1134,69 @@ const courses: RawCourse[] = [
 				requiredCourseId: 29,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 3,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 5,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación II passed for complete
+			{
+				id: 7,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura III passed for complete
+			{
+				id: 8,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura IV passed for complete
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnica de Presentación III passed for complete
+			{
+				id: 10,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura V passed for complete
+			{
+				id: 11,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -669,6 +1219,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Construcciones II passed for complete
+			{
+				id: 4,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones III passed for complete
+			{
+				id: 5,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -698,6 +1262,48 @@ const courses: RawCourse[] = [
 				requiredCourseId: 30,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática III e Introducción a la Física passed for complete
+			{
+				id: 6,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras I passed for complete
+			{
+				id: 7,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras II passed for complete
+			{
+				id: 8,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras III passed for complete
+			{
+				id: 9,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -734,6 +1340,48 @@ const courses: RawCourse[] = [
 				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Construcción passed for complete
+			{
+				id: 5,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 6,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 7,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones II passed for complete
+			{
+				id: 8,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones II passed for complete
+			{
+				id: 9,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones III passed for complete
+			{
+				id: 10,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -763,6 +1411,34 @@ const courses: RawCourse[] = [
 				requiredCourseId: 32,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura III passed for complete
+			{
+				id: 6,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura IV passed for complete
+			{
+				id: 7,
+				requiredCourseId: 32,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -778,6 +1454,20 @@ const courses: RawCourse[] = [
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura II passed for complete
+			{
+				id: 3,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -793,6 +1483,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Técnicas de Representación I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion III passed for complete
+			{
+				id: 6,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		],
 		tag: courseTags.optative
@@ -809,6 +1520,76 @@ const courses: RawCourse[] = [
 				requiredCourseId: 34,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 2,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura III passed for complete
+			{
+				id: 7,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura IV passed for complete
+			{
+				id: 8,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación III passed for complete
+			{
+				id: 9,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura V passed for complete
+			{
+				id: 10,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura VI passed for complete
+			{
+				id: 11,
+				requiredCourseId: 34,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -824,6 +1605,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 34,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Arquitectura VI passed for complete
+			{
+				id: 2,
+				requiredCourseId: 34,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -839,6 +1627,27 @@ const courses: RawCourse[] = [
 				requiredCourseId: 35,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Construcciones II passed for complete
+			{
+				id: 2,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones III passed for complete
+			{
+				id: 3,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Dirección y Organización de Obra I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 24,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -889,6 +1698,55 @@ const courses: RawCourse[] = [
 				requiredCourseId: 36,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Matemática I passed for complete
+			{
+				id: 7,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática II passed for complete
+			{
+				id: 8,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Matemática III e Introducción a la Física passed for complete
+			{
+				id: 9,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras I passed for complete
+			{
+				id: 10,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras II passed for complete
+			{
+				id: 11,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras III passed for complete
+			{
+				id: 12,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Estructuras IV passed for complete
+			{
+				id: 13,
+				requiredCourseId: 36,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -904,6 +1762,55 @@ const courses: RawCourse[] = [
 				requiredCourseId: 37,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introduccion a la Construccion passed for complete
+			{
+				id: 14,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 15,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 16,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones II passed for complete
+			{
+				id: 17,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones II passed for complete
+			{
+				id: 18,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones III passed for complete
+			{
+				id: 19,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones III passed for complete
+			{
+				id: 20,
+				requiredCourseId: 37,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -933,6 +1840,41 @@ const courses: RawCourse[] = [
 				requiredCourseId: 38,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Historia de la Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura III passed for complete
+			{
+				id: 6,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia de la Arquitectura IV passed for complete
+			{
+				id: 7,
+				requiredCourseId: 32,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Historia Política, Social y Económica de la Arquitectura Argentina I passed for complete
+			{
+				id: 8,
+				requiredCourseId: 38,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -948,6 +1890,55 @@ const courses: RawCourse[] = [
 				requiredCourseId: 37,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// Introduccion a la Construccion passed for complete
+			{
+				id: 9,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones I passed for complete
+			{
+				id: 10,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones I passed for complete
+			{
+				id: 11,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones II passed for complete
+			{
+				id: 12,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones II passed for complete
+			{
+				id: 13,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Construcciones III passed for complete
+			{
+				id: 14,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Instalaciones III passed for complete
+			{
+				id: 15,
+				requiredCourseId: 37,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		],
 		tag: courseTags.optative
@@ -966,6 +1957,83 @@ const courses: RawCourse[] = [
 				requiredCourseId: 41,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
+			},
+			// Introducción a la Arquitectura passed for complete
+			{
+				id: 2,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion I passed for complete
+			{
+				id: 3,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura I passed for complete
+			{
+				id: 4,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura II passed for complete
+			{
+				id: 5,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Tecnicas de Representacion II passed for complete
+			{
+				id: 6,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura III passed for complete
+			{
+				id: 7,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura IV passed for complete
+			{
+				id: 8,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Técnicas de Representación III passed for complete
+			{
+				id: 9,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura V passed for complete
+			{
+				id: 10,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura VI passed for complete
+			{
+				id: 11,
+				requiredCourseId: 34,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			// Arquitectura VII passed for complete
+			{
+				id: 1,
+				requiredCourseId: 41,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -1259,6 +2327,283 @@ const courses: RawCourse[] = [
 				requiredCourseId: 46,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			// All passed for complete
+			{
+				id: 47,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 48,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 49,
+				requiredCourseId: 3,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 50,
+				requiredCourseId: 4,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 51,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 52,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 53,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 54,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 55,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 56,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 57,
+				requiredCourseId: 11,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 58,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 59,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 60,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 61,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 62,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 63,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 64,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 65,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 66,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 67,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 68,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 69,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 70,
+				requiredCourseId: 24,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 71,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 72,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 73,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 74,
+				requiredCourseId: 28,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 75,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 76,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 77,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 78,
+				requiredCourseId: 32,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 79,
+				requiredCourseId: 33,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 80,
+				requiredCourseId: 34,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 81,
+				requiredCourseId: 35,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 82,
+				requiredCourseId: 36,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 83,
+				requiredCourseId: 37,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 84,
+				requiredCourseId: 38,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 85,
+				requiredCourseId: 39,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 86,
+				requiredCourseId: 40,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 87,
+				requiredCourseId: 41,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 88,
+				requiredCourseId: 42,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 89,
+				requiredCourseId: 43,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 90,
+				requiredCourseId: 44,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 91,
+				requiredCourseId: 45,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 92,
+				requiredCourseId: 46,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	}

@@ -11,6 +11,7 @@
 		<h1 class="text-2xl font-bold">Plande</h1>
 		<p class="text-sm text-gray-500">Planes de Estudios Interactivos</p>
 	</header>
+
 	<main class="grid gap-9">
 		<section class="relative bg-[#F5F1EB] p-6 md:rounded-md">
 			<div
@@ -48,7 +49,7 @@
 					</p>
 				</div>
 				<div class="justify-self-end text-4xl sm:col-start-1 sm:row-start-1">👇</div>
-				<div class="justify-self-start text-4xl">🧑‍🎓</div>
+				<div class="justify-self-start text-4xl">🌎</div>
 			</div>
 		</section>
 
