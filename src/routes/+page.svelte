@@ -18,14 +18,14 @@
 				class="bg-size-[412.5px 749.25px] absolute inset-0 h-full w-full bg-[url(/wa-bg.png)] opacity-10"
 			></div>
 			<div class="relative z-10 grid gap-3">
-				<ChatMessage author="Mamá" time="10:17" color="pink">como venis con la facu?</ChatMessage>
+				<ChatMessage author="Mamá" time="10:17" color="pink">Como venis con la facu?</ChatMessage>
 
 				<ChatMessage author="Compañero" time="12:14" color="blue">
-					che que podes cursar el cuatri que viene?
+					Che que podes cursar el cuatrimestre que viene?
 				</ChatMessage>
 
 				<ChatMessage author="Amigo" time="19:28" color="green">
-					cuanto te falta para recibirte?
+					Cuanto te falta para recibirte?
 				</ChatMessage>
 
 				<ChatMessage author="Vos" time="19:31" color="blue" isOutgoing>
