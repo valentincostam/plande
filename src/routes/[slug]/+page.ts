@@ -5,6 +5,7 @@ import { utnFrcuIsiData } from './utn-frcu-isi-data';
 import { utnFrcuIeData } from './utn-frcu-ie-data';
 import { ucuFauArqData } from './ucu-fau-arq';
 import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
+import { unerFcsMedData } from './uner-fcs-med-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -40,6 +41,14 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'uader-fcyt-lsi') {
 		return {
 			...uaderFcytLsiData,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled
+		};
+	}
+
+	if (slug === 'uner-fcs-med') {
+		return {
+			...unerFcsMedData,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
