@@ -4,6 +4,7 @@ import { error } from '@sveltejs/kit';
 import { utnFrcuIsiData } from './utn-frcu-isi-data';
 import { utnFrcuIeData } from './utn-frcu-ie-data';
 import { ucuFauArqData } from './ucu-fau-arq';
+import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -31,6 +32,14 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'ucu-fau-arq') {
 		return {
 			...ucuFauArqData,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled
+		};
+	}
+
+	if (slug === 'uader-fcyt-lsi') {
+		return {
+			...uaderFcytLsiData,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};

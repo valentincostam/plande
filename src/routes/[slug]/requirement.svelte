@@ -13,7 +13,10 @@
 	let { requirement }: Props = $props();
 
 	const isRequirementMet = $derived(
-		[requirement.requiredState, courseStates.passed].includes(requirement.requiredCourse.state)
+		requirement.requiredCourse.state === courseStates.passed ||
+			requirement.requiredCourse.state === requirement.requiredState ||
+			(requirement.requiredState === courseStates.inProgress &&
+				requirement.requiredCourse.state === courseStates.taken)
 	);
 </script>
 

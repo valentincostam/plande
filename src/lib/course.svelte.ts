@@ -62,7 +62,6 @@ export class Course {
 	canPass = $derived.by(() => {
 		return (
 			!this.requirementsForCompletion ||
-			this.requirementsForCompletion.length === 0 ||
 			this.requirementsForCompletion.every(
 				(req) =>
 					req.requiredCourse.state === courseStates.passed ||
