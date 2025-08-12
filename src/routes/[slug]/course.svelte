@@ -108,8 +108,8 @@
 				{:else}
 					<li>
 						<strong
-							>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y aprobar'}:</strong
-						> Ninguno
+							>Requisitos para cursar{hasRequirementsForCompletion ? '' : ' y aprobar'}:
+						</strong> Ninguno
 					</li>
 				{/if}
 				{#if hasRequirementsForCompletion}
