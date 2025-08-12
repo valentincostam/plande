@@ -132,13 +132,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Técnicas de Representación I passed for complete
 			{
 				id: 4,
@@ -215,13 +208,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Matemática I passed for complete
-			{
-				id: 3,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Matemática II passed for complete
 			{
 				id: 4,
@@ -258,26 +244,12 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 2,
 		requirements: [
-			// Introducción a la Construcción taken
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Construcciones I taken
 			{
 				id: 2,
 				requiredCourseId: 8,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Construcción passed for complete
-			{
-				id: 3,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Construcciones I passed for complete
 			{
@@ -315,34 +287,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.inProgress,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 6,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Arquitectura II passed for complete
 			{
 				id: 7,
@@ -358,40 +302,12 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 2,
 		requirements: [
-			// Matemática I passed
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Matemática II taken
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Matemática III e Introducción a la Física taken
 			{
 				id: 3,
 				requiredCourseId: 12,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Matemática III e Introducción a la Física passed for complete
 			{
@@ -415,13 +331,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Matemática I passed for complete
-			{
-				id: 2,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Computación Gráfica I passed for complete
 			{
 				id: 3,
@@ -443,20 +352,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 14,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Construcción passed for complete
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 3,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Instalaciones I passed for complete
 			{
@@ -518,34 +413,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Técnicas de Representación II passed for complete
 			{
 				id: 7,
@@ -574,13 +441,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 8,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Técnicas de Representación II passed for complete
 			{
@@ -619,25 +479,11 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			// Matemática I passed
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
 			// Matemática II passed
 			{
 				id: 2,
 				requiredCourseId: 7,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Matemática III e Introducción a la Física taken
-			{
-				id: 3,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			// Estructuras I taken
@@ -646,27 +492,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática III e Introducción a la Física passed for complete
-			{
-				id: 7,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Estructuras I passed for complete
 			{
@@ -690,47 +515,12 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Construcciones I taken
-			{
-				id: 2,
-				requiredCourseId: 8,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			// Instalaciones I taken
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Instalaciones II taken
 			{
 				id: 4,
 				requiredCourseId: 19,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Construcción passed for complete
-			{
-				id: 5,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 6,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones I passed for complete
-			{
-				id: 7,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Instalaciones II passed for complete
 			{
@@ -747,6 +537,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
+			// 👉 Este requerimiento es redundante porque para cursar "Historia de la Arquitectura II" ya se requiere "Historia de la Arquitectura I" cursada
 			// Historia de la Arquitectura I passed
 			{
 				id: 1,
@@ -760,13 +551,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Historia de la Arquitectura I passed for complete
-			{
-				id: 3,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Historia de la Arquitectura II passed for complete
 			{
@@ -789,20 +573,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 18,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Computación Gráfica I passed for complete
-			{
-				id: 6,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Computación Gráfica II passed for complete
 			{
@@ -834,48 +604,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.inProgress,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación II passed for complete
-			{
-				id: 7,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura III passed for complete
-			{
-				id: 8,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Arquitectura IV passed for complete
 			{
 				id: 9,
@@ -891,32 +619,12 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			// Matemática I passed
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Matemática II passed
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
+			// 👉 Este requerimiento es redundante porque para cursar "Estructuras II" ya se requiere "Matemática III e Introducción a la Física" cursada
 			// Matemática III e Introducción a la Física passed
 			{
 				id: 3,
 				requiredCourseId: 12,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Estructuras I taken
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			// Estructuras II taken
@@ -925,34 +633,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 6,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática II passed for complete
-			{
-				id: 7,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática III e Introducción a la Física passed for complete
-			{
-				id: 8,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras I passed for complete
-			{
-				id: 9,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Estructuras II passed for complete
 			{
@@ -969,32 +649,11 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			// Introducción a la Construcción passed
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
 			// Construcciones I passed
 			{
 				id: 2,
 				requiredCourseId: 8,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Instalaciones I taken
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			// Instalaciones II taken
-			{
-				id: 4,
-				requiredCourseId: 19,
-				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			// Construcciones II taken
@@ -1003,34 +662,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 26,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Construcción passed for complete
-			{
-				id: 6,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 7,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones I passed for complete
-			{
-				id: 8,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones II passed for complete
-			{
-				id: 9,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Construcciones II passed for complete
 			{
@@ -1047,13 +678,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			// Historia de la Arquitectura I passed
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
+			// 👉 Este requerimiento es redundante porque para cursar "Historia de la Arquitectura III" ya se requiere "Historia de la Arquitectura II" cursada
 			// Historia de la Arquitectura II passed
 			{
 				id: 2,
@@ -1067,20 +692,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 27,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Historia de la Arquitectura I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Historia de la Arquitectura III passed for complete
 			{
@@ -1135,55 +746,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 5,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación II passed for complete
-			{
-				id: 7,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura III passed for complete
-			{
-				id: 8,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura IV passed for complete
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Tecnica de Presentación III passed for complete
 			{
 				id: 10,
@@ -1206,26 +768,12 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			// Construcciones II taken
-			{
-				id: 2,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Construcciones III taken
 			{
 				id: 3,
 				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Construcciones II passed for complete
-			{
-				id: 4,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Construcciones III passed for complete
 			{
@@ -1249,54 +797,12 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Estructuras II taken
-			{
-				id: 2,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Estructuras III taken
 			{
 				id: 3,
 				requiredCourseId: 30,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática III e Introducción a la Física passed for complete
-			{
-				id: 6,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras I passed for complete
-			{
-				id: 7,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras II passed for complete
-			{
-				id: 8,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Estructuras III passed for complete
 			{
@@ -1313,6 +819,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
+			// 👉 Este requerimiento es redundante porque para cursar "Instalaciones II" ya se requiere "Instalaciones I" cursada
 			// Instalaciones I passed
 			{
 				id: 1,
@@ -1327,54 +834,12 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Construcciones II taken
-			{
-				id: 3,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Construcciones III taken
 			{
 				id: 4,
 				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Construcción passed for complete
-			{
-				id: 5,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 6,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones I passed for complete
-			{
-				id: 7,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones II passed for complete
-			{
-				id: 8,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones II passed for complete
-			{
-				id: 9,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Construcciones III passed for complete
 			{
@@ -1391,47 +856,12 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			// Historia de la Arquitectura II passed
-			{
-				id: 1,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Historia de la Arquitectura III taken
-			{
-				id: 2,
-				requiredCourseId: 27,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Historia de la Arquitectura IV taken
 			{
 				id: 3,
 				requiredCourseId: 32,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Historia de la Arquitectura I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura III passed for complete
-			{
-				id: 6,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Historia de la Arquitectura IV passed for complete
 			{
@@ -1455,13 +885,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Historia de la Arquitectura I passed for complete
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Historia de la Arquitectura II passed for complete
 			{
 				id: 3,
@@ -1483,20 +906,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
-			},
-			// Técnicas de Representación I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Tecnicas de Representacion II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Tecnicas de Representacion III passed for complete
 			{
@@ -1520,69 +929,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 34,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
-			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Tecnicas de Representacion I passed for complete
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Tecnicas de Representacion II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura III passed for complete
-			{
-				id: 7,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura IV passed for complete
-			{
-				id: 8,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación III passed for complete
-			{
-				id: 9,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura V passed for complete
-			{
-				id: 10,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Arquitectura VI passed for complete
 			{
@@ -1628,13 +974,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Construcciones II passed for complete
-			{
-				id: 2,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Construcciones III passed for complete
 			{
 				id: 3,
@@ -1657,27 +996,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
-			// Matemática I passed
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Matemática II passed
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// Matemática III e Introducción a la Física passed
-			{
-				id: 3,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
+			// 👉 Este requerimiento es redundante porque para cursar "Estructuras III" ya se requiere "Estructuras II" cursada
 			// Estructuras II passed
 			{
 				id: 4,
@@ -1698,48 +1017,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 36,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Matemática I passed for complete
-			{
-				id: 7,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática II passed for complete
-			{
-				id: 8,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Matemática III e Introducción a la Física passed for complete
-			{
-				id: 9,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras I passed for complete
-			{
-				id: 10,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras II passed for complete
-			{
-				id: 11,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Estructuras III passed for complete
-			{
-				id: 12,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Estructuras IV passed for complete
 			{
@@ -1763,48 +1040,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Introduccion a la Construccion passed for complete
-			{
-				id: 14,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 15,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones I passed for complete
-			{
-				id: 16,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones II passed for complete
-			{
-				id: 17,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones II passed for complete
-			{
-				id: 18,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones III passed for complete
-			{
-				id: 19,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Instalaciones III passed for complete
 			{
 				id: 20,
@@ -1827,47 +1062,12 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Historia de la Arquitectura IV taken
-			{
-				id: 2,
-				requiredCourseId: 32,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
 			// Historia Política, Social y Económica de la Arquitectura Argentina I taken
 			{
 				id: 3,
 				requiredCourseId: 38,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Historia de la Arquitectura I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura III passed for complete
-			{
-				id: 6,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Historia de la Arquitectura IV passed for complete
-			{
-				id: 7,
-				requiredCourseId: 32,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Historia Política, Social y Económica de la Arquitectura Argentina I passed for complete
 			{
@@ -1890,48 +1090,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 37,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
-			},
-			// Introduccion a la Construccion passed for complete
-			{
-				id: 9,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones I passed for complete
-			{
-				id: 10,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones I passed for complete
-			{
-				id: 11,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Instalaciones II passed for complete
-			{
-				id: 12,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones II passed for complete
-			{
-				id: 13,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Construcciones III passed for complete
-			{
-				id: 14,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			},
 			// Instalaciones III passed for complete
 			{
@@ -1958,76 +1116,6 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// Introducción a la Arquitectura passed for complete
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Tecnicas de Representacion I passed for complete
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura I passed for complete
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura II passed for complete
-			{
-				id: 5,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Tecnicas de Representacion II passed for complete
-			{
-				id: 6,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura III passed for complete
-			{
-				id: 7,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura IV passed for complete
-			{
-				id: 8,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Técnicas de Representación III passed for complete
-			{
-				id: 9,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura V passed for complete
-			{
-				id: 10,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			// Arquitectura VI passed for complete
-			{
-				id: 11,
-				requiredCourseId: 34,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Arquitectura VII passed for complete
 			{
 				id: 1,
@@ -2050,65 +1138,9 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 5,
 		requirements: [
-			// All passed
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
 			{
 				id: 3,
 				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-
-			{
-				id: 5,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 10,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
@@ -2119,38 +1151,8 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 12,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 13,
 				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 14,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 17,
-				requiredCourseId: 17,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
@@ -2161,32 +1163,8 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 19,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 21,
 				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 22,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 23,
-				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
@@ -2197,38 +1175,14 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 25,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 26,
 				requiredCourseId: 26,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 27,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 28,
 				requiredCourseId: 28,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 29,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 30,
-				requiredCourseId: 30,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
@@ -2247,12 +1201,6 @@ const courses: RawCourse[] = [
 			{
 				id: 33,
 				requiredCourseId: 33,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 34,
-				requiredCourseId: 34,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
