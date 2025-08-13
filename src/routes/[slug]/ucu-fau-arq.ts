@@ -974,17 +974,10 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
-			// Construcciones III passed for complete
-			{
-				id: 3,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
 			// Dirección y Organización de Obra I passed for complete
 			{
 				id: 4,
-				requiredCourseId: 24,
+				requiredCourseId: 35,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			}
@@ -1266,122 +1259,8 @@ const courses: RawCourse[] = [
 			},
 			// All passed for complete
 			{
-				id: 47,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 48,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 49,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 50,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 51,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 52,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 53,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 54,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 55,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 56,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 57,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 58,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 59,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 60,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 61,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 62,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 63,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
 				id: 64,
 				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 65,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 66,
-				requiredCourseId: 20,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
@@ -1392,98 +1271,14 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.complete
 			},
 			{
-				id: 68,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 69,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
 				id: 70,
 				requiredCourseId: 24,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
 			{
-				id: 71,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 72,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 73,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 75,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 76,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 77,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 78,
-				requiredCourseId: 32,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
 				id: 79,
 				requiredCourseId: 33,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 80,
-				requiredCourseId: 34,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 81,
-				requiredCourseId: 35,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 82,
-				requiredCourseId: 36,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 83,
-				requiredCourseId: 37,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 84,
-				requiredCourseId: 38,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
