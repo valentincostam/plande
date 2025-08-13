@@ -819,14 +819,6 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 4,
 		requirements: [
-			// 👉 Este requerimiento es redundante porque para cursar "Instalaciones II" ya se requiere "Instalaciones I" cursada
-			// Instalaciones I passed
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
 			// Instalaciones II passed
 			{
 				id: 2,
@@ -989,14 +981,6 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
-			// 👉 Este requerimiento es redundante porque para cursar "Estructuras III" ya se requiere "Estructuras II" cursada
-			// Estructuras II passed
-			{
-				id: 4,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
 			// Estructuras III passed
 			{
 				id: 5,
@@ -1132,24 +1116,6 @@ const courses: RawCourse[] = [
 		year: 5,
 		requirements: [
 			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 18,
 				requiredCourseId: 18,
 				requiredState: courseStates.passed,
@@ -1164,24 +1130,6 @@ const courses: RawCourse[] = [
 			{
 				id: 24,
 				requiredCourseId: 24,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 26,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 31,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 32,
-				requiredCourseId: 32,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},

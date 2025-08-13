@@ -51,46 +51,72 @@ export function findRedundantRequirements(courses: RawCourse[]): string[] {
 		return stateHierarchy[state1] >= stateHierarchy[state2];
 	};
 
+	// Dado un estado requerido sobre una materia, determinar qué propósito(s) de esa materia
+	// hay que usar para llegar a dicho estado (p.ej. passed → complete y también enroll)
+	const purposesForState = (state: CourseState): RequiredFor[] => {
+		switch (state) {
+			case courseStates.passed:
+				return [requiredFor.complete, requiredFor.enroll];
+			case courseStates.taken:
+			case courseStates.inProgress:
+				return [requiredFor.enroll];
+			default:
+				return [];
+		}
+	};
+
 	// Función recursiva para obtener todos los prerequisitos transitivos de una materia
+	// partiendo del "estado objetivo" que se exige sobre esa materia.
 	const getTransitivePrerequisites = (
 		courseId: number,
-		requiredFor: RequiredFor,
+		desiredStateForCourse: CourseState,
 		visited = new Set<number>()
-	): Map<number, { state: CourseState; path: string[] }> => {
+	): Map<number, { state: CourseState; path: string[]; viaPurpose: RequiredFor }> => {
 		if (visited.has(courseId)) return new Map();
 		visited.add(courseId);
 
 		const course = courseMap.get(courseId);
 		if (!course?.requirements) return new Map();
 
-		const prerequisites = new Map<number, { state: CourseState; path: string[] }>();
+		const prerequisites = new Map<
+			number,
+			{ state: CourseState; path: string[]; viaPurpose: RequiredFor }
+		>();
 
-		for (const req of course.requirements) {
-			if (req.requiredFor !== requiredFor) continue;
+		const purposes = purposesForState(desiredStateForCourse);
+		for (const purpose of purposes) {
+			for (const req of course.requirements) {
+				if (req.requiredFor !== purpose) continue;
 
-			const reqCourse = courseMap.get(req.requiredCourseId);
-			if (!reqCourse) continue;
+				const reqCourse = courseMap.get(req.requiredCourseId);
+				if (!reqCourse) continue;
 
-			// Agregar el prerequisito directo
-			const currentPath = [`${reqCourse.name} (${reqCourse.id})`];
-			prerequisites.set(req.requiredCourseId, {
-				state: req.requiredState,
-				path: currentPath
-			});
-
-			// Agregar prerequisitos transitivos
-			const transitivePrereqs = getTransitivePrerequisites(
-				req.requiredCourseId,
-				requiredFor,
-				new Set(visited)
-			);
-			for (const [transitiveId, transitiveData] of transitivePrereqs) {
-				const existing = prerequisites.get(transitiveId);
-				if (!existing || isStateGreaterOrEqual(transitiveData.state, existing.state)) {
-					prerequisites.set(transitiveId, {
-						state: transitiveData.state,
-						path: [...currentPath, ...transitiveData.path]
+				// Agregar el prerequisito directo
+				const currentPath = [`${reqCourse.name} (${reqCourse.id})`];
+				const existingDirect = prerequisites.get(req.requiredCourseId);
+				if (!existingDirect || isStateGreaterOrEqual(req.requiredState, existingDirect.state)) {
+					prerequisites.set(req.requiredCourseId, {
+						state: req.requiredState,
+						path: currentPath,
+						viaPurpose: purpose
 					});
+				}
+
+				// Agregar prerequisitos transitivos en función del estado requerido en este eslabón
+				const transitivePrereqs = getTransitivePrerequisites(
+					req.requiredCourseId,
+					req.requiredState,
+					new Set(visited)
+				);
+				for (const [transitiveId, transitiveData] of transitivePrereqs) {
+					const existing = prerequisites.get(transitiveId);
+					if (!existing || isStateGreaterOrEqual(transitiveData.state, existing.state)) {
+						prerequisites.set(transitiveId, {
+							state: transitiveData.state,
+							path: [...currentPath, ...transitiveData.path],
+							viaPurpose: purpose
+						});
+					}
 				}
 			}
 		}
@@ -125,7 +151,7 @@ export function findRedundantRequirements(courses: RawCourse[]): string[] {
 			for (const otherReq of otherRequirements) {
 				const transitivePrereqs = getTransitivePrerequisites(
 					otherReq.requiredCourseId,
-					requirement.requiredFor
+					otherReq.requiredState
 				);
 
 				if (transitivePrereqs.has(requirement.requiredCourseId)) {
@@ -139,14 +165,17 @@ export function findRedundantRequirements(courses: RawCourse[]): string[] {
 							femenineCourseStateLabels[transitiveData.state].toLowerCase();
 						const purposeText =
 							requirement.requiredFor === requiredFor.enroll ? 'CURSAR' : 'RENDIR';
-						const transitivePurposeText =
-							requirement.requiredFor === requiredFor.enroll ? 'cursar' : 'rendir';
+						// Redacción más precisa: acción guiada por el estado requerido del otro requerimiento
+						const transitiveActionTextUpper =
+							otherReq.requiredState === courseStates.passed ? 'APROBAR' : 'CURSAR';
+						const otherReqStateText =
+							femenineCourseStateLabels[otherReq.requiredState].toLowerCase();
 
 						// Crear la cadena de dependencias
 						const dependencyChain = transitiveData.path.reverse().join(' → ');
 
 						redundancies.push(
-							`En **${course.name} (${course.id})**: El requerimiento **${requiredCourse.name} (${requiredCourse.id})** \`${stateText}\` para \`${purposeText}\` es redundante porque para ${transitivePurposeText} **${otherCourse?.name} (${otherReq.requiredCourseId})** ya se requiere la cadena: \`${dependencyChain}\` (\`${transitiveStateText}\`)`
+							`En **${course.name} (${course.id})**: El requerimiento **${requiredCourse.name} (${requiredCourse.id})** \`${stateText}\` para \`${purposeText}\` es redundante porque para ${transitiveActionTextUpper} **${otherCourse?.name} (${otherReq.requiredCourseId})** (que también se requiere \`${otherReqStateText}\` por **${course.name}**) ya se requiere la cadena: \`${dependencyChain}\` (\`${transitiveStateText}\`)`
 						);
 
 						// Marcar este requerimiento como procesado para evitar duplicados
