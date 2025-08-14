@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { courseStates } from '$lib/course-state';
+	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
 	import { toKebabCase, type CourseRequirement } from '$lib/course.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import CheckIcon from './check-icon.svelte';
@@ -13,10 +13,7 @@
 	let { requirement }: Props = $props();
 
 	const isRequirementMet = $derived(
-		requirement.requiredCourse.state === courseStates.passed ||
-			requirement.requiredCourse.state === requirement.requiredState ||
-			(requirement.requiredState === courseStates.inProgress &&
-				requirement.requiredCourse.state === courseStates.taken)
+		isCourseStateGreaterOrEqual(requirement.requiredCourse.state, requirement.requiredState)
 	);
 </script>
 

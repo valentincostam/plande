@@ -3,9 +3,8 @@
 		chevronStrokeColors,
 		courseBgColors,
 		courseNameColors,
-		courseStates,
 		hoursColors,
-		type CourseState
+		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
 	import { toKebabCase, type Course } from '$lib/course.svelte';
 	import { slide } from 'svelte/transition';
@@ -27,14 +26,6 @@
 	function onclick() {
 		isExpanded = !isExpanded;
 	}
-
-	const isDependentRequirementMet = (
-		courseState: CourseState,
-		dependentRequiredState: CourseState
-	) =>
-		courseState === courseStates.passed ||
-		courseState === dependentRequiredState ||
-		(dependentRequiredState === courseStates.inProgress && courseState === courseStates.taken);
 </script>
 
 <li
@@ -135,7 +126,7 @@
 							{#each course.dependents as dependent}
 								<Dependent
 									{dependent}
-									isRequirementMet={isDependentRequirementMet(
+									isRequirementMet={isCourseStateGreaterOrEqual(
 										course.state,
 										dependent.requiredState
 									)}

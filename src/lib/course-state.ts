@@ -7,6 +7,17 @@ export const courseStates = {
 
 export type CourseState = (typeof courseStates)[keyof typeof courseStates];
 
+const courseStateHierarchy = {
+	[courseStates.notTaken]: 0,
+	[courseStates.inProgress]: 1,
+	[courseStates.taken]: 2,
+	[courseStates.passed]: 3
+} as const;
+
+export const isCourseStateGreaterOrEqual = (state1: CourseState, state2: CourseState) => {
+	return courseStateHierarchy[state1] >= courseStateHierarchy[state2];
+};
+
 export const femenineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursada',
 	[courseStates.inProgress]: 'En curso',

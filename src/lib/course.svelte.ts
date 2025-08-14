@@ -1,4 +1,4 @@
-import { courseStates, type CourseState } from './course-state';
+import { courseStates, isCourseStateGreaterOrEqual, type CourseState } from './course-state';
 import type { CourseTag } from './course-tag';
 import type { CourseTerm } from './course-term';
 import {
@@ -51,21 +51,15 @@ export class Course {
 	isEnabled = $derived.by(() => {
 		if (!this.isStrictModeEnabled()) return true;
 
-		return this.requirementsForEnrollment.every(
-			(req) =>
-				req.requiredCourse.state === courseStates.passed ||
-				req.requiredCourse.state === req.requiredState ||
-				(req.requiredState === courseStates.inProgress &&
-					req.requiredCourse.state === courseStates.taken)
+		return this.requirementsForEnrollment.every((req) =>
+			isCourseStateGreaterOrEqual(req.requiredCourse.state, req.requiredState)
 		);
 	});
 	canPass = $derived.by(() => {
 		return (
 			!this.requirementsForCompletion ||
-			this.requirementsForCompletion.every(
-				(req) =>
-					req.requiredCourse.state === courseStates.passed ||
-					req.requiredCourse.state === req.requiredState
+			this.requirementsForCompletion.every((req) =>
+				isCourseStateGreaterOrEqual(req.requiredCourse.state, req.requiredState)
 			)
 		);
 	});
