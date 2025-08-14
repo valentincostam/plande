@@ -692,7 +692,6 @@ export const unerFcsMedData = {
 	college: 'UNER FCS',
 	studyProgram: 'Plan de Estudios 2022',
 	requiredElectiveHours: 0,
-	hasRequirementsForCompletion: false,
 	sources: [
 		{
 			id: 1,

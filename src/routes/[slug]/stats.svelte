@@ -75,6 +75,6 @@
 	{/if}
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
 	{#if someCourseHasHours}
-		<Stat label="Horas en curso" value={inProgressCourseHours} />
+		<Stat label="Horas semanales en curso" value={inProgressCourseHours} />
 	{/if}
 </ul>

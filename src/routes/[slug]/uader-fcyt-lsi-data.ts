@@ -206,7 +206,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		tag: courseTags.optative
 	},
 	{
 		id: 340314,
@@ -387,12 +387,6 @@ const courses: RawCourse[] = [
 		year: 3,
 		requirements: [
 			{
-				id: 1,
-				requiredCourseId: 340105,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 2,
 				requiredCourseId: 340208,
 				requiredState: courseStates.taken,
@@ -411,7 +405,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		tag: courseTags.optative
 	},
 	{
 		id: 340321,
@@ -422,45 +416,93 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 340314,
+				requiredCourseId: 340208,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 340315,
+				requiredCourseId: 340209,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 3,
-				requiredCourseId: 340316,
+				requiredCourseId: 340210,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 4,
-				requiredCourseId: 340317,
+				requiredCourseId: 340211,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 5,
-				requiredCourseId: 340318,
+				requiredCourseId: 340212,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 6,
-				requiredCourseId: 340319,
+				requiredCourseId: 340213,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 7,
-				requiredCourseId: 340320,
+				requiredCourseId: 340299,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 11,
+				requiredCourseId: 340314,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 12,
+				requiredCourseId: 340315,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 13,
+				requiredCourseId: 340316,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 14,
+				requiredCourseId: 340317,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 15,
+				requiredCourseId: 340318,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 16,
+				requiredCourseId: 340319,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 17,
+				requiredCourseId: 340320,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 18,
+				requiredCourseId: 340399,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -601,7 +643,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		tag: courseTags.optative
 	},
 	{
 		id: 340428,
@@ -650,7 +692,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		tag: courseTags.optative
 	},
 	{
 		id: 340530,
@@ -728,6 +770,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 5,
 		requirements: [
+			// Para cursar, Regular 423 - 424 - 425. Para rendir, Aprobadas el resto de 5º
 			{
 				id: 1,
 				requiredCourseId: 340423,
@@ -750,31 +793,31 @@ const courses: RawCourse[] = [
 				id: 4,
 				requiredCourseId: 340530,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
+				requiredFor: requiredFor.complete
 			},
 			{
 				id: 5,
 				requiredCourseId: 340531,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
+				requiredFor: requiredFor.complete
 			},
 			{
 				id: 6,
 				requiredCourseId: 340532,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
+				requiredFor: requiredFor.complete
 			},
 			{
 				id: 7,
 				requiredCourseId: 340534,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
+				requiredFor: requiredFor.complete
 			},
 			{
 				id: 8,
 				requiredCourseId: 340535,
 				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -813,7 +856,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		tag: courseTags.optative
 	}
 ];
 
@@ -823,7 +866,6 @@ export const uaderFcytLsiData = {
 	years: 5,
 	college: 'UADER FCyT',
 	studyProgram: 'Plan de Estudios',
-	hasRequirementsForCompletion: false,
 	sources: [
 		{
 			id: 1,
@@ -834,15 +876,21 @@ export const uaderFcytLsiData = {
 	notes: [
 		{
 			id: 1,
-			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada** (200 horas), es necesario cumplir con los requisitos para cursar _Proyecto Final_.'
+			text: `Las materias optativas son:
+        \n - **Informática y Relaciones Humanas** (Área Sistemas)
+        \n - **Sistemas de Información Geográfica** (GIS) (Área Sistemas)
+        \n - **Modelos y Simulación** (Área Sistemas)
+        \n - **Calidad del Software** (Área Sistemas)
+        \n - **Criptografía** (Área Computación)
+        \n - **Cálculo Computacional** (Área Computación)
+        \n - **Tecnologías de Ambientes Mainframes** (Área Computación)
+        \n - **Gerenciamiento de Proyectos Informáticos** (Área Sistemas)
+        \n - **Informáticas Aplicadas** (Salud, Agropecuaria, Gestión Industrial, Educativa) (Área Sistemas)
+      `
 		},
 		{
 			id: 2,
-			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
-		},
-		{
-			id: 3,
-			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
+			text: 'En la materia **Optativa II** (3<sup>er</sup> año), el requerimiento de **Lecto-Comprehensión en Inglés** (1<sup>er</sup> año) _cursada_ es redundante y, por lo tanto, no se muestra. Esto se debe a que dicho requerimiento ya es requerido por **Programación Orientada a Objetos** (2<sup>do</sup> año), también requerida por **Optativa II**.'
 		}
 	]
 };

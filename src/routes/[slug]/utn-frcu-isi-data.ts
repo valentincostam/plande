@@ -967,7 +967,6 @@ export const utnFrcuIsiData = {
 	college: 'UTN FRCU',
 	studyProgram: 'Plan de Estudios 2023',
 	requiredElectiveHours: 40,
-	hasRequirementsForCompletion: false,
 	sources: [
 		{
 			id: 1,

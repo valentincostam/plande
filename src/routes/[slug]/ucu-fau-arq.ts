@@ -1282,7 +1282,6 @@ export const ucuFauArqData = {
 	years: 5,
 	college: 'UCU FAU',
 	studyProgram: 'Plan de Estudios 2007',
-	hasRequirementsForCompletion: true,
 	sources: [
 		{
 			id: 1,

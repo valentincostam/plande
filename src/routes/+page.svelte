@@ -77,7 +77,7 @@
 					</ul>
 				</li>
 				<li class="grid gap-1">
-					<span class="font-bold">UADER FcyT</span>
+					<span class="font-bold">UADER FCyT</span>
 					<ul class="list-disc pl-5">
 						<li>
 							<a href="/uader-fcyt-lsi" class="text-blue-800 underline-offset-2 hover:underline"

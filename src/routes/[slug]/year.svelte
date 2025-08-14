@@ -9,10 +9,9 @@
 
 	type Props = {
 		year: Year;
-		hasRequirementsForCompletion?: boolean;
 	};
 
-	let { year, hasRequirementsForCompletion }: Props = $props();
+	let { year }: Props = $props();
 
 	const annualCourses = year.courses.filter((course) => course.term === courseTerms.annual);
 
@@ -53,7 +52,7 @@
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]}>
 			{#each annualCourses as course}
-				<Course {course} {hasRequirementsForCompletion} />
+				<Course {course} />
 			{/each}
 		</Term>
 	{/if}
@@ -61,7 +60,7 @@
 	{#if firstSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.firstSemester]}>
 			{#each firstSemesterCourses as course}
-				<Course {course} {hasRequirementsForCompletion} />
+				<Course {course} />
 			{/each}
 		</Term>
 	{/if}
@@ -69,7 +68,7 @@
 	{#if secondSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.secondSemester]}>
 			{#each secondSemesterCourses as course}
-				<Course {course} {hasRequirementsForCompletion} />
+				<Course {course} />
 			{/each}
 		</Term>
 	{/if}

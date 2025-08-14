@@ -16,16 +16,19 @@
 
 	type Props = {
 		course: Course;
-		hasRequirementsForCompletion?: boolean;
 	};
 
-	let { course, hasRequirementsForCompletion }: Props = $props();
+	let { course }: Props = $props();
 
 	let isExpanded = $state(false);
 
 	function onclick() {
 		isExpanded = !isExpanded;
 	}
+
+	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
+
+	const hasRequirementsForCompletion = course.requirementsForCompletion.length > 0;
 </script>
 
 <li
@@ -68,7 +71,7 @@
 						'shrink-0 text-sm whitespace-nowrap transition-colors'
 					]}
 				>
-					{course.hours} hs
+					{numberFormatter.format(course.hours)} hs
 				</span>
 			{/if}
 		</button>
@@ -84,7 +87,10 @@
 		<div class="px-3 pb-3" transition:slide>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
 				{#if course.hours}
-					<li><strong>Carga horaria:</strong> {course.hours} horas semanales</li>
+					<li>
+						<strong>Carga horaria:</strong>
+						{numberFormatter.format(course.hours)} horas semanales
+					</li>
 				{/if}
 				{#if course.requirementsForEnrollment.length > 0}
 					<li class="grid gap-2">

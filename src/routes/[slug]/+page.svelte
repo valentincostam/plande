@@ -47,7 +47,7 @@
 
 	<main class="grid gap-9">
 		{#each years as year}
-			<Year {year} hasRequirementsForCompletion={data.hasRequirementsForCompletion} />
+			<Year {year} />
 		{/each}
 
 		<section class="px-3 md:px-0">
@@ -68,7 +68,7 @@
 				<h3 class="px-6 py-3 text-lg font-bold">Notas</h3>
 				<ol class="grid list-decimal gap-3 px-12">
 					{#each data.notes as note}
-						<li>
+						<li class="note">
 							{@html marked(note.text)}
 						</li>
 					{/each}
@@ -143,3 +143,13 @@
 		<li>{@html marked(redundantRequirement)}</li>
 	{/each}
 </ol>
+
+<style>
+	.note :global(ul) {
+		list-style-type: disc;
+		padding-left: 1.5rem;
+		display: grid;
+		gap: 0.5rem;
+		padding-top: 0.5rem;
+	}
+</style>
