@@ -127,7 +127,7 @@
 				{/if}
 				{#if course.dependents.length > 0}
 					<li class="grid gap-2">
-						<strong>Correlativas</strong>
+						<strong>Habilita</strong>
 						<ul class="grid gap-2">
 							{#each course.dependents as dependent}
 								<Dependent
@@ -142,7 +142,7 @@
 					</li>
 				{:else}
 					<li>
-						<strong>Correlativas:</strong> Ninguna
+						<strong>Habilita:</strong> Ninguna
 					</li>
 				{/if}
 			</ul>

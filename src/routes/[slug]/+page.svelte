@@ -150,6 +150,7 @@
 		padding-left: 1.5rem;
 		display: grid;
 		gap: 0.5rem;
+		padding-bottom: 0.75rem;
 		padding-top: 0.5rem;
 	}
 </style>

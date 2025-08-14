@@ -3,12 +3,12 @@
 </script>
 
 <svelte:head>
-	<title>Plande</title>
+	<title>Planes de Estudios Interactivos en Plande</title>
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
-		<h1 class="text-2xl font-bold">Plande</h1>
+		<h1 class="text-2xl font-bold">Plande 🎓</h1>
 		<p class="text-sm text-gray-500">Planes de Estudios Interactivos</p>
 	</header>
 
