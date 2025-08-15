@@ -10,6 +10,8 @@
 	import ShareButton from './share-button.svelte';
 	import { marked } from 'marked';
 	import { findRedundantRequirements } from '$lib/raw-course';
+	import StatePill from './state-pill.svelte';
+	import { courseStates } from '$lib/course-state';
 
 	let { data }: PageProps = $props();
 
@@ -93,6 +95,27 @@
 				</ol>
 			</section>
 		{/if}
+
+		<section>
+			<h3 class="px-6 py-3 text-lg font-bold">Referencias</h3>
+			<ul class="grid list-disc gap-3 px-12">
+				<li class="text-sm">
+					Una materia está <StatePill state={courseStates.notTaken} /> cuando aún no has asistido sus
+					clases.
+				</li>
+				<li class="text-sm">
+					Una materia está <StatePill state={courseStates.inProgress} /> cuando estás asistiendo a sus
+					clases.
+				</li>
+				<li class="text-sm">
+					Una materia está <StatePill state={courseStates.taken} /> (o regular) cuando asististe a sus
+					clases pero aún debés rendir su examen final.
+				</li>
+				<li class="text-sm">
+					Una materia está <StatePill state={courseStates.passed} /> cuando ya la rendiste y aprobaste.
+				</li>
+			</ul>
+		</section>
 
 		<section>
 			<div class="grid gap-3 bg-gray-100 p-6 text-xs text-gray-600 md:rounded-md">

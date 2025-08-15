@@ -66,6 +66,7 @@
 			total={electiveCourses.length}
 		/>
 	{/if}
+	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
 	{#if requiredElectiveHours}
 		<Stat
 			label="Horas electivas aprobadas"
@@ -73,7 +74,6 @@
 			total={requiredElectiveHours}
 		/>
 	{/if}
-	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
 	{#if someCourseHasHours}
 		<Stat label="Horas semanales en curso" value={inProgressCourseHours} />
 	{/if}
