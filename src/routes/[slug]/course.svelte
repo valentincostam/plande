@@ -13,6 +13,7 @@
 	import StateSelect from './state-select.svelte';
 	import Dependent from './dependent.svelte';
 	import { courseTagLabels } from '$lib/course-tag';
+	import { markDirty } from '$lib/app-state.svelte';
 
 	type Props = {
 		course: Course;
@@ -21,10 +22,17 @@
 	let { course }: Props = $props();
 
 	let isExpanded = $state(false);
+	const initialState = course.state;
 
 	function onclick() {
 		isExpanded = !isExpanded;
 	}
+
+	$effect(() => {
+		if (course.state !== initialState && course.state !== 'notTaken') {
+			markDirty();
+		}
+	});
 
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 

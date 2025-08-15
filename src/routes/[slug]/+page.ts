@@ -17,6 +17,7 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'utn-frcu-isi') {
 		return {
 			...utnFrcuIsiData,
+			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
@@ -25,6 +26,7 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'utn-frcu-ie') {
 		return {
 			...utnFrcuIeData,
+			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
@@ -33,6 +35,7 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'ucu-fau-arq') {
 		return {
 			...ucuFauArqData,
+			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
@@ -41,6 +44,7 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'uader-fcyt-lsi') {
 		return {
 			...uaderFcytLsiData,
+			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};
@@ -49,6 +53,7 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'uner-fcs-med') {
 		return {
 			...unerFcsMedData,
+			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled
 		};

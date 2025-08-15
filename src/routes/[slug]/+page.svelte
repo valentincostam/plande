@@ -11,7 +11,10 @@
 	import { marked } from 'marked';
 	import { findRedundantRequirements } from '$lib/raw-course';
 	import StatePill from './state-pill.svelte';
-	import { courseStates } from '$lib/course-state';
+	import { courseStates, encodeCoursesStates, decodeCoursesStates } from '$lib/course-state';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+	import { appState, markDirty, resetDirty } from '$lib/app-state.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -20,12 +23,56 @@
 	const courses = createCourses(data.courses, data.coursesStates, () => isStrictModeEnabled);
 
 	$effect(() => {
+		if (isStrictModeEnabled !== data.isStrictModeEnabled) {
+			markDirty();
+		}
+	});
+
+	$effect(() => {
 		const coursesStates = courses.map((course) => course.state);
 		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled);
 
 		const url = urlSearchParams.size > 0 ? `?${urlSearchParams}` : '';
 
 		goto(url, { replaceState: true, noScroll: true, keepFocus: true });
+
+		if (browser && appState.isDirty) {
+			const storageKey = `plande-${data.slug}`;
+			const encodedStates = encodeCoursesStates(coursesStates);
+
+			const storageData = {
+				coursesStates: encodedStates,
+				isStrictModeEnabled
+			};
+			localStorage.setItem(storageKey, JSON.stringify(storageData));
+			resetDirty();
+		}
+	});
+
+	// Check localStorage for saved state when no URL state exists
+	onMount(() => {
+		if (browser && data.coursesStates.length === 0) {
+			const storageKey = `plande-${data.slug}`;
+			const savedData = localStorage.getItem(storageKey);
+
+			if (savedData) {
+				try {
+					const parsed = JSON.parse(savedData);
+					const decodedStates = decodeCoursesStates(parsed.coursesStates);
+					courses.forEach((course, index) => {
+						if (decodedStates[index]) {
+							course.state = decodedStates[index];
+						}
+					});
+
+					if (parsed.isStrictModeEnabled !== undefined) {
+						isStrictModeEnabled = parsed.isStrictModeEnabled;
+					}
+				} catch (error) {
+					console.warn('Failed to parse saved course states:', error);
+				}
+			}
+		}
 	});
 
 	const years = createYears(data.years, courses);
@@ -98,23 +145,24 @@
 
 		<section>
 			<h3 class="px-6 py-3 text-lg font-bold">Referencias</h3>
-			<ul class="grid list-disc gap-3 px-12">
-				<li class="text-sm">
-					Una materia está <StatePill state={courseStates.notTaken} /> cuando aún no has asistido sus
-					clases.
+			<ol class="grid list-decimal gap-3 px-12">
+				<li>
+					Una materia está <StatePill state={courseStates.notTaken} class="text-sm" /> cuando aún no
+					has asistido sus clases.
 				</li>
-				<li class="text-sm">
-					Una materia está <StatePill state={courseStates.inProgress} /> cuando estás asistiendo a sus
-					clases.
+				<li>
+					Una materia está <StatePill state={courseStates.inProgress} class="text-sm" /> cuando estás
+					asistiendo a sus clases.
 				</li>
-				<li class="text-sm">
-					Una materia está <StatePill state={courseStates.taken} /> (o regular) cuando asististe a sus
-					clases pero aún debés rendir su examen final.
+				<li>
+					Una materia está <StatePill state={courseStates.taken} class="text-sm" /> (o regular) cuando
+					ya terminaste de asistir a sus clases pero aún debés rendir su examen final.
 				</li>
-				<li class="text-sm">
-					Una materia está <StatePill state={courseStates.passed} /> cuando ya la rendiste y aprobaste.
+				<li>
+					Una materia está <StatePill state={courseStates.passed} class="text-sm" /> cuando ya la rendiste
+					y aprobaste.
 				</li>
-			</ul>
+			</ol>
 		</section>
 
 		<section>

@@ -121,6 +121,10 @@ const decompressCoursesStatesLetters = (compressed: string) => {
 };
 
 export const decodeCoursesStates = (letters: string) => {
+	if (!letters) {
+		return [];
+	}
+
 	return decompressCoursesStatesLetters(letters)
 		.toUpperCase()
 		.split('')
