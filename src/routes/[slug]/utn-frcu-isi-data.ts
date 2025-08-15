@@ -992,24 +992,24 @@ export const utnFrcuIsiData = {
 	notes: [
 		{
 			id: 1,
-			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada** (200 horas), es necesario cumplir con los requisitos para cursar **Proyecto Fina**.'
-		},
-		{
-			id: 2,
-			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
-		},
-		{
-			id: 3,
 			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
 		},
 		{
-			id: 4,
+			id: 2,
+			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada** (200 horas), es necesario cumplir con los requisitos para cursar **Proyecto Final**.'
+		},
+		{
+			id: 3,
 			text: `**¿Por qué se requieren 40 horas de materias electivas aprobadas?** Según la _Ordenanza N° 1877_, la carga horaria de las materias _electivas_ es:
         \n - 4 horas semanales de dictado anual en el 3<sup>er</sup> año
         \n - 6 horas semanales de dictado anual en el 4<sup>to</sup> año
         \n - 10 horas semanales de dictado anual en el 5<sup>to</sup> año
         \n Siendo en total 20 horas semanales de dictado anual, equivalentes a **40 horas semanales** de dictado cuatrimestral.
       `
+		},
+		{
+			id: 4,
+			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
 		}
 	]
 };
