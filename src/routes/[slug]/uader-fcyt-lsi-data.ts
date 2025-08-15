@@ -890,7 +890,7 @@ export const uaderFcytLsiData = {
 		},
 		{
 			id: 2,
-			text: 'En la materia **Optativa II** (3<sup>er</sup> año), el requerimiento de **Lecto-Comprehensión en Inglés** (1<sup>er</sup> año) _cursada_ es redundante y, por lo tanto, no se muestra. Esto se debe a que dicho requerimiento ya es requerido por **Programación Orientada a Objetos** (2<sup>do</sup> año), también requerida por **Optativa II**.'
+			text: 'En la materia **Optativa II** (3<sup>er</sup> año), se omite el requerimiento de **Lecto-Comprehensión en Inglés** (1<sup>er</sup> año) _cursada_ porque ya es requerido por **Programación Orientada a Objetos** (2<sup>do</sup> año), que también es requerido por **Optativa II**.'
 		}
 	]
 };

@@ -1010,6 +1010,11 @@ export const utnFrcuIsiData = {
 		{
 			id: 4,
 			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+		},
+
+		{
+			id: 5,
+			text: 'En **Proyecto Final** (5<sup>to</sup> año), se omite el requerimiento de **Sintaxis y Semántica de los Lenguajes** (2<sup>do</sup> año) _aprobada_ porque ya es requerido para cursar **Ingeniería y Calidad de Software** (4<sup>to</sup> año), que se requiere _cursada_ por **Proyecto Final**.'
 		}
 	]
 };

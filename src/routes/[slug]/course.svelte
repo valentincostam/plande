@@ -94,8 +94,7 @@
 				{/if}
 				{#if course.requirementsForEnrollment.length > 0}
 					<li class="grid gap-2">
-						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y aprobar'}</strong
-						>
+						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y rendir'}</strong>
 						<ul class="grid gap-2">
 							{#each course.requirementsForEnrollment as requirement}
 								<Requirement {requirement} />
@@ -105,14 +104,14 @@
 				{:else}
 					<li>
 						<strong
-							>Requisitos para cursar{hasRequirementsForCompletion ? '' : ' y aprobar'}:
+							>Requisitos para cursar{hasRequirementsForCompletion ? '' : ' y rendir'}:
 						</strong> Ninguno
 					</li>
 				{/if}
 				{#if hasRequirementsForCompletion}
 					{#if course.requirementsForCompletion.length > 0}
 						<li class="grid gap-2">
-							<strong>Requisitos para aprobar</strong>
+							<strong>Requisitos para rendir</strong>
 							<ul class="grid gap-2">
 								{#each course.requirementsForCompletion as requirement}
 									<Requirement {requirement} />
@@ -121,7 +120,7 @@
 						</li>
 					{:else}
 						<li>
-							<strong>Requisitos para aprobar:</strong> Ninguno
+							<strong>Requisitos para rendir:</strong> Ninguno
 						</li>
 					{/if}
 				{/if}
