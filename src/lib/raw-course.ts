@@ -19,6 +19,7 @@ export type RawCourseRequirement = {
 
 export type RawCourse = {
 	id: number;
+	code?: string;
 	name: string;
 	year: number;
 	hours?: number;

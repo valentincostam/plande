@@ -162,6 +162,38 @@
 					Una materia está <StatePill state={courseStates.passed} class="text-sm" /> cuando ya la rendiste
 					y aprobaste.
 				</li>
+				<li>
+					Un año está <StatePill state={courseStates.notTaken} gender="masculine" class="text-sm" />
+					si al menos una materia de ese año está <StatePill
+						state={courseStates.notTaken}
+						class="text-sm"
+					/> y ninguna está <StatePill state={courseStates.inProgress} class="text-sm" />.
+				</li>
+				<li>
+					Un año está <StatePill
+						state={courseStates.inProgress}
+						gender="masculine"
+						class="text-sm"
+					/>
+					si al menos una materia de ese año está <StatePill
+						state={courseStates.inProgress}
+						class="text-sm"
+					/>.
+				</li>
+				<li>
+					Un año está <StatePill state={courseStates.taken} gender="masculine" class="text-sm" />
+					si todas las materias de ese año están <StatePill
+						state={courseStates.taken}
+						class="text-sm"
+					/>.
+				</li>
+				<li>
+					Un año está <StatePill state={courseStates.passed} gender="masculine" class="text-sm" />
+					si todas las materias de ese año están <StatePill
+						state={courseStates.passed}
+						class="text-sm"
+					/>.
+				</li>
 			</ol>
 		</section>
 
