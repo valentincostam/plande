@@ -50,9 +50,31 @@
 	const passedElectiveHours = $derived(
 		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
+
+	const cappedPassedElectiveHours = $derived(
+		requiredElectiveHours ? Math.min(passedElectiveHours, requiredElectiveHours) : 0
+	);
+
+	const progressTotalUnits = $derived(
+		requiredElectiveHours
+			? mandatoryCourses.length + requiredElectiveHours
+			: mandatoryCourses.length
+	);
+
+	const progressCompletedUnits = $derived(
+		passedMandatoryCourses.length + (requiredElectiveHours ? cappedPassedElectiveHours : 0)
+	);
 </script>
 
 <ul class="grid gap-2">
+	{#if requiredElectiveHours}
+		<Stat
+			label="Avance de carrera"
+			value={progressCompletedUnits}
+			total={progressTotalUnits}
+			showPercentage
+		/>
+	{/if}
 	<Stat label="Materias aprobadas" value={passedCourses.length} total={courses.length} />
 	<Stat
 		label="Materias obligatorias aprobadas"
