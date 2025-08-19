@@ -873,19 +873,20 @@ export const uaderFcytLsiData = {
 			url: 'https://fcytcdelu.uader.edu.ar/sistemas'
 		}
 	],
+	//   Patrones de arquitectura de software (3ro corresponde a la optativa II)
+	// Bases de datos nsql (corresponde a optativa III)
+	//   Diseño de experiencia de usuario e interfaz de usuario ( 2do corresponde a optativa I)
+	// Desarrollo y arquitecturas en programacion movil (4to corresponde a optativa IV)
+	// Gestion de costos y financiamiento de proyectos tecnológicos (5to corresponde a optativa V)
 	notes: [
 		{
 			id: 1,
-			text: `Las materias optativas son:
-        \n - **Informática y Relaciones Humanas** (Área Sistemas)
-        \n - **Sistemas de Información Geográfica** (GIS) (Área Sistemas)
-        \n - **Modelos y Simulación** (Área Sistemas)
-        \n - **Calidad del Software** (Área Sistemas)
-        \n - **Criptografía** (Área Computación)
-        \n - **Cálculo Computacional** (Área Computación)
-        \n - **Tecnologías de Ambientes Mainframes** (Área Computación)
-        \n - **Gerenciamiento de Proyectos Informáticos** (Área Sistemas)
-        \n - **Informáticas Aplicadas** (Salud, Agropecuaria, Gestión Industrial, Educativa) (Área Sistemas)
+			text: `Las materias optativas de 2025 son:
+        \n - Optativa I (2<sup>do</sup> año): **Diseño de Experiencia de Usuario e Interfaz de Usuario**
+        \n - Optativa II (3<sup>er</sup> año): **Patrones de Arquitectura de Software**
+        \n - Optativa III (4<sup>to</sup> año): **Bases de Datos NoSQL**
+        \n - Optativa IV (4<sup>to</sup> año): **Desarrollo y Arquitecturas en Programación Móvil**
+        \n - Optativa V (5<sup>to</sup> año): **Gestión de Costos y Financiamiento de Proyectos Tecnológicos**
       `
 		},
 		{

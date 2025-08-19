@@ -11,7 +11,7 @@
 
 	let { label, value, total, class: className, showPercentage = false }: Props = $props();
 
-	const progress = $derived(total ? (value / total) * 100 : 0);
+	const progress = $derived(total ? Math.round((value / total) * 100) : 0);
 </script>
 
 <li class={['overflow-hidden bg-gray-100 md:rounded-md', className]}>

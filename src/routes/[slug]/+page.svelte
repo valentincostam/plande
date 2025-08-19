@@ -12,6 +12,7 @@
 	import { findRedundantRequirements } from '$lib/raw-course';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, encodeCoursesStates, decodeCoursesStates } from '$lib/course-state';
+	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { appState, markDirty, resetDirty } from '$lib/app-state.svelte';
@@ -80,10 +81,28 @@
 	const title = `Plan de estudios de ${data.degree} de ${data.college} en Plande`;
 
 	const redundantRequirements = findRedundantRequirements(data.courses);
+
+	// For OG/Twitter image tags on SSR, use the initial data-based state
+	const initialOgSearchParams = createUrlSearchParams(
+		data.coursesStates,
+		data.isStrictModeEnabled
+	).toString();
 </script>
 
 <svelte:head>
 	<title>{title}</title>
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={`${data.college} · ${data.studyProgram}`} />
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta
+		property="og:image"
+		content={`/${data.slug}/og.png${initialOgSearchParams ? `?${initialOgSearchParams}` : ''}`}
+	/>
+	<meta
+		name="twitter:image"
+		content={`/${data.slug}/og.png${initialOgSearchParams ? `?${initialOgSearchParams}` : ''}`}
+	/>
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
@@ -110,6 +129,9 @@
 		<section>
 			<h3 class="px-6 py-3 text-lg font-bold">Estadísticas</h3>
 			<Stats {courses} {years} requiredElectiveHours={data.requiredElectiveHours} />
+			<div class="mt-3">
+				<Charts {courses} {years} requiredElectiveHours={data.requiredElectiveHours} />
+			</div>
 		</section>
 
 		{#if data.notes}
