@@ -170,7 +170,7 @@
 			<ol class="grid list-decimal gap-3 px-12">
 				<li>
 					Una materia está <StatePill state={courseStates.notTaken} class="text-sm" /> cuando aún no
-					has asistido sus clases.
+					has asistido a sus clases.
 				</li>
 				<li>
 					Una materia está <StatePill state={courseStates.inProgress} class="text-sm" /> cuando estás
