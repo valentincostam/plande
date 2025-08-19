@@ -15,8 +15,8 @@
 	let {
 		progress = 0,
 		strokeWidth = 8,
-		fg = 'oklch(72.3% 0.219 149.579)',
-		bg = '#e5e7eb',
+		fg = 'oklch(72.3% 0.219 149.579)', // green-500
+		bg = 'oklch(87.2% 0.01 258.338)', // gray-300
 		rounded = true,
 		class: className,
 		children
