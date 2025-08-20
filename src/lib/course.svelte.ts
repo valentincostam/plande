@@ -56,6 +56,8 @@ export class Course {
 		);
 	});
 	canPass = $derived.by(() => {
+		if (!this.isStrictModeEnabled()) return true;
+
 		return (
 			!this.requirementsForCompletion ||
 			this.requirementsForCompletion.every((req) =>
