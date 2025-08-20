@@ -26,8 +26,8 @@
 	const pctPassed = $derived(pct(countPassed, totalCourses));
 </script>
 
-<div class={['overflow-hidden rounded-md bg-gray-100 px-6 py-3', className]}>
-	<div class="mb-2 flex items-center justify-between">
+<div class={['grid gap-3 rounded-md bg-gray-100 px-6 pt-3 pb-5', className]}>
+	<div class="flex items-center justify-between">
 		<span class="text-gray-700">Distribución de estados</span>
 		<span class="text-xs text-gray-500">{totalCourses} materias</span>
 	</div>

@@ -20,12 +20,12 @@
 	);
 </script>
 
-<div class={['rounded-md bg-gray-100 px-6 py-3', className]}>
-	<div class="mb-2 text-gray-700">Materias aprobadas por año</div>
-	<ul class="grid gap-2">
+<div class={['grid gap-3 rounded-md bg-gray-100 px-6 pt-3 pb-5', className]}>
+	<div class="text-gray-700">Materias aprobadas por año</div>
+	<ul class="grid gap-3">
 		{#each rows as y}
-			<li class="grid grid-cols-[4ch_1fr_4ch] items-center gap-2">
-				<span class="text-right text-[11px] text-gray-500">
+			<li class="grid grid-cols-[3rem_1fr_2.5rem] items-center gap-2">
+				<span class="text-right text-xs whitespace-nowrap text-gray-500">
 					{y.year}<sup>{getOrdinalSuperscript(y.year)}</sup> año
 				</span>
 				<div
