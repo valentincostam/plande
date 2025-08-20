@@ -39,8 +39,6 @@
 			if (!String(error).includes('AbortError')) {
 				return;
 			}
-
-			copyLink();
 		}
 	};
 </script>
