@@ -24,16 +24,24 @@
 		}, 2000);
 	};
 
-	const onclick = () => {
+	const onclick = async () => {
 		if (!navigator.share) {
 			copyLink();
 			return;
 		}
 
-		navigator.share({
-			title: props.title,
-			url: window.location.href
-		});
+		try {
+			await navigator.share({
+				title: props.title,
+				url: window.location.href
+			});
+		} catch (error) {
+			if (!String(error).includes('AbortError')) {
+				return;
+			}
+
+			copyLink();
+		}
 	};
 </script>
 
