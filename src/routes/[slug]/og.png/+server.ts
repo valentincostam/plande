@@ -127,24 +127,17 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-		<defs>
-			<style>
-				@font-face { font-family: InterUI; font-weight: 400; src: local('Inter'); }
-				@font-face { font-family: InterUI; font-weight: 600; src: local('Inter SemiBold'); }
-				@font-face { font-family: InterUI; font-weight: 700; src: local('Inter Bold'); }
-			</style>
-		</defs>
 		<rect width="100%" height="100%" fill="${bg}" />
-		<text x="${width / 2}" y="${padY}" font-family="InterUI, system-ui, -apple-system, Segoe UI, Roboto" font-size="32" text-anchor="middle" fill="${textMuted}">${plan.college} · ${plan.studyProgram}</text>
-		<text x="${width / 2}" y="${padY + 70}" font-family="InterUI, system-ui, -apple-system, Segoe UI, Roboto" font-size="64" font-weight="700" text-anchor="middle" fill="${textPrimary}">${plan.degree}</text>
+		<text x="${width / 2}" y="${padY}" font-family="Arial, Helvetica, sans-serif" font-size="32" text-anchor="middle" fill="${textMuted}">${plan.college} · ${plan.studyProgram}</text>
+		<text x="${width / 2}" y="${padY + 70}" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold" text-anchor="middle" fill="${textPrimary}">${plan.degree}</text>
 
 		<g transform="rotate(-90 ${cx} ${cy})">
 			<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringBg}" stroke-width="${stroke}" />
 			<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringFg}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${dasharray}" stroke-dashoffset="${dashoffset}" />
 		</g>
-		<text x="${cx}" y="${cy}" dy="-4" dominant-baseline="central" text-anchor="middle" font-family="InterUI, system-ui, -apple-system, Segoe UI, Roboto" fill="${textPrimary}">
-			<tspan font-size="96" font-weight="700">${progressPct}</tspan>
-			<tspan font-size="56" font-weight="400" fill="#64748b">%</tspan>
+		<text x="${cx}" y="${cy}" dy="-4" dominant-baseline="central" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" fill="${textPrimary}">
+			<tspan font-size="96" font-weight="bold">${progressPct}</tspan>
+			<tspan font-size="56" font-weight="normal" fill="#64748b">%</tspan>
 		</text>
 
 		<rect x="0" y="${stripY}" width="${wNotTaken}" height="${stripH}" fill="${segColors.notTaken}" />
