@@ -81,28 +81,12 @@
 	const title = `Plan de estudios de ${data.degree} de ${data.college} en Plande`;
 
 	const redundantRequirements = findRedundantRequirements(data.courses);
-
-	// For OG/Twitter image tags on SSR, use the initial data-based state
-	const initialOgSearchParams = createUrlSearchParams(
-		data.coursesStates,
-		data.isStrictModeEnabled
-	).toString();
 </script>
 
 <svelte:head>
 	<title>{title}</title>
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content={title} />
-	<meta property="og:description" content={`${data.college} · ${data.studyProgram}`} />
-	<meta property="twitter:card" content="summary_large_image" />
-	<meta
-		property="og:image"
-		content={`/${data.slug}/og.png${initialOgSearchParams ? `?${initialOgSearchParams}` : ''}`}
-	/>
-	<meta
-		name="twitter:image"
-		content={`/${data.slug}/og.png${initialOgSearchParams ? `?${initialOgSearchParams}` : ''}`}
-	/>
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">

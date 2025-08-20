@@ -37,7 +37,6 @@
 		"vite-plugin-devtools-json": "^0.2.0"
 	},
 	"dependencies": {
-		"@resvg/resvg-js": "^2.6.2",
 		"marked": "^16.1.2"
 	}
 }

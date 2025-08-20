@@ -865,19 +865,14 @@ export const uaderFcytLsiData = {
 	degree: 'Licenciatura en Sistemas de Información',
 	years: 5,
 	college: 'UADER FCyT',
-	studyProgram: 'Plan de Estudios',
+	studyProgram: 'Plan de Estudios 2010',
 	sources: [
 		{
 			id: 1,
-			label: 'Plan de Estudios',
+			label: 'Plan de Estudios 2010',
 			url: 'https://fcytcdelu.uader.edu.ar/sistemas'
 		}
 	],
-	//   Patrones de arquitectura de software (3ro corresponde a la optativa II)
-	// Bases de datos nsql (corresponde a optativa III)
-	//   Diseño de experiencia de usuario e interfaz de usuario ( 2do corresponde a optativa I)
-	// Desarrollo y arquitecturas en programacion movil (4to corresponde a optativa IV)
-	// Gestion de costos y financiamiento de proyectos tecnológicos (5to corresponde a optativa V)
 	notes: [
 		{
 			id: 1,
