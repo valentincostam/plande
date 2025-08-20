@@ -874,7 +874,7 @@ export const uaderFcytLsiData: CareerData = {
 	notes: [
 		{
 			id: 1,
-			text: `Las materias optativas de 2025 son:
+			text: `En 2025, las materias optativas son:
         \n - Optativa I (2<sup>do</sup> año): **Diseño de Experiencia de Usuario e Interfaz de Usuario**
         \n - Optativa II (3<sup>er</sup> año): **Patrones de Arquitectura de Software**
         \n - Optativa III (4<sup>to</sup> año): **Bases de Datos NoSQL**
