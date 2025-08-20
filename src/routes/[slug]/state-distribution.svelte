@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { Course } from '$lib/course.svelte';
 	import { courseStates, femenineCourseStateLabels } from '$lib/course-state';
+	import type { ClassValue } from 'svelte/elements';
 
 	type Props = {
 		courses: Course[];
+		class?: ClassValue;
 	};
 
-	let { courses }: Props = $props();
+	let { courses, class: className }: Props = $props();
 
 	const totalCourses = $derived(courses.length);
 	const countNotTaken = $derived(courses.filter((c) => c.state === courseStates.notTaken).length);
@@ -24,7 +26,7 @@
 	const pctPassed = $derived(pct(countPassed, totalCourses));
 </script>
 
-<div class="overflow-hidden rounded-md bg-gray-100 px-6 py-3">
+<div class={['overflow-hidden rounded-md bg-gray-100 px-6 py-3', className]}>
 	<div class="mb-2 flex items-center justify-between">
 		<span class="text-gray-700">Distribución de estados</span>
 		<span class="text-xs text-gray-500">{totalCourses} materias</span>

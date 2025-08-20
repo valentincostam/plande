@@ -2,10 +2,14 @@
 	import type { Year } from '$lib/year.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import { courseStates } from '$lib/course-state';
+	import type { ClassValue } from 'svelte/elements';
 
-	type Props = { years: Year[] };
+	type Props = {
+		years: Year[];
+		class?: ClassValue;
+	};
 
-	let { years }: Props = $props();
+	let { years, class: className }: Props = $props();
 
 	const rows = $derived(
 		years.map((y) => {
@@ -16,7 +20,7 @@
 	);
 </script>
 
-<div class="rounded-md bg-gray-100 px-6 py-3">
+<div class={['rounded-md bg-gray-100 px-6 py-3', className]}>
 	<div class="mb-2 text-gray-700">Materias aprobadas por año</div>
 	<ul class="grid gap-2">
 		{#each rows as y}

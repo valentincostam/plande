@@ -18,15 +18,15 @@
 	const careerProgress = $derived(() => calculateCareerProgress(courses, progress));
 </script>
 
-<div class="grid gap-3 px-3 md:px-0">
-	<div class="flex items-center justify-between gap-3 rounded-md bg-gray-100 px-6 py-3">
-		<span class="text-gray-700">Avance de carrera</span>
-		<div class="w-18 shrink-0">
+<div class="grid gap-3 px-3 md:grid-cols-[1fr_3fr] md:px-0">
+	<div class="flex items-center justify-between gap-3 rounded-md bg-gray-100 px-6 py-3 md:flex-col">
+		<span class="text-gray-700 md:text-center">Avance de carrera</span>
+		<div class="w-18 shrink-0 md:w-24">
 			<Donut progress={careerProgress().percentage} strokeWidth={12} />
 		</div>
 	</div>
 
-	<StateDistribution {courses} />
+	<StateDistribution {courses} class="md:col-span-2" />
 
-	<YearlyCourseProgress {years} />
+	<YearlyCourseProgress {years} class="md:col-start-2 md:row-start-1" />
 </div>
