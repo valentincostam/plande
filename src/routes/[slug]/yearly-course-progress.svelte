@@ -24,8 +24,8 @@
 	<div class="mb-2 text-gray-700">Materias aprobadas por año</div>
 	<ul class="grid gap-2">
 		{#each rows as y}
-			<li class="flex items-center gap-2">
-				<span class="w-14 text-right text-[11px] text-gray-500">
+			<li class="grid grid-cols-[4ch_1fr_4ch] items-center gap-2">
+				<span class="text-right text-[11px] text-gray-500">
 					{y.year}<sup>{getOrdinalSuperscript(y.year)}</sup> año
 				</span>
 				<div
@@ -39,7 +39,7 @@
 					{/each}
 					<span class="sr-only">{y.passed}/{y.total}</span>
 				</div>
-				<span class="w-12 text-left text-xs whitespace-nowrap text-gray-600"
+				<span class="text-left text-xs whitespace-nowrap text-gray-600"
 					><span class="font-bold">{y.passed}</span>
 					<span class="text-gray-400">/ {y.total}</span></span
 				>
