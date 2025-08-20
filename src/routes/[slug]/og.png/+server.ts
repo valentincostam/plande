@@ -90,8 +90,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const bg = '#ffffff';
 	const textPrimary = '#0f172a';
 	const textMuted = '#334155';
-	const ringBg = '#e5e7eb';
-	const ringFg = '#10b981';
+	const ringBg = '#d1d5db'; // gray-300 to match state-distribution
+	const ringFg = '#22c55e'; // green-500 to match state-distribution
 
 	// Donut geometry
 	const cx = width / 2;
@@ -119,23 +119,23 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const xTaken = wNotTaken + wInProgress;
 	const xPassed = wNotTaken + wInProgress + wTaken;
 	const segColors = {
-		notTaken: '#e5e7eb', // gray-200
-		inProgress: '#bfdbfe', // blue-200
-		taken: '#fde68a', // amber-200
-		passed: '#bbf7d0' // green-200
+		notTaken: '#d1d5db', // gray-300 to match state-distribution
+		inProgress: '#60a5fa', // blue-400 to match state-distribution
+		taken: '#fbbf24', // amber-400 to match state-distribution
+		passed: '#22c55e' // green-500 to match state-distribution
 	};
 
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
 		<rect width="100%" height="100%" fill="${bg}" />
-		<text x="${width / 2}" y="${padY}" font-family="Arial, Helvetica, sans-serif" font-size="32" text-anchor="middle" fill="${textMuted}">${plan.college} · ${plan.studyProgram}</text>
-		<text x="${width / 2}" y="${padY + 70}" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold" text-anchor="middle" fill="${textPrimary}">${plan.degree}</text>
+		<text x="${width / 2}" y="${padY}" font-family="Arial" font-size="32" text-anchor="middle" fill="${textMuted}">${plan.college} · ${plan.studyProgram}</text>
+		<text x="${width / 2}" y="${padY + 70}" font-family="Arial" font-size="64" font-weight="bold" text-anchor="middle" fill="${textPrimary}">${plan.degree}</text>
 
 		<g transform="rotate(-90 ${cx} ${cy})">
 			<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringBg}" stroke-width="${stroke}" />
 			<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringFg}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${dasharray}" stroke-dashoffset="${dashoffset}" />
 		</g>
-		<text x="${cx}" y="${cy}" dy="-4" dominant-baseline="central" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" fill="${textPrimary}">
+		<text x="${cx}" y="${cy}" dy="-4" dominant-baseline="central" text-anchor="middle" font-family="Arial" fill="${textPrimary}">
 			<tspan font-size="96" font-weight="bold">${progressPct}</tspan>
 			<tspan font-size="56" font-weight="normal" fill="#64748b">%</tspan>
 		</text>
@@ -146,7 +146,12 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		<rect x="${xPassed}" y="${stripY}" width="${wPassed}" height="${stripH}" fill="${segColors.passed}" />
 	</svg>`;
 
-	const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: width } });
+	const resvg = new Resvg(svg, {
+		fitTo: { mode: 'width', value: width },
+		font: {
+			loadSystemFonts: true
+		}
+	});
 	const png = resvg.render().asPng();
 	return new Response(png, {
 		headers: {
