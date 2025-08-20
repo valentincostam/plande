@@ -2,6 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
+import type { CareerData } from '$lib/career-data';
 
 const courses: RawCourse[] = [
 	{
@@ -691,13 +692,15 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const unerFcsMedData = {
+export const unerFcsMedData: CareerData = {
 	courses,
 	degree: 'Medicina',
 	years: 5,
 	college: 'UNER FCS',
 	studyProgram: 'Plan de Estudios 2022',
-	requiredElectiveHours: 0,
+	progress: {
+		type: 'mandatory-only'
+	},
 	sources: [
 		{
 			id: 1,

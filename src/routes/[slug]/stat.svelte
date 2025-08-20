@@ -14,7 +14,7 @@
 	const progress = $derived(total ? Math.round((value / total) * 100) : 0);
 </script>
 
-<li class={['overflow-hidden bg-gray-100 md:rounded-md', className]}>
+<li class={['overflow-hidden rounded-md bg-gray-100', className]}>
 	<div class="flex items-center justify-between gap-3 px-6 py-3">
 		<span class="text-gray-700">{label}</span>
 		<div class="flex items-center gap-0.5">
@@ -31,7 +31,7 @@
 	</div>
 
 	{#if progress}
-		<div class="h-1 w-full bg-gray-200">
+		<div class="h-1 w-full bg-gray-300">
 			<div class="h-full bg-green-500" style={`width: ${progress}%`}></div>
 		</div>
 	{/if}

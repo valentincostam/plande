@@ -3,15 +3,16 @@
 	import { courseTags } from '$lib/course-tag';
 	import type { Course } from '$lib/course.svelte';
 	import type { Year } from '$lib/year.svelte';
+	import type { CareerProgressConfig } from '$lib/career-progress';
 	import Stat from './stat.svelte';
 
 	type Props = {
 		courses: Course[];
 		years: Year[];
-		requiredElectiveHours?: number;
+		progress: CareerProgressConfig;
 	};
 
-	let { courses, years, requiredElectiveHours }: Props = $props();
+	let { courses, years, progress }: Props = $props();
 
 	const someCourseHasHours = courses.some((course) => course.hours);
 
@@ -50,31 +51,9 @@
 	const passedElectiveHours = $derived(
 		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
-
-	const cappedPassedElectiveHours = $derived(
-		requiredElectiveHours ? Math.min(passedElectiveHours, requiredElectiveHours) : 0
-	);
-
-	const progressTotalUnits = $derived(
-		requiredElectiveHours
-			? mandatoryCourses.length + requiredElectiveHours
-			: mandatoryCourses.length
-	);
-
-	const progressCompletedUnits = $derived(
-		passedMandatoryCourses.length + (requiredElectiveHours ? cappedPassedElectiveHours : 0)
-	);
 </script>
 
-<ul class="grid gap-2">
-	{#if requiredElectiveHours}
-		<Stat
-			label="Avance de carrera"
-			value={progressCompletedUnits}
-			total={progressTotalUnits}
-			showPercentage
-		/>
-	{/if}
+<ul class="grid gap-2 px-3 md:px-0">
 	<Stat label="Materias aprobadas" value={passedCourses.length} total={courses.length} />
 	<Stat
 		label="Materias obligatorias aprobadas"
@@ -89,11 +68,11 @@
 		/>
 	{/if}
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} />
-	{#if requiredElectiveHours}
+	{#if progress.type === 'mandatory-plus-elective-hours'}
 		<Stat
 			label="Horas electivas aprobadas"
 			value={passedElectiveHours}
-			total={requiredElectiveHours}
+			total={progress.requiredElectiveHours ?? 0}
 		/>
 	{/if}
 	{#if someCourseHasHours}

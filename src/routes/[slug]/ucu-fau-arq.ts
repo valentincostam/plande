@@ -2,6 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
+import type { CareerData } from '$lib/career-data';
 
 const courses: RawCourse[] = [
 	// 1er año
@@ -1276,12 +1277,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const ucuFauArqData = {
+export const ucuFauArqData: CareerData = {
 	courses,
 	degree: 'Arquitectura',
 	years: 5,
 	college: 'UCU FAU',
 	studyProgram: 'Plan de Estudios 2007',
+	progress: {
+		type: 'mandatory-plus-one-elective',
+		requiredElectiveCount: 1
+	},
 	sources: [
 		{
 			id: 1,

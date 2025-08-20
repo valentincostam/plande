@@ -2,6 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
+import type { CareerData } from '$lib/career-data';
 
 const courses: RawCourse[] = [
 	{
@@ -960,13 +961,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIsiData = {
+export const utnFrcuIsiData: CareerData = {
 	courses,
 	degree: 'Ingeniería en Sistemas de Información',
 	years: 5,
 	college: 'UTN FRCU',
 	studyProgram: 'Plan de Estudios 2023',
-	requiredElectiveHours: 40,
+	progress: {
+		type: 'mandatory-plus-elective-hours',
+		requiredElectiveHours: 40
+	},
 	sources: [
 		{
 			id: 1,

@@ -8,6 +8,11 @@ export const requiredFor = {
 	complete: 'complete'
 } as const;
 
+export const requiredForLabels = {
+	[requiredFor.enroll]: 'cursar',
+	[requiredFor.complete]: 'rendir'
+} as const;
+
 export type RequiredFor = (typeof requiredFor)[keyof typeof requiredFor];
 
 export type RawCourseRequirement = {

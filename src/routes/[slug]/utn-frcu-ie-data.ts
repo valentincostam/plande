@@ -2,6 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import type { RawCourse } from '$lib/raw-course';
+import type { CareerData } from '$lib/career-data';
 
 const courses: RawCourse[] = [
 	{
@@ -397,10 +398,15 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIeData = {
+export const utnFrcuIeData: CareerData = {
 	courses,
 	degree: 'Ingeniería Electromecánica',
 	years: 5,
 	college: 'UTN FRCU',
-	studyProgram: 'Plan de Estudios 2023'
+	studyProgram: 'Plan de Estudios 2023',
+	progress: {
+		type: 'mandatory-only'
+	},
+	sources: [],
+	notes: []
 };

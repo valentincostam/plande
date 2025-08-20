@@ -111,17 +111,17 @@
 		</section>
 
 		<section>
-			<h3 class="px-6 py-3 text-lg font-bold">Estadísticas</h3>
-			<Stats {courses} {years} requiredElectiveHours={data.requiredElectiveHours} />
-			<div class="mt-3">
-				<Charts {courses} {years} requiredElectiveHours={data.requiredElectiveHours} />
+			<h3 class="p-3 text-lg font-bold">Estadísticas</h3>
+			<div class="grid gap-3">
+				<Charts {courses} {years} progress={data.progress} />
+				<Stats {courses} {years} progress={data.progress} />
 			</div>
 		</section>
 
 		{#if data.notes}
 			<section>
-				<h3 class="px-6 py-3 text-lg font-bold">Notas</h3>
-				<ol class="grid list-decimal gap-3 px-12">
+				<h3 class="p-3 text-lg font-bold">Notas</h3>
+				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.notes as note}
 						<li class="note">
 							{@html marked(note.text)}
@@ -133,8 +133,8 @@
 
 		{#if data.sources}
 			<section>
-				<h3 class="px-6 py-3 text-lg font-bold">Fuentes</h3>
-				<ol class="grid list-decimal gap-3 px-12">
+				<h3 class="p-3 text-lg font-bold">Fuentes</h3>
+				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.sources as source}
 						<li>
 							<a
@@ -150,8 +150,8 @@
 		{/if}
 
 		<section>
-			<h3 class="px-6 py-3 text-lg font-bold">Referencias</h3>
-			<ol class="grid list-decimal gap-3 px-12">
+			<h3 class="p-3 text-lg font-bold">Referencias</h3>
+			<ol class="grid list-decimal gap-3 px-9 leading-relaxed">
 				<li>
 					Una materia está <StatePill state={courseStates.notTaken} class="text-sm" /> cuando aún no
 					has asistido a sus clases.
@@ -191,6 +191,7 @@
 					si todas las materias de ese año están <StatePill
 						state={courseStates.taken}
 						class="text-sm"
+						plural
 					/>.
 				</li>
 				<li>
@@ -198,6 +199,7 @@
 					si todas las materias de ese año están <StatePill
 						state={courseStates.passed}
 						class="text-sm"
+						plural
 					/>.
 				</li>
 			</ol>
@@ -247,7 +249,7 @@
 	</footer>
 </div>
 
-<ol class="grid list-decimal gap-3 px-12">
+<ol class="grid list-decimal gap-3 px-9">
 	{#each redundantRequirements as redundantRequirement}
 		<li>{@html marked(redundantRequirement)}</li>
 	{/each}

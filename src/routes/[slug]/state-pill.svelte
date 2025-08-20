@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		courseBgColors,
+		courseStates,
 		femenineCourseStateLabels,
 		masculineCourseStateLabels
 	} from '$lib/course-state';
@@ -11,9 +12,10 @@
 		class?: ClassValue;
 		state: CourseState;
 		gender?: 'femenine' | 'masculine';
+		plural?: boolean;
 	};
 
-	let { state, class: className, gender = 'femenine' }: Props = $props();
+	let { state, class: className, gender = 'femenine', plural = false }: Props = $props();
 </script>
 
 <span
@@ -23,5 +25,7 @@
 		className
 	]}
 >
-	{gender === 'femenine' ? femenineCourseStateLabels[state] : masculineCourseStateLabels[state]}
+	{gender === 'femenine'
+		? femenineCourseStateLabels[state]
+		: masculineCourseStateLabels[state]}{plural && state !== courseStates.inProgress ? 's' : ''}
 </span>

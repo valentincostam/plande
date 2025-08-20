@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
+import type { CareerData } from '$lib/career-data';
 
 const courses: RawCourse[] = [
 	{
@@ -205,8 +205,7 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			}
-		],
-		tag: courseTags.optative
+		]
 	},
 	{
 		id: 340314,
@@ -404,8 +403,7 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			}
-		],
-		tag: courseTags.optative
+		]
 	},
 	{
 		id: 340321,
@@ -642,8 +640,7 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			}
-		],
-		tag: courseTags.optative
+		]
 	},
 	{
 		id: 340428,
@@ -691,8 +688,7 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			}
-		],
-		tag: courseTags.optative
+		]
 	},
 	{
 		id: 340530,
@@ -855,17 +851,19 @@ const courses: RawCourse[] = [
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			}
-		],
-		tag: courseTags.optative
+		]
 	}
 ];
 
-export const uaderFcytLsiData = {
+export const uaderFcytLsiData: CareerData = {
 	courses,
 	degree: 'Licenciatura en Sistemas de Información',
 	years: 5,
 	college: 'UADER FCyT',
 	studyProgram: 'Plan de Estudios 2010',
+	progress: {
+		type: 'mandatory-only'
+	},
 	sources: [
 		{
 			id: 1,
