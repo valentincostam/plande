@@ -91,6 +91,11 @@
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
+		<a
+			href="/"
+			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+			>Plande</a
+		>
 		<p>
 			{data.college} · {data.studyProgram}
 		</p>
