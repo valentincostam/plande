@@ -6,7 +6,6 @@
 	import { getOrdinalSuperscript, type Year } from '$lib/year.svelte';
 	import StateSelect from './state-select.svelte';
 	import { type CourseState } from '$lib/course-state';
-	import { markDirty } from '$lib/app-state.svelte';
 
 	type Props = {
 		year: Year;
@@ -27,9 +26,7 @@
 	const onchange = (event: Event) => {
 		const newState = (event.target as HTMLSelectElement).value as CourseState;
 		year.state = newState;
-
 		year.courses.forEach((course) => (course.state = newState));
-		markDirty();
 	};
 </script>
 

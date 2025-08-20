@@ -15,64 +15,69 @@
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { appState, markDirty, resetDirty } from '$lib/app-state.svelte';
 
 	let { data }: PageProps = $props();
 
-	let isStrictModeEnabled = $state(data.isStrictModeEnabled);
+	const initialCoursesStates = data.coursesStates;
+	const initialIsStrictModeEnabled = data.isStrictModeEnabled;
 
-	const courses = createCourses(data.courses, data.coursesStates, () => isStrictModeEnabled);
+	let isStrictModeEnabled = $state(initialIsStrictModeEnabled);
+	let isInitializing = $state(true);
 
-	$effect(() => {
-		if (isStrictModeEnabled !== data.isStrictModeEnabled) {
-			markDirty();
-		}
-	});
+	const courses = createCourses(data.courses, initialCoursesStates, () => isStrictModeEnabled);
 
 	$effect(() => {
+		if (isInitializing) return;
+
 		const coursesStates = courses.map((course) => course.state);
 		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled);
 
-		const url = urlSearchParams.size > 0 ? `?${urlSearchParams}` : '';
+		goto(`?${urlSearchParams}`, { replaceState: true, noScroll: true, keepFocus: true });
 
-		goto(url, { replaceState: true, noScroll: true, keepFocus: true });
+		if (!browser) return;
 
-		if (browser && appState.isDirty) {
-			const storageKey = `plande-${data.slug}`;
-			const encodedStates = encodeCoursesStates(coursesStates);
+		const storageKey = `plande-${data.slug}`;
+		const encodedStates = encodeCoursesStates(coursesStates);
 
-			const storageData = {
-				coursesStates: encodedStates,
-				isStrictModeEnabled
-			};
-			localStorage.setItem(storageKey, JSON.stringify(storageData));
-			resetDirty();
-		}
+		const storageData = {
+			coursesStates: encodedStates,
+			isStrictModeEnabled
+		};
+
+		localStorage.setItem(storageKey, JSON.stringify(storageData));
 	});
 
-	// Check localStorage for saved state when no URL state exists
 	onMount(() => {
-		if (browser && data.coursesStates.length === 0) {
-			const storageKey = `plande-${data.slug}`;
-			const savedData = localStorage.getItem(storageKey);
+		if (!browser || initialCoursesStates.length > 0) {
+			isInitializing = false;
+			return;
+		}
 
-			if (savedData) {
-				try {
-					const parsed = JSON.parse(savedData);
-					const decodedStates = decodeCoursesStates(parsed.coursesStates);
-					courses.forEach((course, index) => {
-						if (decodedStates[index]) {
-							course.state = decodedStates[index];
-						}
-					});
+		const storageKey = `plande-${data.slug}`;
+		const savedData = localStorage.getItem(storageKey);
 
-					if (parsed.isStrictModeEnabled !== undefined) {
-						isStrictModeEnabled = parsed.isStrictModeEnabled;
-					}
-				} catch (error) {
-					console.warn('Failed to parse saved course states:', error);
+		if (!savedData) {
+			isInitializing = false;
+			return;
+		}
+
+		try {
+			const parsed = JSON.parse(savedData);
+			const decodedStates = decodeCoursesStates(parsed.coursesStates);
+
+			courses.forEach((course, index) => {
+				if (decodedStates[index]) {
+					course.state = decodedStates[index];
 				}
+			});
+
+			if (parsed.isStrictModeEnabled !== undefined) {
+				isStrictModeEnabled = parsed.isStrictModeEnabled;
 			}
+		} catch (error) {
+			console.warn('Failed to parse saved course states:', error);
+		} finally {
+			isInitializing = false;
 		}
 	});
 
