@@ -9,7 +9,6 @@
 	import { createUrlSearchParams } from '$lib/url-state-parameter';
 	import ShareButton from './share-button.svelte';
 	import { marked } from 'marked';
-	import { findRedundantRequirements } from '$lib/raw-course';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, encodeCoursesStates, decodeCoursesStates } from '$lib/course-state';
 	import Charts from './charts.svelte';
@@ -84,8 +83,6 @@
 	const years = createYears(data.years, courses);
 
 	const title = `Plan de estudios de ${data.degree} de ${data.college} en Plande`;
-
-	const redundantRequirements = findRedundantRequirements(data.courses);
 </script>
 
 <svelte:head>
@@ -258,12 +255,6 @@
 		</p>
 	</footer>
 </div>
-
-<ol class="grid list-decimal gap-3 px-9">
-	{#each redundantRequirements as redundantRequirement}
-		<li>{@html marked(redundantRequirement)}</li>
-	{/each}
-</ol>
 
 <style>
 	.note :global(ul) {
