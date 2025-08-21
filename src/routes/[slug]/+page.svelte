@@ -161,7 +161,7 @@
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Referencias</h3>
-			<ol class="grid list-decimal gap-3 px-9 leading-relaxed">
+			<ol class="grid list-decimal gap-3 px-9">
 				<li>
 					Una materia está <StatePill state={courseStates.notTaken} class="text-sm" /> cuando aún no
 					has asistido a sus clases.
@@ -202,7 +202,7 @@
 						state={courseStates.taken}
 						class="text-sm"
 						plural
-					/>.
+					/> (o regulares).
 				</li>
 				<li>
 					Un año está <StatePill state={courseStates.passed} gender="masculine" class="text-sm" />

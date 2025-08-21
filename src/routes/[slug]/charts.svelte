@@ -19,7 +19,9 @@
 </script>
 
 <div class="grid gap-3 px-3 md:grid-cols-[1fr_3fr] md:px-0">
-	<div class="flex items-center justify-between gap-3 rounded-md bg-gray-100 px-6 py-3 md:flex-col">
+	<div
+		class="flex items-center justify-between gap-3 rounded-md bg-gray-100 px-6 py-3 md:flex-col md:justify-start"
+	>
 		<span class="text-gray-700 md:text-center">Avance de carrera</span>
 		<div class="w-18 shrink-0 md:w-24">
 			<Donut progress={careerProgress().percentage} strokeWidth={12} />

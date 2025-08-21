@@ -45,7 +45,7 @@
 			<div class="h-full basis-0 bg-green-500" style={`flex-grow: ${pctPassed}`}></div>
 		{/if}
 	</div>
-	<div class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600 sm:grid-cols-4">
+	<div class="grid grid-cols-2 gap-2 text-xs text-gray-600 sm:grid-cols-4">
 		<div class="flex items-center gap-2">
 			<span class="h-2 w-2 rounded-sm bg-gray-300"></span>{femenineCourseStateLabels[
 				courseStates.notTaken
