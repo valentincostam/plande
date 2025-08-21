@@ -48,7 +48,7 @@
 		{#if children}
 			{@render children()}
 		{:else}
-			<span class="flex items-center text-[min(6cqw,1.5rem)] font-bold text-gray-600"
+			<span class="flex items-center text-xl font-bold text-gray-600 md:text-2xl"
 				>{Math.round(clamped)}<span class="text-[0.4em] font-normal text-gray-500">%</span></span
 			>
 		{/if}
