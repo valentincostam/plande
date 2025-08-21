@@ -23,6 +23,8 @@
 		(course) => course.term === courseTerms.secondSemester
 	);
 
+	const semestralCourses = year.courses.filter((course) => course.term === courseTerms.semestral);
+
 	const onchange = (event: Event) => {
 		const newState = (event.target as HTMLSelectElement).value as CourseState;
 		year.state = newState;
@@ -67,6 +69,14 @@
 	{#if secondSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.secondSemester]}>
 			{#each secondSemesterCourses as course}
+				<Course {course} />
+			{/each}
+		</Term>
+	{/if}
+
+	{#if semestralCourses.length > 0}
+		<Term title={courseTermLabels[courseTerms.semestral]}>
+			{#each semestralCourses as course}
 				<Course {course} />
 			{/each}
 		</Term>

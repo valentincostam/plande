@@ -9,8 +9,8 @@ const courses: RawCourse[] = [
 		id: 1,
 		code: '1.1',
 		name: 'Salud Individual',
-		hours: undefined,
-		term: courseTerms.firstSemester,
+		hours: 23,
+		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
 	},
@@ -18,8 +18,8 @@ const courses: RawCourse[] = [
 		id: 2,
 		code: '1.2',
 		name: 'Salud Colectiva',
-		hours: undefined,
-		term: courseTerms.firstSemester,
+		hours: 7,
+		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
 	},
@@ -27,8 +27,8 @@ const courses: RawCourse[] = [
 		id: 3,
 		code: '2.1',
 		name: 'Crecimiento y Desarrollo',
-		hours: undefined,
-		term: courseTerms.secondSemester,
+		hours: 22,
+		term: courseTerms.semestral,
 		year: 1,
 		requirements: [
 			{
@@ -61,8 +61,8 @@ const courses: RawCourse[] = [
 		id: 4,
 		code: '2.2',
 		name: 'Nutrición',
-		hours: undefined,
-		term: courseTerms.firstSemester,
+		hours: 22,
+		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
 			{
@@ -95,8 +95,8 @@ const courses: RawCourse[] = [
 		id: 5,
 		code: '2.3',
 		name: 'Sexualidad Género y Reproducción',
-		hours: undefined,
-		term: courseTerms.firstSemester,
+		hours: 22,
+		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
 			{
@@ -129,8 +129,8 @@ const courses: RawCourse[] = [
 		id: 6,
 		code: '2.4',
 		name: 'Trabajo y Tiempo Libre',
-		hours: undefined,
-		term: courseTerms.secondSemester,
+		hours: 26,
+		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
 			{
@@ -163,8 +163,8 @@ const courses: RawCourse[] = [
 		id: 7,
 		code: '2.5',
 		name: 'El Ser Humano y su Medio',
-		hours: undefined,
-		term: courseTerms.secondSemester,
+		hours: 26,
+		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
 			{
@@ -197,8 +197,8 @@ const courses: RawCourse[] = [
 		id: 8,
 		code: '3.2',
 		name: 'Inglés I',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 7,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [],
 		tag: courseTags.elective
@@ -207,8 +207,8 @@ const courses: RawCourse[] = [
 		id: 9,
 		code: '3.4',
 		name: 'Informática I',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 7,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [],
 		tag: courseTags.elective
@@ -217,8 +217,8 @@ const courses: RawCourse[] = [
 		id: 10,
 		code: '3.1',
 		name: 'Injuria',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 22,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
 			{
@@ -251,8 +251,8 @@ const courses: RawCourse[] = [
 		id: 11,
 		code: '3.3',
 		name: 'Defensa',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 22,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
 			{
@@ -273,8 +273,8 @@ const courses: RawCourse[] = [
 		id: 12,
 		code: '2.6',
 		name: 'Metodología de la Investigación Científica I',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 7,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
 			{
@@ -313,8 +313,8 @@ const courses: RawCourse[] = [
 		id: 13,
 		code: '3.5',
 		name: 'Electivas',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 15,
+		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
 			{
@@ -347,7 +347,7 @@ const courses: RawCourse[] = [
 		id: 14,
 		code: '4.1',
 		name: 'Salud Integral del Niño y del Adolescente',
-		hours: undefined,
+		hours: 10,
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
@@ -369,8 +369,8 @@ const courses: RawCourse[] = [
 		id: 15,
 		code: '4.2',
 		name: 'Salud Integral del Adulto Joven',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 17,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -391,8 +391,8 @@ const courses: RawCourse[] = [
 		id: 16,
 		code: '4.3',
 		name: 'Informática II',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 14,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -408,8 +408,8 @@ const courses: RawCourse[] = [
 		id: 17,
 		code: '4.4',
 		name: 'Inglés II',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 14,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -425,7 +425,7 @@ const courses: RawCourse[] = [
 		id: 18,
 		code: '4.5',
 		name: 'Electivas',
-		hours: undefined,
+		hours: 15,
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
@@ -448,8 +448,8 @@ const courses: RawCourse[] = [
 		id: 19,
 		code: '4.6',
 		name: 'Salud Integral del Adulto Mayor',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 17,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -470,8 +470,8 @@ const courses: RawCourse[] = [
 		id: 20,
 		code: '4.8',
 		name: 'Salud Integral de la Mujer',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 10,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -485,9 +485,9 @@ const courses: RawCourse[] = [
 	{
 		id: 21,
 		code: '4.9',
-		name: 'Introducción a las Especialidades Clínico Quirúrgicas',
-		hours: undefined,
-		term: courseTerms.annual,
+		name: 'Introducción a las Especialidades Clínico-Quirúrgicas',
+		hours: 10,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -508,8 +508,8 @@ const courses: RawCourse[] = [
 		id: 23,
 		code: '4.7',
 		name: 'Metodología de la Investigación Científica II',
-		hours: undefined,
-		term: courseTerms.annual,
+		hours: 14,
+		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
 			{
@@ -536,37 +536,257 @@ const courses: RawCourse[] = [
 		id: 24,
 		code: '5.1',
 		name: 'Clínica Pediátrica',
-		hours: undefined,
+		hours: 8,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 25,
 		code: '5.2',
 		name: 'Gineco-Obstetricia',
-		hours: undefined,
+		hours: 8,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 26,
 		code: '5.3',
 		name: 'Clínica Quirúrgica',
-		hours: undefined,
+		hours: 4,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 27,
 		code: '5.4',
 		name: 'Clínica Médica',
-		hours: undefined,
+		hours: 10,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 28,
@@ -575,16 +795,126 @@ const courses: RawCourse[] = [
 		hours: undefined,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 29,
 		code: '5.6',
 		name: 'Emergentología',
-		hours: undefined,
+		hours: 6,
 		term: courseTerms.annual,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	},
 	{
 		id: 30,
@@ -596,12 +926,66 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 16,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
 			{
-				id: 2,
+				id: 11,
 				requiredCourseId: 17,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete

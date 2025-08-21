@@ -88,6 +88,16 @@
 						</li>
 					</ul>
 				</li>
+				<li class="grid gap-1">
+					<span class="font-bold">UNER FCS</span>
+					<ul class="list-disc pl-5">
+						<li>
+							<a href="/uner-fcs-med" class="text-blue-800 underline-offset-2 hover:underline"
+								>Medicina</a
+							>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</section>
 	</main>
