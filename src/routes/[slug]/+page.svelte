@@ -14,6 +14,7 @@
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	import Footer from '../footer.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -229,31 +230,7 @@
 		</section>
 	</main>
 
-	<footer class="grid gap-6 px-6">
-		<p class="text-center text-sm">
-			Por comentarios, sugerencias o errores,
-			<a
-				href="mailto:valentincostam+plande@gmail.com"
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>
-				escribime
-			</a>.
-		</p>
-		<p class="text-center text-sm">
-			<a
-				href="/"
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-				>Plande</a
-			>
-			· Creado por
-			<a
-				href="https://valentincosta.com"
-				class="whitespace-nowrap text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>
-				Valentín Costa
-			</a>
-		</p>
-	</footer>
+	<Footer />
 </div>
 
 <style>

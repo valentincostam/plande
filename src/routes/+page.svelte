@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChatMessage from './chat-message.svelte';
+	import Footer from './footer.svelte';
 </script>
 
 <svelte:head>
@@ -100,5 +101,18 @@
 				</li>
 			</ul>
 		</section>
+
+		<section class="px-6 md:px-0">
+			<p class="rounded-md bg-blue-100 p-3 text-center text-sm">
+				¿Te gustaría ver el plan de estudios de tu carrera en Plande?
+				<a
+					href="https://forms.gle/bCC6rCb44LLYERHu6"
+					class="whitespace-nowrap text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+					>Hacé click acá</a
+				>.
+			</p>
+		</section>
 	</main>
+
+	<Footer />
 </div>
