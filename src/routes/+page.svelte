@@ -128,7 +128,7 @@
 				<blockquote class="rounded-md bg-gray-100 p-5 text-gray-700 italic">
 					"Me recibí, pero tardé un cuatrimestre de más porque nunca entendí bien qué materias me
 					convenía priorizar. Recién al final me di cuenta de que había desperdiciado tiempo
-					cursando cosas que podría haber hecho después."
+					cursando materias que podría haber hecho después."
 					<footer class="mt-2 text-right text-sm text-gray-500 not-italic">
 						— Camila, recibida de Licenciatura, UADER
 					</footer>
