@@ -89,7 +89,7 @@
 				{#if course.hours}
 					<li>
 						<strong>Carga horaria:</strong>
-						{numberFormatter.format(course.hours)} horas semanales
+						{numberFormatter.format(course.hours)} horas cátedra semanales
 					</li>
 				{/if}
 				{#if course.requirementsForEnrollment.length > 0}

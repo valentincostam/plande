@@ -94,9 +94,9 @@
 					</p>
 				</div>
 			</div>
-			<div class="flex justify-center text-center">
+			<div class="flex justify-center pb-6 text-center">
 				<a
-					href="/utn-frcu-isi"
+					href="#carreras"
 					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
 				>
 					Probar Plande ahora
@@ -134,7 +134,7 @@
 					</footer>
 				</blockquote>
 			</div>
-			<p class="text-center text-gray-600">
+			<p class="pb-6 text-center text-gray-600">
 				No dejés que te pase lo mismo. <span class="whitespace-nowrap"
 					>Probá Plande con tu carrera.</span
 				>
@@ -142,7 +142,7 @@
 		</section>
 
 		<section class="grid gap-6 px-6 md:px-0">
-			<h2 class="text-center text-2xl font-bold">
+			<h2 class="text-center text-2xl font-bold" id="carreras">
 				Tu carrera completa <span class="whitespace-nowrap">en un solo link 🔗</span>
 			</h2>
 			<p class="text-center text-gray-700">
@@ -151,67 +151,94 @@
 				>
 			</p>
 
-			<div class="grid gap-3">
+			<div class="grid gap-4 pb-6">
 				<h2 class="text-lg font-bold">Carreras disponibles</h2>
-				<ul class="grid gap-3">
-					<li class="grid gap-1">
-						<span class="font-bold">UTN FRCU</span>
-						<ul class="list-disc pl-5">
+				<div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-blue-500"></div>
+							<h3 class="font-semibold text-gray-900">UTN FRCU</h3>
+						</div>
+						<ul class="space-y-1.5">
 							<li>
-								<a href="/utn-frcu-isi" class="text-blue-800 underline-offset-2 hover:underline"
+								<a
+									href="/utn-frcu-isi"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
 									>Ingeniería en Sistemas de Información</a
 								>
 							</li>
 						</ul>
-					</li>
-					<li class="grid gap-1">
-						<span class="font-bold">UCU FAU</span>
-						<ul class="list-disc pl-5">
+					</div>
+
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-green-500"></div>
+							<h3 class="font-semibold text-gray-900">UCU FAU</h3>
+						</div>
+						<ul class="space-y-1.5">
 							<li>
-								<a href="/ucu-fau-arq" class="text-blue-800 underline-offset-2 hover:underline"
+								<a
+									href="/ucu-fau-arq"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
 									>Arquitectura</a
 								>
 							</li>
 						</ul>
-					</li>
-					<li class="grid gap-1">
-						<span class="font-bold">UADER FCyT</span>
-						<ul class="list-disc pl-5">
+					</div>
+
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-purple-500"></div>
+							<h3 class="font-semibold text-gray-900">UADER FCyT</h3>
+						</div>
+						<ul class="space-y-1.5">
 							<li>
-								<a href="/uader-fcyt-lsi" class="text-blue-800 underline-offset-2 hover:underline"
+								<a
+									href="/uader-fcyt-lsi"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
 									>Licenciatura en Sistemas de Información</a
 								>
 							</li>
 						</ul>
-					</li>
-					<li class="grid gap-1">
-						<span class="font-bold">UNER FCS</span>
-						<ul class="list-disc pl-5">
+					</div>
+
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-red-500"></div>
+							<h3 class="font-semibold text-gray-900">UNER FCS</h3>
+						</div>
+						<ul class="space-y-1.5">
 							<li>
-								<a href="/uner-fcs-med" class="text-blue-800 underline-offset-2 hover:underline"
-									>Medicina</a
+								<a
+									href="/uner-fcs-med"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900">Medicina</a
 								>
 							</li>
 						</ul>
-					</li>
-					<li class="grid gap-1">
-						<span class="font-bold">Otras facultades</span>
-						<ul class="list-disc pl-5">
-							<li>
-								¿No está tu carrera?
-								<a
-									href="https://forms.gle/bCC6rCb44LLYERHu6"
-									class="whitespace-nowrap text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-									>Pedila acá</a
-								>.
-							</li>
-						</ul>
-					</li>
-				</ul>
+					</div>
+
+					<div class="sm:col-span-2">
+						<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+							<span class="text-sm text-gray-600">¿No está tu carrera?</span>
+							<a
+								href="https://forms.gle/bCC6rCb44LLYERHu6"
+								class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
+							>
+						</div>
+					</div>
+				</div>
 			</div>
 		</section>
 
-		<section class="grid gap-6 px-6 md:px-0">
+		<section class="grid gap-6 px-6 pb-6 md:px-0">
 			<h2 class="text-center text-2xl font-bold">
 				Mejor planificación, <span class="whitespace-nowrap">más egresados 🧑‍🎓</span>
 			</h2>

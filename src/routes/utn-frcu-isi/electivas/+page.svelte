@@ -1,0 +1,133 @@
+<script lang="ts">
+	import { utnFrcuIsiData } from '../../[slug]/utn-frcu-isi-data';
+	import Footer from '../../footer.svelte';
+</script>
+
+<div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
+	<header class="px-3 text-center">
+		<a
+			href="/"
+			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+			>Plande</a
+		>
+		<p>{utnFrcuIsiData.college} · {utnFrcuIsiData.studyProgram}</p>
+		<h1 class="text-2xl font-bold">{utnFrcuIsiData.degree}</h1>
+	</header>
+
+	<main class="grid gap-6 px-6 md:px-0">
+		<h2 class="text-lg font-bold">
+			¿Por qué debo aprobar 40 horas de materias electivas para egresarme?
+		</h2>
+		<p>
+			La <a
+				href={utnFrcuIsiData.sources[1].url}
+				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+				>Ordenanza N° 1877</a
+			>
+			define el plan de estudios de la carrera de Ingeniería en Sistemas de Información de la UTN. En
+			las páginas 37 y 38, establece que la carga horaria mínima (de
+			<strong>dictado anual</strong>) de las materias electivas debe ser:
+		</p>
+
+		<ul class="list-disc pl-9">
+			<li>4 horas cátedra semanales en el 3<sup>er</sup> nivel</li>
+			<li>6 horas cátedra semanales en el 4<sup>to</sup> nivel</li>
+			<li>10 horas cátedra semanales en el 5<sup>to</sup> nivel</li>
+		</ul>
+
+		<figure>
+			<img
+				src="/utn-frcu-plan-ordenanza-isi.png"
+				alt="Fragmento de la Ordenanza N° 1877 que detalla la carga horaria mínima de materias electivas"
+				class="w-full"
+			/>
+			<figcaption class="mt-2 text-center text-xs text-gray-600">
+				Fragmento de la Ordenanza N° 1877 que detalla la carga horaria mínima de materias electivas
+			</figcaption>
+		</figure>
+
+		<p>
+			Sin embargo, en la UTN FRCU, las materias electivas son de
+			<strong>dictado cuatrimestral</strong>. Esto significa que la misma cantidad de horas debe ser
+			dictada en la mitad del tiempo.
+			<em> (Recordemos que un cuatrimestre se cursa durante la mitad de un año). </em> Por lo tanto,
+			para cumplir con dicha ordenanza, la carga horaria mínima (de dictado cuatrimestral) de las materias
+			electivas debe ser:
+		</p>
+
+		<ul class="list-disc pl-9">
+			<li>8 horas cátedra semanales en el 3<sup>er</sup> nivel</li>
+			<li>12 horas cátedra semanales en el 4<sup>to</sup> nivel</li>
+			<li>20 horas cátedra semanales en el 5<sup>to</sup> nivel</li>
+		</ul>
+
+		<p>
+			Esto suma un total de <strong>40 horas cátedra semanales</strong> (de dictado cuatrimestral). Esta
+			es la cantidad de horas cátedra semanales mínimas de materias electivas aprobadas que exige el
+			plan de estudios para egresarse en la carrera de Ingeniería de Sistemas de Información.
+		</p>
+
+		<p>
+			El plan de estudios de Ingeniería en Sistemas de Información de la UTN FRCU ofrece un total de
+			<strong>46 horas cátedra semanales</strong> (de dictado cuatrimestral), distribuidas de la siguiente
+			manera:
+		</p>
+
+		<ul class="grid list-disc gap-2 pl-9">
+			<li>
+				8 horas cátedra semanales en el 3<sup>er</sup> nivel
+				<ul class="list-disc pl-9">
+					<li>4 horas de <em>Metodología de la Investigación</em></li>
+					<li>4 horas de <em>Emprendedorismo</em></li>
+				</ul>
+			</li>
+			<li>
+				14 horas cátedra semanales en el 4<sup>to</sup> nivel
+				<ul class="list-disc pl-9">
+					<li>6 horas de <em>Relaciones Humanas</em></li>
+					<li>8 horas de <em>Sistemas Distribuidos</em></li>
+				</ul>
+			</li>
+			<li>
+				24 horas cátedra semanales en el 5<sup>to</sup> nivel
+				<ul class="list-disc pl-9">
+					<li>6 horas de <em>Auditoría de Sistemas de Información</em></li>
+					<li>
+						6 horas de <em>Consolidación de Tecnologías de la Información y las Comunicaciones</em>
+					</li>
+					<li>6 horas de <em>Gestión Avanzada de Datos</em></li>
+					<li>6 horas de <em>Desarrollo de Aplicación Cliente-Servidor</em></li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>
+			Al haber una oferta de 6 horas cátedra semanales por encima de lo exigido por la ordenanza, no
+			es necesario cursar o aprobar todas las materias electivas.
+			<strong>Basta con aprobar aquellas cuya carga horaria sume 40 horas cátedra semanales</strong
+			>.
+		</p>
+
+		<figure>
+			<img
+				src="/utn-frcu-plan-isi.png"
+				alt="Plan de estudios de la carrera de Ingeniería en Sistemas de Información de la UTN FRCU con las materias electivas resaltadas y la suma de horas de las mismas"
+				class="w-full"
+			/>
+			<figcaption class="mt-2 text-center text-xs text-gray-600">
+				Plan de estudios de la carrera de Ingeniería en Sistemas de Información de la UTN FRCU con
+				las materias electivas resaltadas y la suma de horas de las mismas por nivel
+			</figcaption>
+		</figure>
+
+		<p class="text-center">
+			<a
+				href="/utn-frcu-isi"
+				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+				>Volver al plan de estudios</a
+			>
+		</p>
+	</main>
+
+	<Footer />
+</div>

@@ -77,13 +77,13 @@
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} unit="años" />
 	{#if progress.type === 'mandatory-plus-elective-hours'}
 		<Stat
-			label="Horas electivas aprobadas"
+			label="Horas cátedra de materias electivas aprobadas"
 			value={passedElectiveHours}
 			total={progress.requiredElectiveHours ?? 0}
 			unit="hs."
 		/>
 	{/if}
 	{#if someCourseHasHours}
-		<Stat label="Horas semanales en curso" value={inProgressCourseHours} unit="hs." />
+		<Stat label="Horas cátedra semanales en curso" value={inProgressCourseHours} unit="hs." />
 	{/if}
 </ul>

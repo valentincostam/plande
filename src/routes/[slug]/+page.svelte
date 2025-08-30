@@ -242,4 +242,14 @@
 		padding-bottom: 0.75rem;
 		padding-top: 0.5rem;
 	}
+
+	.note :global(a) {
+		color: var(--color-blue-800);
+		text-underline-offset: 2px;
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
 </style>
