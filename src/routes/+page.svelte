@@ -262,7 +262,7 @@
 
 			<div class="grid justify-center gap-3 text-center">
 				<a
-					href="/utn-frcu-isi"
+					href="https://forms.gle/mX5AWbNxnmtcRk6W9"
 					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
 				>
 					Anotarme en la lista
