@@ -46,7 +46,7 @@
 				class={[
 					isExpanded && 'rotate-180',
 					chevronStrokeColors[course.state],
-					'h-5 w-5 flex-none transition-transform'
+					'transition-duration-200 h-5 w-5 flex-none transition-transform'
 				]}
 			/>
 			<span class="flex grow flex-wrap items-center gap-x-3 gap-y-1">
@@ -59,7 +59,7 @@
 					{course.name}
 				</span>
 				{#if course.tag}
-					<span class="rounded-md bg-white px-2 py-1 text-xs text-gray-600"
+					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
 						>{courseTagLabels[course.tag]}</span
 					>
 				{/if}
@@ -84,7 +84,7 @@
 	</div>
 
 	{#if isExpanded}
-		<div class="px-3 pb-3" transition:slide>
+		<div class="px-3 pb-3" transition:slide={{ duration: 200 }}>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
 				{#if course.hours}
 					<li>
