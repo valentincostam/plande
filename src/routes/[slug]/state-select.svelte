@@ -3,7 +3,9 @@
 		femenineCourseStateLabels,
 		courseStates,
 		type CourseState,
-		masculineCourseStateLabels
+		masculineCourseStateLabels,
+		courseBgColors,
+		courseNameColors
 	} from '$lib/course-state';
 
 	type Props = {
@@ -40,12 +42,16 @@
 	class={[
 		stateSelectBackgroundColors[value],
 		!isEnabled && 'opacity-50',
-		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors select-none',
+		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-xs text-white transition-colors select-none',
 		'focus:outline-2 focus:outline-offset-0 focus:outline-blue-500'
 	]}
 >
 	{#each Object.values(courseStates) as state}
-		<option value={state} disabled={!canPass && state === courseStates.passed}>
+		<option
+			value={state}
+			disabled={!canPass && state === courseStates.passed}
+			class={[courseBgColors[state], courseNameColors[state]]}
+		>
 			{gender === 'femenine' ? femenineCourseStateLabels[state] : masculineCourseStateLabels[state]}
 		</option>
 	{/each}

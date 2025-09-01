@@ -53,8 +53,8 @@
 					<h3 class="font-bold">Probá sin riesgo</h3>
 					<p class="text-gray-700">
 						¿Y si curso esta materia primero? ¿Y si dejo esa para el año que viene? Con Plande
-						probás todas las combinaciones que se te ocurran y ves exactamente cómo afectan tu fecha
-						de graduación. Sin apuestas, sin errores costosos.
+						probás todas las combinaciones que se te ocurran y ves cómo afectan tu fecha de
+						graduación. Sin apuestas, sin errores costosos.
 					</p>
 				</div>
 				<div class="grid gap-1 rounded-lg bg-gray-100 p-5">

@@ -981,16 +981,6 @@ export const utnFrcuIsiData: CareerData = {
 			id: 2,
 			label: 'Ordenanza N° 1877 - Diseño Curricular',
 			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/8.pdf'
-		},
-		{
-			id: 3,
-			label: 'Ordenanza N° 1878 - Régimen de Correlativas y Equivalencias',
-			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/9.pdf'
-		},
-		{
-			id: 4,
-			label: 'Resolución Nº 356/2022 CD - Implementación Plan de Transición',
-			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/10.pdf'
 		}
 	],
 	notes: [
