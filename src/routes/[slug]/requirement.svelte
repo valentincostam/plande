@@ -24,19 +24,21 @@
 		<CloseIcon class="h-5 w-5 flex-none translate-y-1 stroke-red-700" />
 	{/if}
 
-	<span>
+	<span class="font-noto">
 		<a
 			href={`#${toKebabCase(requirement.requiredCourse.name)}`}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
 			{requirement.requiredCourse.name}
 		</a>
-		(<span class="whitespace-nowrap">
+		de
+		<span class="whitespace-nowrap">
 			{requirement.requiredCourse.year}<sup
 				>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
 			>
 			año
-		</span>) debe estar al menos
+		</span>
+		debe estar al menos
 		<StatePill state={requirement.requiredState} />
 
 		{#if !isRequirementMet}

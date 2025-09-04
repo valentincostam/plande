@@ -53,7 +53,7 @@
 				<span
 					class={[
 						course.isEnabled ? courseNameColors[course.state] : 'text-gray-500',
-						'text-left select-none'
+						'font-noto text-left tracking-tight select-none'
 					]}
 				>
 					{course.name}

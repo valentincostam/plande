@@ -21,19 +21,21 @@
 		<CloseIcon class="h-5 w-5 flex-none translate-y-1 stroke-red-700" />
 	{/if}
 
-	<span>
+	<span class="font-noto">
 		<a
 			href={`#${toKebabCase(dependent.dependentCourse.name)}`}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
 			{dependent.dependentCourse.name}
 		</a>
-		(<span class="whitespace-nowrap">
+		de
+		<span class="whitespace-nowrap">
 			{dependent.dependentCourse.year}<sup
 				>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
 			>
 			año
-		</span>) necesita esta materia al menos <StatePill state={dependent.requiredState} /> para
+		</span>
+		necesita esta materia al menos <StatePill state={dependent.requiredState} /> para
 		{requiredForLabels[dependent.requiredFor]}
 	</span>
 </li>
