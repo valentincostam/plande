@@ -1663,6 +1663,82 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		]
+	},
+	{
+		id: 99,
+		code: '99',
+		name: 'Práctica Profesional Supervisada',
+		hours: 6,
+		term: courseTerms.annual,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 34,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 21,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 11,
+				requiredCourseId: 24,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	}
 ];
 
@@ -1699,11 +1775,7 @@ export const utnFrcuIeData: CareerData = {
 		},
 		{
 			id: 3,
-			text: '**¿Por qué debo aprobar 40 horas de materias electivas para egresarme?** [Leer explicación detallada](/utn-frcu-isi/electivas).'
-		},
-		{
-			id: 4,
-			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada porque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
 		}
 	]
 };
