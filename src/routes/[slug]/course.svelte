@@ -126,7 +126,7 @@
 				{/if}
 				{#if course.dependents.length > 0}
 					<li class="grid gap-2">
-						<strong>Habilita</strong>
+						<strong>Materias que habilita</strong>
 						<ul class="grid gap-2">
 							{#each course.dependents as dependent}
 								<Dependent
@@ -141,7 +141,7 @@
 					</li>
 				{:else}
 					<li>
-						<strong>Habilita:</strong> Ninguna
+						<strong>Materias que habilita:</strong> Ninguna
 					</li>
 				{/if}
 			</ul>
