@@ -34,7 +34,7 @@ const courses: RawCourse[] = [
 		id: 4,
 		name: 'Química General',
 		hours: 10,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 1,
 		requirements: []
 	},
@@ -68,7 +68,7 @@ const courses: RawCourse[] = [
 	// Year 1 - Annual
 	{
 		id: 8,
-		name: 'Ingeniería Electromecánica I (integradora)',
+		name: 'Ingeniería Electromecánica I',
 		hours: 2,
 		term: courseTerms.annual,
 		year: 1,
@@ -123,7 +123,7 @@ const courses: RawCourse[] = [
 		id: 11,
 		name: 'Física II',
 		hours: 10,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 2,
 		requirements: [
 			{
@@ -182,7 +182,7 @@ const courses: RawCourse[] = [
 		id: 14,
 		name: 'Estabilidad',
 		hours: 6,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 2,
 		requirements: [
 			{
@@ -217,7 +217,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 16,
-		name: 'Ingeniería Electromecánica II (integradora)',
+		name: 'Ingeniería Electromecánica II',
 		hours: 2,
 		term: courseTerms.annual,
 		year: 2,
@@ -282,13 +282,13 @@ const courses: RawCourse[] = [
 			{
 				id: 2,
 				requiredCourseId: 1,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 3,
 				requiredCourseId: 2,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			}
 		]
@@ -341,7 +341,7 @@ const courses: RawCourse[] = [
 		id: 21,
 		name: 'Electrotecnia',
 		hours: 6,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 3,
 		requirements: [
 			{
@@ -392,7 +392,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 24,
-		name: 'Ingeniería Electromecánica III (integradora)',
+		name: 'Ingeniería Electromecánica III',
 		hours: 3,
 		term: courseTerms.annual,
 		year: 3,
@@ -496,7 +496,7 @@ const courses: RawCourse[] = [
 	// Year 4 - Second Semester
 	{
 		id: 29,
-		name: 'Diseño y Fabricación Asistido por Computadora (electiva)',
+		name: 'Diseño y Fabricación Asistido por Computadora',
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -524,7 +524,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 30,
-		name: 'Ingeniería de Superficies (electiva)',
+		name: 'Ingeniería de Superficies',
 		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -569,7 +569,7 @@ const courses: RawCourse[] = [
 	// Year 4 - Annual
 	{
 		id: 32,
-		name: 'Elementos de Máquinas (integradora)',
+		name: 'Elementos de Máquinas',
 		hours: 6,
 		term: courseTerms.annual,
 		year: 4,
@@ -773,7 +773,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 39,
-		name: 'Introducción al Proyecto de Instalaciones Industriales (electiva)',
+		name: 'Introducción al Proyecto de Instalaciones Industriales',
 		hours: 6,
 		term: courseTerms.firstSemester,
 		year: 5,
@@ -807,7 +807,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 40,
-		name: 'Electrónica de Potencia (electiva)',
+		name: 'Electrónica de Potencia',
 		hours: 4,
 		term: courseTerms.firstSemester,
 		year: 5,
@@ -885,7 +885,7 @@ const courses: RawCourse[] = [
 	// Year 5 - Second Semester
 	{
 		id: 43,
-		name: 'Automatismos (electiva)',
+		name: 'Automatismos',
 		hours: 8,
 		term: courseTerms.secondSemester,
 		year: 5,
@@ -907,7 +907,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 44,
-		name: 'Emprendedorismo (electiva)',
+		name: 'Emprendedorismo',
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 5,
@@ -923,7 +923,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 45,
-		name: 'Introducción a la Investigación Científica (electiva)',
+		name: 'Introducción a la Investigación Científica',
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 5,
@@ -939,7 +939,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 46,
-		name: 'Instalaciones Industriales Regionales (electiva)',
+		name: 'Instalaciones Industriales Regionales',
 		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 5,
@@ -993,7 +993,7 @@ const courses: RawCourse[] = [
 	// Year 5 - Annual (Final Project)
 	{
 		id: 49,
-		name: 'Proyecto Final (integradora)',
+		name: 'Proyecto Final',
 		hours: 3,
 		term: courseTerms.annual,
 		year: 5,
@@ -1031,8 +1031,8 @@ export const utnFrcuIeData: CareerData = {
 	courses,
 	degree: 'Ingeniería Electromecánica',
 	years: 5,
-	college: 'Universidad Nacional de Entre Ríos',
-	studyProgram: 'Plan de Estudios Actualizado al 22/05/2025',
+	college: 'UTN FRCU',
+	studyProgram: 'Plan de Estudios 2023',
 	progress: {
 		type: 'mandatory-plus-elective-hours',
 		requiredElectiveHours: 20
@@ -1040,26 +1040,31 @@ export const utnFrcuIeData: CareerData = {
 	sources: [
 		{
 			id: 1,
-			label: 'Plan de Estudios INGENIERIA ELECTROMECÁNICA',
-			url: 'https://www.uner.edu.ar'
+			label: 'Plan de Estudios',
+			url: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2025/PlanEstudios2023_IngenieriaElectromecanica_Actualizado.pdf'
+		},
+		{
+			id: 2,
+			label: 'Ordenanza N° 1851 - Diseño Curricular',
+			url: 'https://www.frcu.utn.edu.ar/images/VidaEducativa/PlanCarrerasIngenieria/5.pdf'
 		}
 	],
 	notes: [
 		{
 			id: 1,
-			text: 'ORD. N° 1851 (Nuevo Diseño Curricular) ORD. N° 1852 (modifica correlativas) ORD. N° 2083CS(modifica correlativas). Res N° 363/2022 CD (Incorpora Electivas)'
+			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
 		},
 		{
 			id: 2,
-			text: '**Práctica Profesional Supervisada (200 hs)** es condición previa para iniciar y acreditar esta materia el cumplimiento de los requisitos académicos exigidos para la inscripción en el Proyecto Final'
+			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada** (200 horas), es necesario cumplir con los requisitos para cursar **Proyecto Final**.'
 		},
 		{
 			id: 3,
-			text: 'Es condición para **RENDIR Proyecto Final, APROBAR todas las asignaturas del Plan de Estudios**'
+			text: '**¿Por qué debo aprobar 40 horas de materias electivas para egresarme?** [Leer explicación detallada](/utn-frcu-isi/electivas).'
 		},
 		{
 			id: 4,
-			text: '**Horas de asignaturas electivas** exigidas por Ordenanza N°1851CS: **20hs cuatrimestrales**'
+			text: '**Práctica Profesional Supervisada** tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
 		}
 	]
 };
