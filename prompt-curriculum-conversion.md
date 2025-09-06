@@ -86,9 +86,25 @@ Each course must have this exact structure:
 ## Additional Field Documentation
 
 ### Optional Fields
-- `code`: Course code/number from official curriculum (string, optional). Examples: "MAT101", "1.1", "340102"
+- `code`: Course code/number from official curriculum (string, optional). Examples: "MAT101", "1.1", "340102", "1", "25"
 - `hours`: Credit hours (number or undefined if not specified). Use `undefined` when hours are not provided
 - `tag`: Course category (courseTags.elective, courseTags.integrative, courseTags.optative)
+
+### Course Code Extraction Guidelines
+
+The `code` field should contain the official course identifier from the curriculum document:
+
+1. **Table format**: Look for columns like "N°", "Código", "Cod", "ID", "#", or similar headers
+2. **Inline format**: Course codes often appear before or after course names, separated by spaces, dashes, or parentheses
+3. **Various formats**: Codes can be numeric ("1", "25", "340102"), alphanumeric ("MAT101", "FIS-201"), or mixed ("1.1", "A-25")
+4. **Missing codes**: If no code is present in the document, omit the `code` field entirely (don't create artificial codes)
+5. **Reference usage**: Course codes are often used in prerequisite listings and should match exactly
+
+**Examples of course code patterns**:
+- `"1. Álgebra y Geometría Analítica"` → code: `"1"`
+- `"MAT101 - Cálculo I"` → code: `"MAT101"`
+- `"Física I (FIS-201)"` → code: `"FIS-201"`
+- `"340102 Análisis Matemático"` → code: `"340102"`
 
 ### Course States
 - `courseStates.taken` = "Cursar/Regular" (enrolled, in progress)
@@ -125,6 +141,19 @@ Prerequisites typically appear in these formats:
 4. **Lists**: "Cursar: Matemática I, Física I" or "Aprobar: Análisis I, Álgebra I"
 5. **Semester references**: "Cursar: 1er semestre" or "Aprobar: 2do semestre"
 
+**CRITICAL: TWO-COLUMN PREREQUISITE PROCESSING**
+
+When the curriculum has TWO subcolumns under a parent prerequisite column (like "Regular" and "Aprobadas" under "PARA CURSAR Y RENDIR"), you MUST process BOTH subcolumns:
+
+1. **"Regular" subcolumn** contains prerequisites with state `courseStates.taken`
+2. **"Aprobadas" subcolumn** contains prerequisites with state `courseStates.passed`
+
+Both subcolumns list requirements for the SAME PURPOSE (determined by the parent column header). If the parent column indicates "para cursar" or similar, use `requiredFor.enroll` for ALL requirements from both subcolumns.
+
+The difference between subcolumns is the REQUIRED STATE, not the purpose.
+
+NEVER ignore either subcolumn. Both must be converted to requirement objects.
+
 **State determination**:
 
 - "Cursar" = `courseStates.taken` (enrolled/in progress)
@@ -137,6 +166,11 @@ Prerequisites typically appear in these formats:
 
 - "Para cursar" = `requiredFor.enroll` (needed to enroll)
 - "Para rendir" = `requiredFor.complete` (needed to complete)
+- **"Para cursar y rendir"** = `requiredFor.enroll` (needed to enroll - both subcolumns use the same purpose)
+
+**Subcolumn state mapping**:
+- **"Regular" subcolumn** → `courseStates.taken`
+- **"Aprobadas" subcolumn** → `courseStates.passed`
 
 ## Progress Type Selection
 
@@ -152,6 +186,8 @@ Choose based on the curriculum structure:
 2. **OCR errors**: Correct obvious mistakes (e.g., "INGENERIA" → "INGENIERÍA")
 3. **Inconsistent IDs**: Ensure all `requiredCourseId` references exist in the courses array
 4. **Missing prerequisites**: If a prerequisite course isn't listed, create a minimal course object for it
+5. **Missing prerequisite subcolumns**: NEVER ignore prerequisite subcolumns. If you see both "Regular" and "Aprobadas" subcolumns under a parent prerequisite column, process BOTH with the correct state mapping - this is extremely important for accurate course progression tracking
+6. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
 
 ## Complex Prerequisites Examples
 
