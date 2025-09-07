@@ -189,6 +189,31 @@ Choose based on the curriculum structure:
 5. **Missing prerequisite subcolumns**: NEVER ignore prerequisite subcolumns. If you see both "Regular" and "Aprobadas" subcolumns under a parent prerequisite column, process BOTH with the correct state mapping - this is extremely important for accurate course progression tracking
 6. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
 
+## CRITICAL: Annual Section Interpretation
+
+**COMMON ERROR**: LLMs often misinterpret course placement when courses appear near "Annual" sections in tabular layouts.
+
+### Rules for Annual Course Classification:
+
+1. **Year assignment**: Annual courses belong to the YEAR indicated in the "NIVEL/YEAR" column, NOT the year of courses that appear after them visually
+2. **Visual layout trap**: Courses that appear below an "Annual" section may belong to the NEXT year's first semester, not the current year's annual courses
+3. **Always verify**: Cross-reference the "NIVEL" column with the course's actual year placement
+
+### Example Error Pattern:
+```
+IV (Year 4)
+├── 1° Cuatrimestre: Course A, Course B  
+├── 2° Cuatrimestre: Course C, Course D
+├── Annual: Course E, Course F, Course G
+├── Course H ← ERROR: This belongs to Year 5, 1er Cuatrimestre
+└── Course I ← ERROR: This belongs to Year 5, 1er Cuatrimestre
+
+V (Year 5)  
+├── 1° Cuatrimestre: [Should include Course H, Course I]
+```
+
+**Correct interpretation**: Only courses explicitly under the "Annual" section (Course E, F, G) are annual courses for that year. Courses appearing after may belong to the next year's semester.
+
 ## Complex Prerequisites Examples
 
 **Multiple states for same course**: When a course needs different states for enroll vs complete:

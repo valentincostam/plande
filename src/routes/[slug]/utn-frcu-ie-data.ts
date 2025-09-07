@@ -966,8 +966,8 @@ const courses: RawCourse[] = [
 		code: '35',
 		name: 'Máquinas y Equipos de Transporte',
 		hours: 4,
-		term: courseTerms.annual,
-		year: 4,
+		term: courseTerms.firstSemester,
+		year: 5,
 		requirements: [
 			{
 				id: 1,
@@ -1024,8 +1024,8 @@ const courses: RawCourse[] = [
 		code: '36',
 		name: 'Gestión y Mantenimiento Electromecánico',
 		hours: 4,
-		term: courseTerms.annual,
-		year: 4,
+		term: courseTerms.firstSemester,
+		year: 5,
 		requirements: [
 			{
 				id: 1,
@@ -1556,7 +1556,7 @@ const courses: RawCourse[] = [
 		code: '48',
 		name: 'Redes de Distribución e Instalaciones Eléctricas',
 		hours: 5,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 5,
 		requirements: [
 			{
@@ -1775,7 +1775,7 @@ export const utnFrcuIeData: CareerData = {
 		},
 		{
 			id: 3,
-			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada porque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como talporque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
 		}
 	]
 };
