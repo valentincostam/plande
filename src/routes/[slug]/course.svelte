@@ -41,7 +41,13 @@
 	]}
 >
 	<div class="flex items-center pr-3">
-		<button {onclick} class="flex grow cursor-pointer items-center gap-3 p-3 focus:outline-none">
+		<button
+			{onclick}
+			class={[
+				!course.isEnabled && 'pr-0',
+				'flex grow cursor-pointer items-center gap-3 p-3 focus:outline-none'
+			]}
+		>
 			<ChevronDownIcon
 				class={[
 					isExpanded && 'rotate-180',
@@ -74,13 +80,21 @@
 					{numberFormatter.format(course.hours)} hs
 				</span>
 			{/if}
+			{#if !course.isEnabled}
+				<span
+					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 p-1 text-xs text-white"
+				>
+					Bloqueada
+				</span>
+			{/if}
 		</button>
-		<StateSelect
-			id={`${toKebabCase(course.name)}-state-select`}
-			bind:value={course.state}
-			isEnabled={course.isEnabled}
-			canPass={course.canPass}
-		/>
+		{#if course.isEnabled}
+			<StateSelect
+				id={`${toKebabCase(course.name)}-state-select`}
+				bind:value={course.state}
+				canPass={course.canPass}
+			/>
+		{/if}
 	</div>
 
 	{#if isExpanded}
@@ -126,7 +140,7 @@
 				{/if}
 				{#if course.dependents.length > 0}
 					<li class="grid gap-2">
-						<strong>Materias que habilita</strong>
+						<strong>Materias que desbloquea</strong>
 						<ul class="grid gap-2">
 							{#each course.dependents as dependent}
 								<Dependent
@@ -141,7 +155,7 @@
 					</li>
 				{:else}
 					<li>
-						<strong>Materias que habilita:</strong> Ninguna
+						<strong>Materias que desbloquea:</strong> Ninguna
 					</li>
 				{/if}
 			</ul>

@@ -3,17 +3,17 @@
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
 	import { createYears } from '$lib/year.svelte';
-	import { goto } from '$app/navigation';
 	import StrictModeSwitch from './strict-mode-switch.svelte';
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams } from '$lib/url-state-parameter';
+	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, encodeCoursesStates, decodeCoursesStates } from '$lib/course-state';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
 
@@ -27,15 +27,19 @@
 
 	const courses = createCourses(data.courses, initialCoursesStates, () => isStrictModeEnabled);
 
+	let isRouterReady = $state(false);
+
 	$effect(() => {
-		if (isInitializing) return;
+		if (isInitializing || !isRouterReady) return;
 
 		const coursesStates = courses.map((course) => course.state);
 		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled);
 
-		goto(`?${urlSearchParams}`, { replaceState: true, noScroll: true, keepFocus: true });
-
 		if (!browser) return;
+
+		tick().then(() => {
+			replaceState(`?${urlSearchParams}`, {});
+		});
 
 		const storageKey = `plande-${data.slug}`;
 		const encodedStates = encodeCoursesStates(coursesStates);
@@ -49,6 +53,8 @@
 	});
 
 	onMount(() => {
+		isRouterReady = true;
+
 		if (!browser || initialCoursesStates.length > 0) {
 			isInitializing = false;
 			return;

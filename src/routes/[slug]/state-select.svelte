@@ -11,7 +11,7 @@
 	type Props = {
 		id: string;
 		value: CourseState;
-		isEnabled: boolean;
+		isEnabled?: boolean;
 		canPass: boolean;
 		onchange?: (event: Event) => void;
 		gender?: 'femenine' | 'masculine';
@@ -19,7 +19,7 @@
 
 	let {
 		id,
-		isEnabled,
+		isEnabled = true,
 		value = $bindable(),
 		onchange,
 		gender = 'femenine',
