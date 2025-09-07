@@ -92,19 +92,59 @@ Each course must have this exact structure:
 
 ### Course Code Extraction Guidelines
 
-The `code` field should contain the official course identifier from the curriculum document:
+The `code` field should contain the official course identifier from the curriculum document. Course codes serve as unique identifiers that are often used in prerequisite references and official documentation.
 
-1. **Table format**: Look for columns like "N°", "Código", "Cod", "ID", "#", or similar headers
-2. **Inline format**: Course codes often appear before or after course names, separated by spaces, dashes, or parentheses
-3. **Various formats**: Codes can be numeric ("1", "25", "340102"), alphanumeric ("MAT101", "FIS-201"), or mixed ("1.1", "A-25")
-4. **Missing codes**: If no code is present in the document, omit the `code` field entirely (don't create artificial codes)
-5. **Reference usage**: Course codes are often used in prerequisite listings and should match exactly
+#### Detection Strategies (in order of priority):
+
+1. **Dedicated ID columns in tables**: 
+   - Look for columns with headers like "N°", "Nº", "Código", "Cod", "ID", "#", "Num", "Item"
+   - These typically contain sequential numbers (1, 2, 3...) or institutional codes (MAT101, FIS-201)
+   - **Critical**: In tabular formats, the code column may not always be the first column
+
+2. **Inline course identifiers**:
+   - Codes appearing at the start of course names: `"1. Álgebra y Geometría Analítica"` → code: `"1"`
+   - Codes in parentheses: `"Física I (FIS-201)"` → code: `"FIS-201"`
+   - Codes with separators: `"MAT101 - Cálculo I"` → code: `"MAT101"`
+   - Codes after course names: `"Análisis Matemático 340102"` → code: `"340102"`
+
+3. **Context-based detection**:
+   - Course codes mentioned in prerequisite sections (use these to identify main course codes)
+   - References in footnotes or course descriptions
+   - Institutional course catalogs or registration systems
+
+4. **Format variations**:
+   - **Numeric**: "1", "25", "340102" (simple sequential or institutional numbering)
+   - **Alphanumeric**: "MAT101", "FIS-201", "ING-001" (department prefix + number)
+   - **Hierarchical**: "1.1", "2.3", "IV.2" (year.semester or level.sequence)
+   - **Mixed**: "A-25", "L1-03", "5A" (combinations of letters and numbers)
+
+5. **Special cases**:
+   - **Sequential numbering**: If document shows clear sequential pattern (1, 2, 3...), use as-is
+   - **Missing codes**: If no official code exists in the document, omit the `code` field entirely
+   - **Duplicate codes**: If same code appears for multiple courses, investigate for context (different years, tracks)
+   - **Abbreviations**: Some curricula use abbreviations like "PPS" for "Práctica Profesional Supervisada"
+
+#### Validation and Quality Checks:
+
+- **Consistency**: All codes should follow the same format within a curriculum
+- **Uniqueness**: Each course should have a unique code (if codes are provided)
+- **Reference matching**: Codes used in prerequisites should match exactly with course codes
+- **OCR correction**: Fix obvious OCR errors (O→0, I→1) but preserve intended format
+
+#### Common Pitfalls:
+
+- **Don't create artificial codes**: Never generate codes that aren't in the source document
+- **Don't assume table structure**: Not all curricula use tables; codes may be embedded in text
+- **Don't ignore context**: Sometimes codes appear only in specific sections (prerequisites, syllabi)
+- **Don't standardize format**: Preserve the exact format from the source (including punctuation, case)
 
 **Examples of course code patterns**:
 - `"1. Álgebra y Geometría Analítica"` → code: `"1"`
 - `"MAT101 - Cálculo I"` → code: `"MAT101"`
 - `"Física I (FIS-201)"` → code: `"FIS-201"`
 - `"340102 Análisis Matemático"` → code: `"340102"`
+- `"Práctica Profesional Supervisada"` → code: `"PPS"` (if document uses this abbreviation)
+- `"Course name with no visible code"` → omit `code` field entirely
 
 ### Course States
 - `courseStates.taken` = "Cursar/Regular" (enrolled, in progress)

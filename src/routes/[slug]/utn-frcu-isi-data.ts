@@ -1043,7 +1043,7 @@ export const utnFrcuIsiData: CareerData = {
 		{
 			id: 1,
 			label: 'Plan de Estudios 2023',
-			url: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/2023/PLAN-INGENIERIA-SISTEMAS.pdf'
+			url: 'https://www.frcu.utn.edu.ar/images/recursos/Grado/Grado/Nuevos/planestudios2023_ingenieriaensistemasdeinformacion_actualizado04082025.pdf'
 		},
 		{
 			id: 2,
