@@ -116,7 +116,9 @@ The `code` field should contain the official course identifier from the curricul
    - **Numeric**: "1", "25", "340102" (simple sequential or institutional numbering)
    - **Alphanumeric**: "MAT101", "FIS-201", "ING-001" (department prefix + number)
    - **Hierarchical**: "1.1", "2.3", "IV.2" (year.semester or level.sequence)
+   - **UCU Format**: "1.01", "2.13", "4.12" (year.sequential within year)
    - **Mixed**: "A-25", "L1-03", "5A" (combinations of letters and numbers)
+   - **Special**: "Op1", "Op2", "PPS" (optatives and special programs)
 
 5. **Special cases**:
    - **Sequential numbering**: If document shows clear sequential pattern (1, 2, 3...), use as-is
@@ -145,6 +147,21 @@ The `code` field should contain the official course identifier from the curricul
 - `"340102 Análisis Matemático"` → code: `"340102"`
 - `"Práctica Profesional Supervisada"` → code: `"PPS"` (if document uses this abbreviation)
 - `"Course name with no visible code"` → omit `code` field entirely
+
+**UCU Curriculum Pattern (Hierarchical X.YZ format)**:
+- First year courses: `1.01, 1.02, 1.03, ..., 1.08`
+- Second year courses: `2.01, 2.02, 2.03, ..., 2.13`
+- Third year courses: `3.01, 3.02, 3.03, ..., 3.11`
+- Fourth year courses: `4.01, 4.02, 4.03, ..., 4.12`
+- Fifth year courses: `5.01, 5.02`
+- Optional courses: `Op1, Op2, Op3` (appear in curriculum as optatives)
+- Special courses: `PPS` or custom codes like `9.99` (Práctica Profesional Supervisada)
+
+**Key UCU Detection Tips**:
+- Codes appear as small numbers next to course names in the curriculum document
+- Sequential numbering within each academic year
+- Optional courses clearly marked with "Op" prefix
+- PPS may have special coding (check document for specific format)
 
 ### Course States
 - `courseStates.taken` = "Cursar/Regular" (enrolled, in progress)

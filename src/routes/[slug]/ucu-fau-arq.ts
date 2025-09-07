@@ -8,6 +8,7 @@ const courses: RawCourse[] = [
 	// 1er año
 	{
 		id: 1,
+		code: '1.01',
 		name: 'Introducción a la Arquitectura',
 		term: courseTerms.firstSemester,
 		year: 1,
@@ -15,6 +16,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 2,
+		code: '1.02',
 		name: 'Técnicas de Representación I',
 		term: courseTerms.annual,
 		year: 1,
@@ -22,6 +24,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 3,
+		code: '1.03',
 		name: 'Sistemas de Representación I',
 		term: courseTerms.annual,
 		year: 1,
@@ -29,6 +32,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 4,
+		code: '1.04',
 		name: 'Matemática I',
 		term: courseTerms.firstSemester,
 		year: 1,
@@ -36,6 +40,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 5,
+		code: '1.05',
 		name: 'Introducción a la Construcción',
 		term: courseTerms.firstSemester,
 		year: 1,
@@ -43,6 +48,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 6,
+		code: '1.06',
 		name: 'Arquitectura I',
 		term: courseTerms.secondSemester,
 		year: 1,
@@ -72,6 +78,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 7,
+		code: '1.07',
 		name: 'Matemática II',
 		term: courseTerms.secondSemester,
 		year: 1,
@@ -94,6 +101,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 8,
+		code: '1.08',
 		name: 'Construcciones I',
 		term: courseTerms.secondSemester,
 		year: 1,
@@ -117,6 +125,7 @@ const courses: RawCourse[] = [
 	// 2do año
 	{
 		id: 9,
+		code: '2.01',
 		name: 'Arquitectura II',
 		term: courseTerms.firstSemester,
 		year: 2,
@@ -151,6 +160,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 10,
+		code: '2.02',
 		name: 'Técnicas de Representación II',
 		term: courseTerms.annual,
 		year: 2,
@@ -172,6 +182,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 11,
+		code: '2.03',
 		name: 'Sistemas de Representación II',
 		term: courseTerms.annual,
 		year: 2,
@@ -193,6 +204,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 12,
+		code: '2.04',
 		name: 'Matemática III e Introducción a la Física',
 		term: courseTerms.firstSemester,
 		year: 2,
@@ -220,6 +232,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 13,
+		code: '2.05',
 		name: 'Computación Gráfica I',
 		term: courseTerms.firstSemester,
 		year: 2,
@@ -241,6 +254,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 14,
+		code: '2.06',
 		name: 'Instalaciones I',
 		term: courseTerms.firstSemester,
 		year: 2,
@@ -263,6 +277,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 15,
+		code: '2.07',
 		name: 'Historia de la Arquitectura I',
 		term: courseTerms.firstSemester,
 		year: 2,
@@ -270,6 +285,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 16,
+		code: '2.08',
 		name: 'Arquitectura III',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -299,6 +315,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 17,
+		code: '2.09',
 		name: 'Estructuras I',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -321,6 +338,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 18,
+		code: '2.10',
 		name: 'Computación Gráfica II',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -343,6 +361,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 19,
+		code: '2.11',
 		name: 'Instalaciones II',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -365,6 +384,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 20,
+		code: '2.12',
 		name: 'Historia de la Arquitectura II',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -387,6 +407,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 21,
+		code: '2.13',
 		name: 'Metodología de la Investigación',
 		term: courseTerms.secondSemester,
 		year: 2,
@@ -396,6 +417,7 @@ const courses: RawCourse[] = [
 	// 3er año
 	{
 		id: 22,
+		code: '3.01',
 		name: 'Arquitectura IV',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -432,6 +454,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 23,
+		code: '3.02',
 		name: 'Técnicas de Representación III',
 		term: courseTerms.annual,
 		year: 3,
@@ -454,6 +477,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 24,
+		code: '3.03',
 		name: 'Documentación de Obra',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -476,6 +500,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 25,
+		code: '3.04',
 		name: 'Estructuras II',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -505,6 +530,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 26,
+		code: '3.05',
 		name: 'Construcciones II',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -534,6 +560,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 27,
+		code: '3.06',
 		name: 'Historia de la Arquitectura III',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -564,6 +591,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 28,
+		code: 'Op1',
 		name: 'Computación Gráfica III',
 		term: courseTerms.firstSemester,
 		year: 3,
@@ -587,6 +615,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 29,
+		code: '3.07',
 		name: 'Arquitectura V',
 		term: courseTerms.secondSemester,
 		year: 3,
@@ -616,6 +645,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 30,
+		code: '3.08',
 		name: 'Estructuras III',
 		term: courseTerms.secondSemester,
 		year: 3,
@@ -646,6 +676,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 31,
+		code: '3.09',
 		name: 'Construcciones III',
 		term: courseTerms.secondSemester,
 		year: 3,
@@ -675,6 +706,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 32,
+		code: '3.10',
 		name: 'Historia de la Arquitectura IV',
 		term: courseTerms.secondSemester,
 		year: 3,
@@ -705,6 +737,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 33,
+		code: '3.11',
 		name: 'Arquitectura Legal y Ética Profesional',
 		term: courseTerms.secondSemester,
 		year: 3,
@@ -729,6 +762,7 @@ const courses: RawCourse[] = [
 	// 4to año
 	{
 		id: 34,
+		code: '4.01',
 		name: 'Arquitectura VI',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -765,6 +799,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 35,
+		code: '4.02',
 		name: 'Dirección y Organización de Obra I',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -787,6 +822,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 36,
+		code: '4.03',
 		name: 'Estructuras IV',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -816,6 +852,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 37,
+		code: '4.04',
 		name: 'Instalaciones III',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -845,6 +882,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 38,
+		code: '4.05',
 		name: 'Historia Política, Social y Económica de la Arquitectura Argentina I',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -867,6 +905,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 39,
+		code: '4.06',
 		name: 'Patrimonio y Conservación',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -889,6 +928,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 40,
+		code: 'Op2',
 		name: 'Taller de Creatividad',
 		term: courseTerms.firstSemester,
 		year: 4,
@@ -912,6 +952,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 41,
+		code: '4.07',
 		name: 'Arquitectura VII',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -934,6 +975,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 42,
+		code: '4.08',
 		name: 'Teoría y Crítica de la Arquitectura y el Urbanismo',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -956,6 +998,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 43,
+		code: '4.09',
 		name: 'Dirección y Organización de Obra II',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -978,6 +1021,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 44,
+		code: '4.10',
 		name: 'Estructuras V',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -1007,6 +1051,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 45,
+		code: '4.11',
 		name: 'Infraestructura Urbana',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -1029,6 +1074,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 46,
+		code: '4.12',
 		name: 'Historia Política, Social y Económica de la Arquitectura Argentina II',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -1058,6 +1104,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 47,
+		code: 'Op3',
 		name: 'Gestión Ambiental',
 		term: courseTerms.secondSemester,
 		year: 4,
@@ -1083,6 +1130,7 @@ const courses: RawCourse[] = [
 	// 5to año
 	{
 		id: 48,
+		code: '5.01',
 		name: 'Planificación Urbanística',
 		term: courseTerms.annual,
 		year: 5,
@@ -1105,6 +1153,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 49,
+		code: '9.99',
 		name: 'Práctica Profesional Supervisada',
 		term: courseTerms.annual,
 		year: 5,
@@ -1112,6 +1161,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 50,
+		code: '5.02',
 		name: 'Proyecto Final',
 		term: courseTerms.annual,
 		year: 5,
