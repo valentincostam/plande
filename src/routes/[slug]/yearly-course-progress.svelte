@@ -41,7 +41,7 @@
 				</div>
 				<span class="text-left text-xs whitespace-nowrap text-gray-600"
 					><span class="font-bold">{y.passed}</span>
-					<span class="text-gray-400">/ {y.total}</span></span
+					<span class="text-gray-400">de {y.total}</span></span
 				>
 			</li>
 		{/each}

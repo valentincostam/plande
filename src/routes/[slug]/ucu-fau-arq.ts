@@ -1315,7 +1315,7 @@ export const ucuFauArqData: CareerData = {
 		},
 		{
 			id: 3,
-			text: 'Se omiten requisitos redundantes. Por ejemplo, **Introducción a la Arquitectura** (1<sup>er</sup> año) _aprobada_ no se exige para rendir **Arquitectura II** (2<sup>do</sup> año) porque ya es requisito para rendir **Arquitectura I** (1<sup>er</sup> año), que también debe estar _aprobada_ para rendir **Arquitectura II**.'
+			text: 'Se omiten requisitos redundantes. Por ejemplo, **Introducción a la Arquitectura** de 1<sup>er</sup> año _aprobada_ no se exige para rendir **Arquitectura II** de 2<sup>do</sup> año porque ya es requisito para rendir **Arquitectura I** de 1<sup>er</sup> año, que también debe estar _aprobada_ para rendir **Arquitectura II**.'
 		}
 	]
 };
