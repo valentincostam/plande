@@ -12,6 +12,7 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 1,
+		tag: courseTags.integrative,
 		requirements: []
 	},
 	{
@@ -970,6 +971,12 @@ const courses: RawCourse[] = [
 				id: 3,
 				requiredCourseId: 34,
 				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 11,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{

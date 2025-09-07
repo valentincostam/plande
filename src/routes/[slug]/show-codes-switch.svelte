@@ -9,7 +9,7 @@
 <label
 	for="show-codes"
 	class={[
-		value ? 'bg-teal-100 text-teal-900' : 'bg-gray-100 text-gray-900',
+		value ? 'bg-sky-100 text-sky-900' : 'bg-gray-100 text-gray-900',
 		'flex cursor-pointer items-center justify-between gap-3 rounded-md px-6 py-3 transition-colors select-none',
 		'focus-within:outline-2 focus-within:outline-blue-500'
 	]}
@@ -22,7 +22,7 @@
 
 	<span
 		class={[
-			value ? 'bg-teal-600' : 'bg-gray-600',
+			value ? 'bg-sky-600' : 'bg-gray-600',
 			'shrink-0 rounded-md px-2 py-1 text-center text-xs text-white transition-colors'
 		]}
 	>

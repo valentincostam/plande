@@ -49,7 +49,8 @@
 
 		const storageData = {
 			coursesStates: encodedStates,
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 
 		localStorage.setItem(storageKey, JSON.stringify(storageData));
@@ -83,6 +84,10 @@
 
 			if (parsed.isStrictModeEnabled !== undefined) {
 				isStrictModeEnabled = parsed.isStrictModeEnabled;
+			}
+
+			if (parsed.showCodes !== undefined) {
+				showCodes = parsed.showCodes;
 			}
 		} catch (error) {
 			console.warn('Failed to parse saved course states:', error);
