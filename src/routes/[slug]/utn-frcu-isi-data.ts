@@ -7,6 +7,7 @@ import type { CareerData } from '$lib/career-data';
 const courses: RawCourse[] = [
 	{
 		id: 8,
+		code: '8',
 		name: 'Sistemas y Procesos de Negocios',
 		hours: 3,
 		term: courseTerms.annual,
@@ -15,6 +16,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 1,
+		code: '1',
 		name: 'Álgebra y Geometría Analítica',
 		hours: 10,
 		term: courseTerms.firstSemester,
@@ -23,6 +25,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 2,
+		code: '2',
 		name: 'Inglés I',
 		hours: 4,
 		term: courseTerms.firstSemester,
@@ -31,6 +34,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 3,
+		code: '3',
 		name: 'Ingeniería y Sociedad',
 		hours: 4,
 		term: courseTerms.firstSemester,
@@ -39,6 +43,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 4,
+		code: '4',
 		name: 'Lógica y Estructuras Discretas',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -47,6 +52,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 5,
+		code: '5',
 		name: 'Análisis Matemático I',
 		hours: 10,
 		term: courseTerms.secondSemester,
@@ -55,6 +61,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 6,
+		code: '6',
 		name: 'Algoritmos y Estructuras de Datos',
 		hours: 10,
 		term: courseTerms.secondSemester,
@@ -63,6 +70,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 7,
+		code: '7',
 		name: 'Arquitectura de Computadoras',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -71,6 +79,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 14,
+		code: '14',
 		name: 'Análisis Matemático II',
 		hours: 5,
 		term: courseTerms.annual,
@@ -92,6 +101,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 15,
+		code: '15',
 		name: 'Análisis de Sistemas de Información',
 		hours: 6,
 		term: courseTerms.annual,
@@ -114,6 +124,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 9,
+		code: '9',
 		name: 'Física I',
 		hours: 10,
 		term: courseTerms.firstSemester,
@@ -122,6 +133,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 11,
+		code: '11',
 		name: 'Inglés II',
 		hours: 4,
 		term: courseTerms.firstSemester,
@@ -137,6 +149,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 10,
+		code: '10',
 		name: 'Sintaxis y Semántica de los Lenguajes',
 		hours: 8,
 		term: courseTerms.firstSemester,
@@ -158,6 +171,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 12,
+		code: '12',
 		name: 'Paradigmas de Programación',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -179,6 +193,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 13,
+		code: '13',
 		name: 'Sistemas Operativos',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -194,6 +209,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 16,
+		code: '16',
 		name: 'Análisis Numérico',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -221,6 +237,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 17,
+		code: '17',
 		name: 'Física II',
 		hours: 10,
 		term: courseTerms.firstSemester,
@@ -242,6 +259,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 18,
+		code: '18',
 		name: 'Economía',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -263,6 +281,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 19,
+		code: '19',
 		name: 'Bases de Datos',
 		hours: 8,
 		term: courseTerms.firstSemester,
@@ -296,6 +315,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 20,
+		code: '20',
 		name: 'Desarrollo de Software',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -329,6 +349,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 21,
+		code: '21',
 		name: 'Comunicación de Datos',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -350,6 +371,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 22,
+		code: '22',
 		name: 'Probabilidad y Estadística',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -371,6 +393,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 23,
+		code: '23',
 		name: 'Metodología de la Investigación',
 		hours: 4,
 		term: courseTerms.secondSemester,
@@ -387,6 +410,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 24,
+		code: '24',
 		name: 'Emprendedorismo',
 		hours: 4,
 		term: courseTerms.secondSemester,
@@ -403,6 +427,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 25,
+		code: '25',
 		name: 'Diseño de Sistemas de Información',
 		hours: 6,
 		term: courseTerms.annual,
@@ -443,6 +468,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 26,
+		code: '26',
 		name: 'Legislación',
 		hours: 4,
 		term: courseTerms.firstSemester,
@@ -458,6 +484,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 27,
+		code: '27',
 		name: 'Redes de Datos',
 		hours: 8,
 		term: courseTerms.firstSemester,
@@ -479,6 +506,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 28,
+		code: '28',
 		name: 'Simulación',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -500,6 +528,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 29,
+		code: '29',
 		name: 'Relaciones Humanas',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -522,6 +551,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 30,
+		code: '30',
 		name: 'Ingeniería y Calidad de Software',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -561,6 +591,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 31,
+		code: '31',
 		name: 'Tecnologías para la Automatización',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -588,6 +619,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 32,
+		code: '32',
 		name: 'Sistemas Distribuidos',
 		hours: 8,
 		term: courseTerms.secondSemester,
@@ -604,6 +636,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 33,
+		code: '33',
 		name: 'Investigación Operativa',
 		hours: 4,
 		term: courseTerms.annual,
@@ -625,6 +658,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 34,
+		code: '34',
 		name: 'Administración de Sistemas de Información',
 		hours: 6,
 		term: courseTerms.annual,
@@ -653,6 +687,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 35,
+		code: '35',
 		name: 'Inteligencia Artificial',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -680,6 +715,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 36,
+		code: '36',
 		name: 'Sistemas de Gestión',
 		hours: 8,
 		term: courseTerms.firstSemester,
@@ -707,6 +743,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 37,
+		code: '37',
 		name: 'Auditoría de Sistemas de Información',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -729,6 +766,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 38,
+		code: '38',
 		name: 'Seguridad en los Sistemas de Información',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -762,6 +800,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 39,
+		code: '39',
 		name: 'Consolidación de Tecnologías de la Información y las Comunicaciones',
 		hours: 6,
 		term: courseTerms.firstSemester,
@@ -784,6 +823,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 40,
+		code: '40',
 		name: 'Ciencia de Datos',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -811,6 +851,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 41,
+		code: '41',
 		name: 'Gestión Gerencial',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -838,6 +879,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 42,
+		code: '42',
 		name: 'Gestión Avanzada de Datos',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -860,6 +902,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 43,
+		code: '43',
 		name: 'Desarrollo de Aplicación Cliente-Servidor',
 		hours: 6,
 		term: courseTerms.secondSemester,
@@ -882,6 +925,30 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 44,
+		code: '44',
+		name: 'Modelado y Optimización de Sistemas',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		],
+		tag: courseTags.elective
+	},
+	{
+		id: 45,
+		code: '45',
 		name: 'Proyecto Final',
 		hours: 6,
 		term: courseTerms.annual,
@@ -922,6 +989,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 99,
+		code: '99',
 		name: 'Práctica Profesional Supervisada',
 		hours: 6,
 		term: courseTerms.annual,
