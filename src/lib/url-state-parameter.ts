@@ -2,12 +2,14 @@ import { encodeCoursesStates, type CourseState } from './course-state';
 
 export const urlStateParameters = {
 	strict: 'estricto',
-	state: 'estado'
+	state: 'estado',
+	showCodes: 'codigos'
 } as const;
 
 export const createUrlSearchParams = (
 	coursesStates: CourseState[],
-	isStrictModeEnabled: boolean
+	isStrictModeEnabled: boolean,
+	showCodes: boolean
 ) => {
 	const stateLetters = encodeCoursesStates(coursesStates);
 
@@ -19,6 +21,10 @@ export const createUrlSearchParams = (
 
 	if (!isStrictModeEnabled) {
 		urlSearchParams.set(urlStateParameters.strict, 'no');
+	}
+
+	if (showCodes) {
+		urlSearchParams.set(urlStateParameters.showCodes, 'si');
 	}
 
 	return urlSearchParams;

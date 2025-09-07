@@ -12,14 +12,17 @@ export const load: PageLoad = ({ params, url }) => {
 
 	const stateLetters = url.searchParams.get('estado');
 	const strictMode = url.searchParams.get('estricto');
+	const showCodesParam = url.searchParams.get('codigos');
 	const isStrictModeEnabled = strictMode ? strictMode === 'si' : true;
+	const showCodes = showCodesParam ? showCodesParam === 'si' : false;
 
 	if (slug === 'utn-frcu-isi') {
 		return {
 			...utnFrcuIsiData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 	}
 
@@ -28,7 +31,8 @@ export const load: PageLoad = ({ params, url }) => {
 			...utnFrcuIeData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 	}
 
@@ -37,7 +41,8 @@ export const load: PageLoad = ({ params, url }) => {
 			...ucuFauArqData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 	}
 
@@ -46,7 +51,8 @@ export const load: PageLoad = ({ params, url }) => {
 			...uaderFcytLsiData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 	}
 
@@ -55,7 +61,8 @@ export const load: PageLoad = ({ params, url }) => {
 			...unerFcsMedData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled
+			isStrictModeEnabled,
+			showCodes
 		};
 	}
 

@@ -8,9 +8,10 @@
 
 	type Props = {
 		requirement: CourseRequirement;
+		showCodes?: boolean;
 	};
 
-	let { requirement }: Props = $props();
+	let { requirement, showCodes = false }: Props = $props();
 
 	const isRequirementMet = $derived(
 		isCourseStateGreaterOrEqual(requirement.requiredCourse.state, requirement.requiredState)
@@ -29,6 +30,9 @@
 			href={`#${toKebabCase(requirement.requiredCourse.name)}`}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
+			{#if showCodes && requirement.requiredCourse.code}
+				<span class="opacity-60">{requirement.requiredCourse.code}.</span>
+			{/if}
 			{requirement.requiredCourse.name}
 		</a>
 		de

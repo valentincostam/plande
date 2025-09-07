@@ -28,6 +28,7 @@ type CourseProperties = {
 	year: number;
 	term: CourseTerm;
 	hours?: number;
+	code?: string;
 	requirementsForEnrollment?: CourseRequirement[];
 	requirementsForCompletion?: CourseRequirement[];
 	tag?: CourseTag;
@@ -42,6 +43,7 @@ export class Course {
 	year: number;
 	term: CourseTerm;
 	hours?: number;
+	code?: string;
 	tag?: CourseTag;
 	state: CourseState;
 	requirementsForEnrollment: CourseRequirement[];
@@ -75,6 +77,7 @@ export class Course {
 		this.requirementsForCompletion = properties.requirementsForCompletion || [];
 		this.tag = properties.tag;
 		this.hours = properties.hours;
+		this.code = properties.code;
 		this.state = $state(properties.state || courseStates.notTaken);
 		this.isStrictModeEnabled = properties.isStrictModeEnabled;
 		this.dependents = properties.dependents || [];
@@ -98,6 +101,7 @@ const createCourseWithoutCorrelatives = (
 		year: rawCourse.year,
 		term: rawCourse.term,
 		hours: rawCourse.hours,
+		code: rawCourse.code,
 		tag: rawCourse.tag,
 		state: state || courseStates.notTaken,
 		isStrictModeEnabled

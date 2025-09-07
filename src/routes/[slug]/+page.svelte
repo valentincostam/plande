@@ -4,6 +4,7 @@
 	import Year from './year.svelte';
 	import { createYears } from '$lib/year.svelte';
 	import StrictModeSwitch from './strict-mode-switch.svelte';
+	import ShowCodesSwitch from './show-codes-switch.svelte';
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
@@ -21,8 +22,10 @@
 
 	const initialCoursesStates = data.coursesStates;
 	const initialIsStrictModeEnabled = data.isStrictModeEnabled;
+	const initialShowCodes = data.showCodes;
 
 	let isStrictModeEnabled = $state(initialIsStrictModeEnabled);
+	let showCodes = $state(initialShowCodes);
 	let isInitializing = $state(true);
 
 	const courses = createCourses(data.courses, initialCoursesStates, () => isStrictModeEnabled);
@@ -33,7 +36,7 @@
 		if (isInitializing || !isRouterReady) return;
 
 		const coursesStates = courses.map((course) => course.state);
-		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled);
+		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled, showCodes);
 
 		if (!browser) return;
 
@@ -114,11 +117,12 @@
 
 	<main class="grid gap-9">
 		{#each years as year}
-			<Year {year} />
+			<Year {year} {showCodes} />
 		{/each}
 
-		<section class="px-3 md:px-0">
+		<section class="grid gap-3 px-3 md:px-0">
 			<StrictModeSwitch bind:value={isStrictModeEnabled} />
+			<ShowCodesSwitch bind:value={showCodes} />
 		</section>
 
 		<section class="px-3 md:px-0">

@@ -9,9 +9,10 @@
 	type Props = {
 		dependent: CourseDependent;
 		isRequirementMet: boolean;
+		showCodes?: boolean;
 	};
 
-	let { dependent, isRequirementMet }: Props = $props();
+	let { dependent, isRequirementMet, showCodes = false }: Props = $props();
 </script>
 
 <li class="flex items-baseline gap-1 leading-relaxed">
@@ -26,6 +27,9 @@
 			href={`#${toKebabCase(dependent.dependentCourse.name)}`}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
+			{#if showCodes && dependent.dependentCourse.code}
+				<span class="opacity-60">{dependent.dependentCourse.code}.</span>
+			{/if}
 			{dependent.dependentCourse.name}
 		</a>
 		de

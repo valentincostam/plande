@@ -16,9 +16,10 @@
 
 	type Props = {
 		course: Course;
+		showCodes?: boolean;
 	};
 
-	let { course }: Props = $props();
+	let { course, showCodes = false }: Props = $props();
 
 	let isExpanded = $state(false);
 
@@ -62,6 +63,9 @@
 						'font-noto text-left tracking-tight select-none'
 					]}
 				>
+					{#if showCodes && course.code}
+						<span class="opacity-60">{course.code}. </span>
+					{/if}
 					{course.name}
 				</span>
 				{#if course.tag}
@@ -111,7 +115,7 @@
 						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y rendir'}</strong>
 						<ul class="grid gap-2">
 							{#each course.requirementsForEnrollment as requirement}
-								<Requirement {requirement} />
+								<Requirement {requirement} {showCodes} />
 							{/each}
 						</ul>
 					</li>
@@ -128,7 +132,7 @@
 							<strong>Requisitos para rendir</strong>
 							<ul class="grid gap-2">
 								{#each course.requirementsForCompletion as requirement}
-									<Requirement {requirement} />
+									<Requirement {requirement} {showCodes} />
 								{/each}
 							</ul>
 						</li>
@@ -149,6 +153,7 @@
 										course.state,
 										dependent.requiredState
 									)}
+									{showCodes}
 								/>
 							{/each}
 						</ul>

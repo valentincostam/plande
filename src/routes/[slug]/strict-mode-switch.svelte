@@ -10,7 +10,7 @@
 	for="strict-mode"
 	class={[
 		value ? 'bg-sky-100 text-sky-900' : 'bg-gray-100 text-gray-900',
-		'flex cursor-pointer items-center justify-between rounded-md px-6 py-3 transition-colors select-none',
+		'flex cursor-pointer items-center justify-between gap-3 rounded-md px-6 py-3 transition-colors select-none',
 		'focus-within:outline-2 focus-within:outline-blue-500'
 	]}
 >
