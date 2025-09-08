@@ -169,6 +169,13 @@
 									>Ingeniería en Sistemas de Información</a
 								>
 							</li>
+							<li>
+								<a
+									href="/utn-frcu-ie"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Ingeniería Electromecánica</a
+								>
+							</li>
 						</ul>
 					</div>
 

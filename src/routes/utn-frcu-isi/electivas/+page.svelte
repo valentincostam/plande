@@ -29,10 +29,16 @@
 			<strong>dictado anual</strong>) de las materias electivas debe ser:
 		</p>
 
-		<ul class="list-disc pl-9">
-			<li>4 horas cátedra semanales en el 3<sup>er</sup> nivel</li>
-			<li>6 horas cátedra semanales en el 4<sup>to</sup> nivel</li>
-			<li>10 horas cátedra semanales en el 5<sup>to</sup> nivel</li>
+		<ul class="list-disc pl-6">
+			<li>
+				4 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+			</li>
+			<li>
+				6 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+			</li>
+			<li>
+				10 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+			</li>
 		</ul>
 
 		<figure>
@@ -55,10 +61,16 @@
 			electivas debe ser:
 		</p>
 
-		<ul class="list-disc pl-9">
-			<li>8 horas cátedra semanales en el 3<sup>er</sup> nivel</li>
-			<li>12 horas cátedra semanales en el 4<sup>to</sup> nivel</li>
-			<li>20 horas cátedra semanales en el 5<sup>to</sup> nivel</li>
+		<ul class="list-disc pl-6">
+			<li>
+				8 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+			</li>
+			<li>
+				12 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+			</li>
+			<li>
+				20 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+			</li>
 		</ul>
 
 		<p>
@@ -69,41 +81,42 @@
 
 		<p>
 			El plan de estudios de Ingeniería en Sistemas de Información de la UTN FRCU ofrece un total de
-			<strong>46 horas cátedra semanales</strong> (de dictado cuatrimestral), distribuidas de la siguiente
+			<strong>52 horas cátedra semanales</strong> (de dictado cuatrimestral), distribuidas de la siguiente
 			manera:
 		</p>
 
-		<ul class="grid list-disc gap-2 pl-9">
+		<ul class="grid list-disc gap-2 pl-6">
 			<li>
-				8 horas cátedra semanales en el 3<sup>er</sup> nivel
-				<ul class="list-disc pl-9">
+				8 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+				<ul class="list-disc pl-6">
 					<li>4 horas de <em>Metodología de la Investigación</em></li>
 					<li>4 horas de <em>Emprendedorismo</em></li>
 				</ul>
 			</li>
 			<li>
-				14 horas cátedra semanales en el 4<sup>to</sup> nivel
-				<ul class="list-disc pl-9">
+				14 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Relaciones Humanas</em></li>
 					<li>8 horas de <em>Sistemas Distribuidos</em></li>
 				</ul>
 			</li>
 			<li>
-				24 horas cátedra semanales en el 5<sup>to</sup> nivel
-				<ul class="list-disc pl-9">
+				30 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Auditoría de Sistemas de Información</em></li>
 					<li>
 						6 horas de <em>Consolidación de Tecnologías de la Información y las Comunicaciones</em>
 					</li>
 					<li>6 horas de <em>Gestión Avanzada de Datos</em></li>
 					<li>6 horas de <em>Desarrollo de Aplicación Cliente-Servidor</em></li>
+					<li>6 horas de <em>Modelado y Optimización de Sistemas</em></li>
 				</ul>
 			</li>
 		</ul>
 
 		<p>
-			Al haber una oferta de 6 horas cátedra semanales por encima de lo exigido por la ordenanza, no
-			es necesario cursar o aprobar todas las materias electivas.
+			Al haber una oferta de 12 horas cátedra semanales por encima de lo exigido por la ordenanza,
+			no es necesario cursar o aprobar todas las materias electivas.
 			<strong>Basta con aprobar aquellas cuya carga horaria sume 40 horas cátedra semanales</strong
 			>.
 		</p>
