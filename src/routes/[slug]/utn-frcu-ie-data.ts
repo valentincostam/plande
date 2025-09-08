@@ -639,7 +639,7 @@ const courses: RawCourse[] = [
 		code: '27',
 		name: 'Electrónica Industrial',
 		hours: 6,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
 			{
@@ -667,7 +667,7 @@ const courses: RawCourse[] = [
 		code: '28',
 		name: 'Economía',
 		hours: 6,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
 			{
@@ -745,35 +745,17 @@ const courses: RawCourse[] = [
 			{
 				id: 1,
 				requiredCourseId: 6,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
 				requiredCourseId: 11,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 3,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
 				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1195,47 +1177,23 @@ const courses: RawCourse[] = [
 			{
 				id: 1,
 				requiredCourseId: 18,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
 				requiredCourseId: 19,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 3,
 				requiredCourseId: 21,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 4,
-				requiredCourseId: 23,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
 				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1282,7 +1240,7 @@ const courses: RawCourse[] = [
 		code: '41',
 		name: 'Instalaciones Térmicas y Mecánicas',
 		hours: 6,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
 			{
@@ -1322,7 +1280,7 @@ const courses: RawCourse[] = [
 		code: '42',
 		name: 'Centrales y Sistemas de Transmisión',
 		hours: 10,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
 			{
@@ -1599,25 +1557,25 @@ const courses: RawCourse[] = [
 			{
 				id: 1,
 				requiredCourseId: 22,
-				requiredState: courseStates.passed,
+				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
 				requiredCourseId: 26,
-				requiredState: courseStates.passed,
+				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 3,
 				requiredCourseId: 27,
-				requiredState: courseStates.passed,
+				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 4,
 				requiredCourseId: 34,
-				requiredState: courseStates.passed,
+				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
