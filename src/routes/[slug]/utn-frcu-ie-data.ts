@@ -1656,6 +1656,10 @@ export const utnFrcuIeData: CareerData = {
 		{
 			id: 3,
 			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como talporque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+		},
+		{
+			id: 4,
+			text: 'Se omiten requisitos redundantes. Por ejemplo, **Conocimiento de Materiales** de 2<sup>do</sup> año _cursada_ no se exige para cursar **Diseño y Fabricación Asistido por Computadora** de 4<sup>to</sup> año porque ya es requisito para cursar **Tecnología Mecánica** de 3<sup>er</sup> año, que también debe estar _cursada_ para cursar **Diseño y Fabricación Asistido por Computadora**.'
 		}
 	]
 };
