@@ -1659,7 +1659,7 @@ export const utnFrcuIeData: CareerData = {
 		},
 		{
 			id: 4,
-			text: 'Se omiten requisitos redundantes. Por ejemplo, **Conocimiento de Materiales** de 2<sup>do</sup> año _cursada_ no se exige para cursar **Diseño y Fabricación Asistido por Computadora** de 4<sup>to</sup> año porque ya es requisito para cursar **Tecnología Mecánica** de 3<sup>er</sup> año, que también debe estar _cursada_ para cursar **Diseño y Fabricación Asistido por Computadora**.'
+			text: 'Se omiten requisitos redundantes. Por ejemplo, **Conocimiento de Materiales** de 2<sup>do</sup> año _regular_ no se exige para cursar **Diseño y Fabricación Asistido por Computadora** de 4<sup>to</sup> año porque ya es requisito para cursar **Tecnología Mecánica** de 3<sup>er</sup> año, que también debe estar _regular_ para cursar **Diseño y Fabricación Asistido por Computadora**.'
 		}
 	]
 };

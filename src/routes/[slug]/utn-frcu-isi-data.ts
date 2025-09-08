@@ -1078,7 +1078,7 @@ export const utnFrcuIsiData: CareerData = {
 
 		{
 			id: 5,
-			text: 'En **Proyecto Final** de 5<sup>to</sup> año, se omite el requerimiento de **Sintaxis y Semántica de los Lenguajes** de 2<sup>do</sup> año _aprobada_ porque ya es requerido para cursar **Ingeniería y Calidad de Software** de 4<sup>to</sup> año, que se requiere _cursada_ por **Proyecto Final**.'
+			text: 'En **Proyecto Final** de 5<sup>to</sup> año, se omite el requerimiento de **Sintaxis y Semántica de los Lenguajes** de 2<sup>do</sup> año _aprobada_ porque ya es requerido para cursar **Ingeniería y Calidad de Software** de 4<sup>to</sup> año, que se requiere _regular_ por **Proyecto Final**.'
 		}
 	]
 };

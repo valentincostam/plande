@@ -16,6 +16,18 @@
 	};
 
 	let { state, class: className, gender = 'femenine', plural = false }: Props = $props();
+
+	const getPluralSuffix = (state: CourseState) => {
+		if (state === courseStates.inProgress) {
+			return '';
+		}
+
+		if (state === courseStates.taken) {
+			return 'es';
+		}
+
+		return 's';
+	};
 </script>
 
 <span
@@ -27,5 +39,5 @@
 >
 	{gender === 'femenine'
 		? femenineCourseStateLabels[state]
-		: masculineCourseStateLabels[state]}{plural && state !== courseStates.inProgress ? 's' : ''}
+		: masculineCourseStateLabels[state]}{plural ? getPluralSuffix(state) : ''}
 </span>

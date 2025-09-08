@@ -16,14 +16,14 @@ Trabajarás con un array de materias (`RawCourse[]`) donde cada materia tiene:
 - `name`: Nombre de la materia
 - `requirements`: Array de requerimientos, donde cada uno tiene:
   - `requiredCourseId`: ID de la materia requerida
-  - `requiredState`: Estado requerido ('taken' = cursada, 'passed' = aprobada)
+  - `requiredState`: Estado requerido ('taken' = regular, 'passed' = aprobada)
   - `requiredFor`: Propósito ('enroll' = para cursar, 'complete' = para completar)
 
 ## Jerarquía de Estados
 
 Los estados tienen esta jerarquía (mayor incluye menor):
 
-- 'passed' (aprobada) > 'taken' (cursada) > 'inProgress' (en curso) > 'notTaken' (no cursada)
+- 'passed' (aprobada) > 'taken' (regular) > 'inProgress' (en curso) > 'notTaken' (no cursada)
 
 Si una dependencia transitiva requiere un estado mayor o igual, cubre el requerimiento directo.
 
@@ -126,7 +126,7 @@ Donde:
 - `[ID]`: ID numérico de la materia (para fácil identificación)
 - `[MATERIA_REQUERIDA]`: Nombre de la materia que es redundante
 - `[ID_REQUERIDA]`: ID de la materia requerida
-- `[ESTADO]`: "no cursada", "en curso", "cursada" o "aprobada" (usar labels femeninos)
+- `[ESTADO]`: "no cursada", "en curso", "regular" o "aprobada" (usar labels femeninos)
 - `[PROPÓSITO]`: "CURSAR" o "RENDIR" (en mayúsculas)
 - `[ACCION_TRANSITIVA]`: "APROBAR" si el otro requerimiento exige estado `aprobada`, en caso contrario "CURSAR`
 - `[ESTADO_OTRO_REQ]`: Estado exigido por el otro requerimiento (usar labels femeninos)
@@ -211,7 +211,7 @@ const getTransitivePrerequisites = (courseId, desiredStateForCourse, visited = n
 - ✅ **Usa formatting Markdown** (negrita para materias, backticks para estados)
 - ✅ **Incluye IDs en todo** (materias y cadenas de dependencias)
 - ✅ **Propósitos consistentes** (CURSAR/RENDIR según corresponda)
-- ✅ **Estados con labels correctos** (cursada/aprobada en español)
+- ✅ **Estados con labels correctos** (regular/aprobada en español)
 - ✅ **Prioriza claridad y precisión** en cada explicación
 
 ---

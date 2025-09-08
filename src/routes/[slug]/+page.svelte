@@ -185,8 +185,8 @@
 					asistiendo a sus clases.
 				</li>
 				<li>
-					Una materia está <StatePill state={courseStates.taken} class="text-sm" /> (o regular) cuando
-					ya terminaste de asistir a sus clases pero aún debés rendir su examen final.
+					Una materia está <StatePill state={courseStates.taken} class="text-sm" /> cuando aprobaste
+					la cursada pero aún debés rendir su examen final.
 				</li>
 				<li>
 					Una materia está <StatePill state={courseStates.passed} class="text-sm" /> cuando ya la rendiste
@@ -216,7 +216,7 @@
 						state={courseStates.taken}
 						class="text-sm"
 						plural
-					/> (o regulares).
+					/>.
 				</li>
 				<li>
 					Un año está <StatePill state={courseStates.passed} gender="masculine" class="text-sm" />

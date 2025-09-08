@@ -565,7 +565,6 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			// 👉 Este requerimiento es redundante porque para cursar "Historia de la Arquitectura II" ya se requiere "Historia de la Arquitectura I" cursada
 			// Historia de la Arquitectura I passed
 			{
 				id: 1,
@@ -650,7 +649,6 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			// 👉 Este requerimiento es redundante porque para cursar "Estructuras II" ya se requiere "Matemática III e Introducción a la Física" cursada
 			// Matemática III e Introducción a la Física passed
 			{
 				id: 3,
@@ -711,7 +709,6 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 3,
 		requirements: [
-			// 👉 Este requerimiento es redundante porque para cursar "Historia de la Arquitectura III" ya se requiere "Historia de la Arquitectura II" cursada
 			// Historia de la Arquitectura II passed
 			{
 				id: 2,
@@ -1357,7 +1354,7 @@ export const ucuFauArqData: CareerData = {
 	notes: [
 		{
 			id: 1,
-			text: 'Para cursar **Proyecto Final**, deberás tener al menos una materia optativa _aprobada_, o bien, **Gestión Ambiental** _cursada_.'
+			text: 'Para cursar **Proyecto Final**, deberás tener al menos una materia optativa _aprobada_, o bien, **Gestión Ambiental** _regular_.'
 		},
 		{
 			id: 2,

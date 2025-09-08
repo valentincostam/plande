@@ -21,14 +21,14 @@ export const isCourseStateGreaterOrEqual = (state1: CourseState, state2: CourseS
 export const femenineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursada',
 	[courseStates.inProgress]: 'En curso',
-	[courseStates.taken]: 'Cursada',
+	[courseStates.taken]: 'Regular',
 	[courseStates.passed]: 'Aprobada'
 } as const;
 
 export const masculineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursado',
 	[courseStates.inProgress]: 'En curso',
-	[courseStates.taken]: 'Cursado',
+	[courseStates.taken]: 'Regular',
 	[courseStates.passed]: 'Aprobado'
 } as const;
 
