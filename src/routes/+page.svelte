@@ -76,7 +76,7 @@
 				<div class="grid gap-1 rounded-lg bg-gray-100 p-5">
 					<h3 class="font-bold">Compartí tu progreso</h3>
 					<p class="text-gray-700">
-						Cuando tu vieja te pregunte "¿cómo vas con la facultad?", mandále tu link de Plande. Que
+						Cuando tu madre te pregunte "¿cómo vas con la facultad?", mandále tu link de Plande. Que
 						mire todo tu progreso al instante, sin explicaciones largas. Perfecto para que se sienta
 						orgullosa de vos (y te deje en paz).
 					</p>
