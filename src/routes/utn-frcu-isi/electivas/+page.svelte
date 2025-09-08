@@ -117,7 +117,7 @@
 		<p>
 			Al haber una oferta de 12 horas cátedra semanales por encima de lo exigido por la ordenanza,
 			no es necesario cursar o aprobar todas las materias electivas.
-			<strong>Basta con aprobar aquellas cuya carga horaria sume 40 horas cátedra semanales</strong
+			<strong>Basta con aprobar aquellas cuya carga horaria sumen 40 horas cátedra semanales</strong
 			>.
 		</p>
 
