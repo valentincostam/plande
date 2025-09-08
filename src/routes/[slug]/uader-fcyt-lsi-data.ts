@@ -6,6 +6,7 @@ import type { CareerData } from '$lib/career-data';
 const courses: RawCourse[] = [
 	{
 		id: 340101,
+		code: '101',
 		name: 'Sistemas y Organizaciones',
 		hours: 4,
 		term: courseTerms.annual,
@@ -14,6 +15,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340102,
+		code: '102',
 		name: 'Fundamentos de Programación',
 		hours: 5,
 		term: courseTerms.annual,
@@ -22,6 +24,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340103,
+		code: '103',
 		name: 'Cálculo Diferencial e Integral',
 		hours: 4,
 		term: courseTerms.annual,
@@ -30,6 +33,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340104,
+		code: '104',
 		name: 'Lógica y Álgebra',
 		hours: 4,
 		term: courseTerms.annual,
@@ -38,6 +42,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340105,
+		code: '105',
 		name: 'Lecto-Comprehensión en Inglés',
 		hours: 2,
 		term: courseTerms.annual,
@@ -46,6 +51,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340106,
+		code: '106',
 		name: 'Derechos Humanos y Tecnología',
 		hours: 1,
 		term: courseTerms.firstSemester,
@@ -54,6 +60,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340107,
+		code: '107',
 		name: 'Fundamentos de Computación',
 		hours: 4,
 		term: courseTerms.secondSemester,
@@ -62,6 +69,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340208,
+		code: '208',
 		name: 'Ingeniería de Software I',
 		hours: 5,
 		term: courseTerms.annual,
@@ -83,6 +91,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340209,
+		code: '209',
 		name: 'Algoritmos y Estructura de Datos',
 		hours: 4,
 		term: courseTerms.annual,
@@ -104,6 +113,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340210,
+		code: '210',
 		name: 'Programación Orientada a Objetos',
 		hours: 5,
 		term: courseTerms.annual,
@@ -131,6 +141,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340211,
+		code: '211',
 		name: 'Matemática Discreta',
 		hours: 3,
 		term: courseTerms.annual,
@@ -146,6 +157,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340212,
+		code: '212',
 		name: 'Ecuaciones Diferenciales y Cálculo Multivariado',
 		hours: 3,
 		term: courseTerms.firstSemester,
@@ -161,6 +173,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340213,
+		code: '213',
 		name: 'Arquitectura de Computadoras',
 		hours: 3,
 		term: courseTerms.secondSemester,
@@ -182,6 +195,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340299,
+		code: '299',
 		name: 'Optativa I',
 		hours: 1.5,
 		term: courseTerms.secondSemester,
@@ -209,6 +223,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340314,
+		code: '314',
 		name: 'Ingeniería de Software II',
 		hours: 5,
 		term: courseTerms.annual,
@@ -236,6 +251,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340315,
+		code: '315',
 		name: 'Bases de Datos',
 		hours: 4,
 		term: courseTerms.annual,
@@ -263,6 +279,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340316,
+		code: '316',
 		name: 'Sistemas Operativos',
 		hours: 4,
 		term: courseTerms.annual,
@@ -290,6 +307,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340317,
+		code: '317',
 		name: 'Probabilidad y Estadística',
 		hours: 3,
 		term: courseTerms.annual,
@@ -311,6 +329,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340318,
+		code: '318',
 		name: 'Paradigmas y Lenguajes',
 		hours: 2,
 		term: courseTerms.firstSemester,
@@ -338,6 +357,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340319,
+		code: '319',
 		name: 'Ética Profesional',
 		hours: 1.5,
 		term: courseTerms.firstSemester,
@@ -359,6 +379,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340320,
+		code: '320',
 		name: 'Programación Avanzada',
 		hours: 2,
 		term: courseTerms.secondSemester,
@@ -380,6 +401,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340399,
+		code: '399',
 		name: 'Optativa II',
 		hours: 1.5,
 		term: courseTerms.firstSemester,
@@ -407,6 +429,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340321,
+		code: '321',
 		name: 'Taller de Integración',
 		hours: 1.5,
 		term: courseTerms.secondSemester,
@@ -506,6 +529,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340422,
+		code: '422',
 		name: 'Inteligencia Artificial',
 		hours: 3,
 		term: courseTerms.annual,
@@ -533,6 +557,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340423,
+		code: '423',
 		name: 'Bases de Datos Avanzadas',
 		hours: 5,
 		term: courseTerms.annual,
@@ -554,6 +579,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340424,
+		code: '424',
 		name: 'Comunicaciones y Redes',
 		hours: 5,
 		term: courseTerms.annual,
@@ -575,6 +601,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340425,
+		code: '425',
 		name: 'Metodología de la Investigación',
 		hours: 3,
 		term: courseTerms.annual,
@@ -596,6 +623,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340426,
+		code: '426',
 		name: 'Investigación Operativa',
 		hours: 1.5,
 		term: courseTerms.firstSemester,
@@ -611,6 +639,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340427,
+		code: '427',
 		name: 'Optativa III',
 		hours: 1.5,
 		term: courseTerms.firstSemester,
@@ -644,6 +673,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340428,
+		code: '428',
 		name: 'Computación Avanzada',
 		hours: 1.5,
 		term: courseTerms.secondSemester,
@@ -665,6 +695,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340429,
+		code: '429',
 		name: 'Optativa IV',
 		hours: 1.5,
 		term: courseTerms.secondSemester,
@@ -692,6 +723,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340530,
+		code: '530',
 		name: 'Seguridad y Auditoría',
 		hours: 4,
 		term: courseTerms.annual,
@@ -713,6 +745,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340531,
+		code: '531',
 		name: 'Administración de Recursos',
 		hours: 5,
 		term: courseTerms.annual,
@@ -734,6 +767,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340532,
+		code: '532',
 		name: 'Teoría de Computabilidad',
 		hours: 5,
 		term: courseTerms.annual,
@@ -761,6 +795,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340533,
+		code: '533',
 		name: 'Tesina de Grado',
 		hours: 5,
 		term: courseTerms.annual,
@@ -819,6 +854,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340534,
+		code: '534',
 		name: 'Interfaz Hombre Máquina',
 		hours: 2,
 		term: courseTerms.firstSemester,
@@ -840,6 +876,7 @@ const courses: RawCourse[] = [
 	},
 	{
 		id: 340535,
+		code: '535',
 		name: 'Optativa V',
 		hours: 1.5,
 		term: courseTerms.secondSemester,
