@@ -142,8 +142,8 @@
 		</section>
 
 		<section class="grid gap-6 px-6 md:px-0">
-			<h2 class="text-center text-2xl font-bold" id="carreras">
-				Tu carrera completa <span class="whitespace-nowrap">en un solo link 🔗</span>
+			<h2 class="scroll-m-6 text-center text-2xl font-bold" id="carreras">
+				Tu carrera <span class="whitespace-nowrap">en un solo link 🔗</span>
 			</h2>
 			<p class="text-center text-gray-700">
 				Elegí tu carrera y empezá a trackear tu progreso <span class="whitespace-nowrap"
