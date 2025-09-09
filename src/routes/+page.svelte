@@ -32,8 +32,8 @@
 				</ChatMessage>
 
 				<ChatMessage author="Vos" time="19:31" color="blue" isOutgoing>
-					<a href="/utn-frcu-isi?estado=a34ce3" class="text-[#1B8755] underline underline-offset-2"
-						>https://plande.app/utn-frcu-isi?estado=a34ce3</a
+					<a href="/utn-frcu-isi?estado=a26r5e3" class="text-[#1B8755] underline underline-offset-2"
+						>https://plande.app/utn-frcu-isi?estado=a26r5e3</a
 					>
 				</ChatMessage>
 			</div>
