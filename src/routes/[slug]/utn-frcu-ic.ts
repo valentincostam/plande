@@ -1795,13 +1795,129 @@ const courses: RawCourse[] = [
 		]
 	},
 	{
+		id: 99,
+		code: '99',
+		name: 'Práctica Profesional Supervisada',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 27,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 28,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 29,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 32,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 7,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 9,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 11,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 12,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 13,
+				requiredCourseId: 22,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 14,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 15,
+				requiredCourseId: 24,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 16,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 17,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
 		id: 43,
 		code: '43',
 		name: 'Proyecto Final',
 		hours: 4,
-		term: courseTerms.annual,
-		year: 6,
+		term: courseTerms.secondSemester,
+		year: 5,
 		tag: courseTags.integrative,
+		crossYear: {
+			spansToYear: 6,
+			endsInTerm: courseTerms.firstSemester
+		},
 		requirements: [
 			{
 				id: 1,
@@ -2237,15 +2353,15 @@ export const utnFrcuIcData: CareerData = {
 	notes: [
 		{
 			id: 1,
-			text: 'La **Práctica Profesional Supervisada (150 hs)** es condición previa para iniciar y acreditar el **Proyecto Final** al cumplimiento de los requisitos académicos exigidos para la inscripción al Proyecto Final.'
+			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
 		},
 		{
 			id: 2,
-			text: 'Para cursar **Proyecto Final**, se requiere aprobar todas las asignaturas previas del Plan de Estudios.'
+			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada**, es necesario cumplir con los requisitos para cursar **Proyecto Final**.'
 		},
 		{
 			id: 3,
-			text: 'Horas asignaturas electivas exigidas por **Ordenanza N°1853 CS**: 22hs cuatrimestrales.'
+			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 5 horas semanales aproximadamente, obtenido de dividir las 150 horas totales exigidas entre 32 semanas (lo que dura año académico).'
 		}
 	]
 };

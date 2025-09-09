@@ -65,10 +65,14 @@ Each course must have this exact structure:
   code?: string,                 // Optional: course code/number from curriculum (e.g., "MAT101", "1.1")
   name: string,                  // Course name exactly as in document
   hours?: number,                // Credit hours (undefined if not specified)
-  term: string,                  // Must be: courseTerms.firstSemester, courseTerms.secondSemester, courseTerms.annual, or courseTerms.semestral
+  term: string,                  // Must be: courseTerms.firstSemester, courseTerms.secondSemester, courseTerms.annual, courseTerms.semestral, or courseTerms.crossYear
   year: number,                  // Academic year (1, 2, 3, 4, 5)
   requirements: Requirement[],    // Array of prerequisite objects
-  tag?: string                   // Optional: courseTags.elective, courseTags.integrative, courseTags.optative
+  tag?: string,                  // Optional: courseTags.elective, courseTags.integrative, courseTags.optative
+  crossYear?: {                  // Optional: for courses spanning multiple years
+    spansToYear: number,         // Year where the course ends
+    endsInTerm: string          // Term where the course ends (courseTerms.firstSemester, courseTerms.secondSemester)
+  }
 }
 ```
 
@@ -108,6 +112,36 @@ Each course must have this exact structure:
 - Remove the suffix from the name field
 - Add the corresponding tag field
 - Keep the course name clean and professional
+
+### Cross-Year Courses (Multi-Year Spanning)
+
+Some courses span multiple academic years, typically starting in one year and ending in the next. These courses are identified by phrases like "Año desfasado" (offset year), or descriptions indicating they start in one semester and end in another year.
+
+**Identification**: Look for courses that:
+- Are described as spanning from one semester of a year to another semester of the following year
+- Have notes indicating "Año desfasado" or "curso desfasado" 
+- Show duration across year boundaries (e.g., "2º cuatr. 5º año - 1º cuatr. 6º año")
+
+**Structure for cross-year courses**:
+```javascript
+{
+  id: 43,
+  name: 'Proyecto Final',
+  term: courseTerms.secondSemester,  // Starting term
+  year: 5,                           // Starting year  
+  crossYear: {
+    spansToYear: 6,                  // Ending year
+    endsInTerm: courseTerms.firstSemester  // Ending term
+  }
+  // ... other properties
+}
+```
+
+**Rules**:
+- Set `term` to the starting term (where the course begins)
+- Set `year` to the starting year
+- Add `crossYear` object with `spansToYear` (ending year) and `endsInTerm` (ending term)
+- The course will automatically appear in both years in the application
 
 ### Course Code Extraction Guidelines
 

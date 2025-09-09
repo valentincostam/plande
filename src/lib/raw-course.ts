@@ -2,6 +2,7 @@ import type { CourseState } from './course-state';
 import { courseStates, femenineCourseStateLabels } from './course-state';
 import type { CourseTag } from './course-tag';
 import type { CourseTerm } from './course-term';
+import type { CrossYearInfo } from './course.svelte';
 
 export const requiredFor = {
 	enroll: 'enroll',
@@ -31,6 +32,7 @@ export type RawCourse = {
 	term: CourseTerm;
 	requirements?: RawCourseRequirement[];
 	tag?: CourseTag;
+	crossYear?: CrossYearInfo;
 };
 
 /**

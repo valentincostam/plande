@@ -1655,7 +1655,7 @@ export const utnFrcuIeData: CareerData = {
 		},
 		{
 			id: 3,
-			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como talporque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas por la materia entre 32 semanas (lo que dura año académico). La carga horaria real varía de acuerdo a cómo realice la práctica cada estudiante.'
+			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como talporque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas entre 32 semanas (lo que dura año académico).'
 		},
 		{
 			id: 4,

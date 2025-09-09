@@ -50,11 +50,38 @@ export const getOrdinalSuperscript = (number: number) => {
 	return 'to';
 };
 
+// Helper function to get the effective term for a course in a specific year
+export const getCourseEffectiveTerm = (course: Course, displayYear: number) => {
+	// If this course has crossYear property and we're showing it in the ending year
+	if (course.crossYear && course.crossYear.spansToYear === displayYear) {
+		return course.crossYear.endsInTerm;
+	}
+	// Otherwise use the original term
+	return course.term;
+};
+
 export const createYears = (years: number, courses: Course[]) => {
 	return Array.from({ length: years }, (_, index) => {
+		const currentYear = index + 1;
+
+		// Filter courses for this year
+		const yearCourses = courses.filter((course) => {
+			// Regular courses that belong to this year
+			if (course.year === currentYear) {
+				return true;
+			}
+
+			// CrossYear courses that start in a previous year and end in this year
+			if (course.crossYear && course.crossYear.spansToYear === currentYear) {
+				return true;
+			}
+
+			return false;
+		});
+
 		return new Year({
-			year: index + 1,
-			courses: courses.filter((course) => course.year === index + 1),
+			year: currentYear,
+			courses: yearCourses,
 			state: courseStates.notTaken
 		});
 	});

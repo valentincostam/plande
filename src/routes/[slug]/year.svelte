@@ -3,7 +3,7 @@
 
 	import Course from './course.svelte';
 	import Term from './term.svelte';
-	import { getOrdinalSuperscript, type Year } from '$lib/year.svelte';
+	import { getOrdinalSuperscript, getCourseEffectiveTerm, type Year } from '$lib/year.svelte';
 	import StateSelect from './state-select.svelte';
 	import { type CourseState } from '$lib/course-state';
 
@@ -14,17 +14,17 @@
 
 	let { year, showCodes = false }: Props = $props();
 
-	const annualCourses = year.courses.filter((course) => course.term === courseTerms.annual);
+	const annualCourses = year.courses.filter((course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annual);
 
 	const firstSemesterCourses = year.courses.filter(
-		(course) => course.term === courseTerms.firstSemester
+		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.firstSemester
 	);
 
 	const secondSemesterCourses = year.courses.filter(
-		(course) => course.term === courseTerms.secondSemester
+		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.secondSemester
 	);
 
-	const semestralCourses = year.courses.filter((course) => course.term === courseTerms.semestral);
+	const semestralCourses = year.courses.filter((course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral);
 
 	const onchange = (event: Event) => {
 		const newState = (event.target as HTMLSelectElement).value as CourseState;

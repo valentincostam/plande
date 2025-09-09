@@ -22,6 +22,11 @@ export type CourseDependent = {
 	requiredFor: RequiredFor;
 };
 
+export type CrossYearInfo = {
+	spansToYear: number;
+	endsInTerm: CourseTerm;
+};
+
 type CourseProperties = {
 	id: number;
 	name: string;
@@ -34,6 +39,7 @@ type CourseProperties = {
 	tag?: CourseTag;
 	state?: CourseState;
 	dependents?: CourseDependent[];
+	crossYear?: CrossYearInfo;
 	isStrictModeEnabled: () => boolean;
 };
 
@@ -49,6 +55,7 @@ export class Course {
 	requirementsForEnrollment: CourseRequirement[];
 	requirementsForCompletion: CourseRequirement[];
 	dependents: CourseDependent[];
+	crossYear?: CrossYearInfo;
 	isStrictModeEnabled: () => boolean;
 	isEnabled = $derived.by(() => {
 		if (!this.isStrictModeEnabled()) return true;
@@ -78,6 +85,7 @@ export class Course {
 		this.tag = properties.tag;
 		this.hours = properties.hours;
 		this.code = properties.code;
+		this.crossYear = properties.crossYear;
 		this.state = $state(properties.state || courseStates.notTaken);
 		this.isStrictModeEnabled = properties.isStrictModeEnabled;
 		this.dependents = properties.dependents || [];
@@ -103,6 +111,7 @@ const createCourseWithoutCorrelatives = (
 		hours: rawCourse.hours,
 		code: rawCourse.code,
 		tag: rawCourse.tag,
+		crossYear: rawCourse.crossYear,
 		state: state || courseStates.notTaken,
 		isStrictModeEnabled
 	});
