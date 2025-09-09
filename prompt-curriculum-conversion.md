@@ -90,6 +90,25 @@ Each course must have this exact structure:
 - `hours`: Credit hours (number or undefined if not specified). Use `undefined` when hours are not provided
 - `tag`: Course category (courseTags.elective, courseTags.integrative, courseTags.optative)
 
+### Course Name Cleaning and Tag Assignment
+
+**CRITICAL**: Always clean course names and assign proper tags based on suffixes:
+
+1. **Elective courses**: Remove "(electiva)" from course names and add `tag: courseTags.elective`
+   - Example: "Geología Aplicada (electiva)" → name: "Geología Aplicada", tag: courseTags.elective
+
+2. **Integrative courses**: Remove "(integradora)" from course names and add `tag: courseTags.integrative`
+   - Example: "Proyecto Final (Integradora)" → name: "Proyecto Final", tag: courseTags.integrative
+
+3. **Optative courses**: Remove "(optativa)" from course names and add `tag: courseTags.optative`
+   - Example: "Materia Optativa (optativa)" → name: "Materia Optativa", tag: courseTags.optative
+
+**Process**:
+- Always scan course names for these suffixes: "(electiva)", "(integradora)", "(optativa)"
+- Remove the suffix from the name field
+- Add the corresponding tag field
+- Keep the course name clean and professional
+
 ### Course Code Extraction Guidelines
 
 The `code` field should contain the official course identifier from the curriculum document. Course codes serve as unique identifiers that are often used in prerequisite references and official documentation.
@@ -241,10 +260,19 @@ Choose based on the curriculum structure:
 
 1. **Missing data**: Use `undefined` for hours, proper defaults for other fields
 2. **OCR errors**: Correct obvious mistakes (e.g., "INGENERIA" → "INGENIERÍA")
-3. **Inconsistent IDs**: Ensure all `requiredCourseId` references exist in the courses array
-4. **Missing prerequisites**: If a prerequisite course isn't listed, create a minimal course object for it
-5. **Missing prerequisite subcolumns**: NEVER ignore prerequisite subcolumns. If you see both "Regular" and "Aprobadas" subcolumns under a parent prerequisite column, process BOTH with the correct state mapping - this is extremely important for accurate course progression tracking
-6. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
+3. **Character encoding issues**: 
+   - **CRITICAL**: Always use proper UTF-8 encoding for Spanish characters
+   - Replace any � symbols with correct accented characters: á, é, í, ó, ú, ñ
+   - Common corrections: Álgebra (not �lgebra), Análisis (not An�lisis), Ingeniería (not Ingenier�a)
+   - Verify all course names, degree titles, and metadata have correct Spanish accents
+4. **Course name cleaning**: 
+   - **MANDATORY**: Remove course type suffixes from names: "(electiva)", "(integradora)", "(optativa)"
+   - Add corresponding tags instead: courseTags.elective, courseTags.integrative, courseTags.optative
+   - Keep course names clean and professional
+5. **Inconsistent IDs**: Ensure all `requiredCourseId` references exist in the courses array
+6. **Missing prerequisites**: If a prerequisite course isn't listed, create a minimal course object for it
+7. **Missing prerequisite subcolumns**: NEVER ignore prerequisite subcolumns. If you see both "Regular" and "Aprobadas" subcolumns under a parent prerequisite column, process BOTH with the correct state mapping - this is extremely important for accurate course progression tracking
+8. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
 
 ## CRITICAL: Annual Section Interpretation
 
@@ -383,6 +411,8 @@ export const exampleData: CareerData = {
 - Choose appropriate progress type
 - Handle missing data gracefully with `undefined`
 - Correct OCR errors in course names
+- **MANDATORY**: Verify all Spanish characters have proper accents (á, é, í, ó, ú, ñ) - never use � symbols
+- **MANDATORY**: Remove course type suffixes like "(electiva)", "(integradora)", "(optativa)" and add proper tags
 - Maintain proper JavaScript syntax (not JSON)
 
 Process the provided document and generate the complete JavaScript object following this exact structure.
