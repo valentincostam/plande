@@ -1531,6 +1531,10 @@ export const utnFrcuLoiData: CareerData = {
 		{
 			id: 2,
 			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas entre 32 semanas (lo que dura año académico).'
+		},
+		{
+			id: 3,
+			text: 'Se omiten requisitos redundantes. Por ejemplo, **Costos** de 2<sup>do</sup> año _aprobada_ no se exige para cursar **Evaluación de Proyecto** de 4<sup>to</sup> año porque ya es requisito para cursar **Planificación y Control de la Producción** de 3<sup>er</sup> año, que debe estar _regular_ para cursar **Evaluación de Proyecto**.'
 		}
 	]
 };
