@@ -7,7 +7,7 @@ import type { CareerData } from '$lib/career-data';
 const courses: RawCourse[] = [
 	{
 		id: 1,
-		code: '2',
+		code: '1',
 		name: 'Álgebra y Geometría Analítica',
 		hours: 10,
 		term: courseTerms.firstSemester,
@@ -105,7 +105,7 @@ const courses: RawCourse[] = [
 		code: '10',
 		name: 'Física II',
 		hours: 10,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 2,
 		requirements: [
 			{
@@ -178,7 +178,7 @@ const courses: RawCourse[] = [
 		code: '13',
 		name: 'Estabilidad',
 		hours: 5,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 2,
 		requirements: [
 			{
@@ -739,7 +739,7 @@ const courses: RawCourse[] = [
 		code: '24',
 		name: 'Resistencia de Materiales',
 		hours: 4,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 3,
 		requirements: [
 			{
@@ -1024,7 +1024,7 @@ const courses: RawCourse[] = [
 		code: '29',
 		name: 'Geotecnia',
 		hours: 10,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
 			{
@@ -1246,7 +1246,7 @@ const courses: RawCourse[] = [
 		code: '32',
 		name: 'Análisis Estructural I',
 		hours: 5,
-		term: courseTerms.secondSemester,
+		term: courseTerms.annual,
 		year: 4,
 		requirements: [
 			{
@@ -1783,13 +1783,13 @@ const courses: RawCourse[] = [
 			{
 				id: 1,
 				requiredCourseId: 23,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
 				requiredCourseId: 31,
-				requiredState: courseStates.taken,
+				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			}
 		]
@@ -1798,7 +1798,7 @@ const courses: RawCourse[] = [
 		id: 99,
 		code: '99',
 		name: 'Práctica Profesional Supervisada',
-		hours: 4,
+		hours: 5,
 		term: courseTerms.secondSemester,
 		year: 5,
 		requirements: [
@@ -2301,7 +2301,7 @@ const courses: RawCourse[] = [
 		id: 49,
 		code: '49',
 		name: 'Obras Fluviales y Marítimas',
-		hours: 5,
+		hours: 6,
 		term: courseTerms.firstSemester,
 		year: 6,
 		tag: courseTags.elective,
