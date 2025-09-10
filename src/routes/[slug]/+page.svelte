@@ -6,12 +6,12 @@
 	import StrictModeSwitch from './strict-mode-switch.svelte';
 	import ShowCodesSwitch from './show-codes-switch.svelte';
 	import Stats from './stats.svelte';
-	import { createUrlSearchParams } from '$lib/url-state-parameter';
+	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
-	import { courseStates, encodeCoursesStates, decodeCoursesStates } from '$lib/course-state';
+	import { courseStates, decodeCoursesStates } from '$lib/course-state';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
@@ -32,6 +32,8 @@
 
 	let isRouterReady = $state(false);
 
+	const storageKey = `plande-${data.slug}`;
+
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
 
@@ -41,19 +43,18 @@
 		if (!browser) return;
 
 		tick().then(() => {
-			replaceState(`?${urlSearchParams}`, {});
+			replaceState(urlSearchParams.toString() ? `?${urlSearchParams}` : window.location.pathname, {});
+
+			const encodedStates = urlSearchParams.get(urlStateParameters.state);
+
+			const storageData = {
+				coursesStates: encodedStates,
+				isStrictModeEnabled,
+				showCodes
+			};
+
+			localStorage.setItem(storageKey, JSON.stringify(storageData));
 		});
-
-		const storageKey = `plande-${data.slug}`;
-		const encodedStates = encodeCoursesStates(coursesStates);
-
-		const storageData = {
-			coursesStates: encodedStates,
-			isStrictModeEnabled,
-			showCodes
-		};
-
-		localStorage.setItem(storageKey, JSON.stringify(storageData));
 	});
 
 	onMount(() => {
@@ -64,7 +65,6 @@
 			return;
 		}
 
-		const storageKey = `plande-${data.slug}`;
 		const savedData = localStorage.getItem(storageKey);
 
 		if (!savedData) {
