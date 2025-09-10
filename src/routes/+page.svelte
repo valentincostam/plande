@@ -176,6 +176,13 @@
 									>Ingeniería Electromecánica</a
 								>
 							</li>
+							<li>
+								<a
+									href="/utn-frcu-ic"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Ingeniería Civil</a
+								>
+							</li>
 						</ul>
 					</div>
 
