@@ -43,7 +43,10 @@
 		if (!browser) return;
 
 		tick().then(() => {
-			replaceState(urlSearchParams.toString() ? `?${urlSearchParams}` : window.location.pathname, {});
+			replaceState(
+				urlSearchParams.toString() ? `?${urlSearchParams}` : window.location.pathname,
+				{}
+			);
 
 			const encodedStates = urlSearchParams.get(urlStateParameters.state);
 
