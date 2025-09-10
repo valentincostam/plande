@@ -2290,6 +2290,10 @@ export const utnFrcuIcData: CareerData = {
 		{
 			id: 3,
 			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 5 horas semanales aproximadamente, obtenido de dividir las 150 horas totales exigidas entre 32 semanas (lo que dura año académico).'
+		},
+		{
+			id: 4,
+			text: 'Se omiten requisitos redundantes. Por ejemplo, **Química General** de 1<sup>er</sup> año _aprobada_ no se exige para cursar **Instalaciones Sanitarias y de Gas** de 4<sup>to</sup> año porque ya es requisito para cursar **Tecnología de la Construcción** de 3<sup>er</sup> año, que también debe estar _aprobada_ para cursar **Instalaciones Sanitarias y de Gas**.'
 		}
 	]
 };

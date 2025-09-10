@@ -6,7 +6,7 @@ import { utnFrcuIeData } from './utn-frcu-ie-data';
 import { ucuFauArqData } from './ucu-fau-arq';
 import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
 import { unerFcsMedData } from './uner-fcs-med-data';
-import { utnFrcuIcData } from './utn-frcu-ic';
+import { utnFrcuIcData } from './utn-frcu-ic-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
