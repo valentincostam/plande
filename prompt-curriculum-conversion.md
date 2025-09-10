@@ -61,7 +61,7 @@ Each course must have this exact structure:
 
 ```javascript
 {
-  id: number,                    // Unique sequential ID
+  id: number,                    // Unique sequential ID - MUST match the course code when possible
   code?: string,                 // Optional: course code/number from curriculum (e.g., "MAT101", "1.1")
   name: string,                  // Course name exactly as in document
   hours?: number,                // Credit hours (undefined if not specified)
@@ -75,6 +75,29 @@ Each course must have this exact structure:
   }
 }
 ```
+
+### CRITICAL: ID and Code Synchronization
+
+**MANDATORY RULE**: When a course has a numeric code, the `id` MUST match the `code` exactly for clarity and consistency.
+
+**ID Assignment Strategy**:
+1. **Numeric codes** (1, 2, 3, 10, 15, etc.): Set `id = parseInt(code)`
+   - Course with `code: '5'` → `id: 5`
+   - Course with `code: '25'` → `id: 25`
+
+2. **Non-numeric codes** (I1, I2, DA, PPS, etc.): Use high numeric IDs (90+)
+   - Course with `code: 'I1'` → `id: 99`
+   - Course with `code: 'I2'` → `id: 98`  
+   - Course with `code: 'DA'` → `id: 97`
+   - Course with `code: 'PPS'` → `id: 96`
+
+3. **No code**: Use next available high ID (95, 94, etc.)
+
+**Benefits of ID-Code Synchronization**:
+- Prerequisites become immediately clear (code "18" references course with `id: 18`)
+- Eliminates confusion between internal IDs and curriculum codes
+- Makes debugging and validation much easier
+- Ensures `requiredCourseId` values are intuitive
 
 ## Requirements Object Structure
 
@@ -251,36 +274,119 @@ Prerequisites typically appear in these formats:
 4. **Lists**: "Cursar: Matemática I, Física I" or "Aprobar: Análisis I, Álgebra I"
 5. **Semester references**: "Cursar: 1er semestre" or "Aprobar: 2do semestre"
 
-**CRITICAL: TWO-COLUMN PREREQUISITE PROCESSING**
+**CRITICAL: Course Code vs ID Mapping in Prerequisites**
 
-When the curriculum has TWO subcolumns under a parent prerequisite column (like "Regular" and "Aprobadas" under "PARA CURSAR Y RENDIR"), you MUST process BOTH subcolumns:
+When processing prerequisites, you must understand the difference between:
 
-1. **"Regular" subcolumn** contains prerequisites with state `courseStates.taken`
-2. **"Aprobadas" subcolumn** contains prerequisites with state `courseStates.passed`
+- **Course `id`**: Sequential numeric identifier used internally (1, 2, 3, 4...)
+- **Course `code`**: Official curriculum identifier that appears in prerequisite references
 
-Both subcolumns list requirements for the SAME PURPOSE (determined by the parent column header). If the parent column indicates "para cursar" or similar, use `requiredFor.enroll` for ALL requirements from both subcolumns.
+**Common Error**: Prerequisites reference course codes (like "2", "5", "MAT101"), but you must map these to the correct course `id` in the `requiredCourseId` field.
 
-The difference between subcolumns is the REQUIRED STATE, not the purpose.
+**Example Mapping Process** (with ID-Code Synchronization):
+1. Prerequisite says: "2 - 5" (meaning courses with codes "2" and "5")
+2. Find courses in your data:
+   - Course with `code: '2'` has `id: 2` → use `requiredCourseId: 2` ✅
+   - Course with `code: '5'` has `id: 5` → use `requiredCourseId: 5` ✅
 
-NEVER ignore either subcolumn. Both must be converted to requirement objects.
+**Process with synchronized IDs**:
+1. First, create all courses with correct `code` values from the curriculum
+2. **CRITICAL**: Assign IDs to match codes (numeric codes → same ID, non-numeric → high IDs 90+)
+3. When processing prerequisites, numeric code references become direct ID lookups
+4. For non-numeric codes (I1, DA), still look up by code to find the high ID
+5. With proper ID-Code sync: code "5" DOES mean id: 5 (when code is numeric)
+
+**Legacy Process** (for curricula with unsynchronized IDs):
+1. When processing prerequisites, look up each referenced code
+2. Find the course that has that `code` value  
+3. Use that course's `id` as the `requiredCourseId`
+4. Never assume that code "5" means id: 5 - always verify the mapping
+
+**CRITICAL: Systematic Prerequisite Extraction Strategy**
+
+To avoid missing prerequisites, follow this systematic approach:
+
+1. **Row-by-row verification**: Go through EACH course row in the curriculum table
+2. **Column-by-column check**: For EACH prerequisite column, verify what codes/references appear
+3. **Multi-code parsing**: If a cell contains "2 - 5" or "1, 3, 7", extract ALL referenced codes
+4. **Empty cell verification**: Confirm that dashes (-----) or blank cells truly mean no requirements
+5. **Cross-reference validation**: After creating all requirements, verify that every referenced course code exists in your courses array
+
+**Common extraction errors to avoid**:
+- **CRITICAL**: Reading only the first code in a multi-code cell ("2 - 5" → only extracting "2" but missing "5")
+- **CRITICAL**: Missing codes separated by commas, dashes, or spaces ("2-5", "1, 3, 7", "4 - 16")
+- **CRITICAL**: Incomplete extraction from cells with multiple references - EVERY code must be converted to a requirement
+- **CRITICAL**: Partial parsing of complex cells like "INGLÉS II, 11-13-15-16-18-21" (missing some of the 7 codes)
+- **CRITICAL**: Stopping extraction early when encountering mixed text/numeric content
+- **CRITICAL**: Not verifying that extracted code count matches requirement object count
+- Misreading formatted cells due to OCR or visual parsing errors
+- Assuming empty-looking cells have no content (check for light text, formatting)
+- Processing only some prerequisite columns while ignoring others
+- **CRITICAL**: Forgetting to map multi-code prerequisites in ALL THREE columns (regularizada, aprobada cursar, aprobada rendir)
+
+**CRITICAL: Multi-Code Prerequisite Parsing**
+
+When a prerequisite cell contains multiple course codes, you MUST extract EVERY individual code:
+
+**Examples of multi-code patterns**:
+- "2 - 5" → Extract codes "2" AND "5" (both required)
+- "1, 3, 7" → Extract codes "1" AND "3" AND "7" (all required)  
+- "4 - 16" → Extract codes "4" AND "16" (both required)
+- "I1-16" → Extract codes "I1" AND "16" (both required)
+- "12-13" → Extract codes "12" AND "13" (both required)
+- "INGLÉS II, 11-13-15-16-18-21" → Extract codes "INGLÉS II", "11", "13", "15", "16", "18", AND "21" (all required)
+- "2-5, DA-17" → Extract codes "2", "5", "DA", AND "17" (all required)
+
+**MANDATORY Process**:
+1. **Parse mixed content**: Split cells by commas first, then by dashes within each segment
+   - "INGLÉS II, 11-13-15-16-18-21" → ["INGLÉS II", "11-13-15-16-18-21"]
+   - Then parse "11-13-15-16-18-21" → ["11", "13", "15", "16", "18", "21"]
+2. **Extract ALL individual codes**: Include both text references (course names) and numeric codes
+3. **Create requirement objects**: Generate a separate requirement for EACH extracted code
+4. **Map to course IDs**: Convert each code to its corresponding course ID in your data
+5. **Apply states correctly**: Use the correct state (taken/passed) and purpose (enroll/complete)
+6. **Count verification**: The number of requirement objects should equal the number of extracted codes
+
+**Quality assurance checklist**:
+- [ ] Every course row has been individually reviewed for prerequisites
+- [ ] All prerequisite columns have been processed (not just the first one or two)
+- [ ] Multi-code entries have been fully parsed (e.g., "2 - 5" yields both "2" and "5")
+- [ ] **CRITICAL**: Complex cells like "INGLÉS II, 11-13-15-16-18-21" are completely parsed (should yield 7 requirements)
+- [ ] Each individual code from multi-code cells has its own requirement object
+- [ ] **COUNT CHECK**: For each prerequisite cell, count extracted codes vs. requirement objects created (must match exactly)
+- [ ] Mixed content cells (text + numeric codes) are fully processed
+- [ ] All `requiredCourseId` references point to existing course IDs  
+- [ ] The three-column mapping is applied correctly (regularizada, aprobada para cursar, aprobada para rendir)
+
+**CRITICAL: THREE-COLUMN PREREQUISITE PROCESSING**
+
+When the curriculum has THREE prerequisite columns, you MUST process ALL three columns correctly:
+
+1. **First column "TENER REGULARIZADA"** (para cursar) = `requiredFor.enroll` + `courseStates.taken`
+2. **Second column "TENER APROBADA"** (para cursar) = `requiredFor.enroll` + `courseStates.passed`
+3. **Third column "TENER APROBADA"** (para rendir) = `requiredFor.complete` + `courseStates.passed`
+
+The first TWO columns are requirements FOR ENROLLMENT (`requiredFor.enroll`), while the third column contains requirements FOR COMPLETION/EXAMINATION (`requiredFor.complete`).
+
+NEVER ignore any column. All three must be converted to requirement objects with the correct purpose and state.
 
 **State determination**:
 
 - "Cursar" = `courseStates.taken` (enrolled/in progress)
 - "Aprobar" = `courseStates.passed` (completed with passing grade)
-- "Regular" = `courseStates.taken` (enrolled)
+- "Regular/Regularizada" = `courseStates.taken` (enrolled)
 - "Aprobada" = `courseStates.passed` (passed)
 - "Cursando" = `courseStates.inProgress` (currently enrolled, similar to taken)
 
 **Purpose determination**:
 
 - "Para cursar" = `requiredFor.enroll` (needed to enroll)
-- "Para rendir" = `requiredFor.complete` (needed to complete)
-- **"Para cursar y rendir"** = `requiredFor.enroll` (needed to enroll - both subcolumns use the same purpose)
+- "Para rendir" = `requiredFor.complete` (needed to complete/examine)
 
-**Subcolumn state mapping**:
-- **"Regular" subcolumn** → `courseStates.taken`
-- **"Aprobadas" subcolumn** → `courseStates.passed`
+**Column mapping**:
+- **Column 1 "TENER REGULARIZADA"** → `requiredFor.enroll` + `courseStates.taken`
+- **Column 2 "TENER APROBADA" (para cursar)** → `requiredFor.enroll` + `courseStates.passed`
+- **Column 3 "TENER APROBADA" (para rendir)** → `requiredFor.complete` + `courseStates.passed`
 
 ## Progress Type Selection
 
@@ -305,7 +411,7 @@ Choose based on the curriculum structure:
    - Keep course names clean and professional
 5. **Inconsistent IDs**: Ensure all `requiredCourseId` references exist in the courses array
 6. **Missing prerequisites**: If a prerequisite course isn't listed, create a minimal course object for it
-7. **Missing prerequisite subcolumns**: NEVER ignore prerequisite subcolumns. If you see both "Regular" and "Aprobadas" subcolumns under a parent prerequisite column, process BOTH with the correct state mapping - this is extremely important for accurate course progression tracking
+7. **Missing prerequisite columns**: NEVER ignore prerequisite columns. If you see three prerequisite columns ("TENER REGULARIZADA", "TENER APROBADA" for cursar, "TENER APROBADA" for rendir), process ALL THREE with the correct purpose and state mapping - this is extremely important for accurate course progression tracking
 8. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
 
 ## CRITICAL: Annual Section Interpretation
@@ -439,7 +545,7 @@ export const exampleData: CareerData = {
 ## Final Notes
 
 - Ensure all imports are correct
-- Use consistent ID numbering starting from 1
+- **CRITICAL**: Use ID-Code synchronization (numeric codes → same ID, non-numeric codes → high IDs 90+)
 - Validate all prerequisite references
 - Include complete metadata (degree, college, sources)
 - Choose appropriate progress type
@@ -447,6 +553,8 @@ export const exampleData: CareerData = {
 - Correct OCR errors in course names
 - **MANDATORY**: Verify all Spanish characters have proper accents (á, é, í, ó, ú, ñ) - never use � symbols
 - **MANDATORY**: Remove course type suffixes like "(electiva)", "(integradora)", "(optativa)" and add proper tags
+- **MANDATORY**: Extract ALL individual codes from multi-code prerequisite cells ("2-5" → both "2" AND "5")
+- **MANDATORY**: Process ALL three prerequisite columns correctly (regularizada, aprobada cursar, aprobada rendir)
 - Maintain proper JavaScript syntax (not JSON)
 
 Process the provided document and generate the complete JavaScript object following this exact structure.

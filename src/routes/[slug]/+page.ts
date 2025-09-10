@@ -3,10 +3,11 @@ import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { utnFrcuIsiData } from './utn-frcu-isi-data';
 import { utnFrcuIeData } from './utn-frcu-ie-data';
-import { ucuFauArqData } from './ucu-fau-arq';
+import { ucuFauArqData } from './ucu-fau-arq-data';
 import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
 import { unerFcsMedData } from './uner-fcs-med-data';
 import { utnFrcuIcData } from './utn-frcu-ic-data';
+import { utnFrcuLoiData } from './utn-frcu-loi-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -40,6 +41,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'utn-frcu-ic') {
 		return {
 			...utnFrcuIcData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'utn-frcu-loi') {
+		return {
+			...utnFrcuLoiData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,
