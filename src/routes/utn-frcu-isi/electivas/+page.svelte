@@ -58,7 +58,7 @@
 			dictada en la mitad del tiempo.
 			<em> (Recordemos que un cuatrimestre se cursa durante la mitad de un año). </em> Por lo tanto,
 			para cumplir con dicha ordenanza, la carga horaria mínima (de dictado cuatrimestral) de las materias
-			electivas debe ser:
+			electivas debe ser el doble, es decir:
 		</p>
 
 		<ul class="list-disc pl-6">
@@ -114,13 +114,6 @@
 			</li>
 		</ul>
 
-		<p>
-			Al haber una oferta de 12 horas cátedra semanales por encima de lo exigido por la ordenanza,
-			no es necesario cursar o aprobar todas las materias electivas.
-			<strong>Basta con aprobar aquellas cuya carga horaria sumen 40 horas cátedra semanales</strong
-			>.
-		</p>
-
 		<figure>
 			<img
 				src="/utn-frcu-plan-isi.png"
@@ -132,6 +125,13 @@
 				las materias electivas resaltadas y la suma de horas de las mismas por nivel
 			</figcaption>
 		</figure>
+
+		<p>
+			Al haber una oferta de 12 horas cátedra semanales por encima de lo exigido por la ordenanza,
+			no es necesario cursar o aprobar todas las materias electivas.
+			<strong>Basta con aprobar aquellas cuya carga horaria sumen 40 horas cátedra semanales</strong
+			>.
+		</p>
 
 		<p class="text-center">
 			<a
