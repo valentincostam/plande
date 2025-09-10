@@ -164,6 +164,13 @@
 						<ul class="space-y-1.5">
 							<li>
 								<a
+									href="/utn-frcu-loi"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Licenciatura en Organización Industrial</a
+								>
+							</li>
+							<li>
+								<a
 									href="/utn-frcu-isi"
 									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
 									>Ingeniería en Sistemas de Información</a
