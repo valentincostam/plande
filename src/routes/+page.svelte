@@ -88,7 +88,7 @@
 							>PRÓXIMAMENTE</span
 						>
 					</h3>
-					<p class="text-sm text-gray-700">
+					<p class="text-gray-700">
 						Perfil personalizable, leaderboard con tus compañeros, cargar notas y calcular promedio,
 						exportar datos, dark theme. Para quienes quieran usar Plande más en serio. ¿Te interesa?
 					</p>
