@@ -1,10 +1,15 @@
 <script lang="ts">
 	import '../app.css';
-	import { dev } from '$app/environment';
+	import { dev, browser } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
-	import Clarity from '@microsoft/clarity';
+	import { onMount } from 'svelte';
 
-	Clarity.init('t9dji08rov');
+	onMount(async () => {
+		if (browser) {
+			const { default: Clarity } = await import('@microsoft/clarity');
+			Clarity.init('t9dji08rov');
+		}
+	});
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 

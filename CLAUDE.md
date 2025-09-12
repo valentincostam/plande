@@ -5,18 +5,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ### Development
-- `npm run dev` - Start development server
-- `npm run dev -- --open` - Start development server and open in browser
+- `bun run dev` - Start development server
+- `bun run dev -- --open` - Start development server and open in browser
 
 ### Quality Assurance
-- `npm run check` - Type checking with svelte-check
-- `npm run check:watch` - Type checking in watch mode
-- `npm run lint` - Run Prettier and ESLint checks
-- `npm run format` - Format code with Prettier
+- `bun run check` - Type checking with svelte-check
+- `bun run check:watch` - Type checking in watch mode
+- `bun run lint` - Run Prettier and ESLint checks
+- `bun run format` - Format code with Prettier
 
 ### Build & Deploy
-- `npm run build` - Create production build
-- `npm run preview` - Preview production build locally
+- `bun run build` - Create production build
+- `bun run preview` - Preview production build locally
 
 ## Architecture
 
