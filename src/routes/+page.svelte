@@ -89,8 +89,8 @@
 						>
 					</h3>
 					<p class="text-gray-700">
-						Perfil personalizable, leaderboard con tus compañeros, cargar notas y calcular promedio,
-						exportar datos, dark theme. Para quienes quieran usar Plande más en serio. ¿Te interesa?
+						Perfil personalizable, ranking con tus compañeros, cargar notas, calcular promedio,
+						exportar datos, modo oscuro y más. Para quienes quieran usar Plande más en serio.
 					</p>
 				</div>
 			</div>
