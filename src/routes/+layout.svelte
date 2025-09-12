@@ -2,6 +2,9 @@
 	import '../app.css';
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
+	import Clarity from '@microsoft/clarity';
+
+	Clarity.init('t9dji08rov');
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
