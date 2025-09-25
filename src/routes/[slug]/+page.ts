@@ -8,6 +8,7 @@ import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
 import { unerFcsMedData } from './uner-fcs-med-data';
 import { utnFrcuIcData } from './utn-frcu-ic-data';
 import { utnFrcuLoiData } from './utn-frcu-loi-data';
+import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -81,6 +82,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'uner-fcs-med') {
 		return {
 			...unerFcsMedData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'unca-fca-tupazsa') {
+		return {
+			...uncaFcaTupazsaData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

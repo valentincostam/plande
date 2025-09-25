@@ -254,6 +254,118 @@ The `code` field should contain the official course identifier from the curricul
 - `courseTerms.annual`: Courses spanning the full academic year
 - `courseTerms.firstSemester`/`courseTerms.secondSemester`: Standard semester divisions
 
+## MANDATORY SYSTEMATIC PROCESS
+
+**CRITICAL**: You MUST follow this process step-by-step. Do NOT skip any step or assume information is correct without verification.
+
+### Step 1: COMPLETE DATA EXTRACTION
+1. **For web sources**: If information is truncated, make multiple queries until you have ALL data
+2. **For structured tables**: Process EVERY row and EVERY column systematically
+3. **For images**: Examine EVERY cell in tabular data row-by-row, column-by-column
+4. **STOP CONDITION**: Only proceed when you have verified complete data for all courses and prerequisites
+
+### Step 2: SYSTEMATIC TABLE PROCESSING (When curriculum is in table format)
+**MANDATORY ROW-BY-ROW VERIFICATION:**
+1. Start from course #1, go through EVERY course number sequentially
+2. For EACH course, extract: Name, Year, Term/Semester, Prerequisites
+3. **CRITICAL**: For prerequisite columns, extract EVERY code/reference (don't miss any)
+4. Mark each row as "VERIFIED ✓" as you process it
+5. **COUNT CHECK**: Verify total courses extracted matches expected count
+
+### Step 3: PREREQUISITE EXTRACTION VALIDATION
+**MANDATORY for EACH course with prerequisites:**
+1. **List all prerequisite codes found**: Write them out explicitly
+2. **Count codes vs. requirement objects**: Must match exactly
+3. **Verify course ID mapping**: Each code references an existing course
+4. **State validation**: Confirm correct courseStates (taken/passed)
+5. **Purpose validation**: Confirm correct requiredFor (enroll/complete)
+
+### Step 4: FINAL CROSS-VALIDATION CHECKPOINT
+**MANDATORY before submitting**:
+1. **Total course count**: Matches curriculum document
+2. **Distribution check**: Courses per year/semester match document
+3. **Prerequisite completeness**: All prerequisite relationships captured
+4. **No orphaned references**: All requiredCourseId values exist in courses array
+5. **Data consistency**: Terms, years, names match source exactly
+
+**⚠️ QUALITY GATE**: If ANY validation fails, you MUST go back and fix before proceeding.
+
+### HANDLING TRUNCATED WEB RESPONSES
+
+**When WebFetch responses are incomplete:**
+1. **Detect truncation**: Look for cut-off sentences, incomplete lists, or missing year data
+2. **Make targeted follow-up queries**: Ask specifically for missing information
+3. **Use multiple query strategies**:
+   - "Continue with the remaining courses from where the previous response ended"
+   - "Focus specifically on Year X courses and their prerequisites"
+   - "Provide complete prerequisite information for courses 15-22"
+4. **Cross-reference**: If you have partial data, ask for verification of specific details
+5. **NEVER proceed with incomplete data**: Keep querying until you have everything
+
+**Signs of incomplete data:**
+- Response ends mid-sentence or mid-list
+- Missing courses from expected sequence (gaps in course numbers)
+- Vague or missing prerequisite information
+- Incomplete year/semester distributions
+
+### PROCESSING STRUCTURED CURRICULUM TABLES
+
+**When you have access to official curriculum tables (images or structured data):**
+
+1. **MANDATORY TABLE VERIFICATION PROCESS**:
+   - Process table row by row, starting from row 1
+   - For each row, verify: Course #, Name, Year/Term, Prerequisites
+   - **DO NOT SKIP ROWS**: Process every single course sequentially
+   - Mark progress: "Row 1 ✓, Row 2 ✓, Row 3 ✓..." as you go
+
+2. **PREREQUISITE COLUMN PROCESSING**:
+   - Read prerequisite codes EXACTLY as written (e.g., "2;3 y 5", "11;12 y 14")
+   - Parse compound entries: "11;12 y 14" = courses 11, 12, AND 14
+   - **CRITICAL**: "y" means "AND" - all courses are required
+   - Count codes: "2;3 y 5" = 3 prerequisite courses (2, 3, 5)
+
+3. **DISTRIBUTION VALIDATION**:
+   - Count courses per semester: "1º Cuatr." vs "2º Cuatr."
+   - Verify distribution matches your implementation
+   - **Example validation**: If table shows 5 courses in "1º Cuatr. 3er Año", your code must have exactly 5 courses with `term: firstSemester, year: 3`
+
+4. **CROSS-CHECK WITH SOURCE**:
+   - Compare your final course count with table rows
+   - Verify each course's term assignment matches table's "Régimen" column
+   - Confirm all prerequisite relationships are captured
+
+**Table Reading Best Practices**:
+- Read tables left-to-right, top-to-bottom systematically
+- Don't make assumptions about course placement
+- When in doubt, refer back to the original table structure
+- Use the official course numbers as your source of truth
+
+### COMMON ERRORS AND HOW TO AVOID THEM
+
+**Based on real implementation mistakes:**
+
+1. **Error**: Trusting incomplete web responses
+   - **What happened**: WebFetch returned partial data, missing prerequisites for several courses
+   - **How to avoid**: Always check if response ends mid-sentence or has missing course sequences
+
+2. **Error**: Not processing structured tables systematically
+   - **What happened**: Misplaced courses in wrong semesters despite having official table
+   - **How to avoid**: Process tables row-by-row, don't skip any rows, verify each placement
+
+3. **Error**: Assuming elective courses have no prerequisites
+   - **What happened**: Left "Electiva" course with empty requirements when it had 4 prerequisites
+   - **How to avoid**: Check ALL courses for prerequisites, including electives and special courses
+
+4. **Error**: Incomplete prerequisite parsing
+   - **What happened**: Missing prerequisite codes from compound entries like "11;12 y 14"
+   - **How to avoid**: Parse each code individually, count total codes vs. requirement objects
+
+5. **Error**: Skipping final validation
+   - **What happened**: Submitted data without cross-checking against source
+   - **How to avoid**: Always do final validation - count courses, check distributions, verify all prerequisites
+
+**PREVENTION STRATEGY**: Follow the systematic process above. Every error listed was preventable by following the mandatory steps.
+
 ## Key Differences from Old Format
 
 1. **JavaScript object literal, not JSON** - Use proper JavaScript syntax
@@ -400,12 +512,12 @@ Choose based on the curriculum structure:
 
 1. **Missing data**: Use `undefined` for hours, proper defaults for other fields
 2. **OCR errors**: Correct obvious mistakes (e.g., "INGENERIA" → "INGENIERÍA")
-3. **Character encoding issues**: 
+3. **Character encoding issues**:
    - **CRITICAL**: Always use proper UTF-8 encoding for Spanish characters
    - Replace any � symbols with correct accented characters: á, é, í, ó, ú, ñ
    - Common corrections: Álgebra (not �lgebra), Análisis (not An�lisis), Ingeniería (not Ingenier�a)
    - Verify all course names, degree titles, and metadata have correct Spanish accents
-4. **Course name cleaning**: 
+4. **Course name cleaning**:
    - **MANDATORY**: Remove course type suffixes from names: "(electiva)", "(integradora)", "(optativa)"
    - Add corresponding tags instead: courseTags.elective, courseTags.integrative, courseTags.optative
    - Keep course names clean and professional
@@ -413,6 +525,12 @@ Choose based on the curriculum structure:
 6. **Missing prerequisites**: If a prerequisite course isn't listed, create a minimal course object for it
 7. **Missing prerequisite columns**: NEVER ignore prerequisite columns. If you see three prerequisite columns ("TENER REGULARIZADA", "TENER APROBADA" for cursar, "TENER APROBADA" for rendir), process ALL THREE with the correct purpose and state mapping - this is extremely important for accurate course progression tracking
 8. **Course codes**: Extract codes exactly as they appear in the source document. Don't modify formatting unless correcting obvious OCR errors
+9. **CRITICAL DATA VALIDATION FAILURES**:
+   - **Incomplete web extraction**: If you suspect missing data, DO NOT PROCEED until verified complete
+   - **Semester/term misplacement**: Cross-check EVERY course term assignment against source
+   - **Empty requirements on electives**: ALL courses can have prerequisites - verify each one
+   - **Prerequisite count mismatches**: Extracted codes must equal requirement objects created
+   - **Distribution inconsistencies**: Course counts per semester must match source document exactly
 
 ## CRITICAL: Annual Section Interpretation
 
@@ -556,5 +674,14 @@ export const exampleData: CareerData = {
 - **MANDATORY**: Extract ALL individual codes from multi-code prerequisite cells ("2-5" → both "2" AND "5")
 - **MANDATORY**: Process ALL three prerequisite columns correctly (regularizada, aprobada cursar, aprobada rendir)
 - Maintain proper JavaScript syntax (not JSON)
+
+**BEFORE YOU BEGIN**: Re-read the MANDATORY SYSTEMATIC PROCESS section above. You MUST follow each step.
+
+**FINAL REMINDER**:
+- ✅ Extract complete data (no truncated responses)
+- ✅ Process tables row-by-row systematically
+- ✅ Verify ALL prerequisites for ALL courses
+- ✅ Cross-validate final output against source
+- ✅ Only submit after ALL validation checks pass
 
 Process the provided document and generate the complete JavaScript object following this exact structure.
