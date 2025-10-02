@@ -9,6 +9,7 @@ import { unerFcsMedData } from './uner-fcs-med-data';
 import { utnFrcuIcData } from './utn-frcu-ic-data';
 import { utnFrcuLoiData } from './utn-frcu-loi-data';
 import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
+import { udemmLicPsicologiaData } from './udemm-lic-psicologia-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -92,6 +93,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'unca-fca-tupazsa') {
 		return {
 			...uncaFcaTupazsaData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'udemm-lic-psicologia') {
+		return {
+			...udemmLicPsicologiaData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

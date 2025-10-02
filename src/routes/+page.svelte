@@ -265,6 +265,25 @@
 						</ul>
 					</div>
 
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-pink-500"></div>
+							<h3 class="font-semibold text-gray-900">UDEMM</h3>
+						</div>
+
+						<ul class="space-y-1.5">
+							<li>
+								<a
+									href="/udemm-lic-psicologia"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Licenciatura en Psicología</a
+								>
+							</li>
+						</ul>
+					</div>
+
 					<div class="sm:col-span-2">
 						<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
 							<span class="text-sm text-gray-600">¿No está tu carrera?</span>
