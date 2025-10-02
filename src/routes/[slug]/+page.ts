@@ -9,7 +9,7 @@ import { unerFcsMedData } from './uner-fcs-med-data';
 import { utnFrcuIcData } from './utn-frcu-ic-data';
 import { utnFrcuLoiData } from './utn-frcu-loi-data';
 import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
-import { udemmLicPsicologiaData } from './udemm-lic-psicologia-data';
+import { udemmLpData } from './udemm-lp-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -100,9 +100,9 @@ export const load: PageLoad = ({ params, url }) => {
 		};
 	}
 
-	if (slug === 'udemm-lic-psicologia') {
+	if (slug === 'udemm-lp') {
 		return {
-			...udemmLicPsicologiaData,
+			...udemmLpData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

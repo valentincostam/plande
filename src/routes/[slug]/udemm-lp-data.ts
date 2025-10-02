@@ -1994,7 +1994,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const udemmLicPsicologiaData: CareerData = {
+export const udemmLpData: CareerData = {
 	courses,
 	degree: 'Licenciatura en Psicología',
 	years: 5,

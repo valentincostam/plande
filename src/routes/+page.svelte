@@ -276,7 +276,7 @@
 						<ul class="space-y-1.5">
 							<li>
 								<a
-									href="/udemm-lic-psicologia"
+									href="/udemm-lp"
 									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
 									>Licenciatura en Psicología</a
 								>
