@@ -292,7 +292,7 @@ const courses: RawCourse[] = [
 		name: 'Psicoanálisis: Escuela Francesa',
 		hours: undefined,
 		term: courseTerms.firstSemester,
-		year: 2,
+		year: 3,
 		requirements: [
 			{
 				id: 1,
