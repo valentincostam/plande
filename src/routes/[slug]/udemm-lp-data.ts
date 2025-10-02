@@ -513,12 +513,6 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 8,
-				requiredCourseId: 239,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
 				id: 9,
 				requiredCourseId: 238,
 				requiredState: courseStates.passed,
@@ -613,12 +607,6 @@ const courses: RawCourse[] = [
 			{
 				id: 7,
 				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 239,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
