@@ -1168,38 +1168,47 @@ export const udemmLpData: CareerData = {
 	notes: [
 		{
 			id: 1,
-			text: 'El plan de estudios incluye dos materias electivas: una en 3º año y otra en 5º año.'
+			text: 'Para rendir el examen final de **Trabajo Integrador Final** (5<sup>to</sup> año) se debe estar aprobada todas las asignaturas curriculares, extracurriculares y las electivas correspondientes del plan de estudios.'
 		},
 		{
 			id: 2,
-			text: 'Los cursos **Intervenciones en Psicoanálisis** y **Modelos y Estrategias de Intervención en Psicopatología** tienen examen final obligatorio.'
-		},
-		{
-			id: 3,
-			text: 'La carrera otorga el título intermedio de **Acompañante Terapéutico**.'
+			text: `Las siguientes materias tienen examen final obligatorio:
+        \n - H0238. **Psicopatología II** (2<sup>do</sup> año)
+        \n - H0236. **Fundamentos del Psicoanálisis II** (2<sup>do</sup> año)
+        \n - H0240. **Intervenciones en Psicoanálisis** (3<sup>er</sup> año)
+        \n - H0242. **Modelos y Estrategias de Intervención en Psicopatología** (3<sup>er</sup> año)
+        \n - H0232. **Práctica Profesional Supervisada I** (4<sup>to</sup> año)
+        \n - H0233. **Práctica Profesional Supervisada II** (5<sup>to</sup> año)
+        \n - H0257. **Trabajo Integrador Final** (5<sup>to</sup> año)
+      `
 		},
 		{
 			id: 4,
 			text: `Las opciones de materias electivas de 3<sup>er</sup> año son:
-        \n - **Psicopedagogía en Educación Especial I** (H0043)
-        \n - **Investigación de Mercados** (H0220)
-        \n - **Psicología de la Tercera Edad** (H0222)
+        \n - H0043. **Psicopedagogía en Educación Especial I**
+        \n - H0220. **Investigación de Mercados**
+        \n - H0222. **Psicología de la Tercera Edad**
       `
 		},
 		{
 			id: 5,
 			text: `Las opciones de materias electivas de 5<sup>to</sup> año son:
-        \n - **Comunicación** (H0218)
-        \n - **Género, Sexualidad y Subjetividad** (H0258)
-        \n - **Publicidad y Promoción** (H0219)
-        \n - **Psicología de las Nuevas Tecnologías** (H0259)
-        \n - **Introducción a la Psicología del Deporte** (H0225)
-        \n - **Comportamiento del Consumidor** (H0221)
+        \n - H0218. **Comunicación**
+        \n - H0258. **Género, Sexualidad y Subjetividad**
+        \n - H0219. **Publicidad y Promoción**
+        \n - H0259. **Psicología de las Nuevas Tecnologías**
+        \n - H0225. **Introducción a la Psicología del Deporte**
+        \n - H0221. **Comportamiento del Consumidor**
       `
 		},
 		{
 			id: 6,
-			text: 'Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como "Todo 1º A 2º año".'
+			text: 'Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como *"Todo 1º A 2º año"*.'
+		},
+
+		{
+			id: 3,
+			text: 'La carrera otorga el título intermedio de **Acompañante Terapéutico**.'
 		}
 	]
 };
