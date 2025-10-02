@@ -270,7 +270,7 @@
 					>
 						<div class="mb-1 flex items-center gap-2">
 							<div class="h-2 w-2 rounded-full bg-pink-500"></div>
-							<h3 class="font-semibold text-gray-900">UDEMM</h3>
+							<h3 class="font-semibold text-gray-900">UdeMM</h3>
 						</div>
 
 						<ul class="space-y-1.5">

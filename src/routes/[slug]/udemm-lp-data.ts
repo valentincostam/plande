@@ -1147,7 +1147,7 @@ export const udemmLpData: CareerData = {
 	courses,
 	degree: 'Licenciatura en Psicología',
 	years: 5,
-	college: 'UDEMM',
+	college: 'UdeMM',
 	studyProgram: 'Plan de Estudios',
 	progress: {
 		type: 'mandatory-plus-one-elective',
