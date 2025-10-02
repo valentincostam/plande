@@ -308,6 +308,37 @@ The `code` field should contain the official course identifier from the curricul
 - Vague or missing prerequisite information
 - Incomplete year/semester distributions
 
+### YEAR-RANGE PREREQUISITES
+
+**Pattern**: Prerequisites like "1º A 2º año", "Todo 1º A 2º año", "1º Año al 1º C de 4º Año"
+
+**Implementation**:
+1. Expand to ALL individual course IDs from that range
+2. Add note explaining redundant requirements were simplified
+3. Example: "Todo 1º A 2º año" → add requirements for ALL 14 courses from years 1-2
+
+**Quality note**: These expansions create redundant chains - document in notes section.
+
+### ELECTIVE OPTIONS: NOTES VS COURSES
+
+**Pattern**: Curricula listing multiple specific elective options (Electiva I: Option A, B, C)
+
+**Correct approach**:
+- Create ONE generic placeholder: `{id: 91, name: 'Materia Electiva I', tag: courseTags.elective}`
+- List specific options in `notes`: "Opciones de Materia Electiva I: **Option A** (CODE1), **Option B** (CODE2)"
+- Reference: See UADER/UDEMM implementations
+
+**Incorrect**: Don't create individual course objects for each option
+
+### POST-IMPLEMENTATION VALIDATION
+
+**MANDATORY**: After generating data, ask user to verify:
+1. **Sample placements** (5-10 key courses): "Verify these are in correct year/semester"
+2. **Complex prerequisites**: "Confirm this interpretation of '1º A 2º año'"
+3. **Elective handling**: "Do elective options match curriculum?"
+
+This catches placement errors early (e.g., courses in wrong year).
+
 ### PROCESSING STRUCTURED CURRICULUM TABLES
 
 **When you have access to official curriculum tables (images or structured data):**
