@@ -384,12 +384,6 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
 				requiredCourseId: 206,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -476,168 +470,80 @@ const courses: RawCourse[] = [
 		term: courseTerms.firstSemester,
 		year: 3,
 		requirements: [
-			// 1º año - 1er cuatrimestre
 			{
 				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 1º año - 2do cuatrimestre
-			{
-				id: 8,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
 				requiredCourseId: 12,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 10,
+				id: 2,
 				requiredCourseId: 4,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 11,
+				id: 3,
 				requiredCourseId: 204,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 12,
+				id: 4,
 				requiredCourseId: 205,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 1er cuatrimestre
-			{
-				id: 14,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
+				id: 5,
 				requiredCourseId: 208,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 17,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 18,
+				id: 6,
 				requiredCourseId: 10,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 19,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
+				id: 7,
 				requiredCourseId: 255,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 21,
+				id: 8,
 				requiredCourseId: 239,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// 2º año - 2do cuatrimestre
 			{
-				id: 22,
+				id: 9,
 				requiredCourseId: 238,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 23,
+				id: 10,
 				requiredCourseId: 207,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 24,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 25,
+				id: 11,
 				requiredCourseId: 20,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 26,
+				id: 12,
 				requiredCourseId: 15,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 27,
+				id: 13,
 				requiredCourseId: 21,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -668,168 +574,80 @@ const courses: RawCourse[] = [
 		year: 3,
 		tag: courseTags.elective,
 		requirements: [
-			// 1º año - 1er cuatrimestre
 			{
 				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 1º año - 2do cuatrimestre
-			{
-				id: 8,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
 				requiredCourseId: 12,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 10,
+				id: 2,
 				requiredCourseId: 4,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 11,
+				id: 3,
 				requiredCourseId: 204,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 12,
+				id: 4,
 				requiredCourseId: 205,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 1er cuatrimestre
-			{
-				id: 14,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
+				id: 5,
 				requiredCourseId: 208,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 17,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 18,
+				id: 6,
 				requiredCourseId: 10,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 19,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
+				id: 7,
 				requiredCourseId: 255,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 21,
+				id: 8,
 				requiredCourseId: 239,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// 2º año - 2do cuatrimestre
 			{
-				id: 22,
+				id: 9,
 				requiredCourseId: 238,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 23,
+				id: 10,
 				requiredCourseId: 207,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 24,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 25,
+				id: 11,
 				requiredCourseId: 20,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 26,
+				id: 12,
 				requiredCourseId: 15,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 27,
+				id: 13,
 				requiredCourseId: 21,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -934,12 +752,6 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
 				requiredCourseId: 208,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1075,273 +887,74 @@ const courses: RawCourse[] = [
 		term: courseTerms.secondSemester,
 		year: 4,
 		requirements: [
-			// 1º año - 1er cuatrimestre
 			{
 				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 1º año - 2do cuatrimestre
-			{
-				id: 8,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 1er cuatrimestre
-			{
-				id: 14,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 17,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 18,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 19,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
-				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 2do cuatrimestre
-			{
-				id: 21,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 22,
-				requiredCourseId: 207,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 23,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 24,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 25,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 26,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 3º año - 1er cuatrimestre
-			{
-				id: 27,
-				requiredCourseId: 239,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 28,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 29,
-				requiredCourseId: 241,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 30,
 				requiredCourseId: 14,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 31,
-				requiredCourseId: 243,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 32,
+				id: 2,
 				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// 3º año - 2do cuatrimestre
 			{
-				id: 33,
+				id: 3,
 				requiredCourseId: 240,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 34,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 35,
-				requiredCourseId: 244,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 36,
+				id: 4,
 				requiredCourseId: 19,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 37,
+				id: 5,
 				requiredCourseId: 22,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 38,
+				id: 6,
 				requiredCourseId: 210,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// 4º año - 1er cuatrimestre
 			{
-				id: 39,
+				id: 7,
 				requiredCourseId: 211,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 40,
+				id: 8,
 				requiredCourseId: 29,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 41,
+				id: 9,
 				requiredCourseId: 213,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 42,
+				id: 10,
 				requiredCourseId: 256,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 43,
+				id: 11,
 				requiredCourseId: 35,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 44,
+				id: 12,
 				requiredCourseId: 245,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1422,310 +1035,38 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		year: 5,
 		requirements: [
-			// 1º año - 1er cuatrimestre
 			{
 				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 1º año - 2do cuatrimestre
-			{
-				id: 8,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 1er cuatrimestre
-			{
-				id: 14,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 17,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 18,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 19,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
-				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 2do cuatrimestre
-			{
-				id: 21,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 22,
-				requiredCourseId: 207,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 23,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 24,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 25,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 26,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 3º año - 1er cuatrimestre
-			{
-				id: 27,
-				requiredCourseId: 239,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 28,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 29,
-				requiredCourseId: 241,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 30,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 31,
-				requiredCourseId: 243,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 32,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 3º año - 2do cuatrimestre
-			{
-				id: 33,
-				requiredCourseId: 240,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 34,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 35,
-				requiredCourseId: 244,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 36,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 37,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 38,
-				requiredCourseId: 210,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 4º año - 1er cuatrimestre
-			{
-				id: 39,
-				requiredCourseId: 211,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 40,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 41,
-				requiredCourseId: 213,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 42,
-				requiredCourseId: 256,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 43,
-				requiredCourseId: 35,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 44,
-				requiredCourseId: 245,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 4º año - 2do cuatrimestre
-			{
-				id: 45,
 				requiredCourseId: 246,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 46,
+				id: 2,
 				requiredCourseId: 232,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 47,
+				id: 3,
 				requiredCourseId: 33,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 48,
+				id: 4,
 				requiredCourseId: 214,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 49,
+				id: 5,
 				requiredCourseId: 30,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 50,
+				id: 6,
 				requiredCourseId: 212,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1756,236 +1097,44 @@ const courses: RawCourse[] = [
 		year: 5,
 		tag: courseTags.elective,
 		requirements: [
-			// 1º año - 1er cuatrimestre
 			{
 				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 1º año - 2do cuatrimestre
-			{
-				id: 8,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 1er cuatrimestre
-			{
-				id: 14,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 15,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 16,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 17,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 18,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 19,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 20,
-				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 2º año - 2do cuatrimestre
-			{
-				id: 21,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 22,
-				requiredCourseId: 207,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 23,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 24,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 25,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 26,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			// 3º año - 1er cuatrimestre
-			{
-				id: 27,
-				requiredCourseId: 239,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 28,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 29,
-				requiredCourseId: 241,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 30,
 				requiredCourseId: 14,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 31,
-				requiredCourseId: 243,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 32,
+				id: 2,
 				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
-			// 3º año - 2do cuatrimestre
 			{
-				id: 33,
+				id: 3,
 				requiredCourseId: 240,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 34,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 35,
+				id: 4,
 				requiredCourseId: 244,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 36,
+				id: 5,
 				requiredCourseId: 19,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 37,
+				id: 6,
 				requiredCourseId: 22,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 38,
+				id: 7,
 				requiredCourseId: 210,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -2047,6 +1196,10 @@ export const udemmLpData: CareerData = {
         \n - **Introducción a la Psicología del Deporte** (H0225)
         \n - **Comportamiento del Consumidor** (H0221)
       `
+		},
+		{
+			id: 6,
+			text: 'Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como "Todo 1º A 2º año".'
 		}
 	]
 };
