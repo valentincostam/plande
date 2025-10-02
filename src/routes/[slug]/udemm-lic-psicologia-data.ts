@@ -2007,13 +2007,13 @@ export const udemmLicPsicologiaData: CareerData = {
 	sources: [
 		{
 			id: 1,
-			label: 'Correlatividades',
-			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/correlatividades-licenciatura-en-psicologia/'
+			label: 'Plan de Estudios',
+			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/'
 		},
 		{
 			id: 2,
-			label: 'Plan de Estudios',
-			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/'
+			label: 'Correlatividades',
+			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/correlatividades-licenciatura-en-psicologia/'
 		}
 	],
 	notes: [
