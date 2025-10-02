@@ -4,7 +4,13 @@
 </script>
 
 <svelte:head>
-	<title>Planes de Estudios Interactivos en Plande</title>
+	<title
+		>Plande - Planificá tu carrera universitaria fácil y rápido con un plan de estudios interactivo</title
+	>
+	<meta
+		name="description"
+		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso. Recibite más rápido."
+	/>
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
