@@ -1151,6 +1151,11 @@ export const udemmLpData: CareerData = {
 			id: 2,
 			label: 'Correlatividades',
 			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/correlatividades-licenciatura-en-psicologia/'
+		},
+		{
+			id: 3,
+			label: 'Plan de Estudios (PDF)',
+			url: 'https://drive.google.com/file/d/1-KeqTTU5E1pyPxeHh5D4a8KPYEXFbjyZ/view?usp=sharing'
 		}
 	],
 	notes: [
