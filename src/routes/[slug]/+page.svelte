@@ -17,6 +17,7 @@
 	import { onMount, tick } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
+	import RedundantRequirements from './redundant-requirements.svelte';
 
 	let { data }: PageProps = $props();
 

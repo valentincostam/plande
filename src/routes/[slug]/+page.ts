@@ -5,6 +5,7 @@ import { utnFrcuIsiData } from './utn-frcu-isi-data';
 import { utnFrcuIeData } from './utn-frcu-ie-data';
 import { ucuFauArqData } from './ucu-fau-arq-data';
 import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
+import { uaderFcytItData } from './uader-fcyt-it-data';
 import { unerFcsMedData } from './uner-fcs-med-data';
 import { utnFrcuIcData } from './utn-frcu-ic-data';
 import { utnFrcuLoiData } from './utn-frcu-loi-data';
@@ -103,6 +104,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'udemm-lp') {
 		return {
 			...udemmLpData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'uader-fcyt-it') {
+		return {
+			...uaderFcytItData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

@@ -232,6 +232,13 @@
 									>Licenciatura en Sistemas de Información</a
 								>
 							</li>
+							<li>
+								<a
+									href="/uader-fcyt-it"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Ingeniería en Telecomunicaciones</a
+								>
+							</li>
 						</ul>
 					</div>
 
