@@ -102,13 +102,61 @@
 
 	const years = createYears(data.years, courses);
 
-	const title = `Plan de estudios de ${data.degree} de ${data.college} en Plande`;
+	const title = `${data.degree} - ${data.college} | Plan de Estudios Interactivo`;
+	const description = `Plan de estudios interactivo de ${data.degree} en ${data.college}. Visualiza materias, requisitos y tu progreso académico de forma clara y organizada.`;
+	const url = `https://plande.app/${data.slug}`;
 </script>
 
 <svelte:head>
 	<title>{title}</title>
+	<meta name="description" content={description} />
+	<link rel="canonical" href={url} />
+
+	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	<meta property="og:url" content={url} />
+	<meta property="og:site_name" content="Plande" />
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={description} />
+
+	<!-- Structured Data - Course & Organization -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'Course',
+		name: data.degree,
+		description: description,
+		provider: {
+			'@type': 'CollegeOrUniversity',
+			name: data.college
+		},
+		educationalLevel: 'Undergraduate',
+		url: url,
+		inLanguage: 'es'
+	})}<\/script>`}
+
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Inicio',
+				item: 'https://plande.app'
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: data.degree,
+				item: url
+			}
+		]
+	})}<\/script>`}
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">

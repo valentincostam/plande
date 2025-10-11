@@ -7,6 +7,7 @@ const careers = [
 	'utn-frcu-ic',
 	'ucu-fau-arq',
 	'uader-fcyt-lsi',
+	'uader-fcyt-it',
 	'uner-fcs-med',
 	'unca-fca-tupazsa',
 	'udemm-lp'
