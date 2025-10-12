@@ -35,7 +35,7 @@
 
 <div class="flex items-center justify-between gap-3">
 	<h3 class="p-3 text-sm text-gray-600">{title}</h3>
-	{#if allCoursesEnabled}
+	{#if courses.length > 1 && allCoursesEnabled}
 		<BulkStateSelect id={`${year}-${title}-state-select`} {onchange} bind:value={selectValue} />
 	{/if}
 </div>
