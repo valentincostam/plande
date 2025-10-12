@@ -2,7 +2,7 @@
 	<title>Planes de Estudios Interactivos en Plande</title>
 </svelte:head>
 
-<main class="error-page relative flex min-h-dvh flex-col justify-center">
+<main class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)]">
 	<header class="absolute top-0 w-full p-9 text-center">
 		<a
 			href="/"
@@ -25,15 +25,8 @@
 		</p>
 	</section>
 	<img
-		class="absolute bottom-0 left-1/2 -z-10 max-h-[25dvh] -translate-x-1/2"
+		class="absolute bottom-0 left-1/2 max-h-[25dvh] -translate-x-1/2"
 		src="/travolta.gif"
 		alt="Travolta lost"
 	/>
 </main>
-
-<style>
-	.error-page {
-		background-color: rgb(252 254 252);
-		min-height: 100dvh;
-	}
-</style>
