@@ -173,7 +173,7 @@
 	</header>
 
 	<main class="grid gap-9">
-		{#each years as year}
+		{#each years as year, index}
 			<Year {year} {showCodes} />
 		{/each}
 

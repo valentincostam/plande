@@ -4,8 +4,9 @@
 	import Course from './course.svelte';
 	import Term from './term.svelte';
 	import { getOrdinalSuperscript, getCourseEffectiveTerm, type Year } from '$lib/year.svelte';
-	import StateSelect from './state-select.svelte';
-	import { type CourseState } from '$lib/course-state';
+	import BulkStateSelect from './bulk-state-select.svelte';
+	import { courseStates, type CourseState } from '$lib/course-state';
+	import StatePill from './state-pill.svelte';
 
 	type Props = {
 		year: Year;
@@ -14,7 +15,11 @@
 
 	let { year, showCodes = false }: Props = $props();
 
-	const annualCourses = year.courses.filter((course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annual);
+	let selectValue = $state<CourseState | ''>('');
+
+	const annualCourses = year.courses.filter(
+		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annual
+	);
 
 	const firstSemesterCourses = year.courses.filter(
 		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.firstSemester
@@ -24,35 +29,51 @@
 		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.secondSemester
 	);
 
-	const semestralCourses = year.courses.filter((course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral);
+	const semestralCourses = year.courses.filter(
+		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral
+	);
+
+	const showBulkSelect = $derived(
+		firstSemesterCourses.length > 0
+			? firstSemesterCourses.every((course) => course.isEnabled)
+			: year.courses.every((course) => course.isEnabled)
+	);
 
 	const onchange = (event: Event) => {
-		const newState = (event.target as HTMLSelectElement).value as CourseState;
-		year.state = newState;
-		year.courses.forEach((course) => (course.state = newState));
+		const target = event.target as HTMLSelectElement;
+		const newState = target.value as CourseState;
+
+		if (newState) {
+			// Cambiar el estado de todas las materias
+			year.courses.forEach((course) => {
+				course.state = newState;
+			});
+		}
+
+		// Resetear el select al placeholder
+		selectValue = '';
 	};
 </script>
 
 <article>
 	<header
-		class="sticky top-0 z-10 flex items-center justify-between bg-white p-3 shadow-[-2px_0_0_#FFFFFF,2px_0_0_#FFFFFF]"
+		class="sticky top-0 z-10 flex items-center justify-between bg-white shadow-[-2px_0_0_#FFFFFF,2px_0_0_#FFFFFF]"
 	>
-		<h2 class="text-lg font-bold">
-			{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año
-		</h2>
-
-		<StateSelect
-			id={`year-${year.year}`}
-			value={year.state}
-			isEnabled={year.isEnabled}
-			canPass={year.canPass}
-			{onchange}
-			gender="masculine"
-		/>
+		<div class="flex items-center gap-3 p-3">
+			<h2 class="text-lg font-bold">
+				{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año
+			</h2>
+			{#if year.state === courseStates.passed}
+				<StatePill state={courseStates.passed} gender="masculine" class="text-xs" />
+			{/if}
+		</div>
+		{#if showBulkSelect}
+			<BulkStateSelect id={`year-${year.year}-state-select`} {onchange} bind:value={selectValue} />
+		{/if}
 	</header>
 
 	{#if annualCourses.length > 0}
-		<Term title={courseTermLabels[courseTerms.annual]}>
+		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses} year={year.year}>
 			{#each annualCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
@@ -60,7 +81,11 @@
 	{/if}
 
 	{#if firstSemesterCourses.length > 0}
-		<Term title={courseTermLabels[courseTerms.firstSemester]}>
+		<Term
+			title={courseTermLabels[courseTerms.firstSemester]}
+			courses={firstSemesterCourses}
+			year={year.year}
+		>
 			{#each firstSemesterCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
@@ -68,7 +93,11 @@
 	{/if}
 
 	{#if secondSemesterCourses.length > 0}
-		<Term title={courseTermLabels[courseTerms.secondSemester]}>
+		<Term
+			title={courseTermLabels[courseTerms.secondSemester]}
+			courses={secondSemesterCourses}
+			year={year.year}
+		>
 			{#each secondSemesterCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
@@ -76,7 +105,11 @@
 	{/if}
 
 	{#if semestralCourses.length > 0}
-		<Term title={courseTermLabels[courseTerms.semestral]}>
+		<Term
+			title={courseTermLabels[courseTerms.semestral]}
+			courses={semestralCourses}
+			year={year.year}
+		>
 			{#each semestralCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
