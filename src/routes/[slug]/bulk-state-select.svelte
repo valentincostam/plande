@@ -19,7 +19,7 @@
 		bind:value
 		{onchange}
 		{id}
-		class="absolute inset-0 h-full w-full appearance-none border-0 p-0 opacity-0"
+		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-0 opacity-0"
 		title="Cambiar estado de todas las materias"
 	>
 		<option value="" disabled>Cambiar todas a...</option>
