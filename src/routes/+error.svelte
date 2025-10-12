@@ -1,12 +1,8 @@
-<script lang="ts">
-	import Footer from './footer.svelte';
-</script>
-
 <svelte:head>
 	<title>Planes de Estudios Interactivos en Plande</title>
 </svelte:head>
 
-<main class="relative flex min-h-dvh flex-col justify-center">
+<main class="error-page relative flex min-h-dvh flex-col justify-center">
 	<header class="absolute top-0 w-full p-9 text-center">
 		<a
 			href="/"
@@ -36,7 +32,8 @@
 </main>
 
 <style>
-	:global(body) {
+	.error-page {
 		background-color: rgb(252 254 252);
+		min-height: 100dvh;
 	}
 </style>
