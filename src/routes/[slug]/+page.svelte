@@ -173,7 +173,11 @@
 
 	<main class="grid gap-9">
 		{#each years as year, index}
-			<Year {year} {showCodes} showBulkSelect={isYearPassed(years[index - 1])} />
+			<Year
+				{year}
+				{showCodes}
+				showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
+			/>
 		{/each}
 
 		<section class="grid gap-3 px-3 md:px-0">
