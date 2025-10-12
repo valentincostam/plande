@@ -227,58 +227,25 @@
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Referencias</h3>
-			<ol class="grid list-decimal gap-3 px-9">
+			<p class="px-3 pb-3">Posibles estados de una materia:</p>
+			<ul class="grid list-disc gap-3 px-9">
 				<li>
-					Una materia está <StatePill state={courseStates.notTaken} class="text-sm" /> cuando aún no
-					has asistido a sus clases.
+					<StatePill state={courseStates.notTaken} class="text-sm" />: Aún no has asistido a sus
+					clases.
 				</li>
 				<li>
-					Una materia está <StatePill state={courseStates.inProgress} class="text-sm" /> cuando estás
-					asistiendo a sus clases.
+					<StatePill state={courseStates.inProgress} class="text-sm" />: Estás asistiendo a sus
+					clases.
 				</li>
 				<li>
-					Una materia está <StatePill state={courseStates.taken} class="text-sm" /> cuando aprobaste
-					la cursada pero aún debés rendir su examen final.
+					<StatePill state={courseStates.taken} class="text-sm" />: Aprobaste la cursada pero aún
+					debés rendir su examen final.
 				</li>
 				<li>
-					Una materia está <StatePill state={courseStates.passed} class="text-sm" /> cuando ya la rendiste
-					y aprobaste.
+					<StatePill state={courseStates.passed} class="text-sm" />: Ya la cursaste, rendiste y
+					aprobaste.
 				</li>
-				<li>
-					Un año está <StatePill state={courseStates.notTaken} gender="masculine" class="text-sm" />
-					si al menos una materia de ese año está <StatePill
-						state={courseStates.notTaken}
-						class="text-sm"
-					/> y ninguna está <StatePill state={courseStates.inProgress} class="text-sm" />.
-				</li>
-				<li>
-					Un año está <StatePill
-						state={courseStates.inProgress}
-						gender="masculine"
-						class="text-sm"
-					/>
-					si al menos una materia de ese año está <StatePill
-						state={courseStates.inProgress}
-						class="text-sm"
-					/>.
-				</li>
-				<li>
-					Un año está <StatePill state={courseStates.taken} gender="masculine" class="text-sm" />
-					si todas las materias de ese año están <StatePill
-						state={courseStates.taken}
-						class="text-sm"
-						plural
-					/>.
-				</li>
-				<li>
-					Un año está <StatePill state={courseStates.passed} gender="masculine" class="text-sm" />
-					si todas las materias de ese año están <StatePill
-						state={courseStates.passed}
-						class="text-sm"
-						plural
-					/>.
-				</li>
-			</ol>
+			</ul>
 		</section>
 	</main>
 
