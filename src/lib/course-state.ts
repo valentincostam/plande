@@ -25,6 +25,13 @@ export const femenineCourseStateLabels = {
 	[courseStates.passed]: 'Aprobada'
 } as const;
 
+export const pluralFemenineCourseStateLabels = {
+	[courseStates.notTaken]: 'No cursadas',
+	[courseStates.inProgress]: 'En curso',
+	[courseStates.taken]: 'Regulares',
+	[courseStates.passed]: 'Aprobadas'
+} as const;
+
 export const masculineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursado',
 	[courseStates.inProgress]: 'En curso',

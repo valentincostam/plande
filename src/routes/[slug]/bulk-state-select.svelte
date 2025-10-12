@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { courseStates, type CourseState } from '$lib/course-state';
+	import {
+		courseStates,
+		pluralFemenineCourseStateLabels,
+		type CourseState
+	} from '$lib/course-state';
 	import type { Course } from '$lib/course.svelte';
 	import WandIcon from './wand-icon.svelte';
 
@@ -22,10 +26,10 @@
 		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-0 opacity-0"
 		title="Cambiar estado de todas las materias"
 	>
-		<option value="" disabled>Cambiar todas a...</option>
-		<option value={courseStates.notTaken}>No cursado</option>
-		<option value={courseStates.inProgress}>En curso</option>
-		<option value={courseStates.taken}>Regular</option>
-		<option value={courseStates.passed}>Aprobado</option>
+		<option value="" disabled>Cambiar materias a...</option>
+
+		{#each Object.values(courseStates) as state}
+			<option value={state}>{pluralFemenineCourseStateLabels[state]}</option>
+		{/each}
 	</select>
 </label>
