@@ -11,9 +11,10 @@
 	type Props = {
 		year: Year;
 		showCodes?: boolean;
+		showBulkSelect?: boolean;
 	};
 
-	let { year, showCodes = false }: Props = $props();
+	let { year, showCodes = false, showBulkSelect = false }: Props = $props();
 
 	let selectValue = $state<CourseState | ''>('');
 
@@ -31,12 +32,6 @@
 
 	const semestralCourses = year.courses.filter(
 		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral
-	);
-
-	const showBulkSelect = $derived(
-		firstSemesterCourses.length > 0
-			? firstSemesterCourses.every((course) => course.isEnabled)
-			: year.courses.every((course) => course.isEnabled)
 	);
 
 	const onchange = (event: Event) => {

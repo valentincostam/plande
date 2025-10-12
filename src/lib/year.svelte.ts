@@ -86,3 +86,7 @@ export const createYears = (years: number, courses: Course[]) => {
 		});
 	});
 };
+
+export const isYearPassed = (year?: Year) => {
+	return year ? year.state === courseStates.passed : true;
+};

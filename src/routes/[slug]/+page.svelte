@@ -2,7 +2,7 @@
 	import { createCourses } from '$lib/course.svelte';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
-	import { createYears } from '$lib/year.svelte';
+	import { createYears, isYearPassed } from '$lib/year.svelte';
 	import StrictModeSwitch from './strict-mode-switch.svelte';
 	import ShowCodesSwitch from './show-codes-switch.svelte';
 	import Stats from './stats.svelte';
@@ -17,7 +17,6 @@
 	import { onMount, tick } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
-	import RedundantRequirements from './redundant-requirements.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -174,7 +173,7 @@
 
 	<main class="grid gap-9">
 		{#each years as year, index}
-			<Year {year} {showCodes} />
+			<Year {year} {showCodes} showBulkSelect={isYearPassed(years[index - 1])} />
 		{/each}
 
 		<section class="grid gap-3 px-3 md:px-0">
