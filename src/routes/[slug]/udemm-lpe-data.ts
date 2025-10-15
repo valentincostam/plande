@@ -962,71 +962,6 @@ const courses: RawCourse[] = [
 
 	// Fifth Year (as mentioned in web data)
 	{
-		id: 93,
-		name: 'Materia Electiva III',
-		hours: undefined,
-		term: courseTerms.firstSemester, // Default to first semester as not specified
-		year: 5,
-		tag: courseTags.elective,
-		requirements: [
-			// Todo 1º, 2º y 3º año - simplified to key courses
-			{
-				id: 26,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 28,
-				requiredCourseId: 311,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 30,
-				requiredCourseId: 46,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 31,
-				requiredCourseId: 56,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 32,
-				requiredCourseId: 43,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 33,
-				requiredCourseId: 210,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 34,
-				requiredCourseId: 248,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 35,
-				requiredCourseId: 50,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 36,
-				requiredCourseId: 91,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
 		id: 257,
 		code: 'H0257',
 		name: 'Trabajo Integrador Final',
@@ -1089,7 +1024,7 @@ const courses: RawCourse[] = [
 export const udemmLpeData: CareerData = {
 	courses,
 	degree: 'Licenciatura en Psicopedagogía',
-	years: 4,
+	years: 5,
 	college: 'UdeMM',
 	studyProgram: 'Plan de Estudios',
 	progress: {
