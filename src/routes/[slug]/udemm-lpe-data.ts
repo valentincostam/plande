@@ -1091,7 +1091,7 @@ export const udemmLpeData: CareerData = {
 	degree: 'Licenciatura en Psicopedagogía',
 	years: 4,
 	college: 'UdeMM',
-	studyProgram: 'Plan de Estudios 2023',
+	studyProgram: 'Plan de Estudios',
 	progress: {
 		type: 'mandatory-plus-one-elective',
 		requiredElectiveCount: 2
