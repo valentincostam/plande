@@ -316,6 +316,7 @@ const courses: RawCourse[] = [
 		name: 'Psicopatología II',
 		hours: undefined,
 		term: courseTerms.secondSemester,
+		tag: courseTags.mandatoryFinalExam,
 		year: 2,
 		requirements: [
 			{
@@ -348,6 +349,7 @@ const courses: RawCourse[] = [
 		name: 'Fundamentos del Psicoanálisis II',
 		hours: undefined,
 		term: courseTerms.secondSemester,
+		tag: courseTags.mandatoryFinalExam,
 		year: 2,
 		requirements: [
 			{
@@ -650,6 +652,7 @@ const courses: RawCourse[] = [
 		name: 'Intervenciones en Psicoanálisis',
 		hours: undefined,
 		term: courseTerms.secondSemester,
+		tag: courseTags.mandatoryFinalExam,
 		year: 3,
 		requirements: [
 			{
@@ -666,6 +669,7 @@ const courses: RawCourse[] = [
 		name: 'Modelos y Estrategias de Intervención en Psicopatología',
 		hours: undefined,
 		term: courseTerms.secondSemester,
+		tag: courseTags.mandatoryFinalExam,
 		year: 3,
 		requirements: [
 			{
@@ -873,6 +877,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada I',
 		hours: undefined,
 		term: courseTerms.secondSemester,
+		tag: courseTags.mandatoryFinalExam,
 		year: 4,
 		requirements: [
 			{
@@ -1021,6 +1026,7 @@ const courses: RawCourse[] = [
 		name: 'Trabajo Integrador Final',
 		hours: undefined,
 		term: courseTerms.annual,
+		tag: courseTags.mandatoryFinalExam,
 		year: 5,
 		requirements: [
 			{
@@ -1067,6 +1073,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada II',
 		hours: undefined,
 		term: courseTerms.annual,
+		tag: courseTags.mandatoryFinalExam,
 		year: 5,
 		requirements: [
 			{
@@ -1165,18 +1172,6 @@ export const udemmLpData: CareerData = {
 		},
 		{
 			id: 2,
-			text: `Las siguientes materias tienen examen final obligatorio:
-        \n - H0238. **Psicopatología II** (2<sup>do</sup> año)
-        \n - H0236. **Fundamentos del Psicoanálisis II** (2<sup>do</sup> año)
-        \n - H0240. **Intervenciones en Psicoanálisis** (3<sup>er</sup> año)
-        \n - H0242. **Modelos y Estrategias de Intervención en Psicopatología** (3<sup>er</sup> año)
-        \n - H0232. **Práctica Profesional Supervisada I** (4<sup>to</sup> año)
-        \n - H0233. **Práctica Profesional Supervisada II** (5<sup>to</sup> año)
-        \n - H0257. **Trabajo Integrador Final** (5<sup>to</sup> año)
-      `
-		},
-		{
-			id: 4,
 			text: `Las opciones de materias electivas de 3<sup>er</sup> año son:
         \n - H0043. **Psicopedagogía en Educación Especial I**
         \n - H0220. **Investigación de Mercados**
@@ -1184,7 +1179,7 @@ export const udemmLpData: CareerData = {
       `
 		},
 		{
-			id: 5,
+			id: 3,
 			text: `Las opciones de materias electivas de 5<sup>to</sup> año son:
         \n - H0218. **Comunicación**
         \n - H0258. **Género, Sexualidad y Subjetividad**
@@ -1195,12 +1190,12 @@ export const udemmLpData: CareerData = {
       `
 		},
 		{
-			id: 6,
+			id: 4,
 			text: 'Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como *"Todo 1º A 2º año"*.'
 		},
 
 		{
-			id: 3,
+			id: 5,
 			text: 'La carrera otorga el título intermedio de **Acompañante Terapéutico**.'
 		}
 	]

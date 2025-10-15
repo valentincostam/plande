@@ -11,6 +11,7 @@ import { utnFrcuIcData } from './utn-frcu-ic-data';
 import { utnFrcuLoiData } from './utn-frcu-loi-data';
 import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
 import { udemmLpData } from './udemm-lp-data';
+import { udemmLpeData } from './udemm-lpe-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -104,6 +105,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'udemm-lp') {
 		return {
 			...udemmLpData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'udemm-lpe') {
+		return {
+			...udemmLpeData,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

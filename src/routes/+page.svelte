@@ -294,6 +294,13 @@
 									>Licenciatura en Psicología</a
 								>
 							</li>
+							<li>
+								<a
+									href="/udemm-lpe"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Licenciatura en Psicopedagogía</a
+								>
+							</li>
 						</ul>
 					</div>
 
