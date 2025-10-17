@@ -8,6 +8,8 @@ import {
 	type RequiredFor
 } from './raw-course';
 
+export const TRANSVERSAL_YEAR = -1;
+
 export type CourseRequirement = {
 	id: number;
 	requiredCourse: Course;

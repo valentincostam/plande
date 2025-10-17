@@ -8,7 +8,7 @@
 		children: Snippet;
 		title: string;
 		courses: Course[];
-		year: number;
+		year?: number;
 	};
 
 	let { children, title, courses, year }: Props = $props();
@@ -36,7 +36,7 @@
 <div class="flex items-center justify-between gap-3">
 	<h3 class="p-3 text-sm text-gray-600">{title}</h3>
 	{#if courses.length > 1 && allCoursesEnabled}
-		<BulkStateSelect id={`${year}-${title}-state-select`} {onchange} bind:value={selectValue} />
+		<BulkStateSelect id={`${year ?? 'transversal'}-${title}-state-select`} {onchange} bind:value={selectValue} />
 	{/if}
 </div>
 <ul class="grid gap-1">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createCourses } from '$lib/course.svelte';
+	import { createCourses, TRANSVERSAL_YEAR } from '$lib/course.svelte';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
 	import { createYears, isYearPassed } from '$lib/year.svelte';
@@ -18,6 +18,7 @@
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
 	import RedundantRequirements from './redundant-requirements.svelte';
+	import TransversalCourses from './transversal-courses.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -102,6 +103,8 @@
 
 	const years = createYears(data.years, courses);
 
+	const transversalCourses = courses.filter((course) => course.year === TRANSVERSAL_YEAR);
+
 	const title = `${data.degree} - ${data.college} | Plan de Estudios Interactivo`;
 	const description = `Plan de estudios interactivo de ${data.degree} en ${data.college}. Visualiza materias, requisitos y tu progreso académico de forma clara y organizada.`;
 	const url = `https://plande.app/${data.slug}`;
@@ -180,6 +183,10 @@
 				showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
 			/>
 		{/each}
+
+		{#if transversalCourses.length > 0}
+			<TransversalCourses courses={transversalCourses} {showCodes} />
+		{/if}
 
 		<section class="grid gap-3 px-3 md:px-0">
 			<StrictModeSwitch bind:value={isStrictModeEnabled} />

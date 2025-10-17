@@ -51,9 +51,9 @@ export const getOrdinalSuperscript = (number: number) => {
 };
 
 // Helper function to get the effective term for a course in a specific year
-export const getCourseEffectiveTerm = (course: Course, displayYear: number) => {
+export const getCourseEffectiveTerm = (course: Course, displayYear?: number) => {
 	// If this course has crossYear property and we're showing it in the ending year
-	if (course.crossYear && course.crossYear.spansToYear === displayYear) {
+	if (course.crossYear && displayYear && course.crossYear.spansToYear === displayYear) {
 		return course.crossYear.endsInTerm;
 	}
 	// Otherwise use the original term
