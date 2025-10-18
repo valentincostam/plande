@@ -263,8 +263,6 @@
 	<Disclaimer college={data.college} />
 
 	<Footer />
-
-	<RedundantRequirements courses={data.courses} />
 </div>
 
 <style>

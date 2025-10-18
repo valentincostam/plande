@@ -34,6 +34,10 @@
 		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral
 	);
 
+	const unknownCourses = year.courses.filter(
+		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.unknown
+	);
+
 	const onchange = (event: Event) => {
 		const target = event.target as HTMLSelectElement;
 		const newState = target.value as CourseState;
@@ -106,6 +110,14 @@
 			year={year.year}
 		>
 			{#each semestralCourses as course}
+				<Course {course} {showCodes} />
+			{/each}
+		</Term>
+	{/if}
+
+	{#if unknownCourses.length > 0}
+		<Term courses={unknownCourses} year={year.year}>
+			{#each unknownCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>

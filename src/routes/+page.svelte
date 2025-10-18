@@ -203,6 +203,24 @@
 						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
 					>
 						<div class="mb-1 flex items-center gap-2">
+							<div class="h-2 w-2 rounded-full bg-blue-500"></div>
+							<h3 class="font-semibold text-gray-900">UTN FRBA</h3>
+						</div>
+						<ul class="space-y-1.5">
+							<li>
+								<a
+									href="/utn-frba-iq-1995"
+									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+									>Ingeniería Química (Plan 1995)</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<div
+						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
+					>
+						<div class="mb-1 flex items-center gap-2">
 							<div class="h-2 w-2 rounded-full bg-green-500"></div>
 							<h3 class="font-semibold text-gray-900">UCU FAU</h3>
 						</div>

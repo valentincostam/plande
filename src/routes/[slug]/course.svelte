@@ -6,7 +6,7 @@
 		hoursColors,
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
-	import { toKebabCase, type Course } from '$lib/course.svelte';
+	import { toKebabCase, type Course, TRANSVERSAL_YEAR } from '$lib/course.svelte';
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import Requirement from './requirement.svelte';
@@ -68,7 +68,7 @@
 					{/if}
 					{course.name}
 				</span>
-				{#if course.tag}
+				{#if course.tag && course.year !== TRANSVERSAL_YEAR}
 					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
 						>{courseTagLabels[course.tag]}</span
 					>

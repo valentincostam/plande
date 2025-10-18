@@ -12,6 +12,7 @@ import { utnFrcuLoiData } from './utn-frcu-loi-data';
 import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
 import { udemmLpData } from './udemm-lp-data';
 import { udemmLpeData } from './udemm-lpe-data';
+import { utnFrbaIq1995Data } from './utn-frba-iq-1995-data';
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -125,6 +126,16 @@ export const load: PageLoad = ({ params, url }) => {
 	if (slug === 'uader-fcyt-it') {
 		return {
 			...uaderFcytItData,
+			slug,
+			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+			isStrictModeEnabled,
+			showCodes
+		};
+	}
+
+	if (slug === 'utn-frba-iq-1995') {
+		return {
+			...utnFrbaIq1995Data,
 			slug,
 			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 			isStrictModeEnabled,

@@ -29,6 +29,10 @@
 	const semestralCourses = courses.filter(
 		(course) => getCourseEffectiveTerm(course) === courseTerms.semestral
 	);
+
+	const unknownCourses = courses.filter(
+		(course) => getCourseEffectiveTerm(course) === courseTerms.unknown
+	);
 </script>
 
 <article>
@@ -69,6 +73,14 @@
 	{#if semestralCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.semestral]} courses={semestralCourses}>
 			{#each semestralCourses as course}
+				<Course {course} {showCodes} />
+			{/each}
+		</Term>
+	{/if}
+
+	{#if unknownCourses.length > 0}
+		<Term courses={unknownCourses}>
+			{#each unknownCourses as course}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>

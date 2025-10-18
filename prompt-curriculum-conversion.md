@@ -2,6 +2,18 @@
 
 You are a highly capable language model tasked with extracting and structuring data from a university curriculum document (PDF or image) into a JavaScript object that follows the exact structure used by this application. Your goal is to create a complete `CareerData` object with all courses, their prerequisites, and metadata.
 
+## ⚠️ PRE-SUBMISSION VALIDATION CHECKLIST
+
+Before submitting your conversion, verify:
+
+- [ ] **Three-column prerequisite tables**: Column 2 ("Para Cursar TENER APROBADA") uses `requiredFor.enroll`, NOT `requiredFor.complete` ⚠️ MOST COMMON ERROR
+- [ ] **All prerequisite codes extracted**: Multi-code cells like "2-5" have BOTH codes (2 AND 5)
+- [ ] **Course count matches source**: Count your courses vs. document total
+- [ ] **No missing electivas**: Elective courses have their prerequisites too
+- [ ] **ID-Code synchronization**: Numeric codes match IDs exactly
+- [ ] **No duplicate IDs**: Each course has a unique ID
+- [ ] **All hours extracted**: Hours field populated when available
+
 ## Input Analysis
 
 The input is a document containing a university curriculum which may include:
@@ -21,6 +33,7 @@ Generate a complete JavaScript object with this exact structure:
 import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
+import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { CareerData } from '$lib/career-data';
 
@@ -66,7 +79,7 @@ Each course must have this exact structure:
   name: string,                  // Course name exactly as in document
   hours?: number,                // Credit hours (undefined if not specified)
   term: string,                  // Must be: courseTerms.firstSemester, courseTerms.secondSemester, courseTerms.annual, courseTerms.semestral, or courseTerms.crossYear
-  year: number,                  // Academic year (1, 2, 3, 4, 5)
+  year: number,                  // Academic year (1, 2, 3, 4, 5) OR TRANSVERSAL_YEAR for non-year-specific courses
   requirements: Requirement[],    // Array of prerequisite objects
   tag?: string,                  // Optional: courseTags.elective, courseTags.integrative, courseTags.optative
   crossYear?: {                  // Optional: for courses spanning multiple years
@@ -87,11 +100,20 @@ Each course must have this exact structure:
 
 2. **Non-numeric codes** (I1, I2, DA, PPS, etc.): Use high numeric IDs (90+)
    - Course with `code: 'I1'` → `id: 99`
-   - Course with `code: 'I2'` → `id: 98`  
+   - Course with `code: 'I2'` → `id: 98`
    - Course with `code: 'DA'` → `id: 97`
    - Course with `code: 'PPS'` → `id: 96`
 
-3. **No code**: Use next available high ID (95, 94, etc.)
+3. **Transversal courses with numeric codes**: Use the numeric code as ID
+   - Course with `code: '951170'` (transversal) → `id: 951170`
+   - Transversal courses often have longer institutional codes - use them directly
+
+4. **Transversal courses without codes or with short non-numeric codes**: Use low numeric IDs (1-50)
+   - First transversal course → `id: 1`
+   - Second transversal course → `id: 2`
+   - This range is reserved for transversal courses to avoid conflicts with year-specific course codes
+
+5. **No code**: Use next available high ID (95, 94, etc.) for year-specific courses, or low IDs (1-50) for transversal courses
 
 **Benefits of ID-Code Synchronization**:
 - Prerequisites become immediately clear (code "18" references course with `id: 18`)
@@ -110,11 +132,130 @@ Each course must have this exact structure:
 }
 ```
 
+## ⚠️ CRITICAL: Understanding Multi-Column Prerequisite Tables
+
+**This is the #1 source of errors in curriculum conversions.** Many Argentine universities (especially UTN) use 3-column prerequisite tables. Each column has a different purpose.
+
+### Visual Example of a 3-Column Table:
+
+```
+| Asignatura          | Para Cursar TENER CURSADA | Para Cursar TENER APROBADA | Para Rendir TENER APROBADA |
+|---------------------|---------------------------|----------------------------|----------------------------|
+| Matemática Superior | Análisis Matemático II    | Álgebra, Análisis Mat I    | Análisis Matemático II     |
+```
+
+### 🎯 Column Mapping Rules (MEMORIZE THIS):
+
+**Column 1: "Para Cursar TENER CURSADA/REGULARIZADA"** (To enroll, must have taken)
+- Maps to: `requiredFor.enroll` + `courseStates.taken`
+- ⚠️ **NOT** `requiredFor.complete`
+- Means: Student needs to have attended/passed the course exams, but doesn't need final approval yet
+
+**Column 2: "Para Cursar TENER APROBADA"** (To enroll, must have approved)
+- Maps to: `requiredFor.enroll` + `courseStates.passed`
+- ⚠️ **MOST COMMON ERROR**: Using `requiredFor.complete` here
+- ⚠️ **CORRECT**: Use `requiredFor.enroll`
+- Means: Student needs full approval of these courses to START enrolling in this course
+
+**Column 3: "Para Rendir TENER APROBADA"** (To take final exam, must have approved)
+- Maps to: `requiredFor.complete` + `courseStates.passed`
+- Means: Student needs full approval to FINISH the course (take final exam)
+
+### 🔴 Common Mistake Pattern:
+
+❌ **WRONG** (typical error):
+```javascript
+{
+  id: 2,
+  requiredCourseId: 950701,  // Álgebra
+  requiredState: courseStates.passed,
+  requiredFor: requiredFor.complete  // ❌ WRONG! This is from Column 2!
+}
+```
+
+✅ **CORRECT**:
+```javascript
+{
+  id: 2,
+  requiredCourseId: 950701,  // Álgebra
+  requiredState: courseStates.passed,
+  requiredFor: requiredFor.enroll  // ✅ Column 2 is for ENROLLMENT
+}
+```
+
+### 💡 Key Insight:
+
+**Columns 1 and 2 are BOTH enrollment requirements** (things you need to START the course).
+**Only Column 3 is for completion/final exam** (things you need to FINISH the course).
+
+The word "Para Cursar" (to take/enroll) appears in BOTH Column 1 and Column 2 headers - this is your clue that both map to `requiredFor.enroll`.
+
+### Example Full Conversion:
+
+Given this table row:
+```
+| Matemática Superior | Análisis Mat II | Álgebra, Análisis Mat I | Análisis Mat II |
+```
+
+Convert to:
+```javascript
+{
+  id: 951198,
+  name: 'Matemática Superior',
+  requirements: [
+    // Column 1: "Para Cursar TENER CURSADA"
+    {
+      id: 1,
+      requiredCourseId: 950703,  // Análisis Mat II
+      requiredState: courseStates.taken,
+      requiredFor: requiredFor.enroll  // Column 1 → enroll
+    },
+    // Column 2: "Para Cursar TENER APROBADA"
+    {
+      id: 2,
+      requiredCourseId: 950701,  // Álgebra
+      requiredState: courseStates.passed,
+      requiredFor: requiredFor.enroll  // ⚠️ Column 2 → enroll (NOT complete!)
+    },
+    {
+      id: 3,
+      requiredCourseId: 950702,  // Análisis Mat I
+      requiredState: courseStates.passed,
+      requiredFor: requiredFor.enroll  // ⚠️ Column 2 → enroll (NOT complete!)
+    },
+    // Column 3: "Para Rendir TENER APROBADA"
+    {
+      id: 4,
+      requiredCourseId: 950703,  // Análisis Mat II
+      requiredState: courseStates.passed,
+      requiredFor: requiredFor.complete  // Column 3 → complete
+    }
+  ]
+}
+```
+
+### Alternative Table Formats:
+
+Some universities use different column headers:
+- "REGULARIZADA" instead of "CURSADA" (same meaning: taken)
+- "PARA RENDIR" or "PARA EXAMEN FINAL" instead of "PARA RENDIR TENER APROBADA"
+- Merged columns or abbreviated headers
+
+**Rule**: Look for keywords:
+- "Para Cursar" / "To enroll" → `requiredFor.enroll`
+- "Para Rendir" / "Para Examen" / "To complete" → `requiredFor.complete`
+- "Cursada" / "Regularizada" / "Taken" → `courseStates.taken`
+- "Aprobada" / "Approved" / "Passed" → `courseStates.passed`
+
 ## Additional Field Documentation
 
 ### Optional Fields
 - `code`: Course code/number from official curriculum (string, optional). Examples: "MAT101", "1.1", "340102", "1", "25"
 - `hours`: Credit hours (number or undefined if not specified). Use `undefined` when hours are not provided
+  - **CRITICAL**: For semester-based courses (firstSemester/secondSemester), use the SEMESTER hours, NOT annual hours
+  - **Example**: If curriculum shows "Annual: 5, 1st Semester: 10, 2nd Semester: 0", use `hours: 10` for a firstSemester course
+  - **Rule**: Semester courses typically have double the annual hours since they're concentrated in one semester
+  - Annual courses use annual hours directly
 - `tag`: Course category (courseTags.elective, courseTags.integrative, courseTags.optative)
 
 ### Course Name Cleaning and Tag Assignment
@@ -165,6 +306,52 @@ Some courses span multiple academic years, typically starting in one year and en
 - Set `year` to the starting year
 - Add `crossYear` object with `spansToYear` (ending year) and `endsInTerm` (ending term)
 - The course will automatically appear in both years in the application
+
+### Transversal Courses (Non-Year-Specific Courses)
+
+Some curricula include courses that don't belong to any specific academic year and can be taken at any time during the degree program. These are called "transversal courses" and are typically electives that students can complete whenever their schedule allows (as long as prerequisites are met).
+
+**Identification**: Look for:
+- Elective courses listed separately from year-specific courses
+- Courses with notes like "puede cursarse en cualquier momento" (can be taken at any time)
+- Separate sections titled "Materias Electivas", "Asignaturas Optativas", or similar
+- Courses without a specified year or level in the curriculum
+
+**Structure for transversal courses**:
+```javascript
+import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
+
+{
+  id: 1,
+  code: '951170',
+  name: 'Gestión de la Calidad',
+  hours: 4,
+  term: courseTerms.semestral,  // Use semestral for courses without specific semester
+  year: TRANSVERSAL_YEAR,       // Special constant (-1) for transversal courses
+  tag: courseTags.elective,     // Often (but not always) elective courses
+  requirements: [
+    // Prerequisites still apply
+  ]
+}
+```
+
+**Rules**:
+- Use `TRANSVERSAL_YEAR` constant (value: -1) instead of a specific year number
+- Import `TRANSVERSAL_YEAR` from `'$lib/course.svelte'`
+- Use `courseTerms.semestral` for term unless the course specifies a particular semester
+- Transversal courses will appear in a separate section at the end of the curriculum in the application
+- Prerequisites still apply - include all required prerequisites as usual
+- Most transversal courses are electives, but not all - check for tags like integrative or special courses (PPS, Final Project)
+
+**Common transversal course types**:
+- Elective courses (materias electivas)
+- Optional language courses beyond requirements
+- Professional development courses
+- Specialized topic courses that don't fit in year structure
+
+**Example curriculum patterns**:
+- UTN BA Ingeniería Química Plan 1995: 22 hours of electives that can be taken throughout the degree
+- Courses are listed in a separate section with their own prerequisites but no assigned year
 
 ### Course Code Extraction Guidelines
 
@@ -503,33 +690,17 @@ When a prerequisite cell contains multiple course codes, you MUST extract EVERY 
 
 **CRITICAL: THREE-COLUMN PREREQUISITE PROCESSING**
 
-When the curriculum has THREE prerequisite columns, you MUST process ALL three columns correctly:
+⚠️ **See the detailed section "Understanding Multi-Column Prerequisite Tables" earlier in this document for full explanation with examples.**
 
-1. **First column "TENER REGULARIZADA"** (para cursar) = `requiredFor.enroll` + `courseStates.taken`
-2. **Second column "TENER APROBADA"** (para cursar) = `requiredFor.enroll` + `courseStates.passed`
-3. **Third column "TENER APROBADA"** (para rendir) = `requiredFor.complete` + `courseStates.passed`
+**Quick Reference** - When the curriculum has THREE prerequisite columns:
 
-The first TWO columns are requirements FOR ENROLLMENT (`requiredFor.enroll`), while the third column contains requirements FOR COMPLETION/EXAMINATION (`requiredFor.complete`).
+1. **Column 1 "TENER REGULARIZADA/CURSADA"** (para cursar) = `requiredFor.enroll` + `courseStates.taken`
+2. **Column 2 "TENER APROBADA"** (para cursar) = `requiredFor.enroll` + `courseStates.passed` ⚠️ NOT complete!
+3. **Column 3 "TENER APROBADA"** (para rendir) = `requiredFor.complete` + `courseStates.passed`
 
-NEVER ignore any column. All three must be converted to requirement objects with the correct purpose and state.
+**Key rule**: First TWO columns are FOR ENROLLMENT (`requiredFor.enroll`). Only third column is FOR COMPLETION (`requiredFor.complete`).
 
-**State determination**:
-
-- "Cursar" = `courseStates.taken` (enrolled/in progress)
-- "Aprobar" = `courseStates.passed` (completed with passing grade)
-- "Regular/Regularizada" = `courseStates.taken` (enrolled)
-- "Aprobada" = `courseStates.passed` (passed)
-- "Cursando" = `courseStates.inProgress` (currently enrolled, similar to taken)
-
-**Purpose determination**:
-
-- "Para cursar" = `requiredFor.enroll` (needed to enroll)
-- "Para rendir" = `requiredFor.complete` (needed to complete/examine)
-
-**Column mapping**:
-- **Column 1 "TENER REGULARIZADA"** → `requiredFor.enroll` + `courseStates.taken`
-- **Column 2 "TENER APROBADA" (para cursar)** → `requiredFor.enroll` + `courseStates.passed`
-- **Column 3 "TENER APROBADA" (para rendir)** → `requiredFor.complete` + `courseStates.passed`
+NEVER ignore any column. All three must be converted to requirement objects.
 
 ## Progress Type Selection
 

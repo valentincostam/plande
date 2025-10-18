@@ -6,7 +6,7 @@
 
 	type Props = {
 		children: Snippet;
-		title: string;
+		title?: string;
 		courses: Course[];
 		year?: number;
 	};
@@ -33,12 +33,14 @@
 	};
 </script>
 
-<div class="flex items-center justify-between gap-3">
-	<h3 class="p-3 text-sm text-gray-600">{title}</h3>
-	{#if courses.length > 1 && allCoursesEnabled}
-		<BulkStateSelect id={`${year ?? 'transversal'}-${title}-state-select`} {onchange} bind:value={selectValue} />
-	{/if}
-</div>
+{#if title}
+	<div class="flex items-center justify-between gap-3">
+		<h3 class="p-3 text-sm text-gray-600">{title}</h3>
+		{#if courses.length > 1 && allCoursesEnabled}
+			<BulkStateSelect id={`${year ?? 'transversal'}-${title}-state-select`} {onchange} bind:value={selectValue} />
+		{/if}
+	</div>
+{/if}
 <ul class="grid gap-1">
 	{@render children()}
 </ul>
