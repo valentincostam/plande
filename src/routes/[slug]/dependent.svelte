@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toKebabCase, type CourseDependent } from '$lib/course.svelte';
+	import { toKebabCase, TRANSVERSAL_YEAR, type CourseDependent } from '$lib/course.svelte';
 	import { requiredFor, requiredForLabels } from '$lib/raw-course';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import CheckIcon from './check-icon.svelte';
@@ -32,13 +32,17 @@
 			{/if}
 			{dependent.dependentCourse.name}
 		</a>
-		de
-		<span class="whitespace-nowrap">
-			{dependent.dependentCourse.year}<sup
-				>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
-			>
-			año
-		</span>
+		{#if dependent.dependentCourse.year !== TRANSVERSAL_YEAR}
+			de
+			<span class="whitespace-nowrap">
+				{dependent.dependentCourse.year}<sup
+					>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
+				>
+				año
+			</span>
+		{:else}
+			(electiva)
+		{/if}
 		necesita esta materia al menos <StatePill state={dependent.requiredState} /> para
 		{requiredForLabels[dependent.requiredFor]}
 	</span>

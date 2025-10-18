@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
-	import { toKebabCase, type CourseRequirement } from '$lib/course.svelte';
+	import { toKebabCase, TRANSVERSAL_YEAR, type CourseRequirement } from '$lib/course.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
@@ -35,13 +35,17 @@
 			{/if}
 			{requirement.requiredCourse.name}
 		</a>
-		de
-		<span class="whitespace-nowrap">
-			{requirement.requiredCourse.year}<sup
-				>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
-			>
-			año
-		</span>
+		{#if requirement.requiredCourse.year !== TRANSVERSAL_YEAR}
+			de
+			<span class="whitespace-nowrap">
+				{requirement.requiredCourse.year}<sup
+					>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
+				>
+				año
+			</span>
+		{:else}
+			(electiva)
+		{/if}
 		debe estar al menos
 		<StatePill state={requirement.requiredState} />
 
