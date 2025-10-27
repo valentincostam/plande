@@ -3,13 +3,13 @@
 
 	import MessageBubble from './message-bubble.svelte';
 
-	interface Props {
+	type Props = {
 		children: Snippet;
 		author: string;
 		time: string;
 		color: 'pink' | 'blue' | 'green' | 'purple';
 		isOutgoing?: boolean;
-	}
+	};
 
 	let { author, time, color, isOutgoing = false, children }: Props = $props();
 

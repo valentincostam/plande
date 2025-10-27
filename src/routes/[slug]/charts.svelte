@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Course } from '$lib/course.svelte';
 	import type { Year } from '$lib/year.svelte';
-	import type { CareerProgressConfig } from '$lib/career-progress';
-	import { calculateCareerProgress } from '$lib/career-progress';
+	import type { DegreeProgressConfig } from '$lib/degree-progress';
+	import { calculateDegreeProgress } from '$lib/degree-progress';
 	import Donut from './donut.svelte';
 	import StateDistribution from './state-distribution.svelte';
 	import YearlyCourseProgress from './yearly-course-progress.svelte';
@@ -10,12 +10,12 @@
 	type Props = {
 		courses: Course[];
 		years: Year[];
-		progress: CareerProgressConfig;
+		progress: DegreeProgressConfig;
 	};
 
 	let { courses, years, progress }: Props = $props();
 
-	const careerProgress = $derived(() => calculateCareerProgress(courses, progress));
+	const degreeProgress = $derived(() => calculateDegreeProgress(courses, progress));
 </script>
 
 <div class="grid gap-3 px-3 md:grid-cols-[1fr_3fr] md:px-0">
@@ -24,7 +24,7 @@
 	>
 		<span class="text-gray-700 md:text-center">Avance de carrera</span>
 		<div class="w-18 shrink-0 md:w-24">
-			<Donut progress={careerProgress().percentage} strokeWidth={12} />
+			<Donut progress={degreeProgress().percentage} strokeWidth={12} />
 		</div>
 	</div>
 

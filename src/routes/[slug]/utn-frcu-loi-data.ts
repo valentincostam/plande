@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	// PRIMER AÑO - 1° Cuatrimestre
@@ -1500,7 +1500,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuLoiData: CareerData = {
+export const utnFrcuLoiData: DegreeData = {
 	courses,
 	degree: 'Licenciatura en Organización Industrial',
 	years: 4,

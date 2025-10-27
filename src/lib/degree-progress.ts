@@ -2,27 +2,27 @@ import { courseStates } from './course-state';
 import { courseTags } from './course-tag';
 import type { Course } from './course.svelte';
 
-export type CareerProgressType =
+export type DegreeProgressType =
 	| 'mandatory-only' // Solo materias obligatorias (ej: UADER FCyT LSI)
 	| 'mandatory-plus-one-elective' // Obligatorias + al menos 1 electiva (ej: UCU FAU Arq)
 	| 'mandatory-plus-elective-hours'; // Obligatorias + horas electivas específicas (ej: UTN FRCU ISI)
 
-export interface CareerProgressConfig {
-	type: CareerProgressType;
+export type DegreeProgressConfig = {
+	type: DegreeProgressType;
 	requiredElectiveHours?: number; // Solo para 'mandatory-plus-elective-hours'
 	requiredElectiveCount?: number; // Solo para 'mandatory-plus-one-elective'
-}
+};
 
-export interface CareerProgressCalculation {
+export type DegreeProgressCalculation = {
 	completedUnits: number;
 	totalUnits: number;
 	percentage: number;
-}
+};
 
-export function calculateCareerProgress(
+export function calculateDegreeProgress(
 	courses: Course[],
-	config: CareerProgressConfig
-): CareerProgressCalculation {
+	config: DegreeProgressConfig
+): DegreeProgressCalculation {
 	const mandatoryCourses = courses.filter(
 		(course) => course.tag !== courseTags.elective && course.tag !== courseTags.optative
 	);

@@ -3,7 +3,7 @@ import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	// NIVEL I (Year 1)
@@ -2255,7 +2255,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrbaIq1995Data: CareerData = {
+export const utnFrbaIq1995Data: DegreeData = {
 	courses,
 	degree: 'Ingeniería Química',
 	years: 5,

@@ -1,6 +1,6 @@
 export const prerender = true;
 
-const careers = [
+const degrees = [
 	'utn-frcu-loi',
 	'utn-frcu-isi',
 	'utn-frcu-ie',
@@ -22,11 +22,11 @@ export async function GET() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  ${careers
+  ${degrees
 		.map(
-			(career) => `
+			(degree) => `
   <url>
-    <loc>https://plande.app/${career}</loc>
+    <loc>https://plande.app/${degree}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

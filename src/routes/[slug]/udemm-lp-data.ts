@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	// First Year - First Semester
@@ -1138,7 +1138,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const udemmLpData: CareerData = {
+export const udemmLpData: DegreeData = {
 	courses,
 	degree: 'Licenciatura en Psicología',
 	years: 5,

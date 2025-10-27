@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	{
@@ -1036,7 +1036,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIsiData: CareerData = {
+export const utnFrcuIsiData: DegreeData = {
 	courses,
 	degree: 'Ingeniería en Sistemas de Información',
 	years: 5,

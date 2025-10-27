@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	// Year 1 - First Semester
@@ -1622,7 +1622,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIeData: CareerData = {
+export const utnFrcuIeData: DegreeData = {
 	courses,
 	degree: 'Ingeniería Electromecánica',
 	years: 5,

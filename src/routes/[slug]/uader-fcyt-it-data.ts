@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	// Year 1
@@ -1022,7 +1022,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const uaderFcytItData: CareerData = {
+export const uaderFcytItData: DegreeData = {
 	courses,
 	degree: 'Ingeniería en Telecomunicaciones',
 	years: 5,

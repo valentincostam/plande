@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
 	{
@@ -892,7 +892,7 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const uaderFcytLsiData: CareerData = {
+export const uaderFcytLsiData: DegreeData = {
 	courses,
 	degree: 'Licenciatura en Sistemas de Información',
 	years: 5,

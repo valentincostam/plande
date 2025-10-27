@@ -3,13 +3,13 @@
 	import { courseTags } from '$lib/course-tag';
 	import type { Course } from '$lib/course.svelte';
 	import type { Year } from '$lib/year.svelte';
-	import type { CareerProgressConfig } from '$lib/career-progress';
+	import type { DegreeProgressConfig } from '$lib/degree-progress';
 	import Stat from './stat.svelte';
 
 	type Props = {
 		courses: Course[];
 		years: Year[];
-		progress: CareerProgressConfig;
+		progress: DegreeProgressConfig;
 	};
 
 	let { courses, years, progress }: Props = $props();

@@ -1,6 +1,6 @@
 # Prompt for Converting University Curriculum PDF to JavaScript Object
 
-You are a highly capable language model tasked with extracting and structuring data from a university curriculum document (PDF or image) into a JavaScript object that follows the exact structure used by this application. Your goal is to create a complete `CareerData` object with all courses, their prerequisites, and metadata.
+You are a highly capable language model tasked with extracting and structuring data from a university curriculum document (PDF or image) into a JavaScript object that follows the exact structure used by this application. Your goal is to create a complete `DegreeData` object with all courses, their prerequisites, and metadata.
 
 ## ⚠️ PRE-SUBMISSION VALIDATION CHECKLIST
 
@@ -35,13 +35,13 @@ import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
   // Course objects here
 ];
 
-export const [careerName]Data: CareerData = {
+export const [degreeName]Data: DegreeData = {
   courses,
   degree: 'Degree Name',
   years: 5,
@@ -94,6 +94,7 @@ Each course must have this exact structure:
 **MANDATORY RULE**: When a course has a numeric code, the `id` MUST match the `code` exactly for clarity and consistency.
 
 **ID Assignment Strategy**:
+
 1. **Numeric codes** (1, 2, 3, 10, 15, etc.): Set `id = parseInt(code)`
    - Course with `code: '5'` → `id: 5`
    - Course with `code: '25'` → `id: 25`
@@ -116,6 +117,7 @@ Each course must have this exact structure:
 5. **No code**: Use next available high ID (95, 94, etc.) for year-specific courses, or low IDs (1-50) for transversal courses
 
 **Benefits of ID-Code Synchronization**:
+
 - Prerequisites become immediately clear (code "18" references course with `id: 18`)
 - Eliminates confusion between internal IDs and curriculum codes
 - Makes debugging and validation much easier
@@ -147,23 +149,27 @@ Each course must have this exact structure:
 ### 🎯 Column Mapping Rules (MEMORIZE THIS):
 
 **Column 1: "Para Cursar TENER CURSADA/REGULARIZADA"** (To enroll, must have taken)
+
 - Maps to: `requiredFor.enroll` + `courseStates.taken`
 - ⚠️ **NOT** `requiredFor.complete`
 - Means: Student needs to have attended/passed the course exams, but doesn't need final approval yet
 
 **Column 2: "Para Cursar TENER APROBADA"** (To enroll, must have approved)
+
 - Maps to: `requiredFor.enroll` + `courseStates.passed`
 - ⚠️ **MOST COMMON ERROR**: Using `requiredFor.complete` here
 - ⚠️ **CORRECT**: Use `requiredFor.enroll`
 - Means: Student needs full approval of these courses to START enrolling in this course
 
 **Column 3: "Para Rendir TENER APROBADA"** (To take final exam, must have approved)
+
 - Maps to: `requiredFor.complete` + `courseStates.passed`
 - Means: Student needs full approval to FINISH the course (take final exam)
 
 ### 🔴 Common Mistake Pattern:
 
 ❌ **WRONG** (typical error):
+
 ```javascript
 {
   id: 2,
@@ -174,6 +180,7 @@ Each course must have this exact structure:
 ```
 
 ✅ **CORRECT**:
+
 ```javascript
 {
   id: 2,
@@ -193,11 +200,13 @@ The word "Para Cursar" (to take/enroll) appears in BOTH Column 1 and Column 2 he
 ### Example Full Conversion:
 
 Given this table row:
+
 ```
 | Matemática Superior | Análisis Mat II | Álgebra, Análisis Mat I | Análisis Mat II |
 ```
 
 Convert to:
+
 ```javascript
 {
   id: 951198,
@@ -237,11 +246,13 @@ Convert to:
 ### Alternative Table Formats:
 
 Some universities use different column headers:
+
 - "REGULARIZADA" instead of "CURSADA" (same meaning: taken)
 - "PARA RENDIR" or "PARA EXAMEN FINAL" instead of "PARA RENDIR TENER APROBADA"
 - Merged columns or abbreviated headers
 
 **Rule**: Look for keywords:
+
 - "Para Cursar" / "To enroll" → `requiredFor.enroll`
 - "Para Rendir" / "Para Examen" / "To complete" → `requiredFor.complete`
 - "Cursada" / "Regularizada" / "Taken" → `courseStates.taken`
@@ -250,6 +261,7 @@ Some universities use different column headers:
 ## Additional Field Documentation
 
 ### Optional Fields
+
 - `code`: Course code/number from official curriculum (string, optional). Examples: "MAT101", "1.1", "340102", "1", "25"
 - `hours`: Credit hours (number or undefined if not specified). Use `undefined` when hours are not provided
   - **CRITICAL**: For semester-based courses (firstSemester/secondSemester), use the SEMESTER hours, NOT annual hours
@@ -272,6 +284,7 @@ Some universities use different column headers:
    - Example: "Materia Optativa (optativa)" → name: "Materia Optativa", tag: courseTags.optative
 
 **Process**:
+
 - Always scan course names for these suffixes: "(electiva)", "(integradora)", "(optativa)"
 - Remove the suffix from the name field
 - Add the corresponding tag field
@@ -282,17 +295,19 @@ Some universities use different column headers:
 Some courses span multiple academic years, typically starting in one year and ending in the next. These courses are identified by phrases like "Año desfasado" (offset year), or descriptions indicating they start in one semester and end in another year.
 
 **Identification**: Look for courses that:
+
 - Are described as spanning from one semester of a year to another semester of the following year
-- Have notes indicating "Año desfasado" or "curso desfasado" 
+- Have notes indicating "Año desfasado" or "curso desfasado"
 - Show duration across year boundaries (e.g., "2º cuatr. 5º año - 1º cuatr. 6º año")
 
 **Structure for cross-year courses**:
+
 ```javascript
 {
   id: 43,
   name: 'Proyecto Final',
   term: courseTerms.secondSemester,  // Starting term
-  year: 5,                           // Starting year  
+  year: 5,                           // Starting year
   crossYear: {
     spansToYear: 6,                  // Ending year
     endsInTerm: courseTerms.firstSemester  // Ending term
@@ -302,6 +317,7 @@ Some courses span multiple academic years, typically starting in one year and en
 ```
 
 **Rules**:
+
 - Set `term` to the starting term (where the course begins)
 - Set `year` to the starting year
 - Add `crossYear` object with `spansToYear` (ending year) and `endsInTerm` (ending term)
@@ -312,12 +328,14 @@ Some courses span multiple academic years, typically starting in one year and en
 Some curricula include courses that don't belong to any specific academic year and can be taken at any time during the degree program. These are called "transversal courses" and are typically electives that students can complete whenever their schedule allows (as long as prerequisites are met).
 
 **Identification**: Look for:
+
 - Elective courses listed separately from year-specific courses
 - Courses with notes like "puede cursarse en cualquier momento" (can be taken at any time)
 - Separate sections titled "Materias Electivas", "Asignaturas Optativas", or similar
 - Courses without a specified year or level in the curriculum
 
 **Structure for transversal courses**:
+
 ```javascript
 import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 
@@ -336,6 +354,7 @@ import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 ```
 
 **Rules**:
+
 - Use `TRANSVERSAL_YEAR` constant (value: -1) instead of a specific year number
 - Import `TRANSVERSAL_YEAR` from `'$lib/course.svelte'`
 - Use `courseTerms.semestral` for term unless the course specifies a particular semester
@@ -344,12 +363,14 @@ import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 - Most transversal courses are electives, but not all - check for tags like integrative or special courses (PPS, Final Project)
 
 **Common transversal course types**:
+
 - Elective courses (materias electivas)
 - Optional language courses beyond requirements
 - Professional development courses
 - Specialized topic courses that don't fit in year structure
 
 **Example curriculum patterns**:
+
 - UTN BA Ingeniería Química Plan 1995: 22 hours of electives that can be taken throughout the degree
 - Courses are listed in a separate section with their own prerequisites but no assigned year
 
@@ -359,7 +380,7 @@ The `code` field should contain the official course identifier from the curricul
 
 #### Detection Strategies (in order of priority):
 
-1. **Dedicated ID columns in tables**: 
+1. **Dedicated ID columns in tables**:
    - Look for columns with headers like "N°", "Nº", "Código", "Cod", "ID", "#", "Num", "Item"
    - These typically contain sequential numbers (1, 2, 3...) or institutional codes (MAT101, FIS-201)
    - **Critical**: In tabular formats, the code column may not always be the first column
@@ -404,6 +425,7 @@ The `code` field should contain the official course identifier from the curricul
 - **Don't standardize format**: Preserve the exact format from the source (including punctuation, case)
 
 **Examples of course code patterns**:
+
 - `"1. Álgebra y Geometría Analítica"` → code: `"1"`
 - `"MAT101 - Cálculo I"` → code: `"MAT101"`
 - `"Física I (FIS-201)"` → code: `"FIS-201"`
@@ -412,6 +434,7 @@ The `code` field should contain the official course identifier from the curricul
 - `"Course name with no visible code"` → omit `code` field entirely
 
 **UCU Curriculum Pattern (Hierarchical X.YZ format)**:
+
 - First year courses: `1.01, 1.02, 1.03, ..., 1.08`
 - Second year courses: `2.01, 2.02, 2.03, ..., 2.13`
 - Third year courses: `3.01, 3.02, 3.03, ..., 3.11`
@@ -421,22 +444,26 @@ The `code` field should contain the official course identifier from the curricul
 - Special courses: `PPS` or custom codes like `9.99` (Práctica Profesional Supervisada)
 
 **Key UCU Detection Tips**:
+
 - Codes appear as small numbers next to course names in the curriculum document
 - Sequential numbering within each academic year
 - Optional courses clearly marked with "Op" prefix
 - PPS may have special coding (check document for specific format)
 
 ### Course States
+
 - `courseStates.taken` = "Cursar/Regular" (enrolled, in progress)
 - `courseStates.passed` = "Aprobar/Aprobada" (passed with grade)
 - `courseStates.inProgress` = "Cursando" (currently enrolled, similar to taken)
 
 ### Requirement ID Guidelines
+
 - Use sequential numbering (1, 2, 3...) within each course
 - IDs can be reused across different courses
 - Each requirement within a course should have unique ID
 
 ### Special Terms
+
 - `courseTerms.semestral`: For non-standard semester systems
 - `courseTerms.annual`: Courses spanning the full academic year
 - `courseTerms.firstSemester`/`courseTerms.secondSemester`: Standard semester divisions
@@ -446,13 +473,16 @@ The `code` field should contain the official course identifier from the curricul
 **CRITICAL**: You MUST follow this process step-by-step. Do NOT skip any step or assume information is correct without verification.
 
 ### Step 1: COMPLETE DATA EXTRACTION
+
 1. **For web sources**: If information is truncated, make multiple queries until you have ALL data
 2. **For structured tables**: Process EVERY row and EVERY column systematically
 3. **For images**: Examine EVERY cell in tabular data row-by-row, column-by-column
 4. **STOP CONDITION**: Only proceed when you have verified complete data for all courses and prerequisites
 
 ### Step 2: SYSTEMATIC TABLE PROCESSING (When curriculum is in table format)
+
 **MANDATORY ROW-BY-ROW VERIFICATION:**
+
 1. Start from course #1, go through EVERY course number sequentially
 2. For EACH course, extract: Name, Year, Term/Semester, Prerequisites
 3. **CRITICAL**: For prerequisite columns, extract EVERY code/reference (don't miss any)
@@ -460,7 +490,9 @@ The `code` field should contain the official course identifier from the curricul
 5. **COUNT CHECK**: Verify total courses extracted matches expected count
 
 ### Step 3: PREREQUISITE EXTRACTION VALIDATION
+
 **MANDATORY for EACH course with prerequisites:**
+
 1. **List all prerequisite codes found**: Write them out explicitly
 2. **Count codes vs. requirement objects**: Must match exactly
 3. **Verify course ID mapping**: Each code references an existing course
@@ -468,7 +500,9 @@ The `code` field should contain the official course identifier from the curricul
 5. **Purpose validation**: Confirm correct requiredFor (enroll/complete)
 
 ### Step 4: FINAL CROSS-VALIDATION CHECKPOINT
+
 **MANDATORY before submitting**:
+
 1. **Total course count**: Matches curriculum document
 2. **Distribution check**: Courses per year/semester match document
 3. **Prerequisite completeness**: All prerequisite relationships captured
@@ -480,6 +514,7 @@ The `code` field should contain the official course identifier from the curricul
 ### HANDLING TRUNCATED WEB RESPONSES
 
 **When WebFetch responses are incomplete:**
+
 1. **Detect truncation**: Look for cut-off sentences, incomplete lists, or missing year data
 2. **Make targeted follow-up queries**: Ask specifically for missing information
 3. **Use multiple query strategies**:
@@ -490,6 +525,7 @@ The `code` field should contain the official course identifier from the curricul
 5. **NEVER proceed with incomplete data**: Keep querying until you have everything
 
 **Signs of incomplete data:**
+
 - Response ends mid-sentence or mid-list
 - Missing courses from expected sequence (gaps in course numbers)
 - Vague or missing prerequisite information
@@ -500,6 +536,7 @@ The `code` field should contain the official course identifier from the curricul
 **Pattern**: Prerequisites like "1º A 2º año", "Todo 1º A 2º año", "1º Año al 1º C de 4º Año"
 
 **Implementation**:
+
 1. Expand to ALL individual course IDs from that range
 2. Add note explaining redundant requirements were simplified
 3. Example: "Todo 1º A 2º año" → add requirements for ALL 14 courses from years 1-2
@@ -511,6 +548,7 @@ The `code` field should contain the official course identifier from the curricul
 **Pattern**: Curricula listing multiple specific elective options (Electiva I: Option A, B, C)
 
 **Correct approach**:
+
 - Create ONE generic placeholder: `{id: 91, name: 'Materia Electiva I', tag: courseTags.elective}`
 - List specific options in `notes`: "Opciones de Materia Electiva I: **Option A** (CODE1), **Option B** (CODE2)"
 - Reference: See UADER/UDEMM implementations
@@ -520,6 +558,7 @@ The `code` field should contain the official course identifier from the curricul
 ### POST-IMPLEMENTATION VALIDATION
 
 **MANDATORY**: After generating data, ask user to verify:
+
 1. **Sample placements** (5-10 key courses): "Verify these are in correct year/semester"
 2. **Complex prerequisites**: "Confirm this interpretation of '1º A 2º año'"
 3. **Elective handling**: "Do elective options match curriculum?"
@@ -553,6 +592,7 @@ This catches placement errors early (e.g., courses in wrong year).
    - Confirm all prerequisite relationships are captured
 
 **Table Reading Best Practices**:
+
 - Read tables left-to-right, top-to-bottom systematically
 - Don't make assumptions about course placement
 - When in doubt, refer back to the original table structure
@@ -614,12 +654,14 @@ When processing prerequisites, you must understand the difference between:
 **Common Error**: Prerequisites reference course codes (like "2", "5", "MAT101"), but you must map these to the correct course `id` in the `requiredCourseId` field.
 
 **Example Mapping Process** (with ID-Code Synchronization):
+
 1. Prerequisite says: "2 - 5" (meaning courses with codes "2" and "5")
 2. Find courses in your data:
    - Course with `code: '2'` has `id: 2` → use `requiredCourseId: 2` ✅
    - Course with `code: '5'` has `id: 5` → use `requiredCourseId: 5` ✅
 
 **Process with synchronized IDs**:
+
 1. First, create all courses with correct `code` values from the curriculum
 2. **CRITICAL**: Assign IDs to match codes (numeric codes → same ID, non-numeric → high IDs 90+)
 3. When processing prerequisites, numeric code references become direct ID lookups
@@ -627,8 +669,9 @@ When processing prerequisites, you must understand the difference between:
 5. With proper ID-Code sync: code "5" DOES mean id: 5 (when code is numeric)
 
 **Legacy Process** (for curricula with unsynchronized IDs):
+
 1. When processing prerequisites, look up each referenced code
-2. Find the course that has that `code` value  
+2. Find the course that has that `code` value
 3. Use that course's `id` as the `requiredCourseId`
 4. Never assume that code "5" means id: 5 - always verify the mapping
 
@@ -643,6 +686,7 @@ To avoid missing prerequisites, follow this systematic approach:
 5. **Cross-reference validation**: After creating all requirements, verify that every referenced course code exists in your courses array
 
 **Common extraction errors to avoid**:
+
 - **CRITICAL**: Reading only the first code in a multi-code cell ("2 - 5" → only extracting "2" but missing "5")
 - **CRITICAL**: Missing codes separated by commas, dashes, or spaces ("2-5", "1, 3, 7", "4 - 16")
 - **CRITICAL**: Incomplete extraction from cells with multiple references - EVERY code must be converted to a requirement
@@ -659,8 +703,9 @@ To avoid missing prerequisites, follow this systematic approach:
 When a prerequisite cell contains multiple course codes, you MUST extract EVERY individual code:
 
 **Examples of multi-code patterns**:
+
 - "2 - 5" → Extract codes "2" AND "5" (both required)
-- "1, 3, 7" → Extract codes "1" AND "3" AND "7" (all required)  
+- "1, 3, 7" → Extract codes "1" AND "3" AND "7" (all required)
 - "4 - 16" → Extract codes "4" AND "16" (both required)
 - "I1-16" → Extract codes "I1" AND "16" (both required)
 - "12-13" → Extract codes "12" AND "13" (both required)
@@ -668,6 +713,7 @@ When a prerequisite cell contains multiple course codes, you MUST extract EVERY 
 - "2-5, DA-17" → Extract codes "2", "5", "DA", AND "17" (all required)
 
 **MANDATORY Process**:
+
 1. **Parse mixed content**: Split cells by commas first, then by dashes within each segment
    - "INGLÉS II, 11-13-15-16-18-21" → ["INGLÉS II", "11-13-15-16-18-21"]
    - Then parse "11-13-15-16-18-21" → ["11", "13", "15", "16", "18", "21"]
@@ -678,6 +724,7 @@ When a prerequisite cell contains multiple course codes, you MUST extract EVERY 
 6. **Count verification**: The number of requirement objects should equal the number of extracted codes
 
 **Quality assurance checklist**:
+
 - [ ] Every course row has been individually reviewed for prerequisites
 - [ ] All prerequisite columns have been processed (not just the first one or two)
 - [ ] Multi-code entries have been fully parsed (e.g., "2 - 5" yields both "2" and "5")
@@ -685,7 +732,7 @@ When a prerequisite cell contains multiple course codes, you MUST extract EVERY 
 - [ ] Each individual code from multi-code cells has its own requirement object
 - [ ] **COUNT CHECK**: For each prerequisite cell, count extracted codes vs. requirement objects created (must match exactly)
 - [ ] Mixed content cells (text + numeric codes) are fully processed
-- [ ] All `requiredCourseId` references point to existing course IDs  
+- [ ] All `requiredCourseId` references point to existing course IDs
 - [ ] The three-column mapping is applied correctly (regularizada, aprobada para cursar, aprobada para rendir)
 
 **CRITICAL: THREE-COLUMN PREREQUISITE PROCESSING**
@@ -745,15 +792,16 @@ Choose based on the curriculum structure:
 3. **Always verify**: Cross-reference the "NIVEL" column with the course's actual year placement
 
 ### Example Error Pattern:
+
 ```
 IV (Year 4)
-├── 1° Cuatrimestre: Course A, Course B  
+├── 1° Cuatrimestre: Course A, Course B
 ├── 2° Cuatrimestre: Course C, Course D
 ├── Annual: Course E, Course F, Course G
 ├── Course H ← ERROR: This belongs to Year 5, 1er Cuatrimestre
 └── Course I ← ERROR: This belongs to Year 5, 1er Cuatrimestre
 
-V (Year 5)  
+V (Year 5)
 ├── 1° Cuatrimestre: [Should include Course H, Course I]
 ```
 
@@ -762,24 +810,26 @@ V (Year 5)
 ## Complex Prerequisites Examples
 
 **Multiple states for same course**: When a course needs different states for enroll vs complete:
+
 ```javascript
 requirements: [
-  {
-    id: 1,
-    requiredCourseId: 2, // Técnicas de Representación I
-    requiredState: courseStates.inProgress,
-    requiredFor: requiredFor.enroll
-  },
-  {
-    id: 3,
-    requiredCourseId: 2, // Same course, different state
-    requiredState: courseStates.passed,
-    requiredFor: requiredFor.complete
-  }
-]
+	{
+		id: 1,
+		requiredCourseId: 2, // Técnicas de Representación I
+		requiredState: courseStates.inProgress,
+		requiredFor: requiredFor.enroll
+	},
+	{
+		id: 3,
+		requiredCourseId: 2, // Same course, different state
+		requiredState: courseStates.passed,
+		requiredFor: requiredFor.complete
+	}
+];
 ```
 
 **Redundant requirements**: Use comments to explain when requirements are implied by prerequisite chains:
+
 ```javascript
 // This requirement is redundant because Arquitectura II already requires Arquitectura I passed
 {
@@ -797,7 +847,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { CareerData } from '$lib/career-data';
+import type { DegreeData } from '$lib/degree-data';
 
 const courses: RawCourse[] = [
   {
@@ -842,7 +892,7 @@ const courses: RawCourse[] = [
   }
 ];
 
-export const exampleData: CareerData = {
+export const exampleData: DegreeData = {
   courses,
   degree: 'Ingeniería en Sistemas',
   years: 5,
@@ -880,6 +930,7 @@ export const exampleData: CareerData = {
 **BEFORE YOU BEGIN**: Re-read the MANDATORY SYSTEMATIC PROCESS section above. You MUST follow each step.
 
 **FINAL REMINDER**:
+
 - ✅ Extract complete data (no truncated responses)
 - ✅ Process tables row-by-row systematically
 - ✅ Verify ALL prerequisites for ALL courses
