@@ -60,8 +60,11 @@
 					<span class="whitespace-nowrap">recibite más rápido 🚀</span>
 				</h2>
 				<p class="text-center text-gray-700">
-					Batallar con correlatividades confusas y documentos tediosos puede ser frustrante. Plande
-					convierte todo ese caos en una herramienta que simplemente funciona.
+					Batallar con correlatividades confusas y documentos tediosos puede ser frustrante. <span
+						class="whitespace-nowrap"
+					>
+						Plande convierte
+					</span> todo ese caos en una herramienta simple.
 				</p>
 			</header>
 			<div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
@@ -153,9 +156,7 @@
 				<h2 class="text-center text-2xl font-bold">
 					Errores que cuestan <span class="whitespace-nowrap">años de carrera 💔</span>
 				</h2>
-				<p class="text-center text-gray-700">
-					Este tipo de historias me inspiraron a crear Plande.
-				</p>
+				<p class="text-center text-gray-700">Este tipo de historias me inspiraron a crear Plande</p>
 			</header>
 			<div class="grid gap-4">
 				<blockquote class="rounded-md bg-gray-100 p-5 text-gray-700 italic">
