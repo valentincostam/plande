@@ -19,6 +19,7 @@
 	import Disclaimer from '../disclaimer.svelte';
 	import TransversalCourses from './transversal-courses.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
+	import RedundantRequirements from './redundant-requirements.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -241,7 +242,7 @@
 			</ul>
 		</section>
 
-		{#if data.studyPlan.notes}
+		{#if data.studyPlan.notes && data.studyPlan.notes.length > 0}
 			<section>
 				<h3 class="p-3 text-lg font-bold">Notas</h3>
 				<ol class="grid list-decimal gap-3 px-9">

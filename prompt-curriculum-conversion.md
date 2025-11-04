@@ -13,6 +13,11 @@ Before submitting your conversion, verify:
 - [ ] **ID-Code synchronization**: Numeric codes match IDs exactly
 - [ ] **No duplicate IDs**: Each course has a unique ID
 - [ ] **All hours extracted**: Hours field populated when available
+- [ ] **Term verification**: Each course's term (annual/firstSemester/secondSemester) matches source "Cursado" column - NO ASSUMPTIONS
+- [ ] **Continuous numbering handled**: If curriculum uses "3er Cuatrimestre", "4to Cuatrimestre", etc., applied odd/even conversion correctly
+- [ ] **Prerequisites code-anchored**: Created explicit code-to-prerequisites mapping, verified each course code matches its prerequisites
+- [ ] **Prerequisites spot-check**: Verified 5 courses with many prerequisites against correlatividades table by course code
+- [ ] **Spot-check validation**: Randomly verified 5-10 courses character-by-character against source
 
 ## Input Analysis
 
@@ -289,6 +294,161 @@ Some universities use different column headers:
 - Remove the suffix from the name field
 - Add the corresponding tag field
 - Keep the course name clean and professional
+
+### CRITICAL: Continuous Semester/Cuatrimestre Numbering
+
+Some curricula number semesters/cuatrimestres continuously from the beginning of the degree program, rather than restarting at 1 for each academic year:
+
+**Numbering pattern:**
+- Year 1: Cuatrimestre/Semestre 1-2
+- Year 2: Cuatrimestre/Semestre 3-4
+- Year 3: Cuatrimestre/Semestre 5-6
+- Year 4: Cuatrimestre/Semestre 7-8
+- Year 5: Cuatrimestre/Semestre 9-10
+
+**Conversion rules:**
+- **Odd-numbered cuatrimestres** (1, 3, 5, 7, 9) → `courseTerms.firstSemester`
+- **Even-numbered cuatrimestres** (2, 4, 6, 8, 10) → `courseTerms.secondSemester`
+
+**Examples:**
+- "3er Cuatrimestre" in a Year 2 course → `term: courseTerms.firstSemester, year: 2`
+- "4to Cuatrimestre" in a Year 2 course → `term: courseTerms.secondSemester, year: 2`
+- "5to Cuatrimestre" in a Year 3 course → `term: courseTerms.firstSemester, year: 3`
+- "6to Cuatrimestre" in a Year 3 course → `term: courseTerms.secondSemester, year: 3`
+
+**Detection:** If you see cuatrimestre/semester numbers higher than 2, the curriculum is using continuous numbering. Apply the odd/even conversion rule based on the course's actual academic year.
+
+### CRITICAL: Reading Assignment Tables (Asignación Horaria)
+
+When processing "Asignación Horaria", "Carga Horaria", or similar course schedule tables:
+
+**Mandatory systematic process:**
+
+1. **Process each row individually** - Never skip, merge, or batch process rows
+2. **Read left-to-right systematically**:
+   - Column 1: Course code/number
+   - Column 2: Course name
+   - Column 3: "Cursado" or "Régimen" (term: annual/semester)
+   - Column 4+: Hours (weekly, semester, annual)
+3. **Do NOT make pattern-based assumptions**: Each course is completely independent
+4. **Verify term column explicitly for EVERY course**:
+   - "Anual" = `courseTerms.annual`
+   - "1er Semestre" / "1° Cuatrimestre" / "Semestre" = `courseTerms.firstSemester`
+   - "2do Semestre" / "2° Cuatrimestre" / "Semestre" = `courseTerms.secondSemester`
+   - Numbers "1", "3", "5", "7", "9" = `courseTerms.firstSemester` (continuous numbering)
+   - Numbers "2", "4", "6", "8", "10" = `courseTerms.secondSemester` (continuous numbering)
+5. **Extract hours from the correct column**:
+   - Usually "Carga horaria semanal" (weekly hours)
+   - NOT "Carga horaria total" or annual hours (unless course is annual)
+6. **Mark each row as processed**: Keep a mental or written checklist to ensure no course is missed
+
+**Common errors to avoid:**
+- ❌ Assuming similar courses have the same term (e.g., "Tipografía 1 is semester, so Tipografía 2 must be too")
+- ❌ Skipping verification because "most courses in this year are annual"
+- ❌ Misreading the term column due to visual similarity
+- ❌ Using total hours instead of weekly/semester hours
+
+### CRITICAL: Avoid Pattern-Based Assumptions
+
+**The #1 cause of curriculum conversion errors is making assumptions based on patterns rather than reading actual data.**
+
+❌ **NEVER assume**:
+- "If 3 courses are semester-based, the 4th probably is too"
+- "Similar course names (Tipografía 1, 2, 3) probably have identical structures"
+- "Electives are probably all in the last year"
+- "All Year 1 courses are probably annual"
+- "Sequential courses probably have the same term"
+- "If the previous row was X, this row is probably X too"
+
+✅ **ALWAYS verify**:
+- Read the actual data from the source table/document for EACH course individually
+- Cross-reference with multiple sections if available (correlatividades, asignación horaria)
+- When in doubt, re-check the source image/document explicitly
+- Treat each course as a completely independent entity
+- Verify term and hours for every single course, without exception
+
+**Quality rule:** If you catch yourself thinking "this course is probably like...", STOP and verify against the source.
+
+### CRITICAL: Processing Correlatividades (Prerequisites) Tables
+
+**The #1 source of prerequisite errors is failing to anchor each prerequisite list to its specific course code.**
+
+**Mandatory systematic process:**
+
+1. **Create explicit code-to-prerequisites mapping FIRST**:
+   - Before writing any code, create a text mapping table
+   - Process the correlatividades table row by row
+   - Format: `Code → [Prerequisite codes]`
+   - Example:
+     ```
+     01-01 → (none)
+     01-08 → [01-04]
+     03-26 → [codes here]
+     04-27 → [01-06, 01-08, 02-11, 02-14, ...]
+     ```
+
+2. **Process row-by-row with explicit code verification**:
+   - **Step 1**: Read course code from Column 1 (e.g., "03-26")
+   - **Step 2**: Read ALL prerequisite codes from remaining columns
+   - **Step 3**: Write mapping: "03-26 → [prerequisite codes]"
+   - **Step 4**: Move to next row, repeat
+   - **CRITICAL**: Never assume the next row is the next sequential course code
+
+3. **Anchor prerequisites to course codes when writing code**:
+   - Before writing `requirements: [...]` for a course
+   - Check: "What is the code for this course?" (e.g., 03-26)
+   - Lookup: "What prerequisites did I map to code 03-26?"
+   - Verify: Codes match before writing requirements array
+   - **If codes don't match**: STOP, go back to source table, fix mapping
+
+4. **Common critical errors to avoid**:
+   - ❌ **Row confusion**: Copying prerequisites from visually adjacent rows without checking codes
+   - ❌ **Name-based assumptions**: "Práctica Profesional sounds like final project, so it has same prerequisites"
+   - ❌ **Bulk processing**: Processing multiple courses' prerequisites without per-code verification
+   - ❌ **Column 1 ignorance**: Reading prerequisite columns but ignoring the course code column
+   - ❌ **Sequential assumption**: Assuming prerequisites table rows appear in sequential course code order
+
+5. **Verification checkpoint for prerequisites**:
+   - After extracting all prerequisites, select 5 courses with many prerequisites
+   - For each course:
+     - Note its code (e.g., "04-27")
+     - Go back to correlatividades table
+     - Find row with "04-27" in column 1
+     - Verify prerequisites in remaining columns match your mapping
+   - If ANY mismatch: Review ALL prerequisite mappings from scratch
+
+**Real error example:**
+- ❌ **Wrong**: Assigned prerequisites [01-06, 01-08, 02-11, ...] to "03-26 Práctica Profesional Supervisada"
+- ✅ **Correct**: Those prerequisites belonged to "04-27 Taller de Proyecto Final"
+- **Cause**: Did not verify that course code in column 1 matched the course receiving those prerequisites
+
+### Mandatory Spot-Check Validation
+
+**Before submitting the final conversion, you MUST perform spot-check validation:**
+
+1. **Random sampling**: Select 5-10 courses from different years (at least 1-2 per year)
+2. **Go back to source**: Re-examine the original curriculum document/image
+3. **Verify character-by-character**:
+   - [ ] Course name matches exactly (including accents, capitalization)
+   - [ ] Term (annual/firstSemester/secondSemester) matches "Cursado" column precisely
+   - [ ] Hours match the correct column (weekly/semester hours)
+   - [ ] Year placement is correct
+   - [ ] Prerequisites are complete and accurate
+
+4. **Discrepancy protocol**:
+   - If ANY course fails validation → Review all courses in that year
+   - If 2+ courses fail validation → Review the ENTIRE curriculum
+   - Fix errors and re-validate before submitting
+
+**Validation frequency:**
+- After completing first pass: Validate 10 courses
+- After fixing any errors: Validate 5 more courses
+- Before final submission: Validate 5 courses one last time
+
+This catches errors like:
+- Tipografía 1 marked as semester when it's annual
+- "3er Cuatrimestre" interpreted as third year instead of first semester of second year
+- Hours copied from wrong column
 
 ### Cross-Year Courses (Multi-Year Spanning)
 

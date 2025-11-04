@@ -10,6 +10,7 @@ import { uncaFcaTupazsa } from './unca-fca-tupazsa';
 import { udemmLp } from './udemm-lp';
 import { udemmLpe } from './udemm-lpe';
 import { utnFrbaIq1995 } from './utn-frba-iq-1995';
+import { unrFapydLdg } from './unr-fapyd-ldg';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -24,5 +25,6 @@ export const allStudyPlans: StudyPlan[] = [
 	uncaFcaTupazsa,
 	udemmLp,
 	udemmLpe,
-	utnFrbaIq1995
+	utnFrbaIq1995,
+	unrFapydLdg
 ];
