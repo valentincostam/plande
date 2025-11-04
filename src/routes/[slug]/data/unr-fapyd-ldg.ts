@@ -534,7 +534,7 @@ export const unrFapydLdg: StudyPlan = {
 	sources: [
 		{
 			id: 1,
-			label: 'Plan de Estudios 2022',
+			label: 'Plan de Estudios',
 			url: 'https://fapyd.unr.edu.ar/wp-content/uploads/2022/05/220304_LDG_PLAN_DE_ESTUDIOS.pdf'
 		}
 	],
