@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	// Year 1
@@ -1022,12 +1022,15 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const uaderFcytItData: DegreeData = {
+export const uaderFcytIt: StudyPlan = {
 	courses,
-	degree: 'Ingeniería en Telecomunicaciones',
-	years: 5,
-	college: 'UADER FCyT',
-	studyProgram: 'Plan de Estudios',
+	degreeName: 'Ingeniería en Telecomunicaciones',
+	degreeSlug: 'IT',
+	durationYears: 5,
+	universityName: 'Universidad Autónoma de Entre Ríos',
+	universitySlug: 'UADER',
+	collegeName: 'Facultad de Ciencia y Tecnología',
+	collegeSlug: 'FCyT',
 	progress: {
 		type: 'mandatory-only'
 	},
@@ -1044,7 +1047,6 @@ export const uaderFcytItData: DegreeData = {
 			text: `Las materias optativas de 4<sup>to</sup> año son:
         \n - **Sistemas de Posicionamiento Global**
         \n - **Sistemas RADAR**
-        
       `
 		},
 		{

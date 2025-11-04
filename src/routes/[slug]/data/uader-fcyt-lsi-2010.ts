@@ -1,7 +1,7 @@
 import { courseStates } from '$lib/course-state';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	{
@@ -892,12 +892,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const uaderFcytLsiData: DegreeData = {
+export const uaderFcytLsi2010: StudyPlan = {
 	courses,
-	degree: 'Licenciatura en Sistemas de Información',
-	years: 5,
-	college: 'UADER FCyT',
-	studyProgram: 'Plan de Estudios 2010',
+	degreeName: 'Licenciatura en Sistemas de Información',
+	degreeSlug: 'LSI',
+	durationYears: 5,
+	universityName: 'Universidad Autónoma de Entre Ríos',
+	universitySlug: 'UADER',
+	collegeName: 'Facultad de Ciencia y Tecnología',
+	collegeSlug: 'FCyT',
+	year: 2010,
 	progress: {
 		type: 'mandatory-only'
 	},

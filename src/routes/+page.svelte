@@ -1,15 +1,23 @@
 <script lang="ts">
 	import ChatMessage from './chat-message.svelte';
 	import Footer from './footer.svelte';
+	import { allStudyPlans } from './[slug]/data/all-study-plans';
+	import {
+		groupStudyPlansByUniversityAndCollege,
+		getStudyPlanSlug,
+		getStudyPlanSlugWithYear
+	} from '$lib/study-plan';
+
+	const groupedStudyPlans = groupStudyPlansByUniversityAndCollege(allStudyPlans);
 </script>
 
 <svelte:head>
-	<title
-		>Plande - Planificá tu carrera universitaria fácil y rápido con un plan de estudios interactivo</title
-	>
+	<title>
+		Planificá tu carrera universitaria fácil y rápido con un plan de estudios interactivo de Plande
+	</title>
 	<meta
 		name="description"
-		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso. Recibite más rápido."
+		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
 	/>
 </svelte:head>
 
@@ -46,14 +54,16 @@
 		</section>
 
 		<section class="grid gap-6 px-6 md:px-0">
-			<h2 class="text-center text-2xl font-bold">
-				<span class="whitespace-nowrap">No pierdas tiempo,</span>
-				<span class="whitespace-nowrap">recibite más rápido 🚀</span>
-			</h2>
-			<p class="text-center text-gray-700">
-				Batallar con correlatividades confusas y documentos tediosos puede ser frustrante. Plande
-				convierte todo ese caos en una herramienta que simplemente funciona.
-			</p>
+			<header class="grid gap-1">
+				<h2 class="text-center text-2xl font-bold">
+					<span class="whitespace-nowrap">No pierdas tiempo,</span>
+					<span class="whitespace-nowrap">recibite más rápido 🚀</span>
+				</h2>
+				<p class="text-center text-gray-700">
+					Batallar con correlatividades confusas y documentos tediosos puede ser frustrante. Plande
+					convierte todo ese caos en una herramienta que simplemente funciona.
+				</p>
+			</header>
 			<div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
 				<div class="grid gap-1 rounded-lg bg-gray-100 p-5">
 					<h3 class="font-bold">Probá sin riesgo</h3>
@@ -110,11 +120,43 @@
 			</div>
 		</section>
 
+		<section class="grid gap-3 px-6 pb-6 md:px-0">
+			<header class="text-center text-sm text-gray-600">
+				Utilizado por estudiantes de distintas universidades
+			</header>
+			<div class="flex flex-wrap justify-center gap-x-6 gap-y-4">
+				<img
+					src="/utn.png"
+					alt="UTN"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+				/>
+				<img
+					src="/uader.png"
+					alt="UADER"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+				/>
+				<img
+					src="/unca.png"
+					alt="UNCA"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+				/>
+				<img
+					src="/udemm.png"
+					alt="UDEMM"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+				/>
+			</div>
+		</section>
+
 		<section class="grid gap-6 px-6 md:px-0">
-			<h2 class="text-center text-2xl font-bold">
-				Errores que cuestan <span class="whitespace-nowrap">años de carrera 💔</span>
-			</h2>
-			<p class="text-center text-gray-700">Este tipo de historias me inspiraron a crear Plande.</p>
+			<header class="grid gap-1">
+				<h2 class="text-center text-2xl font-bold">
+					Errores que cuestan <span class="whitespace-nowrap">años de carrera 💔</span>
+				</h2>
+				<p class="text-center text-gray-700">
+					Este tipo de historias me inspiraron a crear Plande.
+				</p>
+			</header>
 			<div class="grid gap-4">
 				<blockquote class="rounded-md bg-gray-100 p-5 text-gray-700 italic">
 					"Perdí UN AÑO ENTERO porque no sabía que para cursar Estructuras I necesitaba tener
@@ -148,199 +190,92 @@
 		</section>
 
 		<section class="grid gap-6 px-6 md:px-0">
-			<h2 class="scroll-m-6 text-center text-2xl font-bold" id="carreras">
-				Tu carrera <span class="whitespace-nowrap">en un solo link 🔗</span>
-			</h2>
-			<p class="text-center text-gray-700">
-				Elegí tu carrera y empezá a trackear tu progreso <span class="whitespace-nowrap"
-					>ahora mismo</span
-				>
-			</p>
+			<header class="grid gap-1">
+				<h2 class="scroll-m-6 text-center text-2xl font-bold" id="carreras">
+					Tu carrera <span class="whitespace-nowrap">en un solo link 🔗</span>
+				</h2>
+				<p class="text-center text-gray-700">
+					Elegí tu carrera y empezá a trackear tu progreso <span class="whitespace-nowrap"
+						>ahora mismo</span
+					>
+				</p>
+			</header>
 
 			<div class="grid gap-4 pb-6">
 				<h2 class="text-lg font-bold">Carreras disponibles</h2>
-				<div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-blue-500"></div>
-							<h3 class="font-semibold text-gray-900">UTN FRCU</h3>
+				<div class="grid gap-4">
+					{#each groupedStudyPlans as university}
+						<div class="relative grid gap-5 rounded-md border border-gray-300 p-5">
+							<img
+								src={`/${university.universitySlug.toLowerCase()}.png`}
+								alt={university.universityName}
+								class="mx-auto max-h-10 max-w-24 object-contain opacity-70 grayscale md:absolute md:top-5 md:right-5"
+							/>
+							<h3 class="text-center font-semibold text-gray-900 md:text-left">
+								{university.universityName} ({university.universitySlug})
+							</h3>
+							{#each university.colleges as college}
+								{#if college.collegeName}
+									<div class="grid gap-2">
+										<h4 class="text-sm font-medium text-gray-700">
+											{college.collegeName} ({college.collegeSlug})
+										</h4>
+										<ul class="space-y-1 md:pl-4">
+											{#each college.degrees as degree}
+												<li>
+													<a
+														href={`/${getStudyPlanSlug(degree)}`}
+														class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+													>
+														{degree.degreeName}
+														{#if degree.year}
+															<span class="text-gray-500"> (Plan {degree.year})</span>
+														{/if}
+													</a>
+												</li>
+											{/each}
+										</ul>
+									</div>
+								{:else}
+									<ul class="space-y-1 md:pl-4">
+										{#each college.degrees as degree}
+											<li>
+												<a
+													href={`/${getStudyPlanSlug(degree)}`}
+													class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+												>
+													{degree.degreeName}
+													{#if degree.year}
+														<span class="text-gray-500"> (Plan {degree.year})</span>
+													{/if}
+												</a>
+											</li>
+										{/each}
+									</ul>
+								{/if}
+							{/each}
 						</div>
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/utn-frcu-loi"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Licenciatura en Organización Industrial</a
-								>
-							</li>
-							<li>
-								<a
-									href="/utn-frcu-isi"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Ingeniería en Sistemas de Información</a
-								>
-							</li>
-							<li>
-								<a
-									href="/utn-frcu-ie"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Ingeniería Electromecánica</a
-								>
-							</li>
-							<li>
-								<a
-									href="/utn-frcu-ic"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Ingeniería Civil</a
-								>
-							</li>
-						</ul>
-					</div>
+					{/each}
 
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-blue-500"></div>
-							<h3 class="font-semibold text-gray-900">UTN FRBA</h3>
-						</div>
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/utn-frba-iq-1995"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Ingeniería Química (Plan 1995)</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-green-500"></div>
-							<h3 class="font-semibold text-gray-900">UCU FAU</h3>
-						</div>
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/ucu-fau-arq"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Arquitectura</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-purple-500"></div>
-							<h3 class="font-semibold text-gray-900">UADER FCyT</h3>
-						</div>
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/uader-fcyt-lsi"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Licenciatura en Sistemas de Información</a
-								>
-							</li>
-							<li>
-								<a
-									href="/uader-fcyt-it"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Ingeniería en Telecomunicaciones</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-red-500"></div>
-							<h3 class="font-semibold text-gray-900">UNER FCS</h3>
-						</div>
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/uner-fcs-med"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900">Medicina</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-orange-500"></div>
-							<h3 class="font-semibold text-gray-900">UNCA FCA</h3>
-						</div>
-
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/unca-fca-tupazsa"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Tecnicatura Universitaria en Producción Animal</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div
-						class="group rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-200 transition-all hover:shadow-md hover:ring-gray-300"
-					>
-						<div class="mb-1 flex items-center gap-2">
-							<div class="h-2 w-2 rounded-full bg-pink-500"></div>
-							<h3 class="font-semibold text-gray-900">UdeMM</h3>
-						</div>
-
-						<ul class="space-y-1.5">
-							<li>
-								<a
-									href="/udemm-lp"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Licenciatura en Psicología</a
-								>
-							</li>
-							<li>
-								<a
-									href="/udemm-lpe"
-									class="text-sm text-blue-700 transition-colors hover:text-blue-900"
-									>Licenciatura en Psicopedagogía</a
-								>
-							</li>
-						</ul>
-					</div>
-
-					<div class="sm:col-span-2">
-						<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
-							<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-							<a
-								href="https://forms.gle/bCC6rCb44LLYERHu6"
-								class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
-							>
-						</div>
+					<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+						<span class="text-sm text-gray-600">¿No está tu carrera?</span>
+						<a
+							href="https://forms.gle/bCC6rCb44LLYERHu6"
+							class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
+						>
 					</div>
 				</div>
 			</div>
 		</section>
 
 		<section class="grid gap-6 px-6 pb-6 md:px-0">
-			<h2 class="text-center text-2xl font-bold">
-				Mejor planificación, <span class="whitespace-nowrap">más egresados 🧑‍🎓</span>
-			</h2>
+			<header class="grid gap-1">
+				<h2 class="text-center text-2xl font-bold">
+					Mejor planificación, <span class="whitespace-nowrap">más egresados 🧑‍🎓</span>
+				</h2>
 
-			<p class="text-center text-gray-700">Plande está para que te recibas sin vueltas.</p>
+				<p class="text-center text-gray-700">Plande está para que te recibas sin vueltas.</p>
+			</header>
 
 			<div class="grid gap-3">
 				<h3 class="text-lg font-bold">Contruyamos Plande juntos</h3>

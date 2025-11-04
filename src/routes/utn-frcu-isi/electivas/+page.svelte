@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { utnFrcuIsiData } from '../../[slug]/utn-frcu-isi-data';
+	import { utnFrcuIsi2023 } from '../../[slug]/data/utn-frcu-isi-2023';
 	import Footer from '../../footer.svelte';
 </script>
 
@@ -10,8 +10,8 @@
 			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
-		<p>{utnFrcuIsiData.college} · {utnFrcuIsiData.studyProgram}</p>
-		<h1 class="text-2xl font-bold">{utnFrcuIsiData.degree}</h1>
+		<p>{utnFrcuIsi2023.collegeName} · {utnFrcuIsi2023.degreeName}</p>
+		<h1 class="text-2xl font-bold">{utnFrcuIsi2023.degreeName}</h1>
 	</header>
 
 	<main class="grid gap-6 px-6 md:px-0">
@@ -20,7 +20,7 @@
 		</h2>
 		<p>
 			La <a
-				href={utnFrcuIsiData.sources[1].url}
+				href={utnFrcuIsi2023.sources[1].url}
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Ordenanza N° 1877</a
 			>

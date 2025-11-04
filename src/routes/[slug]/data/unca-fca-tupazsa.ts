@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	{
@@ -483,12 +483,15 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const uncaFcaTupazsaData: DegreeData = {
+export const uncaFcaTupazsa: StudyPlan = {
 	courses,
-	degree: 'Tecnicatura Universitaria en Producción Animal de Zonas Áridas y Semiáridas',
-	years: 3,
-	college: 'UNCA FCA',
-	studyProgram: 'Plan de Estudios',
+	degreeName: 'Tecnicatura Universitaria en Producción Animal de Zonas Áridas y Semiáridas',
+	degreeSlug: 'TUPAZSA',
+	durationYears: 3,
+	universityName: 'Universidad Nacional de Catamarca',
+	universitySlug: 'UNCA',
+	collegeName: 'Facultad de Ciencias Agrarias',
+	collegeSlug: 'FCA',
 	progress: {
 		type: 'mandatory-plus-one-elective',
 		requiredElectiveCount: 1
@@ -498,20 +501,6 @@ export const uncaFcaTupazsaData: DegreeData = {
 			id: 1,
 			label: 'Plan de Estudios',
 			url: 'https://agrarias.unca.edu.ar/tecnicatura-universitaria-en-produccion-animal-de-zonas-aridas-y-semiaridas/#1493318978094-542b325e-a2cb'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'La carrera tiene una duración de **3 años** y forma técnicos universitarios especializados en producción animal adaptada a zonas áridas y semiáridas.'
-		},
-		{
-			id: 2,
-			text: 'Se debe completar **1 materia electiva** durante el tercer año para cumplir con los requisitos de graduación.'
-		},
-		{
-			id: 3,
-			text: 'El programa está diseñado específicamente para las condiciones ambientales del noroeste argentino, con énfasis en sistemas de producción sustentables.'
 		}
 	]
 };

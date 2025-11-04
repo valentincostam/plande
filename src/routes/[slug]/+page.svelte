@@ -17,8 +17,8 @@
 	import { onMount, tick } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
-	import RedundantRequirements from './redundant-requirements.svelte';
 	import TransversalCourses from './transversal-courses.svelte';
+	import { getFullCollegeName } from '$lib/study-plan';
 
 	let { data }: PageProps = $props();
 
@@ -30,7 +30,11 @@
 	let showCodes = $state(initialShowCodes);
 	let isInitializing = $state(true);
 
-	const courses = createCourses(data.courses, initialCoursesStates, () => isStrictModeEnabled);
+	const courses = createCourses(
+		data.studyPlan.courses,
+		initialCoursesStates,
+		() => isStrictModeEnabled
+	);
 
 	let isRouterReady = $state(false);
 
@@ -101,12 +105,12 @@
 		}
 	});
 
-	const years = createYears(data.years, courses);
+	const years = createYears(data.studyPlan.durationYears, courses);
 
 	const transversalCourses = courses.filter((course) => course.year === TRANSVERSAL_YEAR);
 
-	const title = `${data.degree} - ${data.college} | Plan de Estudios Interactivo`;
-	const description = `Plan de estudios interactivo de ${data.degree} en ${data.college}. Visualiza materias, requisitos y tu progreso académico de forma clara y organizada.`;
+	const title = `Plan de Estudios de ${data.studyPlan.degreeName} de la ${getFullCollegeName(data.studyPlan)} ・ Plande`;
+	const description = `Plan de Estudios Interactivo de la carrera de ${data.studyPlan.degreeName} en ${getFullCollegeName(data.studyPlan)}. Visualizá materias, requisitos y tu progreso académico de forma clara y organizada con Plande.`;
 	const url = `https://plande.app/${data.slug}`;
 </script>
 
@@ -131,11 +135,11 @@
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: data.degree,
+		name: data.studyPlan.degreeName,
 		description: description,
 		provider: {
 			'@type': 'CollegeOrUniversity',
-			name: data.college
+			name: getFullCollegeName(data.studyPlan)
 		},
 		educationalLevel: 'Undergraduate',
 		url: url,
@@ -155,7 +159,7 @@
 			{
 				'@type': 'ListItem',
 				position: 2,
-				name: data.degree,
+				name: data.studyPlan.degreeName,
 				item: url
 			}
 		]
@@ -170,9 +174,10 @@
 			>Plande</a
 		>
 		<p>
-			{data.college} · {data.studyProgram}
+			Plan de Estudios {data.studyPlan.year ?? ''} · {data.studyPlan.universitySlug}
+			{data.studyPlan.collegeSlug ?? ''}
 		</p>
-		<h1 class="text-2xl font-bold">{data.degree}</h1>
+		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
 	</header>
 
 	<main class="grid gap-9">
@@ -200,16 +205,47 @@
 		<section>
 			<h3 class="p-3 text-lg font-bold">Estadísticas</h3>
 			<div class="grid gap-3">
-				<Charts {courses} {years} progress={data.progress} />
-				<Stats {courses} {years} progress={data.progress} />
+				<Charts {courses} {years} progress={data.studyPlan.progress} />
+				<Stats {courses} {years} progress={data.studyPlan.progress} />
 			</div>
 		</section>
 
-		{#if data.notes}
+		<section>
+			<h3 class="p-3 text-lg font-bold">Datos del plan de estudios</h3>
+
+			<ul class="grid list-disc gap-3 px-9">
+				<li>
+					<span class="font-bold">Carrera:</span>
+					{data.studyPlan.degreeName}
+				</li>
+				{#if data.studyPlan.collegeName}
+					<li>
+						<span class="font-bold">Facultad:</span>
+						{data.studyPlan.collegeName} ({data.studyPlan.collegeSlug})
+					</li>
+				{/if}
+				<li>
+					<span class="font-bold">Universidad:</span>
+					{data.studyPlan.universityName} ({data.studyPlan.universitySlug})
+				</li>
+				<li>
+					<span class="font-bold">Duración:</span>
+					{data.studyPlan.durationYears} años
+				</li>
+				{#if data.studyPlan.year}
+					<li>
+						<span class="font-bold">Año de aprobación:</span>
+						{data.studyPlan.year}
+					</li>
+				{/if}
+			</ul>
+		</section>
+
+		{#if data.studyPlan.notes}
 			<section>
 				<h3 class="p-3 text-lg font-bold">Notas</h3>
 				<ol class="grid list-decimal gap-3 px-9">
-					{#each data.notes as note}
+					{#each data.studyPlan.notes as note}
 						<li class="note">
 							{@html marked(note.text)}
 						</li>
@@ -218,11 +254,11 @@
 			</section>
 		{/if}
 
-		{#if data.sources}
+		{#if data.studyPlan.sources}
 			<section>
 				<h3 class="p-3 text-lg font-bold">Fuentes</h3>
 				<ol class="grid list-decimal gap-3 px-9">
-					{#each data.sources as source}
+					{#each data.studyPlan.sources as source}
 						<li>
 							<a
 								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
@@ -260,7 +296,7 @@
 		</section>
 	</main>
 
-	<Disclaimer college={data.college} />
+	<Disclaimer college={getFullCollegeName(data.studyPlan)} />
 
 	<Footer />
 </div>

@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	// First Year - First Semester
@@ -1021,12 +1021,13 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const udemmLpeData: DegreeData = {
+export const udemmLpe: StudyPlan = {
 	courses,
-	degree: 'Licenciatura en Psicopedagogía',
-	years: 5,
-	college: 'UdeMM',
-	studyProgram: 'Plan de Estudios',
+	degreeName: 'Licenciatura en Psicopedagogía',
+	degreeSlug: 'LPE',
+	durationYears: 5,
+	universityName: 'Universidad de la Marina Mercante',
+	universitySlug: 'UdeMM',
 	progress: {
 		type: 'mandatory-plus-one-elective',
 		requiredElectiveCount: 2

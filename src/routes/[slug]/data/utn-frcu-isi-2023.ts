@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	{
@@ -1036,12 +1036,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIsiData: DegreeData = {
+export const utnFrcuIsi2023: StudyPlan = {
 	courses,
-	degree: 'Ingeniería en Sistemas de Información',
-	years: 5,
-	college: 'UTN FRCU',
-	studyProgram: 'Plan de Estudios 2023',
+	degreeName: 'Ingeniería en Sistemas de Información',
+	degreeSlug: 'ISI',
+	universityName: 'Universidad Tecnológica Nacional',
+	universitySlug: 'UTN',
+	collegeName: 'Facultad Regional Concepción del Uruguay',
+	collegeSlug: 'FRCU',
+	durationYears: 5,
+	year: 2023,
 	progress: {
 		type: 'mandatory-plus-elective-hours',
 		requiredElectiveHours: 40

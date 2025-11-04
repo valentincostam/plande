@@ -3,7 +3,7 @@ import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	// NIVEL I (Year 1)
@@ -2255,12 +2255,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrbaIq1995Data: DegreeData = {
+export const utnFrbaIq1995: StudyPlan = {
 	courses,
-	degree: 'Ingeniería Química',
-	years: 5,
-	college: 'UTN FRBA',
-	studyProgram: 'Plan de Estudios 1995',
+	degreeName: 'Ingeniería Química',
+	degreeSlug: 'IQ',
+	universityName: 'Universidad Tecnológica Nacional',
+	universitySlug: 'UTN',
+	collegeName: 'Facultad Regional Buenos Aires',
+	collegeSlug: 'FRBA',
+	durationYears: 5,
+	year: 1995,
 	progress: {
 		type: 'mandatory-plus-elective-hours',
 		requiredElectiveHours: 44

@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	{
@@ -1076,12 +1076,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const unerFcsMedData: DegreeData = {
+export const unerFcsMed2022: StudyPlan = {
 	courses,
-	degree: 'Medicina',
-	years: 5,
-	college: 'UNER FCS',
-	studyProgram: 'Plan de Estudios 2022',
+	degreeName: 'Medicina',
+	degreeSlug: 'MED',
+	durationYears: 5,
+	universityName: 'Universidad Nacional de Entre Ríos',
+	universitySlug: 'UNER',
+	collegeName: 'Facultad de Ciencias de la Salud',
+	collegeSlug: 'FCS',
+	year: 2022,
 	progress: {
 		type: 'mandatory-only'
 	},

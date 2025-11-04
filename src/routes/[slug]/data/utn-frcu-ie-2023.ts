@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	// Year 1 - First Semester
@@ -1622,12 +1622,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIeData: DegreeData = {
+export const utnFrcuIe2023: StudyPlan = {
 	courses,
-	degree: 'Ingeniería Electromecánica',
-	years: 5,
-	college: 'UTN FRCU',
-	studyProgram: 'Plan de Estudios 2023',
+	degreeName: 'Ingeniería Electromecánica',
+	degreeSlug: 'IE',
+	universityName: 'Universidad Tecnológica Nacional',
+	universitySlug: 'UTN',
+	collegeName: 'Facultad Regional Concepción del Uruguay',
+	collegeSlug: 'FRCU',
+	durationYears: 5,
+	year: 2023,
 	progress: {
 		type: 'mandatory-plus-elective-hours',
 		requiredElectiveHours: 20

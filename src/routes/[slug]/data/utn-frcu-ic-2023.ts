@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	{
@@ -2256,12 +2256,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const utnFrcuIcData: DegreeData = {
+export const utnFrcuIc2023: StudyPlan = {
 	courses,
-	degree: 'Ingeniería Civil',
-	years: 6,
-	college: 'UTN FRCU',
-	studyProgram: 'Plan de Estudios 2023',
+	degreeName: 'Ingeniería Civil',
+	degreeSlug: 'IC',
+	durationYears: 6,
+	universityName: 'Universidad Tecnológica Nacional',
+	universitySlug: 'UTN',
+	collegeName: 'Facultad Regional Concepción del Uruguay',
+	collegeSlug: 'FRCU',
+	year: 2023,
 	progress: {
 		type: 'mandatory-plus-elective-hours',
 		requiredElectiveHours: 22

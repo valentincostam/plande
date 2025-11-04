@@ -2,7 +2,7 @@ import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
 	// 1er año
@@ -1324,12 +1324,16 @@ const courses: RawCourse[] = [
 	}
 ];
 
-export const ucuFauArqData: DegreeData = {
+export const ucuFauArq2007: StudyPlan = {
 	courses,
-	degree: 'Arquitectura',
-	years: 5,
-	college: 'UCU FAU',
-	studyProgram: 'Plan de Estudios 2007',
+	degreeName: 'Arquitectura',
+	degreeSlug: 'ARQ',
+	durationYears: 5,
+	universityName: 'Universidad de Concepción del Uruguay',
+	universitySlug: 'UCU',
+	collegeName: 'Facultad de Arquitectura y Urbanismo',
+	collegeSlug: 'FAU',
+	year: 2007,
 	progress: {
 		type: 'mandatory-plus-one-elective',
 		requiredElectiveCount: 1

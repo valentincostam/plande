@@ -1,18 +1,51 @@
 import { decodeCoursesStates } from '$lib/course-state';
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import { utnFrcuIsiData } from './utn-frcu-isi-data';
-import { utnFrcuIeData } from './utn-frcu-ie-data';
-import { ucuFauArqData } from './ucu-fau-arq-data';
-import { uaderFcytLsiData } from './uader-fcyt-lsi-data';
-import { uaderFcytItData } from './uader-fcyt-it-data';
-import { unerFcsMedData } from './uner-fcs-med-data';
-import { utnFrcuIcData } from './utn-frcu-ic-data';
-import { utnFrcuLoiData } from './utn-frcu-loi-data';
-import { uncaFcaTupazsaData } from './unca-fca-tupazsa-data';
-import { udemmLpData } from './udemm-lp-data';
-import { udemmLpeData } from './udemm-lpe-data';
-import { utnFrbaIq1995Data } from './utn-frba-iq-1995-data';
+import { utnFrcuIsi2023 } from './data/utn-frcu-isi-2023';
+import { utnFrcuIe2023 } from './data/utn-frcu-ie-2023';
+import { ucuFauArq2007 } from './data/ucu-fau-arq-2007';
+import { uaderFcytLsi2010 } from './data/uader-fcyt-lsi-2010';
+import { uaderFcytIt } from './data/uader-fcyt-it';
+import { unerFcsMed2022 } from './data/uner-fcs-med-2022';
+import { utnFrcuIc2023 } from './data/utn-frcu-ic-2023';
+import { utnFrcuLoi1995 } from './data/utn-frcu-loi-1995';
+import { uncaFcaTupazsa } from './data/unca-fca-tupazsa';
+import { udemmLp } from './data/udemm-lp';
+import { udemmLpe } from './data/udemm-lpe';
+import { utnFrbaIq1995 } from './data/utn-frba-iq-1995';
+import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
+
+const studyPlanSlugMap = {
+	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
+	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
+	[getStudyPlanSlug(uaderFcytLsi2010)]: uaderFcytLsi2010,
+	[getStudyPlanSlug(ucuFauArq2007)]: ucuFauArq2007,
+	[getStudyPlanSlug(udemmLp)]: udemmLp,
+	[getStudyPlanSlug(udemmLpe)]: udemmLpe,
+	[getStudyPlanSlug(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlug(unerFcsMed2022)]: unerFcsMed2022,
+	[getStudyPlanSlug(utnFrbaIq1995)]: utnFrbaIq1995,
+	[getStudyPlanSlug(utnFrcuIc2023)]: utnFrcuIc2023,
+	[getStudyPlanSlug(utnFrcuIe2023)]: utnFrcuIe2023,
+	[getStudyPlanSlug(utnFrcuIsi2023)]: utnFrcuIsi2023,
+	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995
+};
+
+const studyPlanSlugWithYearMap = {
+	[getStudyPlanSlugWithYear(uaderFcytIt)]: uaderFcytIt,
+	[getStudyPlanSlugWithYear(uaderFcytIt)]: uaderFcytIt,
+	[getStudyPlanSlugWithYear(uaderFcytLsi2010)]: uaderFcytLsi2010,
+	[getStudyPlanSlugWithYear(ucuFauArq2007)]: ucuFauArq2007,
+	[getStudyPlanSlugWithYear(udemmLp)]: udemmLp,
+	[getStudyPlanSlugWithYear(udemmLpe)]: udemmLpe,
+	[getStudyPlanSlugWithYear(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlugWithYear(unerFcsMed2022)]: unerFcsMed2022,
+	[getStudyPlanSlugWithYear(utnFrbaIq1995)]: utnFrbaIq1995,
+	[getStudyPlanSlugWithYear(utnFrcuIc2023)]: utnFrcuIc2023,
+	[getStudyPlanSlugWithYear(utnFrcuIe2023)]: utnFrcuIe2023,
+	[getStudyPlanSlugWithYear(utnFrcuIsi2023)]: utnFrcuIsi2023,
+	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995
+};
 
 export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
@@ -23,127 +56,20 @@ export const load: PageLoad = ({ params, url }) => {
 	const isStrictModeEnabled = strictMode ? strictMode === 'si' : true;
 	const showCodes = showCodesParam ? showCodesParam === 'si' : false;
 
-	if (slug === 'utn-frcu-isi') {
-		return {
-			...utnFrcuIsiData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
+	const studyPlan =
+		studyPlanSlugMap[slug.toLowerCase()] ?? studyPlanSlugWithYearMap[slug.toLowerCase()];
+
+	if (!studyPlan) {
+		error(404, {
+			message: 'Not found'
+		});
 	}
 
-	if (slug === 'utn-frcu-ie') {
-		return {
-			...utnFrcuIeData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'utn-frcu-ic') {
-		return {
-			...utnFrcuIcData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'utn-frcu-loi') {
-		return {
-			...utnFrcuLoiData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'ucu-fau-arq') {
-		return {
-			...ucuFauArqData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'uader-fcyt-lsi') {
-		return {
-			...uaderFcytLsiData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'uner-fcs-med') {
-		return {
-			...unerFcsMedData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'unca-fca-tupazsa') {
-		return {
-			...uncaFcaTupazsaData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'udemm-lp') {
-		return {
-			...udemmLpData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'udemm-lpe') {
-		return {
-			...udemmLpeData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'uader-fcyt-it') {
-		return {
-			...uaderFcytItData,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	if (slug === 'utn-frba-iq-1995') {
-		return {
-			...utnFrbaIq1995Data,
-			slug,
-			coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-			isStrictModeEnabled,
-			showCodes
-		};
-	}
-
-	error(404, {
-		message: 'Not found'
-	});
+	return {
+		studyPlan,
+		slug,
+		coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+		isStrictModeEnabled,
+		showCodes
+	};
 };

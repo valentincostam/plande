@@ -3,7 +3,7 @@
 		college?: string;
 	};
 
-	let { college = 'facultad' }: Props = $props();
+	let { college = 'universidad' }: Props = $props();
 </script>
 
 <section>
