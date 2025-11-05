@@ -123,11 +123,11 @@
 			</div>
 		</section>
 
-		<section class="grid gap-3 px-6 pb-6 md:px-0">
+		<section class="grid gap-6 px-6 pb-6 md:px-0">
 			<header class="text-center text-sm text-gray-600">
 				Utilizado por estudiantes de distintas universidades
 			</header>
-			<div class="flex flex-wrap justify-center gap-x-6 gap-y-4">
+			<div class="flex flex-wrap justify-center gap-x-12 gap-y-6">
 				<img
 					src="/utn.png"
 					alt="UTN"
@@ -210,7 +210,10 @@
 							<img
 								src={`/${university.universitySlug.toLowerCase()}.png`}
 								alt={university.universityName}
-								class="mx-auto max-h-10 max-w-24 object-contain opacity-70 grayscale md:absolute md:top-5 md:right-5"
+								class={[
+									'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale',
+									'md:absolute md:top-5 md:right-5  md:max-h-16 md:max-w-32 md:opacity-30'
+								]}
 							/>
 							<h3 class="text-center font-semibold text-gray-900 md:text-left">
 								{university.universityName} ({university.universitySlug})
