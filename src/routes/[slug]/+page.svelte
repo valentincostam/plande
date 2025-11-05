@@ -300,8 +300,6 @@
 	<Disclaimer college={getFullCollegeName(data.studyPlan)} />
 
 	<Footer />
-
-	<RedundantRequirements courses={data.studyPlan.courses} />
 </div>
 
 <style>
