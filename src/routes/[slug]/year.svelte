@@ -67,7 +67,12 @@
 			{/if}
 		</div>
 		{#if showBulkSelect}
-			<BulkStateSelect id={`year-${year.year}-state-select`} {onchange} bind:value={selectValue} />
+			<BulkStateSelect
+				id={`year-${year.year}-state-select`}
+				{onchange}
+				bind:value={selectValue}
+				canPass
+			/>
 		{/if}
 	</header>
 

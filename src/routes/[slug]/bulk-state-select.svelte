@@ -12,9 +12,10 @@
 		onchange: (event: Event) => void;
 		class?: string;
 		value?: CourseState | '';
+		canPass?: boolean;
 	};
 
-	let { id, onchange, class: className = '', value = $bindable() }: Props = $props();
+	let { id, onchange, class: className = '', value = $bindable(), canPass }: Props = $props();
 </script>
 
 <label class={['relative cursor-pointer p-3', className]} for={id}>
@@ -29,7 +30,9 @@
 		<option value="" disabled>Cambiar materias a...</option>
 
 		{#each Object.values(courseStates) as state}
-			<option value={state}>{pluralFemenineCourseStateLabels[state]}</option>
+			<option value={state} disabled={!canPass && state === courseStates.passed}
+				>{pluralFemenineCourseStateLabels[state]}</option
+			>
 		{/each}
 	</select>
 </label>

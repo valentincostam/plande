@@ -16,6 +16,7 @@
 	let selectValue = $state<CourseState | ''>('');
 
 	const allCoursesEnabled = $derived(courses.every((course) => course.isEnabled));
+	const canPass = $derived(courses.every((course) => course.canPass));
 
 	const onchange = (event: Event) => {
 		const target = event.target as HTMLSelectElement;
@@ -37,7 +38,12 @@
 	<div class="flex items-center justify-between gap-3">
 		<h3 class="p-3 text-sm text-gray-600">{title}</h3>
 		{#if courses.length > 1 && allCoursesEnabled}
-			<BulkStateSelect id={`${year ?? 'transversal'}-${title}-state-select`} {onchange} bind:value={selectValue} />
+			<BulkStateSelect
+				id={`${year ?? 'transversal'}-${title}-state-select`}
+				{onchange}
+				bind:value={selectValue}
+				{canPass}
+			/>
 		{/if}
 	</div>
 {/if}
