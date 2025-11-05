@@ -3,8 +3,7 @@
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
 	import { createYears, isYearPassed } from '$lib/year.svelte';
-	import StrictModeSwitch from './strict-mode-switch.svelte';
-	import ShowCodesSwitch from './show-codes-switch.svelte';
+	import SettingToggle from './setting-toggle.svelte';
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
@@ -194,11 +193,6 @@
 			<TransversalCourses courses={transversalCourses} {showCodes} />
 		{/if}
 
-		<section class="grid gap-3 px-3 md:px-0">
-			<StrictModeSwitch bind:value={isStrictModeEnabled} />
-			<ShowCodesSwitch bind:value={showCodes} />
-		</section>
-
 		<section class="px-3 md:px-0">
 			<ShareButton {title} />
 		</section>
@@ -212,7 +206,7 @@
 		</section>
 
 		<section>
-			<h3 class="p-3 text-lg font-bold">Datos del plan de estudios</h3>
+			<h3 class="p-3 text-lg font-bold">Datos del Plan de Estudios</h3>
 
 			<ul class="grid list-disc gap-3 px-9">
 				<li>
@@ -294,6 +288,25 @@
 					aprobaste.
 				</li>
 			</ul>
+		</section>
+
+		<section>
+			<h3 class="p-3 text-lg font-bold">Configuración</h3>
+
+			<div class="grid gap-3 px-3 md:px-0">
+				<SettingToggle
+					id="strict-mode"
+					bind:value={isStrictModeEnabled}
+					label="Modo estricto"
+					description="Los requisitos de las materias son obligatorios"
+				/>
+				<SettingToggle
+					id="show-codes"
+					bind:value={showCodes}
+					label="Mostrar identificadores"
+					description="Los códigos de las materias se muestran junto a sus nombres"
+				/>
+			</div>
 		</section>
 	</main>
 
