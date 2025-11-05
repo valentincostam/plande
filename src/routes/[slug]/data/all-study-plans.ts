@@ -11,6 +11,7 @@ import { udemmLp } from './udemm-lp';
 import { udemmLpe } from './udemm-lpe';
 import { utnFrbaIq1995 } from './utn-frba-iq-1995';
 import { unrFapydLdg } from './unr-fapyd-ldg';
+import { unerFcecoCP2020 } from './uner-fceco-cp-2020';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -26,5 +27,6 @@ export const allStudyPlans: StudyPlan[] = [
 	udemmLp,
 	udemmLpe,
 	utnFrbaIq1995,
-	unrFapydLdg
+	unrFapydLdg,
+	unerFcecoCP2020
 ];

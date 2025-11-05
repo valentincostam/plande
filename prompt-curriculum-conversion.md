@@ -703,6 +703,31 @@ The `code` field should contain the official course identifier from the curricul
 
 **Quality note**: These expansions create redundant chains - document in notes section.
 
+### SINGLE-YEAR COMPLETION PREREQUISITES ("X° COMPLETO")
+
+**Pattern**: Prerequisites like "3° completo", "2do año completo", "tercer año completo"
+
+**CRITICAL INTERPRETATION**: These refer ONLY to courses in that specific year, NOT all years up to that point.
+
+**Examples**:
+- "3° completo" → Only year 3 courses (e.g., courses 17-24 if year 3 has 8 courses)
+- "2do año completo" → Only year 2 courses (e.g., courses 9-16 if year 2 has 8 courses)
+- "4to completo" → Only year 4 courses
+
+**Common Error**:
+- ❌ WRONG: "3° completo" → courses 1-24 (years 1, 2, and 3)
+- ✅ CORRECT: "3° completo" → courses 17-24 (only year 3)
+
+**Implementation**:
+1. Identify all courses belonging to the specified year
+2. Add requirement objects for ONLY those courses
+3. Document in notes: "Las correlatividades 'X° completo' requieren haber regularizado/aprobado todas las materias del X° año (cursos Y-Z)."
+
+**Detection**:
+- Look for phrases: "X° completo", "año X completo", "X año completo"
+- X refers to a single year number (1°, 2°, 3°, 4°, 5°)
+- Must include ALL courses from that year, but ONLY that year
+
 ### ELECTIVE OPTIONS: NOTES VS COURSES
 
 **Pattern**: Curricula listing multiple specific elective options (Electiva I: Option A, B, C)
