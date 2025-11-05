@@ -18,7 +18,13 @@
 	let { id, onchange, class: className = '', value = $bindable(), canPass }: Props = $props();
 </script>
 
-<label class={['relative cursor-pointer p-3', className]} for={id}>
+<label
+	class={[
+		'relative cursor-pointer rounded-md p-3 focus-within:outline-2 focus-within:outline-blue-500',
+		className
+	]}
+	for={id}
+>
 	<WandIcon class="h-4 w-4 text-gray-400" />
 	<select
 		bind:value

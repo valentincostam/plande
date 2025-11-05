@@ -43,7 +43,7 @@
 		stateSelectBackgroundColors[value],
 		!isEnabled && 'opacity-50',
 		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-xs text-white transition-colors select-none',
-		'focus:outline-2 focus:outline-offset-0 focus:outline-blue-500'
+		'focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 	]}
 >
 	{#each Object.values(courseStates) as state}
