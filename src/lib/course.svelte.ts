@@ -96,6 +96,10 @@ export class Course {
 			if (!this.isEnabled && this.state !== courseStates.notTaken) {
 				this.state = courseStates.notTaken;
 			}
+
+			if (!this.canPass && this.state === courseStates.passed) {
+				this.state = courseStates.notTaken;
+			}
 		});
 	}
 }
