@@ -1149,14 +1149,6 @@ const courses: RawCourse[] = [
 		]
 	},
 	{
-		id: 49,
-		code: '9.99',
-		name: 'Práctica Profesional Supervisada',
-		term: courseTerms.annual,
-		year: 5,
-		requirements: []
-	},
-	{
 		id: 50,
 		code: '5.02',
 		name: 'Proyecto Final',
@@ -1366,6 +1358,10 @@ export const ucuFauArq2007: StudyPlan = {
 		},
 		{
 			id: 3,
+			text: 'Es requisito para egresarse realizar la **Práctica Profesional Supervisada**.'
+		},
+		{
+			id: 4,
 			text: 'Se omiten requisitos redundantes. Por ejemplo, **Introducción a la Arquitectura** de 1<sup>er</sup> año _aprobada_ no se exige para rendir **Arquitectura II** de 2<sup>do</sup> año porque ya es requisito para rendir **Arquitectura I** de 1<sup>er</sup> año, que también debe estar _aprobada_ para rendir **Arquitectura II**.'
 		}
 	]
