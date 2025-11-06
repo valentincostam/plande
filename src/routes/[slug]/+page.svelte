@@ -118,7 +118,7 @@
 	const availableCourses = $derived(notTakenCourses.filter((course) => course.isEnabled));
 
 	const areAllCoursesAvailable = $derived(
-		(notTakenCourses.length > 0 && notTakenCourses.length === courses.length) ||
+		(availableCourses.length > 0 && availableCourses.length === courses.length) ||
 			!isStrictModeEnabled
 	);
 
