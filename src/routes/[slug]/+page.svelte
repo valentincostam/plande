@@ -2,8 +2,10 @@
 	import { createCourses, TRANSVERSAL_YEAR } from '$lib/course.svelte';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
-	import { createYears, isYearPassed } from '$lib/year.svelte';
+	import { createYears, isYearPassed, getCourseEffectiveTerm } from '$lib/year.svelte';
+	import { courseTerms, courseTermLabels } from '$lib/course-term';
 	import SettingToggle from './setting-toggle.svelte';
+	import AvailableCoursesTerm from './available-courses-term.svelte';
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
@@ -109,6 +111,46 @@
 
 	const transversalCourses = courses.filter((course) => course.year === TRANSVERSAL_YEAR);
 
+	const notTakenCourses = $derived(
+		courses.filter((course) => course.state === courseStates.notTaken)
+	);
+
+	const availableCourses = $derived(notTakenCourses.filter((course) => course.isEnabled));
+
+	const allNotTakenAreAvailable = $derived(
+		notTakenCourses.length > 0 && notTakenCourses.length === availableCourses.length
+	);
+
+	const annualAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annual
+		)
+	);
+
+	const firstSemesterAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.firstSemester
+		)
+	);
+
+	const secondSemesterAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.secondSemester
+		)
+	);
+
+	const semestralAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.semestral
+		)
+	);
+
+	const unknownAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.unknown
+		)
+	);
+
 	const title = `Plan de Estudios de ${data.studyPlan.degreeName} de la ${getFullCollegeName(data.studyPlan)} ・ Plande`;
 	const description = `Plan de Estudios Interactivo de la carrera de ${data.studyPlan.degreeName} en ${getFullCollegeName(data.studyPlan)}. Visualizá materias, requisitos y tu progreso académico de forma clara y organizada con Plande.`;
 	const url = `https://plande.app/${data.slug}`;
@@ -195,6 +237,50 @@
 
 		<section class="px-3 md:px-0">
 			<ShareButton {title} />
+		</section>
+
+		<section>
+			<h3 class="p-3 text-lg font-bold">Qué podés cursar</h3>
+			{#if allNotTakenAreAvailable}
+				<p class="px-3 md:px-0">Todas las materias están disponibles para cursar.</p>
+			{:else if availableCourses.length === 0}
+				<p class="px-3 md:px-0">No hay materias disponibles para cursar en este momento.</p>
+			{:else}
+				<div class="grid gap-5">
+					<p class="px-3 md:px-0">
+						{#if availableCourses.length == 1}
+							En tu situación actual, esta es la materia que podés cursar.
+						{:else}
+							En tu situación actual, estas son las {availableCourses.length} materias que podés cursar.
+						{/if}
+					</p>
+					<AvailableCoursesTerm
+						title={courseTermLabels[courseTerms.annual]}
+						courses={annualAvailableCourses}
+						{showCodes}
+					/>
+					<AvailableCoursesTerm
+						title={courseTermLabels[courseTerms.firstSemester]}
+						courses={firstSemesterAvailableCourses}
+						{showCodes}
+					/>
+					<AvailableCoursesTerm
+						title={courseTermLabels[courseTerms.secondSemester]}
+						courses={secondSemesterAvailableCourses}
+						{showCodes}
+					/>
+					<AvailableCoursesTerm
+						title={courseTermLabels[courseTerms.semestral]}
+						courses={semestralAvailableCourses}
+						{showCodes}
+					/>
+					<AvailableCoursesTerm
+						title="Materias electivas"
+						courses={unknownAvailableCourses}
+						{showCodes}
+					/>
+				</div>
+			{/if}
 		</section>
 
 		<section>
