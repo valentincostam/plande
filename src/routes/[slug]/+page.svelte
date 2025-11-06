@@ -117,8 +117,9 @@
 
 	const availableCourses = $derived(notTakenCourses.filter((course) => course.isEnabled));
 
-	const allNotTakenAreAvailable = $derived(
-		notTakenCourses.length > 0 && notTakenCourses.length === availableCourses.length
+	const areAllCoursesAvailable = $derived(
+		(notTakenCourses.length > 0 && notTakenCourses.length === courses.length) ||
+			!isStrictModeEnabled
 	);
 
 	const annualAvailableCourses = $derived(
@@ -241,10 +242,10 @@
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Qué podés cursar</h3>
-			{#if allNotTakenAreAvailable}
+			{#if areAllCoursesAvailable}
 				<p class="px-3 md:px-0">Todas las materias están disponibles para cursar.</p>
 			{:else if availableCourses.length === 0}
-				<p class="px-3 md:px-0">No hay materias disponibles para cursar en este momento.</p>
+				<p class="px-3 md:px-0">No hay materias disponibles para cursar.</p>
 			{:else}
 				<div class="grid gap-5">
 					<p class="px-3 md:px-0">
