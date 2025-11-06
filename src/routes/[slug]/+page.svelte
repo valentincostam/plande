@@ -236,19 +236,19 @@
 			<TransversalCourses courses={transversalCourses} {showCodes} />
 		{/if}
 
-		<section class="px-3 md:px-0">
+		<section class="px-3">
 			<ShareButton {title} />
 		</section>
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Qué podés cursar</h3>
 			{#if areAllCoursesAvailable}
-				<p class="px-3 md:px-0">Todas las materias están disponibles para cursar.</p>
+				<p class="px-3">Todas las materias están disponibles para cursar.</p>
 			{:else if availableCourses.length === 0}
-				<p class="px-3 md:px-0">No hay materias disponibles para cursar.</p>
+				<p class="px-3">No hay materias disponibles para cursar.</p>
 			{:else}
 				<div class="grid gap-5">
-					<p class="px-3 md:px-0">
+					<p class="px-3">
 						{#if availableCourses.length == 1}
 							En tu situación actual, esta es la materia que podés cursar.
 						{:else}

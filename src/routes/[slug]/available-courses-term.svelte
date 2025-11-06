@@ -14,7 +14,7 @@
 {#if courses.length > 0}
 	<div class="grid gap-3">
 		{#if title}
-			<h4 class="px-3 md:px-0">
+			<h4 class="px-3">
 				<span class="font-bold">{title}</span>
 				({courses.length}
 				{courses.length === 1 ? 'materia' : 'materias'})
