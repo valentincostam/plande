@@ -20,7 +20,6 @@
 	import Disclaimer from '../disclaimer.svelte';
 	import TransversalCourses from './transversal-courses.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
-	import RedundantRequirements from './redundant-requirements.svelte';
 
 	let { data }: PageProps = $props();
 
