@@ -148,6 +148,11 @@
 					alt="UDEMM"
 					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
 				/>
+			<img
+				src="/uai.png"
+				alt="UAI"
+				class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+			/>
 			</div>
 		</section>
 
