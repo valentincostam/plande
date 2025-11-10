@@ -4,6 +4,8 @@
 	};
 
 	let { college = 'universidad' }: Props = $props();
+
+	const isFemenine = college.split(' ')[0].toLowerCase() === 'facultad';
 </script>
 
 <section>
@@ -11,7 +13,10 @@
 		<p>
 			<strong>Plande podría tener errores o información incompleta</strong>. No tomen decisiones
 			cruciales sobre sus estudios basándose únicamente en la información proporcionada aquí.
-			Recuerden consultar a sus asesores académicos o fuentes oficiales de la {college}
+			Recuerden consultar a sus asesores académicos o fuentes oficiales {isFemenine
+				? 'de la'
+				: 'del'}
+			{college}
 			para obtener orientación precisa y actualizada.
 		</p>
 		<p>

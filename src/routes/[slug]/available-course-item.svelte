@@ -23,11 +23,13 @@
 		{course.name}
 	</a>
 	{#if course.tag === courseTags.elective}
-		<span class="">({courseTagLabels[course.tag].toLowerCase()})</span>
+		({courseTagLabels[course.tag].toLowerCase()})
 	{:else if course.tag === courseTags.optative}
-		<span class="">({courseTagLabels[course.tag].toLowerCase()})</span>
+		({courseTagLabels[course.tag].toLowerCase()})
 	{/if}
-	{#if course.year !== TRANSVERSAL_YEAR}
+	{#if course.year === TRANSVERSAL_YEAR}
+		({courseTagLabels[courseTags.elective].toLowerCase()})
+	{:else}
 		<span class="whitespace-nowrap">
 			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año
 		</span>
