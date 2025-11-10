@@ -55,9 +55,7 @@
 </script>
 
 <article>
-	<header
-		class="sticky top-0 z-10 flex items-center justify-between bg-white shadow-[-2px_0_0_#FFFFFF,2px_0_0_#FFFFFF]"
-	>
+	<header class="flex items-center justify-between">
 		<div class="flex items-center gap-3 p-3">
 			<h2 class="text-lg font-bold">
 				{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año
