@@ -169,7 +169,7 @@
 				<blockquote class="rounded-md bg-gray-100 p-5 text-gray-700 italic">
 					"Pasé SEMANAS tratando de descifrar las correlatividades del plan. Le pregunté a varios
 					pero era un quilombo total, nadie se ponía de acuerdo. Al final tuve que ir a secretaría
-					académica mil veces para entender qué podía cursar y qué no."
+					académica para entender qué podía cursar y qué no."
 					<footer class="mt-2 text-right text-sm text-gray-500 not-italic">
 						— Juan, estudiante de Ingeniería, UTN
 					</footer>
