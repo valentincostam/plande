@@ -134,23 +134,21 @@
 					</li>
 				{/if}
 				{#if course.state === courseStates.passed || course.grade !== undefined}
-					<li class="grid gap-2">
+					<li class="flex items-center gap-2">
 						<strong>Nota de aprobación:</strong>
-						<div class="flex items-center gap-2">
-							<input
-								type="number"
-								min="4"
-								max="10"
-								step="1"
-								bind:value={course.grade}
-								{onblur}
-								class={[
-									'w-20 rounded-md border border-gray-300 px-2 py-1 transition-colors focus:outline-2 focus:outline-blue-500',
-									showGradeFeedback ? 'bg-red-100' : 'bg-white'
-								]}
-								placeholder="-"
-							/>
-						</div>
+						<input
+							type="number"
+							min="4"
+							max="10"
+							step="1"
+							bind:value={course.grade}
+							{onblur}
+							class={[
+								'w-20 rounded-md border border-gray-300 px-2 py-1 transition-colors focus:outline-2 focus:outline-blue-500',
+								showGradeFeedback ? 'bg-red-100' : 'bg-white'
+							]}
+							placeholder="≥ 4"
+						/>
 					</li>
 				{/if}
 				{#if course.requirementsForEnrollment.length > 0}
