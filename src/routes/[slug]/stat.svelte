@@ -8,20 +8,38 @@
 		total?: number;
 		value: number;
 		unit?: string;
+		description?: string;
 	};
 
-	let { label, value, total, class: className, showPercentage = false, unit }: Props = $props();
+	let {
+		label,
+		value,
+		total,
+		class: className,
+		showPercentage = false,
+		unit,
+		description
+	}: Props = $props();
+
+	const numberFormatter = new Intl.NumberFormat('es-AR', {
+		maximumFractionDigits: 2
+	});
 
 	const progress = $derived(total ? Math.round((value / total) * 100) : 0);
 </script>
 
 <li class={['overflow-hidden rounded-md bg-gray-100', className]}>
 	<div class="flex items-center justify-between gap-3 px-6 py-3">
-		<span class="text-gray-700">{label}</span>
+		<div class="grid">
+			<span class="text-gray-700">{label}</span>
+			{#if description}
+				<span class="text-xs text-gray-500">{description}</span>
+			{/if}
+		</div>
 		<div class="flex items-center gap-1">
 			<span class="flex items-center text-2xl font-bold whitespace-nowrap text-gray-600">
-				{showPercentage ? progress : value}<span class="text-xs font-normal text-gray-500"
-					>{showPercentage ? '%' : ''}</span
+				{showPercentage ? progress : numberFormatter.format(value)}<span
+					class="text-xs font-normal text-gray-500">{showPercentage ? '%' : ''}</span
 				>
 			</span>
 			{#if total && !showPercentage}

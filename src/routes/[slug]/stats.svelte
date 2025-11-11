@@ -51,6 +51,17 @@
 	const passedElectiveHours = $derived(
 		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
+
+	const passedCoursesWithGrade = $derived(
+		passedCourses.filter((course) => course.grade !== undefined && course.grade !== null)
+	);
+
+	const average = $derived(
+		passedCoursesWithGrade.length > 0
+			? passedCoursesWithGrade.reduce((acc, course) => acc + (course.grade ?? 0), 0) /
+					passedCoursesWithGrade.length
+			: 0
+	);
 </script>
 
 <ul class="grid gap-2 px-3 md:px-0">
@@ -85,5 +96,14 @@
 	{/if}
 	{#if someCourseHasHours}
 		<Stat label="Horas cátedra semanales en curso" value={inProgressCourseHours} unit="hs." />
+	{/if}
+	{#if passedCoursesWithGrade.length > 0}
+		<Stat
+			label="Promedio sin aplazos"
+			description={`${passedCoursesWithGrade.length} ${
+				passedCoursesWithGrade.length === 1 ? 'materia' : 'materias'
+			} aprobadas con nota`}
+			value={average}
+		/>
 	{/if}
 </ul>

@@ -35,7 +35,8 @@
 	const courses = createCourses(
 		data.studyPlan.courses,
 		initialCoursesStates,
-		() => isStrictModeEnabled
+		() => isStrictModeEnabled,
+		[]
 	);
 
 	let isRouterReady = $state(false);
@@ -46,6 +47,7 @@
 		if (isInitializing || !isRouterReady) return;
 
 		const coursesStates = courses.map((course) => course.state);
+		const coursesGrades = courses.map((course) => course.grade);
 		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled, showCodes);
 
 		if (!browser) return;
@@ -61,7 +63,8 @@
 			const storageData = {
 				coursesStates: encodedStates,
 				isStrictModeEnabled,
-				showCodes
+				showCodes,
+				grades: coursesGrades
 			};
 
 			localStorage.setItem(storageKey, JSON.stringify(storageData));
@@ -71,7 +74,7 @@
 	onMount(() => {
 		isRouterReady = true;
 
-		if (!browser || initialCoursesStates.length > 0) {
+		if (!browser) {
 			isInitializing = false;
 			return;
 		}
@@ -85,20 +88,33 @@
 
 		try {
 			const parsed = JSON.parse(savedData);
-			const decodedStates = decodeCoursesStates(parsed.coursesStates);
 
-			courses.forEach((course, index) => {
-				if (decodedStates[index]) {
-					course.state = decodedStates[index];
-				}
-			});
-
-			if (parsed.isStrictModeEnabled !== undefined) {
-				isStrictModeEnabled = parsed.isStrictModeEnabled;
+			// Load grades always (they're not in URL)
+			if (parsed.grades) {
+				courses.forEach((course, index) => {
+					if (index < parsed.grades.length) {
+						course.grade = parsed.grades[index] ?? undefined;
+					}
+				});
 			}
 
-			if (parsed.showCodes !== undefined) {
-				showCodes = parsed.showCodes;
+			// Only load states if not in URL
+			if (initialCoursesStates.length === 0) {
+				const decodedStates = decodeCoursesStates(parsed.coursesStates);
+
+				courses.forEach((course, index) => {
+					if (decodedStates[index]) {
+						course.state = decodedStates[index];
+					}
+				});
+
+				if (parsed.isStrictModeEnabled !== undefined) {
+					isStrictModeEnabled = parsed.isStrictModeEnabled;
+				}
+
+				if (parsed.showCodes !== undefined) {
+					showCodes = parsed.showCodes;
+				}
 			}
 		} catch (error) {
 			console.warn('Failed to parse saved course states:', error);

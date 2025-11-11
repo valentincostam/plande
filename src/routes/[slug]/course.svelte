@@ -3,6 +3,7 @@
 		chevronStrokeColors,
 		courseBgColors,
 		courseNameColors,
+		courseStates,
 		hoursColors,
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
@@ -22,9 +23,31 @@
 	let { course, showCodes = false }: Props = $props();
 
 	let isExpanded = $state(false);
+	let showGradeFeedback = $state(false);
 
 	function onclick() {
 		isExpanded = !isExpanded;
+	}
+
+	function onblur() {
+		if (course.grade === undefined || course.grade === null) return;
+
+		let corrected = false;
+
+		if (course.grade < 4) {
+			course.grade = 4;
+			corrected = true;
+		} else if (course.grade > 10) {
+			course.grade = 10;
+			corrected = true;
+		}
+
+		if (corrected) {
+			showGradeFeedback = true;
+			setTimeout(() => {
+				showGradeFeedback = false;
+			}, 500);
+		}
 	}
 
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
@@ -108,6 +131,26 @@
 					<li>
 						<strong>Carga horaria:</strong>
 						{numberFormatter.format(course.hours)} horas cátedra semanales
+					</li>
+				{/if}
+				{#if course.state === courseStates.passed || course.grade !== undefined}
+					<li class="grid gap-2">
+						<strong>Nota de aprobación:</strong>
+						<div class="flex items-center gap-2">
+							<input
+								type="number"
+								min="4"
+								max="10"
+								step="1"
+								bind:value={course.grade}
+								{onblur}
+								class={[
+									'w-20 rounded-md border border-gray-300 px-2 py-1 transition-colors focus:outline-2 focus:outline-blue-500',
+									showGradeFeedback ? 'bg-red-100' : 'bg-white'
+								]}
+								placeholder="-"
+							/>
+						</div>
 					</li>
 				{/if}
 				{#if course.requirementsForEnrollment.length > 0}

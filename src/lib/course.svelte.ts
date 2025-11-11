@@ -40,6 +40,7 @@ type CourseProperties = {
 	requirementsForCompletion?: CourseRequirement[];
 	tag?: CourseTag;
 	state?: CourseState;
+	grade?: number;
 	dependents?: CourseDependent[];
 	crossYear?: CrossYearInfo;
 	isStrictModeEnabled: () => boolean;
@@ -53,7 +54,8 @@ export class Course {
 	hours?: number;
 	code?: string;
 	tag?: CourseTag;
-	state: CourseState;
+	state = $state<CourseState>(courseStates.notTaken);
+	grade = $state<number | undefined>();
 	requirementsForEnrollment: CourseRequirement[];
 	requirementsForCompletion: CourseRequirement[];
 	dependents: CourseDependent[];
@@ -88,7 +90,8 @@ export class Course {
 		this.hours = properties.hours;
 		this.code = properties.code;
 		this.crossYear = properties.crossYear;
-		this.state = $state(properties.state || courseStates.notTaken);
+		this.state = properties.state || courseStates.notTaken;
+		this.grade = properties.grade;
 		this.isStrictModeEnabled = properties.isStrictModeEnabled;
 		this.dependents = properties.dependents || [];
 
@@ -107,7 +110,8 @@ export class Course {
 const createCourseWithoutCorrelatives = (
 	rawCourse: RawCourse,
 	isStrictModeEnabled: () => boolean,
-	state?: CourseState
+	state?: CourseState,
+	grade?: number
 ) =>
 	new Course({
 		id: rawCourse.id,
@@ -119,6 +123,7 @@ const createCourseWithoutCorrelatives = (
 		tag: rawCourse.tag,
 		crossYear: rawCourse.crossYear,
 		state: state || courseStates.notTaken,
+		grade,
 		isStrictModeEnabled
 	});
 
@@ -175,10 +180,16 @@ const createCourseDependent = (
 export const createCourses = (
 	rawCourses: RawCourse[],
 	coursesStates: CourseState[],
-	isStrictModeEnabled: () => boolean
+	isStrictModeEnabled: () => boolean,
+	coursesGrades: (number | undefined)[] = []
 ) => {
 	const courses = rawCourses.map((rawCourse, index) =>
-		createCourseWithoutCorrelatives(rawCourse, isStrictModeEnabled, coursesStates[index])
+		createCourseWithoutCorrelatives(
+			rawCourse,
+			isStrictModeEnabled,
+			coursesStates[index],
+			coursesGrades[index]
+		)
 	);
 
 	// Add requirements
