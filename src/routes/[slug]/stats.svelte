@@ -100,9 +100,9 @@
 	{#if passedCoursesWithGrade.length > 0}
 		<Stat
 			label="Promedio sin aplazos"
-			description={`${passedCoursesWithGrade.length} ${
+			description={`De ${passedCoursesWithGrade.length} ${
 				passedCoursesWithGrade.length === 1 ? 'materia' : 'materias'
-			} aprobadas con nota`}
+			} con nota de aprobación`}
 			value={average}
 		/>
 	{/if}
