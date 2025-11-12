@@ -25,6 +25,7 @@
 	let { data }: PageProps = $props();
 
 	const initialCoursesStates = data.coursesStates;
+	const initialCoursesGrades = data.coursesGrades;
 	const initialIsStrictModeEnabled = data.isStrictModeEnabled;
 	const initialShowCodes = data.showCodes;
 
@@ -36,7 +37,7 @@
 		data.studyPlan.courses,
 		initialCoursesStates,
 		() => isStrictModeEnabled,
-		[]
+		initialCoursesGrades
 	);
 
 	let isRouterReady = $state(false);
@@ -48,7 +49,12 @@
 
 		const coursesStates = courses.map((course) => course.state);
 		const coursesGrades = courses.map((course) => course.grade);
-		const urlSearchParams = createUrlSearchParams(coursesStates, isStrictModeEnabled, showCodes);
+		const urlSearchParams = createUrlSearchParams(
+			coursesStates,
+			isStrictModeEnabled,
+			showCodes,
+			coursesGrades
+		);
 
 		if (!browser) return;
 
@@ -89,8 +95,8 @@
 		try {
 			const parsed = JSON.parse(savedData);
 
-			// Load grades always (they're not in URL)
-			if (parsed.grades) {
+			// Load grades from localStorage only if not in URL
+			if (initialCoursesGrades.length === 0 && parsed.grades) {
 				courses.forEach((course, index) => {
 					if (index < parsed.grades.length) {
 						course.grade = parsed.grades[index] ?? undefined;
@@ -98,7 +104,7 @@
 				});
 			}
 
-			// Only load states if not in URL
+			// Load states from localStorage only if not in URL
 			if (initialCoursesStates.length === 0) {
 				const decodedStates = decodeCoursesStates(parsed.coursesStates);
 

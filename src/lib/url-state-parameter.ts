@@ -1,15 +1,18 @@
 import { encodeCoursesStates, type CourseState } from './course-state';
+import { encodeGrades } from './grade-encoding';
 
 export const urlStateParameters = {
 	strict: 'estricto',
 	state: 'estado',
-	showCodes: 'codigos'
+	showCodes: 'codigos',
+	grades: 'notas'
 } as const;
 
 export const createUrlSearchParams = (
 	coursesStates: CourseState[],
 	isStrictModeEnabled: boolean,
-	showCodes: boolean
+	showCodes: boolean,
+	coursesGrades?: (number | undefined)[]
 ) => {
 	const stateLetters = encodeCoursesStates(coursesStates);
 
@@ -25,6 +28,13 @@ export const createUrlSearchParams = (
 
 	if (showCodes) {
 		urlSearchParams.set(urlStateParameters.showCodes, 'si');
+	}
+
+	if (coursesGrades && coursesGrades.length > 0) {
+		const gradeLetters = encodeGrades(coursesGrades);
+		if (gradeLetters.length > 0) {
+			urlSearchParams.set(urlStateParameters.grades, gradeLetters);
+		}
 	}
 
 	return urlSearchParams;

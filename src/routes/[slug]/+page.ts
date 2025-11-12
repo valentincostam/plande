@@ -1,4 +1,5 @@
 import { decodeCoursesStates } from '$lib/course-state';
+import { decodeGrades } from '$lib/grade-encoding';
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { utnFrcuIsi2023 } from './data/utn-frcu-isi-2023';
@@ -63,6 +64,7 @@ export const load: PageLoad = ({ params, url }) => {
 	const { slug } = params;
 
 	const stateLetters = url.searchParams.get('estado');
+	const gradeLetters = url.searchParams.get('notas');
 	const strictMode = url.searchParams.get('estricto');
 	const showCodesParam = url.searchParams.get('codigos');
 	const isStrictModeEnabled = strictMode ? strictMode === 'si' : true;
@@ -81,6 +83,7 @@ export const load: PageLoad = ({ params, url }) => {
 		studyPlan,
 		slug,
 		coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
+		coursesGrades: gradeLetters ? decodeGrades(gradeLetters) : [],
 		isStrictModeEnabled,
 		showCodes
 	};
