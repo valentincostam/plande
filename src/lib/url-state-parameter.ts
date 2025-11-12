@@ -2,10 +2,10 @@ import { encodeCoursesStates, type CourseState } from './course-state';
 import { encodeGrades } from './grade-encoding';
 
 export const urlStateParameters = {
-	strict: 'estricto',
-	state: 'estado',
-	showCodes: 'codigos',
-	grades: 'notas'
+	strict: 'r',
+	state: 's',
+	showCodes: 'c',
+	grades: 'n'
 } as const;
 
 export const createUrlSearchParams = (
