@@ -14,6 +14,7 @@ import { unrFapydLdg } from './unr-fapyd-ldg';
 import { unerFcecoCP2020 } from './uner-fceco-cp-2020';
 import { uaiFceCp2022 } from './uai-fce-cp-2022';
 import { unlamDcsKf2011 } from './unlam-dcs-kf-2011';
+import { utnFrcIsi2023 } from './utn-frc-isi-2023';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -32,5 +33,6 @@ export const allStudyPlans: StudyPlan[] = [
 	unrFapydLdg,
 	unerFcecoCP2020,
 	uaiFceCp2022,
-	unlamDcsKf2011
+	unlamDcsKf2011,
+	utnFrcIsi2023
 ];

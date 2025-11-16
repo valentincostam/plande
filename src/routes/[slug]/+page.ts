@@ -18,46 +18,49 @@ import { unrFapydLdg } from './data/unr-fapyd-ldg';
 import { unerFcecoCP2020 } from './data/uner-fceco-cp-2020';
 import { uaiFceCp2022 } from './data/uai-fce-cp-2022';
 import { unlamDcsKf2011 } from './data/unlam-dcs-kf-2011';
+import { utnFrcIsi2023 } from './data/utn-frc-isi-2023';
 import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
 
 const studyPlanSlugMap = {
 	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
 	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
 	[getStudyPlanSlug(uaderFcytLsi2010)]: uaderFcytLsi2010,
+	[getStudyPlanSlug(uaiFceCp2022)]: uaiFceCp2022,
 	[getStudyPlanSlug(ucuFauArq2007)]: ucuFauArq2007,
 	[getStudyPlanSlug(udemmLp)]: udemmLp,
 	[getStudyPlanSlug(udemmLpe)]: udemmLpe,
 	[getStudyPlanSlug(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlug(unerFcecoCP2020)]: unerFcecoCP2020,
 	[getStudyPlanSlug(unerFcsMed2022)]: unerFcsMed2022,
+	[getStudyPlanSlug(unlamDcsKf2011)]: unlamDcsKf2011,
+	[getStudyPlanSlug(unrFapydLdg)]: unrFapydLdg,
 	[getStudyPlanSlug(utnFrbaIq1995)]: utnFrbaIq1995,
+	[getStudyPlanSlug(utnFrcIsi2023)]: utnFrcIsi2023,
 	[getStudyPlanSlug(utnFrcuIc2023)]: utnFrcuIc2023,
 	[getStudyPlanSlug(utnFrcuIe2023)]: utnFrcuIe2023,
 	[getStudyPlanSlug(utnFrcuIsi2023)]: utnFrcuIsi2023,
-	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995,
-	[getStudyPlanSlug(unrFapydLdg)]: unrFapydLdg,
-	[getStudyPlanSlug(unerFcecoCP2020)]: unerFcecoCP2020,
-	[getStudyPlanSlug(uaiFceCp2022)]: uaiFceCp2022,
-	[getStudyPlanSlug(unlamDcsKf2011)]: unlamDcsKf2011
+	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995
 };
 
 const studyPlanSlugWithYearMap = {
 	[getStudyPlanSlugWithYear(uaderFcytIt)]: uaderFcytIt,
 	[getStudyPlanSlugWithYear(uaderFcytIt)]: uaderFcytIt,
 	[getStudyPlanSlugWithYear(uaderFcytLsi2010)]: uaderFcytLsi2010,
+	[getStudyPlanSlugWithYear(uaiFceCp2022)]: uaiFceCp2022,
 	[getStudyPlanSlugWithYear(ucuFauArq2007)]: ucuFauArq2007,
 	[getStudyPlanSlugWithYear(udemmLp)]: udemmLp,
 	[getStudyPlanSlugWithYear(udemmLpe)]: udemmLpe,
 	[getStudyPlanSlugWithYear(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlugWithYear(unerFcecoCP2020)]: unerFcecoCP2020,
 	[getStudyPlanSlugWithYear(unerFcsMed2022)]: unerFcsMed2022,
+	[getStudyPlanSlugWithYear(unlamDcsKf2011)]: unlamDcsKf2011,
+	[getStudyPlanSlugWithYear(unrFapydLdg)]: unrFapydLdg,
 	[getStudyPlanSlugWithYear(utnFrbaIq1995)]: utnFrbaIq1995,
+	[getStudyPlanSlugWithYear(utnFrcIsi2023)]: utnFrcIsi2023,
 	[getStudyPlanSlugWithYear(utnFrcuIc2023)]: utnFrcuIc2023,
 	[getStudyPlanSlugWithYear(utnFrcuIe2023)]: utnFrcuIe2023,
 	[getStudyPlanSlugWithYear(utnFrcuIsi2023)]: utnFrcuIsi2023,
-	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995,
-	[getStudyPlanSlugWithYear(unrFapydLdg)]: unrFapydLdg,
-	[getStudyPlanSlugWithYear(unerFcecoCP2020)]: unerFcecoCP2020,
-	[getStudyPlanSlugWithYear(uaiFceCp2022)]: uaiFceCp2022,
-	[getStudyPlanSlugWithYear(unlamDcsKf2011)]: unlamDcsKf2011
+	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995
 };
 
 export const load: PageLoad = ({ params, url }) => {
