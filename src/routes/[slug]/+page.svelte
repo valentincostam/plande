@@ -173,8 +173,14 @@
 		)
 	);
 
-	const title = `Plan de Estudios de ${data.studyPlan.degreeName} de la ${getFullCollegeName(data.studyPlan)} ・ Plande`;
-	const description = `Plan de Estudios Interactivo de la carrera de ${data.studyPlan.degreeName} en ${getFullCollegeName(data.studyPlan)}. Visualizá materias, requisitos y tu progreso académico de forma clara y organizada con Plande.`;
+	// Título optimizado para SEO: máximo 60 caracteres, formato "Carrera - Universidad | Plande"
+	const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
+	const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
+	const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
+	const title = `${data.studyPlan.degreeName} - ${institution} | Plande`;
+
+	// Descripción optimizada: máximo 160 caracteres, incluye keywords relevantes
+	const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 	// Canonical URL siempre sin query params y con slug normalizado a lowercase
 	const url = `https://plande.app/${data.slug.toLowerCase()}`;
 </script>

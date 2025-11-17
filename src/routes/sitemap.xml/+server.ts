@@ -1,19 +1,21 @@
+import { allStudyPlans } from '../[slug]/data/all-study-plans';
+import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
+
 export const prerender = true;
 
-const degrees = [
-	'utn-frcu-loi',
-	'utn-frcu-isi',
-	'utn-frcu-ie',
-	'utn-frcu-ic',
-	'ucu-fau-arq',
-	'uader-fcyt-lsi',
-	'uader-fcyt-it',
-	'uner-fcs-med',
-	'unca-fca-tupazsa',
-	'udemm-lp'
-];
-
 export async function GET() {
+	// Genera slugs únicos para todas las carreras (con y sin año)
+	const slugs = new Set<string>();
+
+	for (const studyPlan of allStudyPlans) {
+		slugs.add(getStudyPlanSlug(studyPlan));
+		// También incluir slug con año si existe
+		const slugWithYear = getStudyPlanSlugWithYear(studyPlan);
+		if (slugWithYear !== getStudyPlanSlug(studyPlan)) {
+			slugs.add(slugWithYear);
+		}
+	}
+
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -22,11 +24,12 @@ export async function GET() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  ${degrees
+  ${Array.from(slugs)
+		.sort()
 		.map(
-			(degree) => `
+			(slug) => `
   <url>
-    <loc>https://plande.app/${degree}</loc>
+    <loc>https://plande.app/${slug}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
