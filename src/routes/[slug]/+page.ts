@@ -19,6 +19,7 @@ import { unerFcecoCP2020 } from './data/uner-fceco-cp-2020';
 import { uaiFceCp2022 } from './data/uai-fce-cp-2022';
 import { unlamDcsKf2011 } from './data/unlam-dcs-kf-2011';
 import { utnFrcIsi2023 } from './data/utn-frc-isi-2023';
+import { unahurItiLi2016 } from './data/unahur-iti-li-2016';
 import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
 
 const studyPlanSlugMap = {
@@ -39,7 +40,8 @@ const studyPlanSlugMap = {
 	[getStudyPlanSlug(utnFrcuIc2023)]: utnFrcuIc2023,
 	[getStudyPlanSlug(utnFrcuIe2023)]: utnFrcuIe2023,
 	[getStudyPlanSlug(utnFrcuIsi2023)]: utnFrcuIsi2023,
-	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995
+	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995,
+	[getStudyPlanSlug(unahurItiLi2016)]: unahurItiLi2016
 };
 
 const studyPlanSlugWithYearMap = {
@@ -60,7 +62,8 @@ const studyPlanSlugWithYearMap = {
 	[getStudyPlanSlugWithYear(utnFrcuIc2023)]: utnFrcuIc2023,
 	[getStudyPlanSlugWithYear(utnFrcuIe2023)]: utnFrcuIe2023,
 	[getStudyPlanSlugWithYear(utnFrcuIsi2023)]: utnFrcuIsi2023,
-	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995
+	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995,
+	[getStudyPlanSlugWithYear(unahurItiLi2016)]: unahurItiLi2016
 };
 
 export const load: PageLoad = ({ params, url }) => {

@@ -13,7 +13,7 @@ Before submitting your conversion, verify:
 - [ ] **ID-Code synchronization**: Numeric codes match IDs exactly
 - [ ] **No duplicate IDs**: Each course has a unique ID
 - [ ] **All hours extracted**: Hours field populated when available
-- [ ] **Term verification**: Each course's term (annual/firstSemester/secondSemester) matches source "Cursado" column - NO ASSUMPTIONS
+- [ ] **Term verification**: Each course's term matches source "Cursado" column EXACTLY - use `semestral` if document only says "cuatrimestral" without 1°/2° - NO ASSUMPTIONS
 - [ ] **Continuous numbering handled**: If curriculum uses "3er Cuatrimestre", "4to Cuatrimestre", etc., applied odd/even conversion correctly
 - [ ] **Prerequisites code-anchored**: Created explicit code-to-prerequisites mapping, verified each course code matches its prerequisites
 - [ ] **Prerequisites spot-check**: Verified 5 courses with many prerequisites against correlatividades table by course code
@@ -333,8 +333,9 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 3. **Do NOT make pattern-based assumptions**: Each course is completely independent
 4. **Verify term column explicitly for EVERY course**:
    - "Anual" = `courseTerms.annual`
-   - "1er Semestre" / "1° Cuatrimestre" / "Semestre" = `courseTerms.firstSemester`
-   - "2do Semestre" / "2° Cuatrimestre" / "Semestre" = `courseTerms.secondSemester`
+   - "1er Semestre" / "1° Cuatrimestre" = `courseTerms.firstSemester`
+   - "2do Semestre" / "2° Cuatrimestre" = `courseTerms.secondSemester`
+   - **"Cuatrimestral" / "Semestral" WITHOUT specific number** = `courseTerms.semestral` ⚠️ NEVER assume first or second
    - Numbers "1", "3", "5", "7", "9" = `courseTerms.firstSemester` (continuous numbering)
    - Numbers "2", "4", "6", "8", "10" = `courseTerms.secondSemester` (continuous numbering)
 5. **Extract hours from the correct column**:
@@ -347,6 +348,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 - ❌ Skipping verification because "most courses in this year are annual"
 - ❌ Misreading the term column due to visual similarity
 - ❌ Using total hours instead of weekly/semester hours
+- ❌ **CRITICAL**: Assuming first or second semester when document only says "cuatrimestral" - use `courseTerms.semestral` instead
 
 ### CRITICAL: Avoid Pattern-Based Assumptions
 
@@ -359,6 +361,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 - "All Year 1 courses are probably annual"
 - "Sequential courses probably have the same term"
 - "If the previous row was X, this row is probably X too"
+- **"This course is probably first semester because it's early in the year"** - when document only says "cuatrimestral", use `semestral`
 
 ✅ **ALWAYS verify**:
 - Read the actual data from the source table/document for EACH course individually
@@ -624,9 +627,10 @@ The `code` field should contain the official course identifier from the curricul
 
 ### Special Terms
 
-- `courseTerms.semestral`: For non-standard semester systems
-- `courseTerms.annual`: Courses spanning the full academic year
-- `courseTerms.firstSemester`/`courseTerms.secondSemester`: Standard semester divisions
+- `courseTerms.semestral`: **Use when document says "cuatrimestral" or "semestral" WITHOUT specifying 1° or 2°**. NEVER guess first/second semester.
+- `courseTerms.annual`: Courses spanning the full academic year (explicitly marked "Anual")
+- `courseTerms.firstSemester`: Only when document explicitly says "1er Semestre" / "1° Cuatrimestre" or continuous numbering (1, 3, 5, 7, 9)
+- `courseTerms.secondSemester`: Only when document explicitly says "2do Semestre" / "2° Cuatrimestre" or continuous numbering (2, 4, 6, 8, 10)
 
 ## MANDATORY SYSTEMATIC PROCESS
 
