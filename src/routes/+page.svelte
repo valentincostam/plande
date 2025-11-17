@@ -100,18 +100,6 @@
 						orgullosa de vos (y te deje en paz).
 					</p>
 				</div>
-				<div class="grid gap-1 rounded-lg bg-gray-100 p-5 md:col-span-2">
-					<h3 class="flex items-center gap-2 font-bold">
-						Funciones PRO <span
-							class="rounded-md bg-white px-1.5 py-0.5 text-[.5rem] font-normal text-gray-700"
-							>PRÓXIMAMENTE</span
-						>
-					</h3>
-					<p class="text-gray-700">
-						Perfil personalizable, ranking con tus compañeros, cargar notas, calcular promedio,
-						exportar datos, modo oscuro y más. Para quienes quieran usar Plande más en serio.
-					</p>
-				</div>
 			</div>
 			<div class="flex justify-center pb-6 text-center">
 				<a
