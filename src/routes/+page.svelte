@@ -19,6 +19,7 @@
 		name="description"
 		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
 	/>
+	<link rel="canonical" href="https://plande.app/" />
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">

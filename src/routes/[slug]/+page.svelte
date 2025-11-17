@@ -175,7 +175,8 @@
 
 	const title = `Plan de Estudios de ${data.studyPlan.degreeName} de la ${getFullCollegeName(data.studyPlan)} ・ Plande`;
 	const description = `Plan de Estudios Interactivo de la carrera de ${data.studyPlan.degreeName} en ${getFullCollegeName(data.studyPlan)}. Visualizá materias, requisitos y tu progreso académico de forma clara y organizada con Plande.`;
-	const url = `https://plande.app/${data.slug}`;
+	// Canonical URL siempre sin query params y con slug normalizado a lowercase
+	const url = `https://plande.app/${data.slug.toLowerCase()}`;
 </script>
 
 <svelte:head>
