@@ -2,11 +2,7 @@
 	import ChatMessage from './chat-message.svelte';
 	import Footer from './footer.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
-	import {
-		groupStudyPlansByUniversityAndCollege,
-		getStudyPlanSlug,
-		getStudyPlanSlugWithYear
-	} from '$lib/study-plan';
+	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlug } from '$lib/study-plan';
 
 	const groupedStudyPlans = groupStudyPlansByUniversityAndCollege(allStudyPlans);
 </script>
@@ -210,15 +206,15 @@
 							{#each university.colleges as college}
 								{#if college.collegeName}
 									<div class="grid gap-2">
-										<h4 class="text-sm font-medium text-gray-700">
+										<h4 class="font-medium text-gray-700">
 											{college.collegeName} ({college.collegeSlug})
 										</h4>
-										<ul class="space-y-1 md:pl-4">
+										<ul class="space-y-2 md:pl-4">
 											{#each college.degrees as degree}
 												<li>
 													<a
 														href={`/${getStudyPlanSlug(degree)}`}
-														class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+														class="text-blue-700 transition-colors hover:text-blue-900"
 													>
 														{degree.degreeName}
 														{#if degree.year}
@@ -230,12 +226,12 @@
 										</ul>
 									</div>
 								{:else}
-									<ul class="space-y-1 md:pl-4">
+									<ul class="space-y-2 md:pl-4">
 										{#each college.degrees as degree}
 											<li>
 												<a
 													href={`/${getStudyPlanSlug(degree)}`}
-													class="text-sm text-blue-700 transition-colors hover:text-blue-900"
+													class="text-blue-700 transition-colors hover:text-blue-900"
 												>
 													{degree.degreeName}
 													{#if degree.year}
