@@ -1,6 +1,6 @@
 # Prompt for Converting University Curriculum PDF to JavaScript Object
 
-You are a highly capable language model tasked with extracting and structuring data from a university curriculum document (PDF or image) into a JavaScript object that follows the exact structure used by this application. Your goal is to create a complete `DegreeData` object with all courses, their prerequisites, and metadata.
+You are a highly capable language model tasked with extracting and structuring data from a university curriculum document (PDF or image) into a JavaScript object that follows the exact structure used by this application. Your goal is to create a complete `StudyPlan` object with all courses, their prerequisites, and metadata.
 
 ## ⚠️ PRE-SUBMISSION VALIDATION CHECKLIST
 
@@ -18,6 +18,10 @@ Before submitting your conversion, verify:
 - [ ] **Prerequisites code-anchored**: Created explicit code-to-prerequisites mapping, verified each course code matches its prerequisites
 - [ ] **Prerequisites spot-check**: Verified 5 courses with many prerequisites against correlatividades table by course code
 - [ ] **Spot-check validation**: Randomly verified 5-10 courses character-by-character against source
+- [ ] **Correct type used**: Import and export use `StudyPlan` from `'$lib/study-plan'`, NOT `DegreeData`
+- [ ] **Required fields present**: degreeName, degreeSlug, universityName, universitySlug, durationYears, progress, sources
+- [ ] **Slugs defined correctly**: degreeSlug (e.g., 'ISI'), universitySlug (e.g., 'UTN'), collegeSlug if applicable (e.g., 'FRCU')
+- [ ] **Optional fields handled**: collegeName/collegeSlug omitted if no college structure, year omitted if not in documentation, notes omitted if not needed
 
 ## Input Analysis
 
@@ -40,22 +44,26 @@ import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
   // Course objects here
 ];
 
-export const [degreeName]Data: DegreeData = {
+export const [variableName]: StudyPlan = {
   courses,
-  degree: 'Degree Name',
-  years: 5,
-  college: 'University Name',
-  studyProgram: 'Plan de Estudios Year',
+  degreeName: 'Licenciatura en Física',
+  degreeSlug: 'LF',
+  universityName: 'Universidad Nacional de Salta',
+  universitySlug: 'UNSa',
+  collegeName: 'Facultad de Ciencias Exactas', // Optional - omit if university has no colleges
+  collegeSlug: 'FCE', // Optional - omit if university has no colleges
+  durationYears: 5,
+  year: 2005, // Optional - only include if plan year is specified in official documentation
   progress: {
-    type: 'mandatory-only' | 'mandatory-plus-elective-hours' | 'mandatory-plus-one-elective',
-    requiredElectiveHours?: number,
-    requiredElectiveCount?: number
+    type: 'mandatory-only' | 'mandatory-plus-one-elective' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
+    requiredElectiveHours?: number, // For 'mandatory-plus-elective-hours'
+    requiredElectiveCount?: number  // For 'mandatory-plus-one-elective' and 'mandatory-plus-elective-count'
   },
   sources: [
     {
@@ -64,7 +72,7 @@ export const [degreeName]Data: DegreeData = {
       url: 'URL'
     }
   ],
-  notes: [
+  notes: [ // Optional - omit if no notes needed
     {
       id: 1,
       text: 'Note text with **bold** and [links](/path)'
@@ -72,6 +80,57 @@ export const [degreeName]Data: DegreeData = {
   ]
 };
 ```
+
+## Slug Naming Conventions
+
+**CRITICAL**: Each study plan must have properly formatted slugs for URL generation and identification.
+
+### Required Slug Fields
+
+1. **degreeSlug**: Short acronym for the degree name
+   - Use uppercase letters and numbers
+   - Examples: 'ISI' (Ingeniería en Sistemas), 'LF' (Licenciatura en Física), 'Arq' (Arquitectura), 'CP' (Contador Público)
+   - Keep it concise (2-5 characters typically)
+
+2. **universitySlug**: University acronym in uppercase
+   - Examples: 'UTN', 'UNSa', 'UNAHUR', 'UCU', 'UADER', 'UNER'
+   - Use official acronyms when available
+   - Preserve mixed case if official (e.g., 'UNSa' not 'UNSA')
+
+3. **collegeSlug** (optional): College/Faculty acronym in uppercase
+   - Only include if university has colleges/faculties
+   - Examples: 'FRCU' (Facultad Regional Concepción del Uruguay), 'FCE' (Facultad de Ciencias Exactas), 'ITI' (Instituto de Tecnología e Ingeniería)
+   - Omit entirely if university doesn't have college structure
+
+### Full Slug Pattern
+
+The complete slug is automatically generated from these fields:
+
+- **With college and year**: `{universitySlug}-{collegeSlug}-{degreeSlug}-{year}`
+  - Example: `utn-frcu-isi-2023`
+
+- **With college, no year**: `{universitySlug}-{collegeSlug}-{degreeSlug}`
+  - Example: `unsa-fce-lf-2005` (year goes in slug when available)
+
+- **No college, with year**: `{universitySlug}-{degreeSlug}-{year}`
+  - Example: `unahur-li-2016`
+
+- **No college, no year**: `{universitySlug}-{degreeSlug}`
+  - Example: `ucu-arq`
+
+**Important**: The `year` field is completely optional. Only include it if:
+
+- The plan year is clearly specified in official documentation
+- It's part of the official plan name (e.g., "Plan 2023", "Plan de Estudios 2005")
+- Do NOT include it if the year is uncertain or not officially documented
+
+### Variable Naming Convention
+
+The exported constant should follow this pattern:
+
+- Lowercase university slug + college slug + degree slug + year
+- Use camelCase concatenation
+- Examples: `utnFrcuIsi2023`, `unsaFceLf2005`, `unahurItiLi2016`, `ucuFauArq2007`
 
 ## Course Object Structure
 
@@ -300,6 +359,7 @@ Some universities use different column headers:
 Some curricula number semesters/cuatrimestres continuously from the beginning of the degree program, rather than restarting at 1 for each academic year:
 
 **Numbering pattern:**
+
 - Year 1: Cuatrimestre/Semestre 1-2
 - Year 2: Cuatrimestre/Semestre 3-4
 - Year 3: Cuatrimestre/Semestre 5-6
@@ -307,10 +367,12 @@ Some curricula number semesters/cuatrimestres continuously from the beginning of
 - Year 5: Cuatrimestre/Semestre 9-10
 
 **Conversion rules:**
+
 - **Odd-numbered cuatrimestres** (1, 3, 5, 7, 9) → `courseTerms.firstSemester`
 - **Even-numbered cuatrimestres** (2, 4, 6, 8, 10) → `courseTerms.secondSemester`
 
 **Examples:**
+
 - "3er Cuatrimestre" in a Year 2 course → `term: courseTerms.firstSemester, year: 2`
 - "4to Cuatrimestre" in a Year 2 course → `term: courseTerms.secondSemester, year: 2`
 - "5to Cuatrimestre" in a Year 3 course → `term: courseTerms.firstSemester, year: 3`
@@ -344,6 +406,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 6. **Mark each row as processed**: Keep a mental or written checklist to ensure no course is missed
 
 **Common errors to avoid:**
+
 - ❌ Assuming similar courses have the same term (e.g., "Tipografía 1 is semester, so Tipografía 2 must be too")
 - ❌ Skipping verification because "most courses in this year are annual"
 - ❌ Misreading the term column due to visual similarity
@@ -355,6 +418,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 **The #1 cause of curriculum conversion errors is making assumptions based on patterns rather than reading actual data.**
 
 ❌ **NEVER assume**:
+
 - "If 3 courses are semester-based, the 4th probably is too"
 - "Similar course names (Tipografía 1, 2, 3) probably have identical structures"
 - "Electives are probably all in the last year"
@@ -364,6 +428,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 - **"This course is probably first semester because it's early in the year"** - when document only says "cuatrimestral", use `semestral`
 
 ✅ **ALWAYS verify**:
+
 - Read the actual data from the source table/document for EACH course individually
 - Cross-reference with multiple sections if available (correlatividades, asignación horaria)
 - When in doubt, re-check the source image/document explicitly
@@ -421,6 +486,7 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
    - If ANY mismatch: Review ALL prerequisite mappings from scratch
 
 **Real error example:**
+
 - ❌ **Wrong**: Assigned prerequisites [01-06, 01-08, 02-11, ...] to "03-26 Práctica Profesional Supervisada"
 - ✅ **Correct**: Those prerequisites belonged to "04-27 Taller de Proyecto Final"
 - **Cause**: Did not verify that course code in column 1 matched the course receiving those prerequisites
@@ -444,11 +510,13 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
    - Fix errors and re-validate before submitting
 
 **Validation frequency:**
+
 - After completing first pass: Validate 10 courses
 - After fixing any errors: Validate 5 more courses
 - Before final submission: Validate 5 courses one last time
 
 This catches errors like:
+
 - Tipografía 1 marked as semester when it's annual
 - "3er Cuatrimestre" interpreted as third year instead of first semester of second year
 - Hours copied from wrong column
@@ -714,20 +782,24 @@ The `code` field should contain the official course identifier from the curricul
 **CRITICAL INTERPRETATION**: These refer ONLY to courses in that specific year, NOT all years up to that point.
 
 **Examples**:
+
 - "3° completo" → Only year 3 courses (e.g., courses 17-24 if year 3 has 8 courses)
 - "2do año completo" → Only year 2 courses (e.g., courses 9-16 if year 2 has 8 courses)
 - "4to completo" → Only year 4 courses
 
 **Common Error**:
+
 - ❌ WRONG: "3° completo" → courses 1-24 (years 1, 2, and 3)
 - ✅ CORRECT: "3° completo" → courses 17-24 (only year 3)
 
 **Implementation**:
+
 1. Identify all courses belonging to the specified year
 2. Add requirement objects for ONLY those courses
 3. Document in notes: "Las correlatividades 'X° completo' requieren haber regularizado/aprobado todas las materias del X° año (cursos Y-Z)."
 
 **Detection**:
+
 - Look for phrases: "X° completo", "año X completo", "X año completo"
 - X refers to a single year number (1°, 2°, 3°, 4°, 5°)
 - Must include ALL courses from that year, but ONLY that year
@@ -942,9 +1014,22 @@ NEVER ignore any column. All three must be converted to requirement objects.
 
 Choose based on the curriculum structure:
 
-- `mandatory-only`: No elective requirements (examples: UADER, UNER)
-- `mandatory-plus-elective-hours`: Must complete X hours of electives (example: UTN requires 40 hours)
-- `mandatory-plus-one-elective`: Must complete 1+ elective courses (example: UCU requires 1 optative)
+- `mandatory-only`: No elective requirements
+  - Examples: UADER FCyT LSI, UNER FCS Medicina
+  - All courses are mandatory
+
+- `mandatory-plus-one-elective`: Must complete at least 1 elective course
+  - Example: UCU FAU Arquitectura (requires 1 optative)
+  - Use `requiredElectiveCount: 1` (or omit, defaults to 1)
+
+- `mandatory-plus-elective-count`: Must complete N specific elective courses
+  - Examples: UNSa FCE Física (requires 2 electives), UNAHUR ITI LI (requires 2 electives)
+  - Use `requiredElectiveCount: N` where N is the required number
+  - Different from `mandatory-plus-one-elective` when N > 1
+
+- `mandatory-plus-elective-hours`: Must complete X hours of electives
+  - Example: UTN FRBA Ingeniería Química (requires 40 hours)
+  - Use `requiredElectiveHours: X` where X is the required hour count
 
 ## Error Handling
 
@@ -1031,16 +1116,19 @@ requirements: [
 
 ## Example Output
 
+### Example 1: University with College/Faculty (with year)
+
 ```javascript
 import { courseStates } from '$lib/course-state';
 import { courseTags } from '$lib/course-tag';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { DegreeData } from '$lib/degree-data';
+import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
   {
     id: 1,
+    code: '1',
     name: 'Álgebra y Geometría Analítica',
     hours: 10,
     term: courseTerms.firstSemester,
@@ -1049,6 +1137,7 @@ const courses: RawCourse[] = [
   },
   {
     id: 14,
+    code: '14',
     name: 'Análisis Matemático II',
     hours: 5,
     term: courseTerms.annual,
@@ -1081,33 +1170,97 @@ const courses: RawCourse[] = [
   }
 ];
 
-export const exampleData: DegreeData = {
+export const utnFrcuIsi2023: StudyPlan = {
   courses,
-  degree: 'Ingeniería en Sistemas',
-  years: 5,
-  college: 'Universidad Example',
-  studyProgram: 'Plan de Estudios 2024',
+  degreeName: 'Ingeniería en Sistemas de Información',
+  degreeSlug: 'ISI',
+  universityName: 'Universidad Tecnológica Nacional',
+  universitySlug: 'UTN',
+  collegeName: 'Facultad Regional Concepción del Uruguay',
+  collegeSlug: 'FRCU',
+  durationYears: 5,
+  year: 2023,
   progress: {
-    type: 'mandatory-only'
+    type: 'mandatory-plus-elective-hours',
+    requiredElectiveHours: 40
+  },
+  sources: [
+    {
+      id: 1,
+      label: 'Plan de Estudios 2023',
+      url: 'https://www.frcu.utn.edu.ar/isi/plan2023'
+    }
+  ],
+  notes: [
+    {
+      id: 1,
+      text: 'Se requieren **40 horas** de materias electivas para completar la carrera.'
+    }
+  ]
+};
+```
+
+### Example 2: University without College/Faculty (no year specified)
+
+```javascript
+import { courseStates } from '$lib/course-state';
+import { courseTags } from '$lib/course-tag';
+import { courseTerms } from '$lib/course-term';
+import { requiredFor, type RawCourse } from '$lib/raw-course';
+import type { StudyPlan } from '$lib/study-plan';
+
+const courses: RawCourse[] = [
+  {
+    id: 1,
+    code: '1.01',
+    name: 'Introducción a la Arquitectura',
+    hours: 8,
+    term: courseTerms.firstSemester,
+    year: 1,
+    requirements: []
+  },
+  {
+    id: 30,
+    name: 'Materia Optativa',
+    hours: undefined,
+    term: courseTerms.semestral,
+    year: 5,
+    tag: courseTags.optative,
+    requirements: []
+  }
+];
+
+export const ucuFauArq: StudyPlan = {
+  courses,
+  degreeName: 'Arquitectura',
+  degreeSlug: 'Arq',
+  universityName: 'Universidad de Concepción del Uruguay',
+  universitySlug: 'UCU',
+  // No collegeName or collegeSlug - university has no college structure
+  durationYears: 5,
+  // No year field - plan year not specified in documentation
+  progress: {
+    type: 'mandatory-plus-one-elective',
+    requiredElectiveCount: 1
   },
   sources: [
     {
       id: 1,
       label: 'Plan de Estudios',
-      url: 'https://example.com/plan'
+      url: 'https://ucu.edu.ar/arquitectura/plan'
     }
-  ],
-  notes: []
+  ]
+  // No notes field - optional, omitted when not needed
 };
 ```
 
 ## Final Notes
 
-- Ensure all imports are correct
+- Ensure all imports are correct (use `StudyPlan` from `'$lib/study-plan'`)
 - **CRITICAL**: Use ID-Code synchronization (numeric codes → same ID, non-numeric codes → high IDs 90+)
 - Validate all prerequisite references
-- Include complete metadata (degree, college, sources)
-- Choose appropriate progress type
+- Include complete metadata (degreeName, universityName, collegeName if applicable, slugs, sources)
+- Choose appropriate progress type (mandatory-only, mandatory-plus-one-elective, mandatory-plus-elective-count, mandatory-plus-elective-hours)
 - Handle missing data gracefully with `undefined`
 - Correct OCR errors in course names
 - **MANDATORY**: Verify all Spanish characters have proper accents (á, é, í, ó, ú, ñ) - never use � symbols

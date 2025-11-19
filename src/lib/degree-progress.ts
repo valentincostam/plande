@@ -5,12 +5,13 @@ import type { Course } from './course.svelte';
 export type DegreeProgressType =
 	| 'mandatory-only' // Solo materias obligatorias (ej: UADER FCyT LSI)
 	| 'mandatory-plus-one-elective' // Obligatorias + al menos 1 electiva (ej: UCU FAU Arq)
-	| 'mandatory-plus-elective-hours'; // Obligatorias + horas electivas específicas (ej: UTN FRCU ISI)
+	| 'mandatory-plus-elective-hours' // Obligatorias + horas electivas específicas (ej: UTN FRCU ISI)
+	| 'mandatory-plus-elective-count'; // Obligatorias + N electivas específicas (ej: UNSa FCE Física)
 
 export type DegreeProgressConfig = {
 	type: DegreeProgressType;
 	requiredElectiveHours?: number; // Solo para 'mandatory-plus-elective-hours'
-	requiredElectiveCount?: number; // Solo para 'mandatory-plus-one-elective'
+	requiredElectiveCount?: number; // Para 'mandatory-plus-one-elective' y 'mandatory-plus-elective-count'
 };
 
 export type DegreeProgressCalculation = {
@@ -49,6 +50,15 @@ export function calculateDegreeProgress(
 			break;
 
 		case 'mandatory-plus-one-elective': {
+			const requiredElectiveCount = config.requiredElectiveCount ?? 1;
+			const completedElectives = Math.min(passedElectiveCourses.length, requiredElectiveCount);
+
+			completedUnits = passedMandatoryCourses.length + completedElectives;
+			totalUnits = mandatoryCourses.length + requiredElectiveCount;
+			break;
+		}
+
+		case 'mandatory-plus-elective-count': {
 			const requiredElectiveCount = config.requiredElectiveCount ?? 1;
 			const completedElectives = Math.min(passedElectiveCourses.length, requiredElectiveCount);
 
