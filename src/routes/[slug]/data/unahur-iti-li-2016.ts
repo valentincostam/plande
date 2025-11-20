@@ -55,6 +55,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 2,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -71,6 +77,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 2,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -87,6 +99,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 1,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -113,6 +131,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 1,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -129,6 +153,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 6,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -145,6 +175,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 3,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 3,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -164,9 +200,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 3,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 3,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -183,6 +231,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 5,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -199,6 +253,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -215,6 +275,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 13,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -234,9 +300,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -256,9 +334,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 11,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 12,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -276,6 +366,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 9,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 9,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -295,9 +391,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 1,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 2,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 2,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -314,6 +422,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -330,6 +444,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -355,6 +475,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 8,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -371,6 +497,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 18,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -387,6 +519,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 5,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 5,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -403,6 +541,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -422,15 +566,33 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 16,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -448,6 +610,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 24,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 24,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -464,6 +632,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 26,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -480,6 +654,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 19,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -496,6 +676,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -524,21 +710,45 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 4,
+				id: 6,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 7,
 				requiredCourseId: 27,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -555,6 +765,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 30,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -574,21 +790,45 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 27,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 4,
+				id: 6,
+				requiredCourseId: 27,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 7,
 				requiredCourseId: 29,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -608,9 +848,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -631,15 +883,33 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 29,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 30,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -660,21 +930,45 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 4,
+				id: 6,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 7,
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -691,6 +985,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 19,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -710,9 +1010,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 35,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 36,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 36,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -729,6 +1041,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -749,21 +1067,45 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 7,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 10,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 3,
+				id: 4,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
 				requiredCourseId: 20,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 4,
+				id: 6,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 7,
 				requiredCourseId: 25,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -783,9 +1125,21 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 2,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
 				requiredCourseId: 39,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 39,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	},
@@ -811,6 +1165,12 @@ const courses: RawCourse[] = [
 				requiredCourseId: 44,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 44,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
 			}
 		]
 	}
