@@ -18,6 +18,7 @@ import { unlamDcsKf2011 } from './data/unlam-dcs-kf-2011';
 import { utnFrcIsi2023 } from './data/utn-frc-isi-2023';
 import { unahurItiLi2016 } from './data/unahur-iti-li-2016';
 import { unsaFceLf2005 } from './data/unsa-fce-lf-2005';
+import { unajIcsKf2015 } from './data/unaj-ics-kf-2015';
 
 export const studyPlanSlugMap = {
 	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
@@ -38,6 +39,7 @@ export const studyPlanSlugMap = {
 	[getStudyPlanSlug(utnFrcuIsi2023)]: utnFrcuIsi2023,
 	[getStudyPlanSlug(utnFrcuLoi1995)]: utnFrcuLoi1995,
 	[getStudyPlanSlug(unahurItiLi2016)]: unahurItiLi2016,
+	[getStudyPlanSlug(unajIcsKf2015)]: unajIcsKf2015,
 	[getStudyPlanSlug(unsaFceLf2005)]: unsaFceLf2005
 };
 
@@ -60,5 +62,6 @@ export const studyPlanSlugWithYearMap = {
 	[getStudyPlanSlugWithYear(utnFrcuIsi2023)]: utnFrcuIsi2023,
 	[getStudyPlanSlugWithYear(utnFrcuLoi1995)]: utnFrcuLoi1995,
 	[getStudyPlanSlugWithYear(unahurItiLi2016)]: unahurItiLi2016,
+	[getStudyPlanSlugWithYear(unajIcsKf2015)]: unajIcsKf2015,
 	[getStudyPlanSlugWithYear(unsaFceLf2005)]: unsaFceLf2005
 };
