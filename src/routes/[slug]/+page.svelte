@@ -10,6 +10,7 @@
 	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
+	import CopyLinkButton from './copy-link-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, decodeCoursesStates } from '$lib/course-state';
@@ -264,8 +265,9 @@
 			<TransversalCourses courses={transversalCourses} {showCodes} />
 		{/if}
 
-		<section class="px-3">
+		<section class="grid gap-3 px-3">
 			<ShareButton {title} />
+			<CopyLinkButton />
 		</section>
 
 		<section>
