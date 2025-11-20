@@ -6,7 +6,10 @@ You are a highly capable language model tasked with extracting and structuring d
 
 Before submitting your conversion, verify:
 
-- [ ] **Three-column prerequisite tables**: Column 2 ("Para Cursar TENER APROBADA") uses `requiredFor.enroll`, NOT `requiredFor.complete` ⚠️ MOST COMMON ERROR
+- [ ] **Three-column prerequisite tables COMPLETE**: Verified ALL 3 columns processed ⚠️ MOST COMMON ERROR
+  - [ ] Column 1 (REGULARIZADA/CURSADA) → `requiredFor.enroll` + `courseStates.taken` ✓
+  - [ ] Column 2 (APROBADA para cursar) → `requiredFor.enroll` + `courseStates.passed` (NOT complete!) ✓
+  - [ ] Column 3 (APROBADA para rendir) → `requiredFor.complete` + `courseStates.passed` ✓
 - [ ] **All prerequisite codes extracted**: Multi-code cells like "2-5" have BOTH codes (2 AND 5)
 - [ ] **Course count matches source**: Count your courses vs. document total
 - [ ] **No missing electivas**: Elective courses have their prerequisites too
@@ -269,6 +272,22 @@ Given this table row:
 | Matemática Superior | Análisis Mat II | Álgebra, Análisis Mat I | Análisis Mat II |
 ```
 
+**MANDATORY BEFORE CODING: Create prerequisite mapping table**
+
+```
+Course: Matemática Superior (Code: 951198)
+
+Column 1 (REGULARIZADA para cursar):
+  - Análisis Mat II (950703)
+
+Column 2 (APROBADA para cursar):
+  - Álgebra (950701)
+  - Análisis Mat I (950702)
+
+Column 3 (APROBADA para rendir):
+  - Análisis Mat II (950703)
+```
+
 Convert to:
 
 ```javascript
@@ -276,14 +295,19 @@ Convert to:
   id: 951198,
   name: 'Matemática Superior',
   requirements: [
-    // Column 1: "Para Cursar TENER CURSADA"
+    // ═══════════════════════════════════════════════════════════
+    // GROUP 1: Column 1 "Para Cursar TENER CURSADA/REGULARIZADA"
+    // ═══════════════════════════════════════════════════════════
     {
       id: 1,
       requiredCourseId: 950703,  // Análisis Mat II
       requiredState: courseStates.taken,
       requiredFor: requiredFor.enroll  // Column 1 → enroll
     },
-    // Column 2: "Para Cursar TENER APROBADA"
+
+    // ═══════════════════════════════════════════════════════════
+    // GROUP 2: Column 2 "Para Cursar TENER APROBADA"
+    // ═══════════════════════════════════════════════════════════
     {
       id: 2,
       requiredCourseId: 950701,  // Álgebra
@@ -296,7 +320,10 @@ Convert to:
       requiredState: courseStates.passed,
       requiredFor: requiredFor.enroll  // ⚠️ Column 2 → enroll (NOT complete!)
     },
-    // Column 3: "Para Rendir TENER APROBADA"
+
+    // ═══════════════════════════════════════════════════════════
+    // GROUP 3: Column 3 "Para Rendir TENER APROBADA"
+    // ═══════════════════════════════════════════════════════════
     {
       id: 4,
       requiredCourseId: 950703,  // Análisis Mat II
@@ -441,19 +468,30 @@ When processing "Asignación Horaria", "Carga Horaria", or similar course schedu
 
 **The #1 source of prerequisite errors is failing to anchor each prerequisite list to its specific course code.**
 
+**⚠️ MANDATORY PRE-CODE MAPPING REQUIREMENT ⚠️**
+
+**STOP! Before writing ANY JavaScript code, you MUST create a complete prerequisite mapping table.**
+
 **Mandatory systematic process:**
 
-1. **Create explicit code-to-prerequisites mapping FIRST**:
-   - Before writing any code, create a text mapping table
+1. **Create explicit code-to-prerequisites mapping FIRST** (NON-NEGOTIABLE):
+   - **Do NOT write any JavaScript until this mapping is complete**
    - Process the correlatividades table row by row
-   - Format: `Code → [Prerequisite codes]`
+   - For EACH course, list ALL prerequisites from ALL columns
+   - Format: `Code → Column1: [codes], Column2: [codes], Column3: [codes]`
    - Example:
      ```
-     01-01 → (none)
-     01-08 → [01-04]
-     03-26 → [codes here]
-     04-27 → [01-06, 01-08, 02-11, 02-14, ...]
+     PREREQUISITE MAPPING TABLE
+     ══════════════════════════════════════════════════════════
+     01 → Col1: (none), Col2: (none), Col3: (none)
+     02 → Col1: [01], Col2: (none), Col3: (none)
+     09 → Col1: [01, 04], Col2: [02, 03], Col3: [01, 02]
+     14 → Col1: [08, 09], Col2: [03, 04, 05], Col3: [08, 09, 03, 04]
+     27 → Col1: [21, 22], Col2: [15, 16, 17], Col3: [21, 22, 15, 16]
+     ...
+     ══════════════════════════════════════════════════════════
      ```
+   - **Quality check**: Count total prerequisite codes vs. total requirement objects you'll create (must match)
 
 2. **Process row-by-row with explicit code verification**:
    - **Step 1**: Read course code from Column 1 (e.g., "03-26")
@@ -803,6 +841,92 @@ The `code` field should contain the official course identifier from the curricul
 - Look for phrases: "X° completo", "año X completo", "X año completo"
 - X refers to a single year number (1°, 2°, 3°, 4°, 5°)
 - Must include ALL courses from that year, but ONLY that year
+
+### OPTATIVE COURSES: IN CURRICULUM VS SEPARATE OPTIONS
+
+**CRITICAL DISTINCTION**: Understand when optatives are already required courses vs separate elective options.
+
+#### Pattern 1: Optatives Already in Curriculum (Use `mandatory-only`)
+
+**Identification**:
+- Curriculum lists specific required courses named "Optativa 1", "Optativa 2", "Materia Optativa I", etc.
+- These courses appear in the year structure alongside other mandatory courses
+- They count toward total course requirements
+- Student must complete them to graduate, but can choose from available options
+
+**Implementation**:
+```javascript
+// Course already in curriculum structure
+{
+  id: 32,
+  name: 'Optativa 1',
+  term: courseTerms.firstSemester,
+  year: 4,
+  tag: courseTags.optative,  // Tag the course as optative
+  requirements: [/* prerequisites if any */]
+}
+
+// Progress type
+progress: {
+  type: 'mandatory-only'  // Optatives are already mandatory courses!
+}
+
+// List available options in notes
+notes: [
+  {
+    id: 1,
+    text: 'Las opciones de materias optativas son:\n - **Optativa 1** (4° año): Opción A, Opción B, Opción C, o Opción D\n - **Optativa 2** (5° año): Opción A, Opción B, Opción C, o Opción D'
+  }
+]
+```
+
+**Examples**: UNAJ Kinesiología, UNAHUR Informática
+
+**Key Rules**:
+- ❌ Do NOT create separate course objects for each option (Opción A, Opción B, etc.)
+- ❌ Do NOT use `mandatory-plus-elective-count` progress type
+- ✅ Use `tag: courseTags.optative` on the required optative courses
+- ✅ Use `progress: { type: 'mandatory-only' }`
+- ✅ List all available options in notes section
+
+#### Pattern 2: Separate Elective Options (Use `mandatory-plus-elective-count`)
+
+**Identification**:
+- Curriculum shows elective options OUTSIDE the main year structure
+- Student must choose N electives from a pool of options
+- Electives are ADDITIONAL to the mandatory courses
+
+**Implementation**:
+```javascript
+// Create separate course objects for each elective option
+{
+  id: 45,
+  name: 'Elective Course A',
+  term: courseTerms.semestral,
+  year: TRANSVERSAL_YEAR,
+  tag: courseTags.elective,
+  requirements: [/* prerequisites if any */]
+}
+
+// Progress type
+progress: {
+  type: 'mandatory-plus-elective-count',
+  requiredElectiveCount: 2  // Must complete 2 from the pool
+}
+```
+
+**Examples**: UNSa Física (requires 2 electives from pool), UTN FRBA (requires 40 hours of electives)
+
+**Key Rules**:
+- ✅ Create course objects for each elective option
+- ✅ Use appropriate progress type (`mandatory-plus-elective-count` or `mandatory-plus-elective-hours`)
+- ✅ Use `tag: courseTags.elective` on elective course objects
+
+#### How to Decide:
+
+Ask: "Is 'Optativa 1' a specific required course in the curriculum structure?"
+- **YES** → Pattern 1 (optatives in curriculum, use `mandatory-only`)
+- **NO** → Pattern 2 (separate electives, use `mandatory-plus-elective-count`)
 
 ### ELECTIVE OPTIONS: NOTES VS COURSES
 
