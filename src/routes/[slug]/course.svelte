@@ -59,9 +59,8 @@
 	id={toKebabCase(course.name)}
 	class={[
 		courseBgColors[course.state],
-		'transition-color scroll-my-14 scroll-py-14 overflow-hidden md:first:rounded-t-md md:last:rounded-b-md',
-		'focus-within:outline-2 focus-within:outline-blue-500',
-		'target:animate-[outline-fade-out_2s_ease-in-out_1] target:outline-2 target:outline-transparent'
+		'transition-color overflow-hidden md:first:rounded-t-md md:last:rounded-b-md',
+		'focus-within:outline-2 focus-within:outline-blue-500'
 	]}
 >
 	<div class="flex items-center pr-3">
@@ -208,3 +207,10 @@
 		</div>
 	{/if}
 </li>
+
+<style>
+	:global(.is-targeted) {
+		outline: 2px solid transparent;
+		animation: outline-fade-out 2s ease-in-out 1;
+	}
+</style>

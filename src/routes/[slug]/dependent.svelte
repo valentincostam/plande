@@ -2,6 +2,7 @@
 	import { toKebabCase, TRANSVERSAL_YEAR, type CourseDependent } from '$lib/course.svelte';
 	import { requiredFor, requiredForLabels } from '$lib/raw-course';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
@@ -25,6 +26,7 @@
 	<span class="font-noto">
 		<a
 			href={`#${toKebabCase(dependent.dependentCourse.name)}`}
+			onclick={handleSmoothScroll}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
 			{#if showCodes && dependent.dependentCourse.code}

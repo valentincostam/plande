@@ -3,6 +3,7 @@
 	import type { Course } from '$lib/course.svelte';
 	import { toKebabCase, TRANSVERSAL_YEAR } from '$lib/course.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import { handleSmoothScroll } from '$lib/smooth-scroll';
 
 	type Props = {
 		course: Course;
@@ -15,6 +16,7 @@
 <li>
 	<a
 		href={`#${toKebabCase(course.name)}`}
+		onclick={handleSmoothScroll}
 		class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 	>
 		{#if showCodes && course.code}

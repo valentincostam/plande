@@ -2,6 +2,7 @@
 	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
 	import { toKebabCase, TRANSVERSAL_YEAR, type CourseRequirement } from '$lib/course.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
@@ -28,6 +29,7 @@
 	<span class="font-noto">
 		<a
 			href={`#${toKebabCase(requirement.requiredCourse.name)}`}
+			onclick={handleSmoothScroll}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 		>
 			{#if showCodes && requirement.requiredCourse.code}
