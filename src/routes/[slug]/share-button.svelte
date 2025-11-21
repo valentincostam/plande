@@ -15,7 +15,9 @@
 
 		if (!navigator.clipboard) return;
 
-		await navigator.clipboard.writeText(window.location.href);
+		const urlWithoutHash =
+			window.location.origin + window.location.pathname + window.location.search;
+		await navigator.clipboard.writeText(urlWithoutHash);
 
 		isCopied = true;
 
@@ -31,9 +33,11 @@
 		}
 
 		try {
+			const urlWithoutHash =
+				window.location.origin + window.location.pathname + window.location.search;
 			await navigator.share({
 				title: props.title,
-				url: window.location.href
+				url: urlWithoutHash
 			});
 		} catch (error) {
 			if (!String(error).includes('AbortError')) {

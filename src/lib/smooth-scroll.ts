@@ -25,8 +25,5 @@ export function handleSmoothScroll(event: MouseEvent) {
 		setTimeout(() => {
 			element.classList.remove('is-targeted');
 		}, 20000);
-
-		// Update URL hash for browser back button support
-		history.replaceState(null, '', href);
 	}
 }
