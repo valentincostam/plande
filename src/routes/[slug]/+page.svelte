@@ -5,6 +5,7 @@
 	import { createYears, isYearPassed, getCourseEffectiveTerm } from '$lib/year.svelte';
 	import { courseTerms, courseTermLabels } from '$lib/course-term';
 	import SettingToggle from './setting-toggle.svelte';
+	import ResetButton from './reset-button.svelte';
 	import AvailableCoursesTerm from './available-courses-term.svelte';
 	import Stats from './stats.svelte';
 	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
@@ -128,6 +129,21 @@
 			isInitializing = false;
 		}
 	});
+
+	function resetAllState() {
+		const confirmed = window.confirm(
+			'¿Confirmás que querés reiniciar todo el progreso? Se perderán estados de materias, notas y configuraciones personalizadas.'
+		);
+		if (!confirmed) return;
+
+		courses.forEach((course) => {
+			course.state = courseStates.notTaken;
+			course.grade = undefined;
+		});
+		isStrictModeEnabled = true;
+		showCodes = false;
+		localStorage.removeItem(storageKey);
+	}
 
 	const years = createYears(data.studyPlan.durationYears, courses);
 
@@ -427,6 +443,7 @@
 					label="Mostrar identificadores"
 					description="Los códigos de las materias se muestran junto a sus nombres"
 				/>
+				<ResetButton onclick={resetAllState} />
 			</div>
 		</section>
 	</main>
