@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { courseTermLabels, courseTerms } from '$lib/course-term';
+	import { courseTags } from '$lib/course-tag';
 	import type { Course as CourseType } from '$lib/course.svelte';
 
 	import Course from './course.svelte';
@@ -12,7 +13,17 @@
 		title?: string;
 	};
 
-	let { courses, showCodes = false, title = 'Materias Electivas' }: Props = $props();
+	let { courses, showCodes = false, title }: Props = $props();
+
+	const hasElectiveCourses = $derived(
+		courses.some(
+			(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
+		)
+	);
+
+	const defaultTitle = $derived(hasElectiveCourses ? 'Materias Electivas' : 'Materias Transversales');
+
+	const displayTitle = $derived(title ?? defaultTitle);
 
 	const annualCourses = courses.filter(
 		(course) => getCourseEffectiveTerm(course) === courseTerms.annual
@@ -36,14 +47,10 @@
 </script>
 
 <article>
-	<header
-		class="sticky top-0 z-10 flex items-center justify-between bg-white shadow-[-2px_0_0_#FFFFFF,2px_0_0_#FFFFFF]"
-	>
-		<div class="flex items-center gap-3 p-3">
-			<h2 class="text-lg font-bold">
-				{title}
-			</h2>
-		</div>
+	<header>
+    <h2 class="text-lg font-bold p-3">
+      {displayTitle}
+    </h2>
 	</header>
 
 	{#if annualCourses.length > 0}

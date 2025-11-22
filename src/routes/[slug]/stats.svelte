@@ -79,7 +79,11 @@
 	/>
 	{#if hasElectiveCourses || hasOptativeCourses}
 		<Stat
-			label={hasOptativeCourses ? 'Materias optativas aprobadas' : 'Materias electivas aprobadas'}
+			label={hasElectiveCourses && hasOptativeCourses
+				? 'Materias electivas y optativas aprobadas'
+				: hasOptativeCourses
+					? 'Materias optativas aprobadas'
+					: 'Materias electivas aprobadas'}
 			value={passedElectiveCourses.length}
 			total={electiveCourses.length}
 			unit="mat."

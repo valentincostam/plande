@@ -273,7 +273,11 @@
 		<section>
 			<h3 class="p-3 text-lg font-bold">Qué podés cursar</h3>
 			{#if areAllCoursesAvailable}
-				<p class="px-3">Todas las materias están disponibles para cursar.</p>
+				<p class="px-3">
+					Todas las materias están disponibles para cursar{!isStrictModeEnabled
+						? ' porque el modo estricto no está activado y los requisitos de las materias no son obligatorios'
+						: ''}.
+				</p>
 			{:else if availableCourses.length === 0}
 				<p class="px-3">No hay materias disponibles para cursar.</p>
 			{:else}
@@ -332,7 +336,7 @@
 				</li>
 				{#if data.studyPlan.collegeName}
 					<li>
-						<span class="font-bold">Facultad:</span>
+						<span class="font-bold">{data.studyPlan.collegeName.split(' ')[0]}:</span>
 						{data.studyPlan.collegeName} ({data.studyPlan.collegeSlug})
 					</li>
 				{/if}

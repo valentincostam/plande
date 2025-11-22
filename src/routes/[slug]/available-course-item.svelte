@@ -30,7 +30,13 @@
 		({courseTagLabels[course.tag].toLowerCase()})
 	{/if}
 	{#if course.year === TRANSVERSAL_YEAR}
-		({courseTagLabels[courseTags.elective].toLowerCase()})
+		{#if course.tag === courseTags.elective}
+			({courseTagLabels[course.tag].toLowerCase()})
+		{:else if course.tag === courseTags.optative}
+			({courseTagLabels[course.tag].toLowerCase()})
+		{:else}
+			(transversal)
+		{/if}
 	{:else}
 		<span class="whitespace-nowrap">
 			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año

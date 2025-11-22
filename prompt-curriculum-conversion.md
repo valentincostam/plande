@@ -201,6 +201,65 @@ Each course must have this exact structure:
 }
 ```
 
+## Default Prerequisite Interpretation
+
+**IMPORTANT**: When a curriculum lists prerequisites/correlatives WITHOUT explicitly specifying the requirement type, use this standard interpretation:
+
+### Default Rule:
+
+When prerequisites are listed without detailed columns or specifications (e.g., "Prerequisitos: Matemática I, Física I"), assume the **most common Argentine university pattern**:
+
+1. **To enroll** (para cursar): Course must be **regularizada** (taken/in progress)
+   - Maps to: `requiredFor.enroll` + `courseStates.taken`
+
+2. **To complete/take final exam** (para rendir): Course must be **aprobada** (passed)
+   - Maps to: `requiredFor.complete` + `courseStates.passed`
+
+### Implementation Example:
+
+```javascript
+// When curriculum only says: "Correlativas: Matemática I, Física I"
+// Create BOTH requirements for each prerequisite:
+requirements: [
+  // Matemática I - regularizada para cursar
+  {
+    id: 1,
+    requiredCourseId: 5,  // Matemática I
+    requiredState: courseStates.taken,
+    requiredFor: requiredFor.enroll
+  },
+  // Matemática I - aprobada para rendir
+  {
+    id: 2,
+    requiredCourseId: 5,  // Matemática I
+    requiredState: courseStates.passed,
+    requiredFor: requiredFor.complete
+  },
+  // Física I - regularizada para cursar
+  {
+    id: 3,
+    requiredCourseId: 8,  // Física I
+    requiredState: courseStates.taken,
+    requiredFor: requiredFor.enroll
+  },
+  // Física I - aprobada para rendir
+  {
+    id: 4,
+    requiredCourseId: 8,  // Física I
+    requiredState: courseStates.passed,
+    requiredFor: requiredFor.complete
+  }
+]
+```
+
+### When NOT to Use Default Rule:
+
+- ✅ **DO use explicit specifications** when curriculum provides detailed prerequisite tables with multiple columns
+- ✅ **DO follow source documentation** if it explicitly states different requirements
+- ✅ **DO use the three-column pattern** (see next section) when curriculum has structured tables
+
+The default rule applies ONLY when prerequisite information is simple or unstructured (e.g., basic lists without detailed specifications).
+
 ## ⚠️ CRITICAL: Understanding Multi-Column Prerequisite Tables
 
 **This is the #1 source of errors in curriculum conversions.** Many Argentine universities (especially UTN) use 3-column prerequisite tables. Each column has a different purpose.
