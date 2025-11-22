@@ -21,9 +21,9 @@ export function handleSmoothScroll(event: MouseEvent) {
 		// Add class to trigger highlight animation
 		element.classList.add('is-targeted');
 
-		// Remove class after animation completes (2 seconds)
+		// Remove class after animation completes (3 seconds)
 		setTimeout(() => {
 			element.classList.remove('is-targeted');
-		}, 20000);
+		}, 3000);
 	}
 }

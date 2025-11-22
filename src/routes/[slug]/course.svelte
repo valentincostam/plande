@@ -211,6 +211,6 @@
 <style>
 	:global(.is-targeted) {
 		outline: 2px solid transparent;
-		animation: outline-fade-out 2s ease-in-out 1;
+		animation: outline-fade-out 3s ease-in-out 1;
 	}
 </style>
