@@ -12,6 +12,7 @@
 	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
 	import CopyLinkButton from './copy-link-button.svelte';
+	import ExportButton from './export-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, decodeCoursesStates } from '$lib/course-state';
@@ -425,6 +426,34 @@
 					aprobaste.
 				</li>
 			</ul>
+		</section>
+
+		<section>
+			<h3 class="p-3 text-lg font-bold">Exportar</h3>
+			<p class="px-3">Exportá tu plan de estudios en diferentes formatos.</p>
+			<div class="flex flex-wrap gap-3 p-3">
+				<ExportButton
+					format="csv"
+					{courses}
+					degreeName={data.studyPlan.degreeName}
+					universitySlug={data.studyPlan.universitySlug}
+					collegeSlug={data.studyPlan.collegeSlug ?? null}
+				/>
+				<ExportButton
+					format="json"
+					{courses}
+					degreeName={data.studyPlan.degreeName}
+					universitySlug={data.studyPlan.universitySlug}
+					collegeSlug={data.studyPlan.collegeSlug ?? null}
+				/>
+				<ExportButton
+					format="toon"
+					{courses}
+					degreeName={data.studyPlan.degreeName}
+					universitySlug={data.studyPlan.universitySlug}
+					collegeSlug={data.studyPlan.collegeSlug ?? null}
+				/>
+			</div>
 		</section>
 
 		<section>
