@@ -430,7 +430,9 @@
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Exportar</h3>
-			<p class="px-3">Exportá tu plan de estudios en diferentes formatos.</p>
+			<p class="px-3">
+				Exportá las materias del plan de estudios y su estado en diferentes formatos.
+			</p>
 			<div class="flex flex-wrap gap-3 p-3">
 				<ExportButton
 					format="csv"
