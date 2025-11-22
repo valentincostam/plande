@@ -60,7 +60,8 @@ export function exportToCSV(courses: Course[]): string {
 
 	const csvContent = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n');
 
-	return csvContent;
+	// Agregar BOM UTF-8 para correcta visualización en Excel/celulares
+	return '\uFEFF' + csvContent;
 }
 
 /**
