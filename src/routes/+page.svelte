@@ -276,17 +276,17 @@
 					<li>¿Qué funcionalidades te gustaría ver en Plande?</li>
 				</ul>
 				<p class="text-gray-700">
-					Tu opinión va a definir la siguiente versión de Plande. Anotate en el siguiente link para
-					contarme tus ideas y ser de los primeros en enterarte cuando esté lista.
+					Tu opinión va a definir la siguiente versión de Plande. Usá el siguiente link para
+					contarme tus ideas y sugerencias.
 				</p>
 			</div>
 
 			<div class="grid justify-center gap-3 text-center">
 				<a
-					href="https://forms.gle/mX5AWbNxnmtcRk6W9"
+					href="https://forms.gle/5iR99PJAffwFmayC6"
 					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
 				>
-					Anotarme en la lista
+					Escribir opinión o sugerencia
 				</a>
 				<p class="text-sm text-gray-600">
 					<em>Hagamos que recibirse sea más fácil y rápido</em>
