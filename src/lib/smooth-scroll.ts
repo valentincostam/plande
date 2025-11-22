@@ -18,12 +18,14 @@ export function handleSmoothScroll(event: MouseEvent) {
 		// Start smooth scroll
 		element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-		// Add class to trigger highlight animation
-		element.classList.add('is-targeted');
+		// Add class to trigger highlight animation (skip for carreras section)
+		if (hash !== 'carreras') {
+			element.classList.add('is-targeted');
 
-		// Remove class after animation completes (3 seconds)
-		setTimeout(() => {
-			element.classList.remove('is-targeted');
-		}, 3000);
+			// Remove class after animation completes (3 seconds)
+			setTimeout(() => {
+				element.classList.remove('is-targeted');
+			}, 3000);
+		}
 	}
 }
