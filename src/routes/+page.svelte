@@ -3,6 +3,7 @@
 	import Footer from './footer.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlug } from '$lib/study-plan';
+	import { handleSmoothScroll } from '$lib/smooth-scroll';
 
 	const groupedStudyPlans = groupStudyPlansByUniversityAndCollege(allStudyPlans);
 </script>
@@ -101,6 +102,7 @@
 			<div class="flex justify-center pb-6 text-center">
 				<a
 					href="#carreras"
+					onclick={handleSmoothScroll}
 					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
 				>
 					Probar Plande ahora

@@ -16,7 +16,7 @@ export function handleSmoothScroll(event: MouseEvent) {
 		});
 
 		// Start smooth scroll
-		element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
 		// Add class to trigger highlight animation
 		element.classList.add('is-targeted');
