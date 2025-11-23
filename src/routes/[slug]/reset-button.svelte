@@ -8,20 +8,18 @@
 
 <button
 	{onclick}
-	class="group flex cursor-pointer items-center justify-between gap-3 rounded-md border-1 border-gray-300 bg-white px-6 py-3 text-left transition-colors select-none hover:border-red-300 hover:bg-red-50 active:scale-[0.99]"
+	class="group flex cursor-pointer items-center justify-between gap-3 rounded-md bg-red-50 px-6 py-3 text-left outline-transparent transition-colors select-none hover:bg-red-100 focus:outline-red-800 active:scale-[0.99]"
 >
 	<span class="flex-1">
-		<strong class="text-gray-900 transition-colors group-hover:text-red-900"
-			>Reiniciar progreso</strong
-		>
+		<strong class="text-red-900 transition-colors">Reiniciar progreso</strong>
 		<br />
-		<span class="text-gray-600 transition-colors group-hover:text-red-800"
+		<span class="text-red-900 transition-colors"
 			>Se perderán estados de materias, notas y configuraciones</span
 		>
 	</span>
 
 	<svg
-		class="h-6 w-6 shrink-0 text-gray-900 group-hover:text-red-900"
+		class="h-6 w-6 shrink-0 text-red-900"
 		fill="none"
 		stroke="currentColor"
 		stroke-width="2"
