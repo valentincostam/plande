@@ -21,6 +21,7 @@ import { utnFrcIsi2023 } from './data/utn-frc-isi-2023';
 import { unahurItiLi2016 } from './data/unahur-iti-li-2016';
 import { unsaFceLf2005 } from './data/unsa-fce-lf-2005';
 import { unajIcsKf2015 } from './data/unaj-ics-kf-2015';
+import { unerFbBioq2025 } from './data/uner-fb-bioq-2025';
 
 export const studyPlanSlugMap = {
 	[getStudyPlanSlug(uaderFcytIt)]: uaderFcytIt,
@@ -30,6 +31,7 @@ export const studyPlanSlugMap = {
 	[getStudyPlanSlug(udemmLp)]: udemmLp,
 	[getStudyPlanSlug(udemmLpe)]: udemmLpe,
 	[getStudyPlanSlug(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlug(unerFbBioq2025)]: unerFbBioq2025,
 	[getStudyPlanSlug(unerFcecoCP2020)]: unerFcecoCP2020,
 	[getStudyPlanSlug(unerFcsMed2022)]: unerFcsMed2022,
 	[getStudyPlanSlug(unlamDcsKf2011)]: unlamDcsKf2011,
@@ -55,6 +57,7 @@ export const studyPlanSlugWithYearMap = {
 	[getStudyPlanSlugWithYear(udemmLp)]: udemmLp,
 	[getStudyPlanSlugWithYear(udemmLpe)]: udemmLpe,
 	[getStudyPlanSlugWithYear(uncaFcaTupazsa)]: uncaFcaTupazsa,
+	[getStudyPlanSlugWithYear(unerFbBioq2025)]: unerFbBioq2025,
 	[getStudyPlanSlugWithYear(unerFcecoCP2020)]: unerFcecoCP2020,
 	[getStudyPlanSlugWithYear(unerFcsMed2022)]: unerFcsMed2022,
 	[getStudyPlanSlugWithYear(unlamDcsKf2011)]: unlamDcsKf2011,

@@ -20,6 +20,7 @@ import { utnFrcIsi2023 } from './utn-frc-isi-2023';
 import { unahurItiLi2016 } from './unahur-iti-li-2016';
 import { unsaFceLf2005 } from './unsa-fce-lf-2005';
 import { unajIcsKf2015 } from './unaj-ics-kf-2015';
+import { unerFbBioq2025 } from './uner-fb-bioq-2025';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -44,5 +45,6 @@ export const allStudyPlans: StudyPlan[] = [
 	utnFrcIsi2023,
 	unahurItiLi2016,
 	unajIcsKf2015,
-	unsaFceLf2005
+	unsaFceLf2005,
+	unerFbBioq2025
 ];
