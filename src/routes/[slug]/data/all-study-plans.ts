@@ -24,6 +24,7 @@ import { unerFbBioq2025 } from './uner-fb-bioq-2025';
 import { utnFrhIa2023 } from './utn-frh-ia-2023';
 import { udeFdcsAb } from './ude-fdcs-ab';
 import { unmdpFhLcp } from './unmdp-fh-lcp';
+import { unpaUargIrnr } from './unpa-uarg-irnr';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -52,5 +53,6 @@ export const allStudyPlans: StudyPlan[] = [
 	unerFbBioq2025,
 	utnFrhIa2023,
 	udeFdcsAb,
-	unmdpFhLcp
+	unmdpFhLcp,
+	unpaUargIrnr
 ];
