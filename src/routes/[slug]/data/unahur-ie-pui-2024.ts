@@ -211,7 +211,7 @@ const courses: RawCourse[] = [
 	{
 		id: 11,
 		code: '11',
-		name: 'Didáctica y currículum',
+		name: 'Didáctica y Currículum',
 		hours: 5,
 		term: courseTerms.semestral,
 		year: 2,
