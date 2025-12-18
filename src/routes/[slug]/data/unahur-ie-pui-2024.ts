@@ -10,7 +10,7 @@ const courses: RawCourse[] = [
 		id: 1,
 		code: '1',
 		name: 'Lengua Inglesa I',
-		hours: 12,
+		hours: 4,
 		term: courseTerms.annual,
 		year: 1,
 		requirements: []
@@ -19,7 +19,7 @@ const courses: RawCourse[] = [
 		id: 2,
 		code: '2',
 		name: 'Gramática Inglesa I',
-		hours: 9,
+		hours: 3,
 		term: courseTerms.annual,
 		year: 1,
 		requirements: []
@@ -28,7 +28,7 @@ const courses: RawCourse[] = [
 		id: 3,
 		code: '3',
 		name: 'Fonética y Práctica en Laboratorio I',
-		hours: 12,
+		hours: 4,
 		term: courseTerms.annual,
 		year: 1,
 		requirements: []
@@ -37,7 +37,7 @@ const courses: RawCourse[] = [
 		id: 4,
 		code: '4',
 		name: 'Pedagogía',
-		hours: 5,
+		hours: 4,
 		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
@@ -46,7 +46,7 @@ const courses: RawCourse[] = [
 		id: 5,
 		code: '5',
 		name: 'Lectura, Escritura y Oralidad',
-		hours: 4,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
@@ -55,7 +55,7 @@ const courses: RawCourse[] = [
 		id: 6,
 		code: '6',
 		name: 'Aprendizajes y Prácticas Educativas',
-		hours: 5,
+		hours: 4,
 		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
@@ -64,7 +64,7 @@ const courses: RawCourse[] = [
 		id: 7,
 		code: '7',
 		name: 'Territorio, Sujetos e Instituciones',
-		hours: 6,
+		hours: 4,
 		term: courseTerms.semestral,
 		year: 1,
 		requirements: []
@@ -74,7 +74,7 @@ const courses: RawCourse[] = [
 		id: 8,
 		code: '8',
 		name: 'Lengua Inglesa II',
-		hours: 12,
+		hours: 4,
 		term: courseTerms.annual,
 		year: 2,
 		requirements: [
@@ -120,7 +120,7 @@ const courses: RawCourse[] = [
 		id: 9,
 		code: '9',
 		name: 'Gramática Inglesa II',
-		hours: 9,
+		hours: 3,
 		term: courseTerms.annual,
 		year: 2,
 		requirements: [
@@ -166,7 +166,7 @@ const courses: RawCourse[] = [
 		id: 10,
 		code: '10',
 		name: 'Fonética y Práctica en Laboratorio II',
-		hours: 12,
+		hours: 4,
 		term: courseTerms.annual,
 		year: 2,
 		requirements: [
@@ -212,7 +212,7 @@ const courses: RawCourse[] = [
 		id: 11,
 		code: '11',
 		name: 'Didáctica y Currículum',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
@@ -234,7 +234,7 @@ const courses: RawCourse[] = [
 		id: 12,
 		code: '12',
 		name: 'Educación Sexual Integral',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 2,
 		requirements: []
@@ -243,7 +243,7 @@ const courses: RawCourse[] = [
 		id: 13,
 		code: '13',
 		name: 'Pensamiento Pedagógico Latinoamericano',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 2,
 		requirements: []
@@ -252,7 +252,7 @@ const courses: RawCourse[] = [
 		id: 14,
 		code: '14',
 		name: 'Cultura y Alfabetización Digital en la Universidad',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 2,
 		requirements: []
@@ -261,7 +261,7 @@ const courses: RawCourse[] = [
 		id: 15,
 		code: '15',
 		name: 'Prácticas de la Enseñanza en el Ámbito Socioeducativo',
-		hours: 6,
+		hours: 4,
 		term: courseTerms.semestral,
 		year: 2,
 		requirements: [
@@ -332,7 +332,7 @@ const courses: RawCourse[] = [
 		id: 16,
 		code: '16',
 		name: 'Lengua Inglesa III',
-		hours: 8,
+		hours: 3,
 		term: courseTerms.annual,
 		year: 3,
 		requirements: [
@@ -378,7 +378,7 @@ const courses: RawCourse[] = [
 		id: 17,
 		code: '17',
 		name: 'Fonética y Práctica en Laboratorio III',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
@@ -424,7 +424,7 @@ const courses: RawCourse[] = [
 		id: 18,
 		code: '18',
 		name: 'Lingüística',
-		hours: 4,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
@@ -470,7 +470,7 @@ const courses: RawCourse[] = [
 		id: 19,
 		code: '19',
 		name: 'Adquisición de la Lengua Materna y Extranjera',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
@@ -504,7 +504,7 @@ const courses: RawCourse[] = [
 		id: 20,
 		code: '20',
 		name: 'Didáctica del Inglés para el Nivel Primario',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
@@ -526,7 +526,7 @@ const courses: RawCourse[] = [
 		id: 21,
 		code: '21',
 		name: 'Historia de la Nación Argentina y sus Proyectos Educativos',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: []
@@ -535,7 +535,7 @@ const courses: RawCourse[] = [
 		id: 22,
 		code: '22',
 		name: 'Didáctica en Contextos de Educación Superior',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [
@@ -557,7 +557,7 @@ const courses: RawCourse[] = [
 		id: 23,
 		code: '23',
 		name: 'Asignatura UNAHUR',
-		hours: 3,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: []
@@ -566,7 +566,7 @@ const courses: RawCourse[] = [
 		id: 24,
 		code: '24',
 		name: 'Prácticas Docentes en el Nivel Primario',
-		hours: 11,
+		hours: 5,
 		term: courseTerms.annual,
 		year: 3,
 		requirements: [
@@ -613,7 +613,7 @@ const courses: RawCourse[] = [
 		id: 25,
 		code: '25',
 		name: 'Lengua Inglesa IV',
-		hours: 8,
+		hours: 3,
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
@@ -647,7 +647,7 @@ const courses: RawCourse[] = [
 		id: 26,
 		code: '26',
 		name: 'Fonética y Práctica en Laboratorio IV',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -681,7 +681,7 @@ const courses: RawCourse[] = [
 		id: 27,
 		code: '27',
 		name: 'Análisis Contrastivo del Inglés y el Español',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -715,7 +715,7 @@ const courses: RawCourse[] = [
 		id: 28,
 		code: '28',
 		name: 'Didáctica del Inglés para el Nivel Secundario y Superior',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -749,7 +749,7 @@ const courses: RawCourse[] = [
 		id: 29,
 		code: '29',
 		name: 'Investigación Educativa en Lenguas Extranjeras',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -771,7 +771,7 @@ const courses: RawCourse[] = [
 		id: 30,
 		code: '30',
 		name: 'Estudios Literarios',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -793,7 +793,7 @@ const courses: RawCourse[] = [
 		id: 31,
 		code: '31',
 		name: 'Tecnología Educativa',
-		hours: 4,
+		hours: 2,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -827,7 +827,7 @@ const courses: RawCourse[] = [
 		id: 32,
 		code: '32',
 		name: 'Política Educativa',
-		hours: 5,
+		hours: 3,
 		term: courseTerms.semestral,
 		year: 4,
 		requirements: [
@@ -849,7 +849,7 @@ const courses: RawCourse[] = [
 		id: 33,
 		code: '33',
 		name: 'Prácticas Docentes en los Niveles Secundario y Superior',
-		hours: 11,
+		hours: 5,
 		term: courseTerms.annual,
 		year: 4,
 		requirements: [
@@ -896,7 +896,6 @@ const courses: RawCourse[] = [
 		id: 34,
 		code: 'ACA',
 		name: 'Actividades Curriculares Acreditables',
-		hours: 20,
 		term: courseTerms.semestral,
 		year: TRANSVERSAL_YEAR,
 		requirements: []
