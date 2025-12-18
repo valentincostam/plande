@@ -18,6 +18,7 @@ import { unlamDdcpAb2018 } from './unlam-ddcp-ab-2018';
 import { unlamDiitII2023 } from './unlam-diit-ii-2023';
 import { utnFrcIsi2023 } from './utn-frc-isi-2023';
 import { unahurItiLi2016 } from './unahur-iti-li-2016';
+import { unahurIePui2024 } from './unahur-ie-pui-2024';
 import { unsaFceLf2005 } from './unsa-fce-lf-2005';
 import { unajIcsKf2015 } from './unaj-ics-kf-2015';
 import { unerFbBioq2025 } from './uner-fb-bioq-2025';
@@ -50,6 +51,7 @@ export const allStudyPlans: StudyPlan[] = [
 	unlamDiitII2023,
 	utnFrcIsi2023,
 	unahurItiLi2016,
+	unahurIePui2024,
 	unajIcsKf2015,
 	unsaFceLf2005,
 	unerFbBioq2025,

@@ -276,9 +276,25 @@ Example: "Geología Aplicada (electiva)" → `name: "Geología Aplicada", tag: c
 
 <course_name_formatting>
 
-**Title Case + Full Names**: Never use ALL CAPS or abbreviations from source documents.
+**Title Case + Full Names**: Never use ALL CAPS or abbreviations from source documents. Apply Spanish title case rules.
 
-- Capitalize major words, lowercase articles/prepositions (de, la, del, y, en, a) unless they start the name
+**Title Case Rules**:
+
+- Capitalize all major words (nouns, verbs, adjectives, adverbs)
+- Keep lowercase: articles (el, la, los, las, un, una), prepositions (de, del, en, a, para, por, con, al), conjunctions (y, e, o, u)
+- Exception: Capitalize these words when they START the name
+- Preserve acronyms in uppercase: UNAHUR, UTN, UBA, ESI, etc.
+
+**Examples**:
+
+- "Lengua inglesa I" → `Lengua Inglesa I`
+- "Didáctica del inglés para el nivel primario" → `Didáctica del Inglés para el Nivel Primario`
+- "Prácticas docentes en el nivel primario" → `Prácticas Docentes en el Nivel Primario`
+- "Asignatura UNAHUR" → `Asignatura UNAHUR` (acronym preserved)
+- "Historia de la Nación Argentina y sus proyectos educativos" → `Historia de la Nación Argentina y sus Proyectos Educativos`
+
+**Additional formatting**:
+
 - Expand all abbreviations: TEOR. → Teoría, PRAC. → Práctica, PSICOL. → Psicología, CLIN. → Clínica
 - Add proper Spanish accents (á, é, í, ó, ú, ñ)
 - Complete truncated names: "INTRODUCCION A LA PSICOLO" → "Introducción a la Psicología"
