@@ -4,6 +4,7 @@ Extract and structure data from a university curriculum document into a `StudyPl
 
 <input_formats>
 The curriculum may be provided as:
+
 - **Images** (JPG/PNG): Screenshots of PDFs - recommended for tables and scanned documents
 - **HTML/Web pages**: Direct web content - works well for online curricula
 - **PDF**: Supported, but verify text extraction is accurate
@@ -32,7 +33,7 @@ export const variableName: StudyPlan = {
   universityName: 'Universidad Nacional de Salta',
   universitySlug: 'UNSa',
   collegeName: 'Facultad de Ciencias Exactas', // Optional - omit if no college structure
-  collegeSlug: 'FCE', // Optional - omit if no college structure  
+  collegeSlug: 'FCE', // Optional - omit if no college structure
   durationYears: 5,
   year: 2005, // Optional - only if plan year is in official documentation
   progress: {
@@ -87,18 +88,28 @@ Each course object:
 
 When the curriculum lists prerequisites WITHOUT specifying requirement types (e.g., just "Correlativas: Matemática I, Física I"), apply the standard Argentine university pattern by creating BOTH requirements for each prerequisite:
 
-| Purpose | State | Meaning |
-|---------|-------|---------|
-| `requiredFor.enroll` | `courseStates.taken` | Regularizada para cursar |
-| `requiredFor.complete` | `courseStates.passed` | Aprobada para rendir |
+| Purpose                | State                 | Meaning                  |
+| ---------------------- | --------------------- | ------------------------ |
+| `requiredFor.enroll`   | `courseStates.taken`  | Regularizada para cursar |
+| `requiredFor.complete` | `courseStates.passed` | Aprobada para rendir     |
 
 Example - curriculum says "Correlativas: Matemática I":
 
 ```javascript
 requirements: [
-  { id: 1, requiredCourseId: 5, requiredState: courseStates.taken, requiredFor: requiredFor.enroll },
-  { id: 2, requiredCourseId: 5, requiredState: courseStates.passed, requiredFor: requiredFor.complete }
-]
+	{
+		id: 1,
+		requiredCourseId: 5,
+		requiredState: courseStates.taken,
+		requiredFor: requiredFor.enroll
+	},
+	{
+		id: 2,
+		requiredCourseId: 5,
+		requiredState: courseStates.passed,
+		requiredFor: requiredFor.complete
+	}
+];
 ```
 
 Only use this default when prerequisite information is unstructured. When detailed columns exist, follow the explicit specifications.
@@ -109,17 +120,18 @@ Only use this default when prerequisite information is unstructured. When detail
 
 Many Argentine universities (especially UTN) use 3-column prerequisite tables. Each column maps differently:
 
-| Column Header | Maps To |
-|---------------|---------|
-| "Para Cursar TENER CURSADA/REGULARIZADA" | `requiredFor.enroll` + `courseStates.taken` |
-| "Para Cursar TENER APROBADA" | `requiredFor.enroll` + `courseStates.passed` |
-| "Para Rendir TENER APROBADA" | `requiredFor.complete` + `courseStates.passed` |
+| Column Header                            | Maps To                                        |
+| ---------------------------------------- | ---------------------------------------------- |
+| "Para Cursar TENER CURSADA/REGULARIZADA" | `requiredFor.enroll` + `courseStates.taken`    |
+| "Para Cursar TENER APROBADA"             | `requiredFor.enroll` + `courseStates.passed`   |
+| "Para Rendir TENER APROBADA"             | `requiredFor.complete` + `courseStates.passed` |
 
 Key insight: Columns 1 and 2 are BOTH enrollment requirements. Only Column 3 is for completion.
 
 Common error: Using `requiredFor.complete` for Column 2. Correct: Column 2 uses `requiredFor.enroll`.
 
 Before writing code, create a prerequisite mapping table:
+
 ```
 PREREQUISITE MAPPING
 ═════════════════════════════════════
@@ -135,6 +147,7 @@ Then verify each course code matches its prerequisites before writing requiremen
 <id_code_synchronization>
 
 When a course has a numeric code, the `id` must match the `code`:
+
 - Numeric codes: `code: '5'` → `id: 5`
 - Non-numeric codes (I1, DA, PPS): Use high IDs (90+)
 - Transversal courses with long institutional codes: Use the code directly as ID
@@ -146,12 +159,12 @@ Benefits: Prerequisites become intuitive (code "18" references `id: 18`), debugg
 
 <special_terms>
 
-| Term | When to Use |
-|------|-------------|
-| `courseTerms.annual` | Explicitly marked "Anual" |
-| `courseTerms.firstSemester` | "1er Semestre", "1° Cuatrimestre", or odd continuous numbers (1,3,5,7,9) |
-| `courseTerms.secondSemester` | "2do Semestre", "2° Cuatrimestre", or even continuous numbers (2,4,6,8,10) |
-| `courseTerms.semestral` | Says "cuatrimestral" or "semestral" WITHOUT specifying 1° or 2° - never guess |
+| Term                         | When to Use                                                                   |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| `courseTerms.annual`         | Explicitly marked "Anual"                                                     |
+| `courseTerms.firstSemester`  | "1er Semestre", "1° Cuatrimestre", or odd continuous numbers (1,3,5,7,9)      |
+| `courseTerms.secondSemester` | "2do Semestre", "2° Cuatrimestre", or even continuous numbers (2,4,6,8,10)    |
+| `courseTerms.semestral`      | Says "cuatrimestral" or "semestral" WITHOUT specifying 1° or 2° - never guess |
 
 Continuous semester numbering: "3er Cuatrimestre" in Year 2 → `term: courseTerms.firstSemester, year: 2`
 
@@ -201,10 +214,12 @@ Courses spanning multiple academic years (e.g., "Año desfasado"):
 <year_range_prerequisites>
 
 Pattern: "1º A 2º año", "Todo 1º A 2º año"
+
 - Expand to ALL individual course IDs from that range
 - Document in notes that redundant requirements were simplified
 
 Pattern: "3° completo", "2do año completo"
+
 - Only courses from THAT specific year, NOT all years up to that point
 - "3° completo" → only year 3 courses, not years 1-3
 
@@ -212,11 +227,11 @@ Pattern: "3° completo", "2do año completo"
 
 <progress_types>
 
-| Type | When to Use | Config |
-|------|-------------|--------|
-| `mandatory-only` | No elective requirements | - |
-| `mandatory-plus-one-elective` | Must complete 1+ elective | `requiredElectiveCount: 1` |
-| `mandatory-plus-elective-count` | Must complete N electives | `requiredElectiveCount: N` |
+| Type                            | When to Use                    | Config                     |
+| ------------------------------- | ------------------------------ | -------------------------- |
+| `mandatory-only`                | No elective requirements       | -                          |
+| `mandatory-plus-one-elective`   | Must complete 1+ elective      | `requiredElectiveCount: 1` |
+| `mandatory-plus-elective-count` | Must complete N electives      | `requiredElectiveCount: N` |
 | `mandatory-plus-elective-hours` | Must complete X elective hours | `requiredElectiveHours: X` |
 
 </progress_types>
@@ -226,6 +241,7 @@ Pattern: "3° completo", "2do año completo"
 **Pattern 1: Optatives in Curriculum** (use `mandatory-only`)
 
 When curriculum lists required courses named "Optativa 1", "Optativa 2":
+
 - Tag the course with `courseTags.optative`
 - Use `progress: { type: 'mandatory-only' }`
 - List available options in notes
@@ -238,6 +254,7 @@ When curriculum lists required courses named "Optativa 1", "Optativa 2":
 **Pattern 2: Separate Electives** (use `mandatory-plus-elective-count`)
 
 When electives are ADDITIONAL to mandatory courses:
+
 - Create separate course objects for each elective option
 - Use appropriate progress type
 
@@ -248,21 +265,35 @@ Ask: "Is 'Optativa 1' a required slot in the curriculum?" YES → Pattern 1, NO 
 <course_name_cleaning>
 
 Remove suffixes and add corresponding tags:
+
 - "(electiva)" → `tag: courseTags.elective`
-- "(integradora)" → `tag: courseTags.integrative`  
+- "(integradora)" → `tag: courseTags.integrative`
 - "(optativa)" → `tag: courseTags.optative`
 
 Example: "Geología Aplicada (electiva)" → `name: "Geología Aplicada", tag: courseTags.elective`
 
 </course_name_cleaning>
 
+<course_name_formatting>
+
+**Title Case + Full Names**: Never use ALL CAPS or abbreviations from source documents.
+
+- Capitalize major words, lowercase articles/prepositions (de, la, del, y, en, a) unless they start the name
+- Expand all abbreviations: TEOR. → Teoría, PRAC. → Práctica, PSICOL. → Psicología, CLIN. → Clínica
+- Add proper Spanish accents (á, é, í, ó, ú, ñ)
+- Complete truncated names: "INTRODUCCION A LA PSICOLO" → "Introducción a la Psicología"
+
+Example: "ESTAD.APLIC.PSICOL.INVEST" → `name: "Estadística Aplicada a la Investigación Psicológica"`
+
+</course_name_formatting>
+
 <slug_conventions>
 
-| Field | Format | Examples |
-|-------|--------|----------|
-| `degreeSlug` | Uppercase acronym | ISI, LF, Arq, CP |
-| `universitySlug` | Official acronym | UTN, UNSa, UNAHUR |
-| `collegeSlug` | Optional, uppercase | FRCU, FCE, ITI |
+| Field            | Format              | Examples          |
+| ---------------- | ------------------- | ----------------- |
+| `degreeSlug`     | Uppercase acronym   | ISI, LF, Arq, CP  |
+| `universitySlug` | Official acronym    | UTN, UNSa, UNAHUR |
+| `collegeSlug`    | Optional, uppercase | FRCU, FCE, ITI    |
 
 Variable name: lowercase concatenation → `utnFrcuIsi2023`, `unsaFceLf2005`
 
@@ -284,6 +315,7 @@ Annual courses: Use annual hours directly.
 <multi_code_parsing>
 
 Extract EVERY code from multi-code cells:
+
 - "2 - 5" → codes 2 AND 5
 - "1, 3, 7" → codes 1, 3, AND 7
 - "INGLÉS II, 11-13-15-16-18-21" → 7 codes total
@@ -301,6 +333,16 @@ Process: Split by commas first, then by dashes within each segment. Create a req
 5. **Cross-validate**: Final course count and distribution must match source
 
 </processing_workflow>
+
+<university_logo>
+
+If this is the FIRST study plan from a university, download the university logo:
+
+1. Search for the official logo (prefer PNG with transparent background)
+2. Save as `/static/{universitySlug.toLowerCase()}.png` (e.g., `ucaece.png`)
+3. The logo will automatically appear in the home page career list
+
+</university_logo>
 
 <error_handling>
 
@@ -444,4 +486,3 @@ export const utnFrcuIsi2023: StudyPlan = {
 </common_errors_to_avoid>
 
 Process the provided curriculum document and generate the complete JavaScript object following this structure.
-
