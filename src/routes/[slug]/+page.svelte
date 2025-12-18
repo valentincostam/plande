@@ -15,7 +15,8 @@
 	import ExportButton from './export-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
-	import { courseStates, decodeCoursesStates } from '$lib/course-state';
+	import { courseStates, decodeCoursesStates, encodeCoursesStates } from '$lib/course-state';
+	import { encodeGrades } from '$lib/grade-encoding';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
@@ -201,6 +202,17 @@
 	const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 	// Canonical URL siempre sin query params y con slug normalizado a lowercase
 	const url = `https://plande.app/${data.slug.toLowerCase()}`;
+
+	// OG Image URL - includes state params for dynamic image
+	// We use initial states from URL because crawlers don't execute JavaScript
+	const ogImageParams = new URLSearchParams();
+	const initialStateLetters =
+		data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
+	const initialGradeLetters = data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
+	if (initialStateLetters) ogImageParams.set('s', initialStateLetters);
+	if (initialGradeLetters) ogImageParams.set('n', initialGradeLetters);
+	const ogImageQuery = ogImageParams.toString();
+	const ogImageUrl = `https://plande.app/${data.slug.toLowerCase()}/og.png${ogImageQuery ? `?${ogImageQuery}` : ''}`;
 </script>
 
 <svelte:head>
@@ -214,11 +226,15 @@
 	<meta property="og:description" content={description} />
 	<meta property="og:url" content={url} />
 	<meta property="og:site_name" content="Plande" />
+	<meta property="og:image" content={ogImageUrl} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 
 	<!-- Twitter Card -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
+	<meta name="twitter:image" content={ogImageUrl} />
 
 	<!-- Structured Data - Course & Organization -->
 	{@html `<script type="application/ld+json">${JSON.stringify({

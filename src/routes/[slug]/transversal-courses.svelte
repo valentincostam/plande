@@ -21,7 +21,9 @@
 		)
 	);
 
-	const defaultTitle = $derived(hasElectiveCourses ? 'Materias Electivas' : 'Materias Transversales');
+	const defaultTitle = $derived(
+		hasElectiveCourses ? 'Materias Electivas' : 'Materias Transversales'
+	);
 
 	const displayTitle = $derived(title ?? defaultTitle);
 
@@ -48,9 +50,9 @@
 
 <article>
 	<header>
-    <h2 class="text-lg font-bold p-3">
-      {displayTitle}
-    </h2>
+		<h2 class="p-3 text-lg font-bold">
+			{displayTitle}
+		</h2>
 	</header>
 
 	{#if annualCourses.length > 0}

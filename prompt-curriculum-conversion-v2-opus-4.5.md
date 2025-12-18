@@ -341,6 +341,17 @@ If this is the FIRST study plan from a university, download the university logo:
 1. Search for the official logo (prefer PNG with transparent background)
 2. Save as `/static/{universitySlug.toLowerCase()}.png` (e.g., `ucaece.png`)
 3. The logo will automatically appear in the home page career list
+4. **Create optimized version for Open Graph images**:
+   ```bash
+   # Resize to max 200px width (maintains aspect ratio)
+   sips --resampleWidth 200 "static/{universitySlug}.png" --out "static/og-logos/{universitySlug}.png"
+   ```
+   For JPEG files renamed as PNG (if `file` command shows "JPEG image data"):
+   ```bash
+   sips -s format png --resampleWidth 200 "static/{universitySlug}.png" --out "static/og-logos/{universitySlug}.png"
+   ```
+   Target size: <20KB (acceptable up to 50KB). Large images can cause OG generation timeouts.
+   Note: Grayscale filter is applied via CSS in the OG image generator.
 
 </university_logo>
 
