@@ -5,8 +5,6 @@ import { studyPlanSlugMap, studyPlanSlugWithYearMap } from '../study-plan-maps';
 import { decodeCoursesStates, courseStates } from '$lib/course-state';
 import { decodeGrades } from '$lib/grade-encoding';
 import { calculateDegreeProgress } from '$lib/degree-progress';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
@@ -81,17 +79,16 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	const planText = studyPlan.year ? `Plan de Estudios ${studyPlan.year}` : 'Plan de Estudios';
 
-	// Load logo as base64
+	// Load logo as base64 from public URL
 	let logoBase64 = '';
 	try {
-		const logoPath = join(
-			process.cwd(),
-			'static',
-			'og-logos',
-			`${studyPlan.universitySlug.toLowerCase()}.png`
-		);
-		const logoBuffer = readFileSync(logoPath);
-		logoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+		const logoUrl = new URL(`/og-logos/${studyPlan.universitySlug.toLowerCase()}.png`, url.origin);
+		const response = await fetch(logoUrl);
+		if (response.ok) {
+			const arrayBuffer = await response.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			logoBase64 = `data:image/png;base64,${buffer.toString('base64')}`;
+		}
 	} catch {
 		// If logo doesn't exist, continue without it
 	}
