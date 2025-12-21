@@ -14,6 +14,7 @@
 		isEnabled?: boolean;
 		canPass: boolean;
 		onchange?: (event: Event) => void;
+		onkeydown?: (event: KeyboardEvent) => void;
 		gender?: 'femenine' | 'masculine';
 	};
 
@@ -22,6 +23,7 @@
 		isEnabled = true,
 		value = $bindable(),
 		onchange,
+		onkeydown,
 		gender = 'femenine',
 		canPass
 	}: Props = $props();
@@ -38,6 +40,8 @@
 	{id}
 	bind:value
 	{onchange}
+	{onkeydown}
+	aria-keyshortcuts="n e r a"
 	disabled={!isEnabled}
 	class={[
 		stateSelectBackgroundColors[value],

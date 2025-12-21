@@ -4,6 +4,7 @@
 		courseBgColors,
 		courseNameColors,
 		courseStates,
+		courseStatesFromInitials,
 		hoursColors,
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
@@ -55,6 +56,19 @@
 		}
 	}
 
+	function onkeydown(e: KeyboardEvent) {
+		if (!course.isEnabled) return;
+
+		const key = e.key.toUpperCase();
+		const newState = courseStatesFromInitials[key as keyof typeof courseStatesFromInitials];
+
+		if (!newState) return;
+		if (newState === courseStates.passed && !course.canPass) return;
+
+		e.preventDefault();
+		course.state = newState;
+	}
+
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 
 	const hasRequirementsForCompletion = $derived(course.requirementsForCompletion.length > 0);
@@ -73,6 +87,8 @@
 	<div class="flex items-center pr-3">
 		<button
 			{onclick}
+			{onkeydown}
+			aria-keyshortcuts="n e r a"
 			class={[
 				!course.isEnabled && 'pr-0',
 				'flex grow cursor-pointer items-center gap-3 p-3 focus:outline-none'
@@ -126,6 +142,7 @@
 				id={`${toKebabCase(course.name)}-state-select`}
 				bind:value={course.state}
 				canPass={course.canPass}
+				{onkeydown}
 			/>
 		{/if}
 	</div>
