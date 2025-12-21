@@ -75,13 +75,16 @@ export function calculateDegreeProgress(
 			);
 			const cappedElectiveHours = Math.min(passedElectiveHours, requiredHours);
 
-			// Calculate progress based on total number of courses for more intuitive percentage
-			const totalCourses = courses.length;
-			const mandatoryWeight = mandatoryCourses.length / totalCourses;
-			const electiveWeight = electiveCourses.length / totalCourses;
+			// Convert required elective hours to equivalent units (~4hs per unit)
+			// This gives mandatory courses proper weight over electives
+			const electiveEquivalentUnits = Math.ceil(requiredHours / 4);
+			const totalUnitsNeeded = mandatoryCourses.length + electiveEquivalentUnits;
+			const mandatoryWeight = mandatoryCourses.length / totalUnitsNeeded;
+			const electiveWeight = electiveEquivalentUnits / totalUnitsNeeded;
 
 			// Mandatory progress: simple proportion of passed mandatory courses
-			const mandatoryProgress = passedMandatoryCourses.length / mandatoryCourses.length;
+			const mandatoryProgress =
+				mandatoryCourses.length > 0 ? passedMandatoryCourses.length / mandatoryCourses.length : 0;
 
 			// Elective progress: based on required hours vs passed hours
 			const electiveProgress = requiredHours > 0 ? cappedElectiveHours / requiredHours : 0;
@@ -90,9 +93,9 @@ export function calculateDegreeProgress(
 			const weightedProgress =
 				mandatoryProgress * mandatoryWeight + electiveProgress * electiveWeight;
 
-			// For display purposes, scale to total courses
-			completedUnits = Math.round(weightedProgress * totalCourses);
-			totalUnits = totalCourses;
+			// For display purposes, scale to total units needed
+			completedUnits = Math.round(weightedProgress * totalUnitsNeeded);
+			totalUnits = totalUnitsNeeded;
 			break;
 		}
 	}
