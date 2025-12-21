@@ -19,33 +19,30 @@
 	import { encodeGrades } from '$lib/grade-encoding';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, untrack } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
 	import TransversalCourses from './transversal-courses.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
+	import ViewToggle from './view-toggle.svelte';
+	import CourseDiagram from './diagram/course-diagram.svelte';
 
 	let { data }: PageProps = $props();
 
-	const initialCoursesStates = data.coursesStates;
-	const initialCoursesGrades = data.coursesGrades;
-	const initialIsStrictModeEnabled = data.isStrictModeEnabled;
-	const initialShowCodes = data.showCodes;
+	let viewMode = $state<'list' | 'diagram'>('list');
 
-	let isStrictModeEnabled = $state(initialIsStrictModeEnabled);
-	let showCodes = $state(initialShowCodes);
+	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
+	let isStrictModeEnabled = $state(untrack(() => data.isStrictModeEnabled));
+	let showCodes = $state(untrack(() => data.showCodes));
 	let isInitializing = $state(true);
 
-	const courses = createCourses(
-		data.studyPlan.courses,
-		initialCoursesStates,
-		() => isStrictModeEnabled,
-		initialCoursesGrades
+	const courses = untrack(() =>
+		createCourses(data.studyPlan.courses, data.coursesStates, () => isStrictModeEnabled, data.coursesGrades)
 	);
 
 	let isRouterReady = $state(false);
 
-	const storageKey = `plande-${data.slug}`;
+	const storageKey = $derived(`plande-${data.slug}`);
 
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
@@ -99,7 +96,7 @@
 			const parsed = JSON.parse(savedData);
 
 			// Load grades from localStorage only if not in URL
-			if (initialCoursesGrades.length === 0 && parsed.grades) {
+			if (data.coursesGrades.length === 0 && parsed.grades) {
 				courses.forEach((course, index) => {
 					if (index < parsed.grades.length) {
 						course.grade = parsed.grades[index] ?? undefined;
@@ -108,7 +105,7 @@
 			}
 
 			// Load states from localStorage only if not in URL
-			if (initialCoursesStates.length === 0) {
+			if (data.coursesStates.length === 0) {
 				const decodedStates = decodeCoursesStates(parsed.coursesStates);
 
 				courses.forEach((course, index) => {
@@ -147,9 +144,11 @@
 		localStorage.removeItem(storageKey);
 	}
 
-	const years = createYears(data.studyPlan.durationYears, courses);
+	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
-	const transversalCourses = courses.filter((course) => course.year === TRANSVERSAL_YEAR);
+	const transversalCourses = $derived(
+		courses.filter((course) => course.year === TRANSVERSAL_YEAR)
+	);
 
 	const notTakenCourses = $derived(
 		courses.filter((course) => course.state === courseStates.notTaken)
@@ -192,62 +191,65 @@
 		)
 	);
 
-	// Título optimizado para SEO: máximo 60 caracteres, formato "Carrera - Universidad | Plande"
-	const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
-	const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
-	const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
-	const title = `${data.studyPlan.degreeName} - ${institution} | Plande`;
+	// SEO metadata - derived from data
+	const seo = $derived.by(() => {
+		const collegeAbbr = data.studyPlan.collegeSlug
+			? data.studyPlan.collegeSlug.toUpperCase()
+			: '';
+		const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
+		const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
+		const title = `${data.studyPlan.degreeName} - ${institution} | Plande`;
+		const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
+		const url = `https://plande.app/${data.slug.toLowerCase()}`;
 
-	// Descripción optimizada: máximo 160 caracteres, incluye keywords relevantes
-	const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
-	// Canonical URL siempre sin query params y con slug normalizado a lowercase
-	const url = `https://plande.app/${data.slug.toLowerCase()}`;
+		// OG Image URL
+		const ogImageParams = new URLSearchParams();
+		const initialStateLetters =
+			data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
+		const initialGradeLetters =
+			data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
+		if (initialStateLetters) ogImageParams.set('s', initialStateLetters);
+		if (initialGradeLetters) ogImageParams.set('n', initialGradeLetters);
+		const ogImageQuery = ogImageParams.toString();
+		const ogImageUrl = `https://plande.app/${data.slug.toLowerCase()}/og.png${ogImageQuery ? `?${ogImageQuery}` : ''}`;
 
-	// OG Image URL - includes state params for dynamic image
-	// We use initial states from URL because crawlers don't execute JavaScript
-	const ogImageParams = new URLSearchParams();
-	const initialStateLetters =
-		data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
-	const initialGradeLetters = data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
-	if (initialStateLetters) ogImageParams.set('s', initialStateLetters);
-	if (initialGradeLetters) ogImageParams.set('n', initialGradeLetters);
-	const ogImageQuery = ogImageParams.toString();
-	const ogImageUrl = `https://plande.app/${data.slug.toLowerCase()}/og.png${ogImageQuery ? `?${ogImageQuery}` : ''}`;
+		return { title, description, url, ogImageUrl };
+	});
 </script>
 
 <svelte:head>
-	<title>{title}</title>
-	<meta name="description" content={description} />
-	<link rel="canonical" href={url} />
+	<title>{seo.title}</title>
+	<meta name="description" content={seo.description} />
+	<link rel="canonical" href={seo.url} />
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content={title} />
-	<meta property="og:description" content={description} />
-	<meta property="og:url" content={url} />
+	<meta property="og:title" content={seo.title} />
+	<meta property="og:description" content={seo.description} />
+	<meta property="og:url" content={seo.url} />
 	<meta property="og:site_name" content="Plande" />
-	<meta property="og:image" content={ogImageUrl} />
+	<meta property="og:image" content={seo.ogImageUrl} />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={title} />
-	<meta name="twitter:description" content={description} />
-	<meta name="twitter:image" content={ogImageUrl} />
+	<meta name="twitter:title" content={seo.title} />
+	<meta name="twitter:description" content={seo.description} />
+	<meta name="twitter:image" content={seo.ogImageUrl} />
 
 	<!-- Structured Data - Course & Organization -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',
 		name: data.studyPlan.degreeName,
-		description: description,
+		description: seo.description,
 		provider: {
 			'@type': 'CollegeOrUniversity',
 			name: getFullCollegeName(data.studyPlan)
 		},
 		educationalLevel: 'Undergraduate',
-		url: url,
+		url: seo.url,
 		inLanguage: 'es'
 	})}<\/script>`}
 
@@ -265,7 +267,7 @@
 				'@type': 'ListItem',
 				position: 2,
 				name: data.studyPlan.degreeName,
-				item: url
+				item: seo.url
 			}
 		]
 	})}<\/script>`}
@@ -283,23 +285,30 @@
 			{data.studyPlan.collegeSlug ?? ''}
 		</p>
 		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
+		<div class="mt-4 flex justify-center">
+			<ViewToggle bind:value={viewMode} />
+		</div>
 	</header>
 
 	<main class="grid gap-9">
-		{#each years as year, index}
-			<Year
-				{year}
-				{showCodes}
-				showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
-			/>
-		{/each}
+		{#if viewMode === 'diagram'}
+			<CourseDiagram {courses} />
+		{:else}
+			{#each years as year, index}
+				<Year
+					{year}
+					{showCodes}
+					showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
+				/>
+			{/each}
 
-		{#if transversalCourses.length > 0}
-			<TransversalCourses courses={transversalCourses} {showCodes} />
+			{#if transversalCourses.length > 0}
+				<TransversalCourses courses={transversalCourses} {showCodes} />
+			{/if}
 		{/if}
 
 		<section class="grid gap-3 px-3">
-			<ShareButton {title} />
+			<ShareButton title={seo.title} />
 			<CopyLinkButton />
 		</section>
 

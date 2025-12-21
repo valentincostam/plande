@@ -20,7 +20,7 @@
 		purple: { avatar: 'bg-purple-400', name: 'text-purple-500' }
 	};
 
-	const initial = author.charAt(0).toUpperCase();
+	const initial = $derived(author.charAt(0).toUpperCase());
 </script>
 
 {#if isOutgoing}

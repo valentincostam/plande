@@ -5,7 +5,7 @@
 
 	let { college = 'universidad' }: Props = $props();
 
-	const isFemenine = college.split(' ')[0].toLowerCase() === 'facultad';
+	const isFemenine = $derived(college.split(' ')[0].toLowerCase() === 'facultad');
 </script>
 
 <section>

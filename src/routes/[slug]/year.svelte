@@ -18,24 +18,34 @@
 
 	let selectValue = $state<CourseState | ''>('');
 
-	const annualCourses = year.courses.filter(
-		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annual
+	const annualCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annual
+		)
 	);
 
-	const firstSemesterCourses = year.courses.filter(
-		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.firstSemester
+	const firstSemesterCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.firstSemester
+		)
 	);
 
-	const secondSemesterCourses = year.courses.filter(
-		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.secondSemester
+	const secondSemesterCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.secondSemester
+		)
 	);
 
-	const semestralCourses = year.courses.filter(
-		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral
+	const semestralCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.semestral
+		)
 	);
 
-	const unknownCourses = year.courses.filter(
-		(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.unknown
+	const unknownCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.unknown
+		)
 	);
 
 	const onchange = (event: Event) => {

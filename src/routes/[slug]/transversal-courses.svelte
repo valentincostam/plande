@@ -27,24 +27,24 @@
 
 	const displayTitle = $derived(title ?? defaultTitle);
 
-	const annualCourses = courses.filter(
-		(course) => getCourseEffectiveTerm(course) === courseTerms.annual
+	const annualCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.annual)
 	);
 
-	const firstSemesterCourses = courses.filter(
-		(course) => getCourseEffectiveTerm(course) === courseTerms.firstSemester
+	const firstSemesterCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.firstSemester)
 	);
 
-	const secondSemesterCourses = courses.filter(
-		(course) => getCourseEffectiveTerm(course) === courseTerms.secondSemester
+	const secondSemesterCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.secondSemester)
 	);
 
-	const semestralCourses = courses.filter(
-		(course) => getCourseEffectiveTerm(course) === courseTerms.semestral
+	const semestralCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.semestral)
 	);
 
-	const unknownCourses = courses.filter(
-		(course) => getCourseEffectiveTerm(course) === courseTerms.unknown
+	const unknownCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.unknown)
 	);
 </script>
 

@@ -9,10 +9,10 @@
 
 	let { time, isOutgoing = false, children }: Props = $props();
 
-	const bgColor = isOutgoing ? 'bg-[#D9FDD3]' : 'bg-white';
-	const rounded = isOutgoing ? 'rounded-tr-none' : 'rounded-tl-none';
-	const triangleColor = isOutgoing ? 'text-[#D9FDD3]' : 'text-white';
-	const trianglePosition = isOutgoing ? '-right-2' : '-left-2';
+	const bgColor = $derived(isOutgoing ? 'bg-[#D9FDD3]' : 'bg-white');
+	const rounded = $derived(isOutgoing ? 'rounded-tr-none' : 'rounded-tl-none');
+	const triangleColor = $derived(isOutgoing ? 'text-[#D9FDD3]' : 'text-white');
+	const trianglePosition = $derived(isOutgoing ? '-right-2' : '-left-2');
 </script>
 
 <div

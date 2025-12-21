@@ -52,7 +52,7 @@
 
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 
-	const hasRequirementsForCompletion = course.requirementsForCompletion.length > 0;
+	const hasRequirementsForCompletion = $derived(course.requirementsForCompletion.length > 0);
 </script>
 
 <li

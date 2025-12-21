@@ -14,11 +14,11 @@
 
 	let { courses, years, progress }: Props = $props();
 
-	const someCourseHasHours = courses.some((course) => course.hours);
+	const someCourseHasHours = $derived(courses.some((course) => course.hours));
 
-	const hasOptativeCourses = courses.some((course) => course.tag === courseTags.optative);
+	const hasOptativeCourses = $derived(courses.some((course) => course.tag === courseTags.optative));
 
-	const hasElectiveCourses = courses.some((course) => course.tag === courseTags.elective);
+	const hasElectiveCourses = $derived(courses.some((course) => course.tag === courseTags.elective));
 
 	const passedCourses = $derived(courses.filter((course) => course.state === courseStates.passed));
 
@@ -30,8 +30,10 @@
 			.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
 
-	const electiveCourses = courses.filter(
-		(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
+	const electiveCourses = $derived(
+		courses.filter(
+			(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
+		)
 	);
 
 	const passedElectiveCourses = $derived(
