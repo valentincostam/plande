@@ -228,4 +228,20 @@ export const createCourses = (
 	return courses;
 };
 
+export const countAllDependents = (course: Course): number => {
+	const visited = new Set<number>();
+	const queue: Course[] = [course];
+
+	while (queue.length > 0) {
+		const current = queue.shift()!;
+		for (const dep of current.dependents) {
+			if (visited.has(dep.dependentCourse.id)) continue;
+			visited.add(dep.dependentCourse.id);
+			queue.push(dep.dependentCourse);
+		}
+	}
+
+	return visited.size;
+};
+
 export const toKebabCase = (name: string) => name.replace(/\s+/g, '-');

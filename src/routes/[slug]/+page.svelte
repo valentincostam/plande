@@ -150,42 +150,42 @@
 		courses.filter((course) => course.year === TRANSVERSAL_YEAR)
 	);
 
-	const notTakenCourses = $derived(
+	const notTakenCourses = $derived.by(() =>
 		courses.filter((course) => course.state === courseStates.notTaken)
 	);
 
-	const availableCourses = $derived(notTakenCourses.filter((course) => course.isEnabled));
+	const availableCourses = $derived.by(() => notTakenCourses.filter((course) => course.isEnabled));
 
 	const areAllCoursesAvailable = $derived(
 		(availableCourses.length > 0 && availableCourses.length === courses.length) ||
 			!isStrictModeEnabled
 	);
 
-	const annualAvailableCourses = $derived(
+	const annualAvailableCourses = $derived.by(() =>
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annual
 		)
 	);
 
-	const firstSemesterAvailableCourses = $derived(
+	const firstSemesterAvailableCourses = $derived.by(() =>
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.firstSemester
 		)
 	);
 
-	const secondSemesterAvailableCourses = $derived(
+	const secondSemesterAvailableCourses = $derived.by(() =>
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.secondSemester
 		)
 	);
 
-	const semestralAvailableCourses = $derived(
+	const semestralAvailableCourses = $derived.by(() =>
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.semestral
 		)
 	);
 
-	const unknownAvailableCourses = $derived(
+	const unknownAvailableCourses = $derived.by(() =>
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.unknown
 		)
@@ -330,6 +330,7 @@
 						{:else}
 							En tu situación actual, estas son las {availableCourses.length} materias que podés cursar.
 						{/if}
+						El número entre paréntesis indica cuántas materias desbloquea.
 					</p>
 					<AvailableCoursesTerm
 						title={courseTermLabels[courseTerms.annual]}

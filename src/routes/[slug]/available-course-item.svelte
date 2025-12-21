@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { courseTagLabels, courseTags } from '$lib/course-tag';
 	import type { Course } from '$lib/course.svelte';
-	import { toKebabCase, TRANSVERSAL_YEAR } from '$lib/course.svelte';
+	import { toKebabCase, TRANSVERSAL_YEAR, countAllDependents } from '$lib/course.svelte';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 
@@ -11,6 +11,8 @@
 	};
 
 	let { course, showCodes = false }: Props = $props();
+
+	const totalDependents = $derived(countAllDependents(course));
 </script>
 
 <li>
@@ -41,5 +43,8 @@
 		<span class="whitespace-nowrap">
 			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año
 		</span>
+	{/if}
+	{#if totalDependents > 0}
+		<span class="text-gray-400">({totalDependents})</span>
 	{/if}
 </li>

@@ -7,7 +7,12 @@
 		hoursColors,
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
-	import { toKebabCase, type Course, TRANSVERSAL_YEAR } from '$lib/course.svelte';
+	import {
+		toKebabCase,
+		type Course,
+		TRANSVERSAL_YEAR,
+		countAllDependents
+	} from '$lib/course.svelte';
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import Requirement from './requirement.svelte';
@@ -53,6 +58,8 @@
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 
 	const hasRequirementsForCompletion = $derived(course.requirementsForCompletion.length > 0);
+	const totalDependentsCount = $derived(countAllDependents(course));
+	const indirectDependentsCount = $derived(totalDependentsCount - course.dependents.length);
 </script>
 
 <li
@@ -201,6 +208,19 @@
 				{:else}
 					<li>
 						<strong>Materias que desbloquea:</strong> Ninguna
+					</li>
+				{/if}
+				{#if course.dependents.length > 0}
+					<li>
+						<strong>Cantidad total de materias que desbloquea:</strong>
+						{totalDependentsCount}
+						{#if indirectDependentsCount > 0}
+							<span class="text-gray-500"
+								>(<span class="whitespace-nowrap">{course.dependents.length} directamente</span>,
+								<span class="whitespace-nowrap">{indirectDependentsCount} indirectamente</span
+								>)</span
+							>
+						{/if}
 					</li>
 				{/if}
 			</ul>
