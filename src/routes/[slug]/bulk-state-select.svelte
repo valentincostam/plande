@@ -2,7 +2,9 @@
 	import {
 		courseStates,
 		pluralFemenineCourseStateLabels,
-		type CourseState
+		type CourseState,
+		courseBgColors,
+		courseNameColors
 	} from '$lib/course-state';
 	import type { Course } from '$lib/course.svelte';
 	import WandIcon from './wand-icon.svelte';
@@ -36,7 +38,10 @@
 		<option value="" disabled>Cambiar materias a...</option>
 
 		{#each Object.values(courseStates) as state}
-			<option value={state} disabled={!canPass && state === courseStates.passed}
+			<option
+				value={state}
+				disabled={!canPass && state === courseStates.passed}
+				class={[courseBgColors[state], courseNameColors[state]]}
 				>{pluralFemenineCourseStateLabels[state]}</option
 			>
 		{/each}
