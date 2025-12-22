@@ -101,7 +101,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	// Average HTML section
 	const averageSection =
 		average !== undefined && average > 0
-			? `<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
+			? `<div style="display: flex; width: 5px; height: 100px; background-color: #e5e7eb"></div>
 			   <div style="display: flex; flex-direction: column; align-items: center">
 				   <span style="font-size: 62px; font-weight: 700; color: #111827">${average.toFixed(2).replace('.', ',')}</span>
 				   <span style="font-size: 21px; color: #6b7280">Promedio</span>
@@ -123,12 +123,12 @@ export const GET: RequestHandler = async ({ params, url }) => {
 				<span style="font-size: 62px; font-weight: 700; color: #16a34a">${Math.round(progress.percentage)}%</span>
 				<span style="font-size: 21px; color: #6b7280">Avance</span>
 			</div>
-			<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
+			<div style="display: flex; width: 5px; height: 100px; background-color: #e5e7eb"></div>
 			<div style="display: flex; flex-direction: column; align-items: center">
 				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedCourses}</span><span style="color: #9ca3af">/${totalCourses}</span></span>
 				<span style="font-size: 21px; color: #6b7280">Materias aprobadas</span>
 			</div>
-			<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
+			<div style="display: flex; width: 5px; height: 100px; background-color: #e5e7eb"></div>
 			<div style="display: flex; flex-direction: column; align-items: center">
 				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedYears}</span><span style="color: #9ca3af">/${studyPlan.durationYears}</span></span>
 				<span style="font-size: 21px; color: #6b7280">Años aprobados</span>
