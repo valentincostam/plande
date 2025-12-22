@@ -6,9 +6,10 @@
 		title?: string;
 		courses: Course[];
 		showCodes?: boolean;
+		hideTagForTransversal?: boolean;
 	};
 
-	let { title, courses, showCodes = false }: Props = $props();
+	let { title, courses, showCodes = false, hideTagForTransversal = false }: Props = $props();
 </script>
 
 {#if courses.length > 0}
@@ -22,7 +23,7 @@
 		{/if}
 		<ul class="grid list-disc gap-2 px-9">
 			{#each courses as course}
-				<AvailableCourseItem {course} {showCodes} />
+				<AvailableCourseItem {course} {showCodes} {hideTagForTransversal} />
 			{/each}
 		</ul>
 	</div>

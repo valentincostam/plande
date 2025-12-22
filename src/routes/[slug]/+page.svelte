@@ -427,6 +427,7 @@
 						title="Materias electivas"
 						courses={unknownAvailableCourses}
 						{showCodes}
+						hideTagForTransversal
 					/>
 				</div>
 			{/if}

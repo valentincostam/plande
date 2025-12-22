@@ -8,9 +8,10 @@
 	type Props = {
 		course: Course;
 		showCodes?: boolean;
+		hideTagForTransversal?: boolean;
 	};
 
-	let { course, showCodes = false }: Props = $props();
+	let { course, showCodes = false, hideTagForTransversal = false }: Props = $props();
 
 	const totalDependents = $derived(countAllDependents(course));
 </script>
@@ -26,20 +27,18 @@
 		{/if}
 		{course.name}
 	</a>
-	{#if course.tag === courseTags.elective}
-		({courseTagLabels[course.tag].toLowerCase()})
-	{:else if course.tag === courseTags.optative}
-		({courseTagLabels[course.tag].toLowerCase()})
-	{/if}
 	{#if course.year === TRANSVERSAL_YEAR}
-		{#if course.tag === courseTags.elective}
-			({courseTagLabels[course.tag].toLowerCase()})
-		{:else if course.tag === courseTags.optative}
-			({courseTagLabels[course.tag].toLowerCase()})
+		{#if course.tag === courseTags.elective || course.tag === courseTags.optative}
+			{#if !hideTagForTransversal}
+				({courseTagLabels[course.tag].toLowerCase()})
+			{/if}
 		{:else}
 			(transversal)
 		{/if}
 	{:else}
+		{#if course.tag === courseTags.elective || course.tag === courseTags.optative}
+			({courseTagLabels[course.tag].toLowerCase()})
+		{/if}
 		<span class="whitespace-nowrap">
 			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año
 		</span>
