@@ -265,20 +265,22 @@
 			: '';
 		const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
 		const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
-		const title = `${data.studyPlan.degreeName} - ${institution} | Plande`;
+		const title = `${data.studyPlan.degreeName} ・ ${institution} ・ Plande`;
 		const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
-		const url = `https://plande.app/${data.slug.toLowerCase()}`;
 
-		// OG Image URL
-		const ogImageParams = new URLSearchParams();
+		// Build query params for OG URLs
+		const ogParams = new URLSearchParams();
 		const initialStateLetters =
 			data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
 		const initialGradeLetters =
 			data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
-		if (initialStateLetters) ogImageParams.set('s', initialStateLetters);
-		if (initialGradeLetters) ogImageParams.set('n', initialGradeLetters);
-		const ogImageQuery = ogImageParams.toString();
-		const ogImageUrl = `https://plande.app/${data.slug.toLowerCase()}/og.png${ogImageQuery ? `?${ogImageQuery}` : ''}`;
+		if (initialStateLetters) ogParams.set('s', initialStateLetters);
+		if (initialGradeLetters) ogParams.set('n', initialGradeLetters);
+		const ogQuery = ogParams.toString();
+
+		// Include query params in URLs so progress is preserved when sharing
+		const url = `https://plande.app/${data.slug.toLowerCase()}${ogQuery ? `?${ogQuery}` : ''}`;
+		const ogImageUrl = `https://plande.app/${data.slug.toLowerCase()}/og.png${ogQuery ? `?${ogQuery}` : ''}`;
 
 		return { title, description, url, ogImageUrl };
 	});

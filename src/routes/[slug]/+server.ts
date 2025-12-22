@@ -51,7 +51,7 @@ function generateOGResponse(
 	const universityAbbr = studyPlan.universitySlug.toUpperCase();
 	const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
 
-	const title = `${studyPlan.degreeName} - ${institution} | Plande`;
+	const title = `${studyPlan.degreeName} ・ ${institution} ・ Plande`;
 	const description = `Plan de Estudios de ${studyPlan.degreeName} en ${studyPlan.universityName}${studyPlan.collegeName ? ` · ${studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 
 	// Build query params for OG URLs
