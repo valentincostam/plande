@@ -138,8 +138,7 @@
 	style={isFullscreen
 		? 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100dvh; z-index: 9999;'
 		: ''}
-	onkeydown={(e) => e.key === 'Escape' && isFullscreen && (isFullscreen = false)}
->
+	>
 	<SvelteFlow
 		{nodes}
 		{edges}

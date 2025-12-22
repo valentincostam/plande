@@ -5,16 +5,28 @@
 
 	const { fitView } = useSvelteFlow();
 
-	function toggleFullscreen() {
-		isFullscreen = !isFullscreen;
-		setTimeout(() => {
-			fitView({ padding: 0.2, duration: 0 });
-		}, 50);
+	function setFullscreen(value: boolean) {
+		isFullscreen = value;
+		setTimeout(() => fitView({ padding: 0.2, duration: 0 }), 50);
 	}
+
+	// Listen for Escape key to exit fullscreen with fitView
+	$effect(() => {
+		if (!isFullscreen) return;
+
+		function handleKeydown(e: KeyboardEvent) {
+			if (e.key === 'Escape') {
+				setFullscreen(false);
+			}
+		}
+
+		window.addEventListener('keydown', handleKeydown);
+		return () => window.removeEventListener('keydown', handleKeydown);
+	});
 </script>
 
 <ControlButton
-	onclick={toggleFullscreen}
+	onclick={() => setFullscreen(!isFullscreen)}
 	title={isFullscreen ? 'Salir de pantalla completa (Esc)' : 'Pantalla completa'}
 >
 	{#if isFullscreen}
