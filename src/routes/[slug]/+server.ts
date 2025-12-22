@@ -53,16 +53,18 @@ function generateOGResponse(
 
 	const title = `${studyPlan.degreeName} - ${institution} | Plande`;
 	const description = `Plan de Estudios de ${studyPlan.degreeName} en ${studyPlan.universityName}${studyPlan.collegeName ? ` · ${studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
-	const canonicalUrl = `https://plande.app/${slug.toLowerCase()}`;
 
-	// Build OG image URL with query params if present
-	const ogImageParams = new URLSearchParams();
+	// Build query params for OG URLs
+	const ogParams = new URLSearchParams();
 	const stateParam = url.searchParams.get('s') || url.searchParams.get('estado');
 	const gradeParam = url.searchParams.get('n') || url.searchParams.get('notas');
-	if (stateParam) ogImageParams.set('s', stateParam);
-	if (gradeParam) ogImageParams.set('n', gradeParam);
-	const ogImageQuery = ogImageParams.toString();
-	const ogImageUrl = `https://plande.app/${slug.toLowerCase()}/og.png${ogImageQuery ? `?${ogImageQuery}` : ''}`;
+	if (stateParam) ogParams.set('s', stateParam);
+	if (gradeParam) ogParams.set('n', gradeParam);
+	const ogQuery = ogParams.toString();
+
+	// Include query params in canonical/og URLs so progress is preserved
+	const canonicalUrl = `https://plande.app/${slug.toLowerCase()}${ogQuery ? `?${ogQuery}` : ''}`;
+	const ogImageUrl = `https://plande.app/${slug.toLowerCase()}/og.png${ogQuery ? `?${ogQuery}` : ''}`;
 
 	const html = `<!DOCTYPE html>
 <html lang="es">
