@@ -95,16 +95,16 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	// Logo HTML (positioned top-right with same margins as content)
 	const logoHtml = logoBase64
-		? `<img src="${logoBase64}" style="position: absolute; top: 48px; right: 56px; max-width: 150px; max-height: 100px; object-fit: contain; opacity: 0.3; filter: grayscale(1)" />`
+		? `<img src="${logoBase64}" style="position: absolute; top: 40px; right: 56px; max-width: 225px; max-height: 150px; object-fit: contain; opacity: 0.3; filter: grayscale(1)" />`
 		: '';
 
 	// Average HTML section
 	const averageSection =
 		average !== undefined && average > 0
-			? `<div style="display: flex; width: 1px; height: 60px; background-color: #e5e7eb"></div>
+			? `<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
 			   <div style="display: flex; flex-direction: column; align-items: center">
-				   <span style="font-size: 48px; font-weight: 700; color: #111827">${average.toFixed(2)}</span>
-				   <span style="font-size: 16px; color: #6b7280">Promedio</span>
+				   <span style="font-size: 62px; font-weight: 700; color: #111827">${average.toFixed(2).replace('.', ',')}</span>
+				   <span style="font-size: 21px; color: #6b7280">Promedio</span>
 			   </div>`
 			: '';
 
@@ -113,31 +113,31 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	${logoHtml}
 	<div style="display: flex; flex-direction: column; flex: 1; padding: 48px 56px 32px 56px">
 		<div style="display: flex; flex-direction: column">
-			<span style="font-size: 20px; color: #1e40af">plande.app</span>
-			<span style="font-size: 24px; color: #6b7280; margin-top: 8px">${institution} · ${planText}</span>
+			<span style="font-size: 30px; color: #1e40af">plande.app</span>
+			<span style="font-size: 36px; color: #6b7280; margin-top: 12px">${institution} · ${planText}</span>
 			<span style="font-size: 56px; font-weight: 700; color: #111827; margin-top: 8px; max-width: 850px">${studyPlan.degreeName}</span>
 		</div>
 		
-		<div style="display: flex; align-items: flex-end; gap: 48px; margin-top: auto; padding: 32px 0">
+		<div style="display: flex; align-items: flex-end; gap: 62px; margin-top: auto; padding: 32px 0">
 			<div style="display: flex; flex-direction: column; align-items: center">
-				<span style="font-size: 48px; font-weight: 700; color: #16a34a">${Math.round(progress.percentage)}%</span>
-				<span style="font-size: 16px; color: #6b7280">Avance</span>
+				<span style="font-size: 62px; font-weight: 700; color: #16a34a">${Math.round(progress.percentage)}%</span>
+				<span style="font-size: 21px; color: #6b7280">Avance</span>
 			</div>
-			<div style="display: flex; width: 1px; height: 60px; background-color: #e5e7eb"></div>
+			<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
 			<div style="display: flex; flex-direction: column; align-items: center">
-				<span style="font-size: 48px; font-weight: 700"><span style="color: #111827">${passedCourses}</span><span style="color: #9ca3af">/${totalCourses}</span></span>
-				<span style="font-size: 16px; color: #6b7280">Materias aprobadas</span>
+				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedCourses}</span><span style="color: #9ca3af">/${totalCourses}</span></span>
+				<span style="font-size: 21px; color: #6b7280">Materias aprobadas</span>
 			</div>
-			<div style="display: flex; width: 1px; height: 60px; background-color: #e5e7eb"></div>
+			<div style="display: flex; width: 1px; height: 100px; background-color: #e5e7eb"></div>
 			<div style="display: flex; flex-direction: column; align-items: center">
-				<span style="font-size: 48px; font-weight: 700"><span style="color: #111827">${passedYears}</span><span style="color: #9ca3af">/${studyPlan.durationYears}</span></span>
-				<span style="font-size: 16px; color: #6b7280">Años aprobados</span>
+				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedYears}</span><span style="color: #9ca3af">/${studyPlan.durationYears}</span></span>
+				<span style="font-size: 21px; color: #6b7280">Años aprobados</span>
 			</div>
 			${averageSection}
 		</div>
 	</div>
 	
-	<div style="display: flex; width: 100%; height: 16px">
+	<div style="display: flex; width: 100%; height: 32px">
 		<div style="display: flex; height: 100%; background-color: #d1d5db; flex-grow: ${stateDistribution.notTaken}"></div>
 		<div style="display: flex; height: 100%; background-color: #60a5fa; flex-grow: ${stateDistribution.inProgress}"></div>
 		<div style="display: flex; height: 100%; background-color: #fbbf24; flex-grow: ${stateDistribution.taken}"></div>
