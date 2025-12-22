@@ -16,6 +16,17 @@
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
 	import { courseStates, decodeCoursesStates, encodeCoursesStates } from '$lib/course-state';
+	import {
+		pushState as pushHistoryState,
+		undo as historyUndo,
+		redo as historyRedo,
+		getCanUndo,
+		getCanRedo,
+		getIsApplyingHistory,
+		clearIsApplyingHistory,
+		resetHistory
+	} from '$lib/state-history.svelte';
+	import UndoRedoButtons from './undo-redo-buttons.svelte';
 	import { encodeGrades } from '$lib/grade-encoding';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
@@ -58,13 +69,20 @@
 
 		if (!browser) return;
 
+		// Track state changes for undo/redo
+		const encodedStates = encodeCoursesStates(coursesStates);
+    
+		if (!getIsApplyingHistory()) {
+			pushHistoryState(encodedStates);
+		} else {
+			clearIsApplyingHistory();
+		}
+
 		tick().then(() => {
 			replaceState(
 				urlSearchParams.toString() ? `?${urlSearchParams}` : window.location.pathname,
 				{}
 			);
-
-			const encodedStates = urlSearchParams.get(urlStateParameters.state);
 
 			const storageData = {
 				coursesStates: encodedStates,
@@ -142,7 +160,56 @@
 		isStrictModeEnabled = true;
 		showCodes = false;
 		localStorage.removeItem(storageKey);
+		resetHistory();
 	}
+
+	function applyHistoryState(encoded: string) {
+		const decodedStates = decodeCoursesStates(encoded);
+		courses.forEach((course, index) => {
+			const newState = decodedStates[index] ?? courseStates.notTaken;
+			if (course.state !== newState) {
+				course.state = newState;
+			}
+		});
+	}
+
+	function handleUndo() {
+		const previousState = historyUndo();
+		if (previousState !== null) {
+			applyHistoryState(previousState);
+		}
+	}
+
+	function handleRedo() {
+		const nextState = historyRedo();
+		if (nextState !== null) {
+			applyHistoryState(nextState);
+		}
+	}
+
+	function onkeydown(e: KeyboardEvent) {
+		const isMac = navigator.platform.includes('Mac');
+		const modifier = isMac ? e.metaKey : e.ctrlKey;
+
+		if (modifier && e.key === 'z') {
+			if (e.shiftKey) {
+				handleRedo();
+			} else {
+				handleUndo();
+			}
+			e.preventDefault();
+		}
+
+		// Windows/Linux: Ctrl+Y for redo
+		if (!isMac && e.ctrlKey && e.key === 'y') {
+			handleRedo();
+			e.preventDefault();
+		}
+	}
+
+	// Reactive wrappers for history state
+	const canUndo = $derived(getCanUndo());
+	const canRedo = $derived(getCanRedo());
 
 	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
@@ -216,6 +283,8 @@
 		return { title, description, url, ogImageUrl };
 	});
 </script>
+
+<svelte:window {onkeydown} />
 
 <svelte:head>
 	<title>{seo.title}</title>
