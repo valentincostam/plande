@@ -88,6 +88,8 @@
 		<button
 			{onclick}
 			{onkeydown}
+			aria-expanded={isExpanded}
+			aria-label="{course.name}{course.hours ? `, ${numberFormatter.format(course.hours)} horas` : ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
 			aria-keyshortcuts="n e r a"
 			class={[
 				!course.isEnabled && 'pr-0',
@@ -142,6 +144,7 @@
 				id={`${toKebabCase(course.name)}-state-select`}
 				bind:value={course.state}
 				canPass={course.canPass}
+				courseName={course.name}
 				{onkeydown}
 			/>
 		{/if}

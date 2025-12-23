@@ -12,19 +12,19 @@
 
 	// Handle colors based on state
 	const handleColors = {
-		[courseStates.notTaken]: '!bg-gray-300',
-		[courseStates.inProgress]: '!bg-blue-500',
-		[courseStates.taken]: '!bg-amber-500',
-		[courseStates.passed]: '!bg-green-500'
+		[courseStates.notTaken]: 'bg-gray-300'!,
+		[courseStates.inProgress]: 'bg-blue-500'!,
+		[courseStates.taken]: 'bg-amber-500'!,
+		[courseStates.passed]: 'bg-green-500!'
 	};
 
 	// Left handle: gray if blocked, green if canPass, amber if can enroll
 	const leftHandleColor = $derived(
 		!data.course.isEnabled
-			? '!bg-gray-300'
+			? 'bg-gray-300!'
 			: data.course.canPass
-				? '!bg-green-500'
-				: '!bg-amber-500'
+				? 'bg-green-500!'
+				: 'bg-amber-500!'
 	);
 </script>
 
@@ -72,6 +72,7 @@
 			id={`diagram-${data.course.id}-state`}
 			bind:value={data.course.state}
 			canPass={data.course.canPass}
+			courseName={data.course.name}
 		/>
 	{:else}
 		<span class="flex-none rounded-md bg-gray-400 px-2 py-1 text-xs text-white"> Bloqueada </span>
@@ -82,14 +83,14 @@
 		<Handle
 			type="target"
 			position={Position.Left}
-			class={['!h-2.5 !w-2.5 !border-2 !border-white', leftHandleColor]}
+			class={['h-2.5! w-2.5! border-2! border-white!', leftHandleColor]}
 		/>
 	{/if}
 	{#if data.course.dependents.length > 0}
 		<Handle
 			type="source"
 			position={Position.Right}
-			class={['!h-2.5 !w-2.5 !border-2 !border-white', handleColors[data.course.state]]}
+			class={['h-2.5! w-2.5! border-2! border-white!', handleColors[data.course.state]]}
 		/>
 	{/if}
 </div>

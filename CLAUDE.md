@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Rules
+
+- **Always use bun**: Use `bun` instead of `npm`, and `bunx` instead of `npx`
+
 ## Commands
 
 ### Development

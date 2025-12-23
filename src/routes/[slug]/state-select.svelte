@@ -16,6 +16,7 @@
 		onchange?: (event: Event) => void;
 		onkeydown?: (event: KeyboardEvent) => void;
 		gender?: 'femenine' | 'masculine';
+		courseName: string;
 	};
 
 	let {
@@ -25,7 +26,8 @@
 		onchange,
 		onkeydown,
 		gender = 'femenine',
-		canPass
+		canPass,
+		courseName
 	}: Props = $props();
 
 	const stateSelectBackgroundColors = {
@@ -41,6 +43,7 @@
 	bind:value
 	{onchange}
 	{onkeydown}
+	aria-label="Estado de {courseName}"
 	aria-keyshortcuts="n e r a"
 	disabled={!isEnabled}
 	class={[
