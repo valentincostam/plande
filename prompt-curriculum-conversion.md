@@ -64,9 +64,9 @@ export const [variableName]: StudyPlan = {
   durationYears: 5,
   year: 2005, // Optional - only include if plan year is specified in official documentation
   progress: {
-    type: 'mandatory-only' | 'mandatory-plus-one-elective' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
+    type: 'mandatory-only' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
     requiredElectiveHours?: number, // For 'mandatory-plus-elective-hours'
-    requiredElectiveCount?: number  // For 'mandatory-plus-one-elective' and 'mandatory-plus-elective-count'
+    requiredElectiveCount?: number  // For 'mandatory-plus-elective-count'
   },
   sources: [
     {
@@ -1201,14 +1201,9 @@ Choose based on the curriculum structure:
   - Examples: UADER FCyT LSI, UNER FCS Medicina
   - All courses are mandatory
 
-- `mandatory-plus-one-elective`: Must complete at least 1 elective course
-  - Example: UCU FAU Arquitectura (requires 1 optative)
-  - Use `requiredElectiveCount: 1` (or omit, defaults to 1)
-
 - `mandatory-plus-elective-count`: Must complete N specific elective courses
   - Examples: UNSa FCE Física (requires 2 electives), UNAHUR ITI LI (requires 2 electives)
   - Use `requiredElectiveCount: N` where N is the required number
-  - Different from `mandatory-plus-one-elective` when N > 1
 
 - `mandatory-plus-elective-hours`: Must complete X hours of electives
   - Example: UTN FRBA Ingeniería Química (requires 40 hours)
@@ -1423,7 +1418,7 @@ export const ucuFauArq: StudyPlan = {
   durationYears: 5,
   // No year field - plan year not specified in documentation
   progress: {
-    type: 'mandatory-plus-one-elective',
+    type: 'mandatory-plus-elective-count',
     requiredElectiveCount: 1
   },
   sources: [
@@ -1443,7 +1438,7 @@ export const ucuFauArq: StudyPlan = {
 - **CRITICAL**: Use ID-Code synchronization (numeric codes → same ID, non-numeric codes → high IDs 90+)
 - Validate all prerequisite references
 - Include complete metadata (degreeName, universityName, collegeName if applicable, slugs, sources)
-- Choose appropriate progress type (mandatory-only, mandatory-plus-one-elective, mandatory-plus-elective-count, mandatory-plus-elective-hours)
+- Choose appropriate progress type (mandatory-only, mandatory-plus-elective-count, mandatory-plus-elective-hours)
 - Handle missing data gracefully with `undefined`
 - Correct OCR errors in course names
 - **MANDATORY**: Verify all Spanish characters have proper accents (á, é, í, ó, ú, ñ) - never use � symbols

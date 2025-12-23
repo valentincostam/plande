@@ -76,52 +76,6 @@ describe('calculateDegreeProgress', () => {
 		});
 	});
 
-	describe('mandatory-plus-one-elective', () => {
-		const config: DegreeProgressConfig = {
-			type: 'mandatory-plus-one-elective',
-			requiredElectiveCount: 1
-		};
-
-		it('counts one passed elective', () => {
-			const courses = [
-				createMockCourse(courseStates.passed), // mandatory
-				createMockCourse(courseStates.passed, courseTypes.elective) // elective
-			];
-
-			const result = calculateDegreeProgress(courses, config);
-
-			expect(result.completedUnits).toBe(2);
-			expect(result.totalUnits).toBe(2);
-			expect(result.percentage).toBe(100);
-		});
-
-		it('caps electives at required count', () => {
-			const courses = [
-				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.passed, courseTypes.elective),
-				createMockCourse(courseStates.passed, courseTypes.elective) // extra - not counted
-			];
-
-			const result = calculateDegreeProgress(courses, config);
-
-			expect(result.completedUnits).toBe(2);
-			expect(result.totalUnits).toBe(2);
-		});
-
-		it('handles no elective passed', () => {
-			const courses = [
-				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.notTaken, courseTypes.elective)
-			];
-
-			const result = calculateDegreeProgress(courses, config);
-
-			expect(result.completedUnits).toBe(1);
-			expect(result.totalUnits).toBe(2);
-			expect(result.percentage).toBe(50);
-		});
-	});
-
 	describe('mandatory-plus-elective-count', () => {
 		const config: DegreeProgressConfig = {
 			type: 'mandatory-plus-elective-count',

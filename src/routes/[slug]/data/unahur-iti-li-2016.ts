@@ -1230,7 +1230,7 @@ export const unahurItiLi2016: StudyPlan = {
 	durationYears: 5,
 	year: 2016,
 	progress: {
-		type: 'mandatory-plus-one-elective',
+		type: 'mandatory-plus-elective-count',
 		requiredElectiveCount: 2
 	},
 	sources: [

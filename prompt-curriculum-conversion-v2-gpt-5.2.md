@@ -59,7 +59,7 @@ export const variableNameHere: StudyPlan = {
   durationYears: 0,
   // year optional
   progress: {
-    type: 'mandatory-only' | 'mandatory-plus-one-elective' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
+    type: 'mandatory-only' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
     requiredElectiveCount?: number,
     requiredElectiveHours?: number
   },
@@ -212,9 +212,8 @@ This app computes progress as:
 
 Therefore:
 
-- Use `mandatory-only` only when all required units are mandatory (or when “electives” are represented as mandatory placeholder courses without elective/optative tags).
+- Use `mandatory-only` only when all required units are mandatory (or when "electives" are represented as mandatory placeholder courses without elective/optative tags).
 - If the plan requires completing **N** electives/optatives: `mandatory-plus-elective-count` with `requiredElectiveCount: N`.
-- If the plan requires “at least one elective”: `mandatory-plus-one-elective` (set `requiredElectiveCount` to 1 unless doc says otherwise).
 - If the plan requires **X elective hours**: `mandatory-plus-elective-hours` with `requiredElectiveHours: X`.
 
 **Optativa placeholders** (e.g. “Optativa I/II” inside the grid):

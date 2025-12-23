@@ -514,7 +514,7 @@ export const uncaFcaTupazsa: StudyPlan = {
 	collegeName: 'Facultad de Ciencias Agrarias',
 	collegeSlug: 'FCA',
 	progress: {
-		type: 'mandatory-plus-one-elective',
+		type: 'mandatory-plus-elective-count',
 		requiredElectiveCount: 1
 	},
 	sources: [

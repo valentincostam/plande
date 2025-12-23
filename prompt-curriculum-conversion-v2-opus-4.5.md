@@ -37,7 +37,7 @@ export const variableName: StudyPlan = {
   durationYears: 5,
   year: 2005, // Optional - only if plan year is in official documentation
   progress: {
-    type: 'mandatory-only' | 'mandatory-plus-one-elective' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
+    type: 'mandatory-only' | 'mandatory-plus-elective-count' | 'mandatory-plus-elective-hours',
     requiredElectiveHours?: number,
     requiredElectiveCount?: number
   },
@@ -230,7 +230,6 @@ Pattern: "3° completo", "2do año completo"
 | Type                            | When to Use                    | Config                     |
 | ------------------------------- | ------------------------------ | -------------------------- |
 | `mandatory-only`                | No elective requirements       | -                          |
-| `mandatory-plus-one-elective`   | Must complete 1+ elective      | `requiredElectiveCount: 1` |
 | `mandatory-plus-elective-count` | Must complete N electives      | `requiredElectiveCount: N` |
 | `mandatory-plus-elective-hours` | Must complete X elective hours | `requiredElectiveHours: X` |
 

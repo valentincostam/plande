@@ -39,7 +39,6 @@ export function studyPlanToPlainText(studyPlan: StudyPlan): string {
 
 	const progressTypeLabels = {
 		'mandatory-only': 'Solo materias obligatorias',
-		'mandatory-plus-one-elective': 'Obligatorias + al menos una electiva',
 		'mandatory-plus-elective-hours': 'Obligatorias + horas electivas específicas',
 		'mandatory-plus-elective-count': 'Obligatorias + N electivas específicas'
 	};

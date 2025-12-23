@@ -1199,7 +1199,7 @@ export const udemmLp: StudyPlan = {
 	universityName: 'Universidad de la Marina Mercante',
 	universitySlug: 'UdeMM',
 	progress: {
-		type: 'mandatory-plus-one-elective',
+		type: 'mandatory-plus-elective-count',
 		requiredElectiveCount: 2
 	},
 	sources: [

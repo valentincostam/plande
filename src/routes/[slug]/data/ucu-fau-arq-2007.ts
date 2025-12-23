@@ -1373,7 +1373,7 @@ export const ucuFauArq2007: StudyPlan = {
 	collegeSlug: 'FAU',
 	year: 2007,
 	progress: {
-		type: 'mandatory-plus-one-elective',
+		type: 'mandatory-plus-elective-count',
 		requiredElectiveCount: 1
 	},
 	sources: [
