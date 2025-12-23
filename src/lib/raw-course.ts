@@ -1,7 +1,8 @@
+import type { CourseAttribute } from './course-attribute';
 import type { CourseState } from './course-state';
 import { courseStates, femenineCourseStateLabels } from './course-state';
-import type { CourseTag } from './course-tag';
 import type { CourseTerm } from './course-term';
+import type { CourseType } from './course-type';
 import type { CrossYearInfo } from './course.svelte';
 
 export const requiredFor = {
@@ -27,11 +28,12 @@ export type RawCourse = {
 	id: number;
 	code?: string;
 	name: string;
-	year: number;
+	year?: number; // undefined for transversal courses without suggested year
 	hours?: number;
 	term: CourseTerm;
 	requirements?: RawCourseRequirement[];
-	tag?: CourseTag;
+	type: CourseType;
+	attributes?: CourseAttribute[]; // defaults to []
 	crossYear?: CrossYearInfo;
 };
 

@@ -8,25 +8,22 @@
 		hoursColors,
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
-	import {
-		toKebabCase,
-		type Course,
-		TRANSVERSAL_YEAR,
-		countAllDependents
-	} from '$lib/course.svelte';
+	import { toKebabCase, type Course, countAllDependents } from '$lib/course.svelte';
+	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
+	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import Requirement from './requirement.svelte';
 	import StateSelect from './state-select.svelte';
 	import Dependent from './dependent.svelte';
-	import { courseTagLabels } from '$lib/course-tag';
 
 	type Props = {
 		course: Course;
 		showCodes?: boolean;
+		hideTypeBadge?: boolean;
 	};
 
-	let { course, showCodes = false }: Props = $props();
+	let { course, showCodes = false, hideTypeBadge = false }: Props = $props();
 
 	let isExpanded = $state(false);
 	let showGradeFeedback = $state(false);
@@ -115,11 +112,16 @@
 					{/if}
 					{course.name}
 				</span>
-				{#if course.tag && course.year !== TRANSVERSAL_YEAR}
+				{#if isElectiveOrOptative(course.type) && !hideTypeBadge}
 					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
-						>{courseTagLabels[course.tag]}</span
+						>{courseTypeLabels[course.type]}</span
 					>
 				{/if}
+				{#each course.attributes.filter((attr) => attr !== 'transversal') as attr}
+					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
+						>{courseAttributeLabels[attr]}</span
+					>
+				{/each}
 			</span>
 			{#if course.hours}
 				<span

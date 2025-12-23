@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Position, type NodeProps, type Node, Handle } from '@xyflow/svelte';
-	import { TRANSVERSAL_YEAR, type Course } from '$lib/course.svelte';
+	import { type Course } from '$lib/course.svelte';
+	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
 	import { courseBgColors, courseNameColors, courseStates } from '$lib/course-state';
-	import { courseTagLabels } from '$lib/course-tag';
+	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import StateSelect from '../state-select.svelte';
 
 	let { data }: NodeProps<Node<{ course: Course; isSelected?: boolean }>> = $props();
@@ -42,7 +43,7 @@
 			courseNameColors[data.course.state]
 		]}
 	>
-		{#if data.course.year === TRANSVERSAL_YEAR}
+		{#if data.course.year === undefined || isTransversal(data.course.attributes)}
 			—
 		{:else}
 			{data.course.year}{yearSuffix[data.course.year] || '°'}
@@ -59,11 +60,16 @@
 		>
 			{data.course.name}
 		</span>
-		{#if data.course.tag}
+		{#if isElectiveOrOptative(data.course.type)}
 			<span class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600">
-				{courseTagLabels[data.course.tag]}
+				{courseTypeLabels[data.course.type]}
 			</span>
 		{/if}
+		{#each data.course.attributes.filter((attr) => attr !== 'transversal') as attr}
+			<span class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600">
+				{courseAttributeLabels[attr]}
+			</span>
+		{/each}
 	</span>
 
 	<!-- Estado -->

@@ -1,20 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { calculateDegreeProgress, type DegreeProgressConfig } from './degree-progress';
 import { courseStates, type CourseState } from './course-state';
-import { courseTags, type CourseTag } from './course-tag';
+import { courseTypes, type CourseType } from './course-type';
 import type { Course } from './course.svelte';
 
 // Helper to create minimal mock courses for testing
 const createMockCourse = (
 	state: CourseState,
-	tag?: CourseTag,
+	type: CourseType = courseTypes.mandatory,
 	hours?: number
 ): Course =>
 	({
 		state,
-		tag,
-		hours
-	}) as Course;
+		type,
+		hours,
+		attributes: []
+	}) as unknown as Course;
 
 describe('calculateDegreeProgress', () => {
 	describe('mandatory-only', () => {
@@ -50,7 +51,7 @@ describe('calculateDegreeProgress', () => {
 		it('ignores elective courses', () => {
 			const courses = [
 				createMockCourse(courseStates.passed), // mandatory
-				createMockCourse(courseStates.passed, courseTags.elective), // elective - ignored
+				createMockCourse(courseStates.passed, courseTypes.elective), // elective - ignored
 				createMockCourse(courseStates.notTaken) // mandatory
 			];
 
@@ -64,7 +65,7 @@ describe('calculateDegreeProgress', () => {
 		it('ignores optative courses', () => {
 			const courses = [
 				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.passed, courseTags.optative)
+				createMockCourse(courseStates.passed, courseTypes.optative)
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -84,7 +85,7 @@ describe('calculateDegreeProgress', () => {
 		it('counts one passed elective', () => {
 			const courses = [
 				createMockCourse(courseStates.passed), // mandatory
-				createMockCourse(courseStates.passed, courseTags.elective) // elective
+				createMockCourse(courseStates.passed, courseTypes.elective) // elective
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -97,8 +98,8 @@ describe('calculateDegreeProgress', () => {
 		it('caps electives at required count', () => {
 			const courses = [
 				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.elective) // extra - not counted
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.elective) // extra - not counted
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -110,7 +111,7 @@ describe('calculateDegreeProgress', () => {
 		it('handles no elective passed', () => {
 			const courses = [
 				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.notTaken, courseTags.elective)
+				createMockCourse(courseStates.notTaken, courseTypes.elective)
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -130,9 +131,9 @@ describe('calculateDegreeProgress', () => {
 		it('counts up to required electives', () => {
 			const courses = [
 				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.notTaken, courseTags.elective)
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.notTaken, courseTypes.elective)
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -144,10 +145,10 @@ describe('calculateDegreeProgress', () => {
 		it('caps electives at required count', () => {
 			const courses = [
 				createMockCourse(courseStates.passed),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.elective) // 4th - not counted
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.elective) // 4th - not counted
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -166,11 +167,11 @@ describe('calculateDegreeProgress', () => {
 
 		it('weights mandatory and elective progress', () => {
 			const courses = [
-				createMockCourse(courseStates.passed, undefined, 10), // mandatory
-				createMockCourse(courseStates.passed, undefined, 10), // mandatory
-				createMockCourse(courseStates.notTaken, undefined, 10), // mandatory
-				createMockCourse(courseStates.notTaken, undefined, 10), // mandatory
-				createMockCourse(courseStates.passed, courseTags.elective, 20) // elective 20hs
+				createMockCourse(courseStates.passed, courseTypes.mandatory, 10), // mandatory
+				createMockCourse(courseStates.passed, courseTypes.mandatory, 10), // mandatory
+				createMockCourse(courseStates.notTaken, courseTypes.mandatory, 10), // mandatory
+				createMockCourse(courseStates.notTaken, courseTypes.mandatory, 10), // mandatory
+				createMockCourse(courseStates.passed, courseTypes.elective, 20) // elective 20hs
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -184,9 +185,9 @@ describe('calculateDegreeProgress', () => {
 
 		it('returns 100% when all mandatory passed and elective hours met', () => {
 			const courses = [
-				createMockCourse(courseStates.passed, undefined, 10),
-				createMockCourse(courseStates.passed, undefined, 10),
-				createMockCourse(courseStates.passed, courseTags.elective, 40)
+				createMockCourse(courseStates.passed, courseTypes.mandatory, 10),
+				createMockCourse(courseStates.passed, courseTypes.mandatory, 10),
+				createMockCourse(courseStates.passed, courseTypes.elective, 40)
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -196,8 +197,8 @@ describe('calculateDegreeProgress', () => {
 
 		it('caps elective hours at required amount', () => {
 			const courses = [
-				createMockCourse(courseStates.passed, undefined, 10),
-				createMockCourse(courseStates.passed, courseTags.elective, 100) // more than needed
+				createMockCourse(courseStates.passed, courseTypes.mandatory, 10),
+				createMockCourse(courseStates.passed, courseTypes.elective, 100) // more than needed
 			];
 
 			const result = calculateDegreeProgress(courses, config);
@@ -218,8 +219,8 @@ describe('calculateDegreeProgress', () => {
 
 		it('handles all elective courses with mandatory-only config', () => {
 			const courses = [
-				createMockCourse(courseStates.passed, courseTags.elective),
-				createMockCourse(courseStates.passed, courseTags.optative)
+				createMockCourse(courseStates.passed, courseTypes.elective),
+				createMockCourse(courseStates.passed, courseTypes.optative)
 			];
 
 			const result = calculateDegreeProgress(courses, { type: 'mandatory-only' });

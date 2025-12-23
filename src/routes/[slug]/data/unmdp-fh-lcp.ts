@@ -1,4 +1,5 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -11,6 +12,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Aprendizaje Científico y Académico',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -20,6 +22,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a la Ciencia Política',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -29,6 +32,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a la Sociología',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -39,6 +43,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Metodología de la Investigación Social',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -48,6 +53,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría Política I',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -70,6 +76,7 @@ const courses: RawCourse[] = [
 		name: 'Filosofía',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -80,6 +87,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología Cualitativa',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -102,6 +110,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría Política II',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -136,6 +145,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología Cuantitativa I',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -159,6 +169,7 @@ const courses: RawCourse[] = [
 		name: 'Principios de Economía',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -168,6 +179,7 @@ const courses: RawCourse[] = [
 		name: 'Historia General Americana Contemporánea',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -177,6 +189,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Político',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -212,6 +225,7 @@ const courses: RawCourse[] = [
 		name: 'Geografía Política',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -234,6 +248,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología Cuantitativa II',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -268,6 +283,7 @@ const courses: RawCourse[] = [
 		name: 'Historia Universal Contemporánea',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -277,6 +293,7 @@ const courses: RawCourse[] = [
 		name: 'Opinión Pública',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -324,6 +341,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas Políticos Comparados',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -358,6 +376,7 @@ const courses: RawCourse[] = [
 		name: 'Historia General Argentina I',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -392,6 +411,7 @@ const courses: RawCourse[] = [
 		name: 'Sociología del Estado y Políticas Públicas',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -415,6 +435,7 @@ const courses: RawCourse[] = [
 		name: 'Política Exterior Argentina',
 		hours: undefined,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -449,6 +470,7 @@ const courses: RawCourse[] = [
 		name: 'Historia Argentina General II',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -471,6 +493,7 @@ const courses: RawCourse[] = [
 		name: 'Política Internacional Contemporánea',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -518,6 +541,7 @@ const courses: RawCourse[] = [
 		name: 'Administración Pública Comparada',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -552,6 +576,7 @@ const courses: RawCourse[] = [
 		name: 'Partidos Políticos y Sistemas Electorales',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -598,6 +623,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis del Discurso y Comunicación Política',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -632,6 +658,7 @@ const courses: RawCourse[] = [
 		name: 'Estructura Social Argentina',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -667,6 +694,7 @@ const courses: RawCourse[] = [
 		name: 'Seminario 1. Teoría Política Contemporánea',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -713,6 +741,7 @@ const courses: RawCourse[] = [
 		name: 'Seminario 2. A elección',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -759,6 +788,7 @@ const courses: RawCourse[] = [
 		name: 'Seminario de Investigación en Ciencia Política',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -805,6 +835,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: []
 	},
@@ -814,6 +845,7 @@ const courses: RawCourse[] = [
 		name: 'Tesis de Licenciatura',
 		hours: undefined,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{

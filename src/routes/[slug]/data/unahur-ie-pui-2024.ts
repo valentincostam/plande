@@ -1,6 +1,8 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
+
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -12,6 +14,7 @@ const courses: RawCourse[] = [
 		name: 'Lengua Inglesa I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -21,6 +24,7 @@ const courses: RawCourse[] = [
 		name: 'Gramática Inglesa I',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -30,6 +34,7 @@ const courses: RawCourse[] = [
 		name: 'Fonética y Práctica en Laboratorio I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -39,6 +44,7 @@ const courses: RawCourse[] = [
 		name: 'Pedagogía',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -48,6 +54,7 @@ const courses: RawCourse[] = [
 		name: 'Lectura, Escritura y Oralidad',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -57,6 +64,7 @@ const courses: RawCourse[] = [
 		name: 'Aprendizajes y Prácticas Educativas',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -66,6 +74,7 @@ const courses: RawCourse[] = [
 		name: 'Territorio, Sujetos e Instituciones',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -76,6 +85,7 @@ const courses: RawCourse[] = [
 		name: 'Lengua Inglesa II',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -122,6 +132,7 @@ const courses: RawCourse[] = [
 		name: 'Gramática Inglesa II',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -168,6 +179,7 @@ const courses: RawCourse[] = [
 		name: 'Fonética y Práctica en Laboratorio II',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -214,6 +226,7 @@ const courses: RawCourse[] = [
 		name: 'Didáctica y Currículum',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -236,6 +249,7 @@ const courses: RawCourse[] = [
 		name: 'Educación Sexual Integral',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -245,6 +259,7 @@ const courses: RawCourse[] = [
 		name: 'Pensamiento Pedagógico Latinoamericano',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -254,6 +269,7 @@ const courses: RawCourse[] = [
 		name: 'Cultura y Alfabetización Digital en la Universidad',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -263,6 +279,7 @@ const courses: RawCourse[] = [
 		name: 'Prácticas de la Enseñanza en el Ámbito Socioeducativo',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -334,6 +351,7 @@ const courses: RawCourse[] = [
 		name: 'Lengua Inglesa III',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -380,6 +398,7 @@ const courses: RawCourse[] = [
 		name: 'Fonética y Práctica en Laboratorio III',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -426,6 +445,7 @@ const courses: RawCourse[] = [
 		name: 'Lingüística',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -472,6 +492,7 @@ const courses: RawCourse[] = [
 		name: 'Adquisición de la Lengua Materna y Extranjera',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -506,6 +527,7 @@ const courses: RawCourse[] = [
 		name: 'Didáctica del Inglés para el Nivel Primario',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -528,6 +550,7 @@ const courses: RawCourse[] = [
 		name: 'Historia de la Nación Argentina y sus Proyectos Educativos',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -537,6 +560,7 @@ const courses: RawCourse[] = [
 		name: 'Didáctica en Contextos de Educación Superior',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -559,6 +583,7 @@ const courses: RawCourse[] = [
 		name: 'Asignatura UNAHUR',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -568,6 +593,7 @@ const courses: RawCourse[] = [
 		name: 'Prácticas Docentes en el Nivel Primario',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -615,6 +641,7 @@ const courses: RawCourse[] = [
 		name: 'Lengua Inglesa IV',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -649,6 +676,7 @@ const courses: RawCourse[] = [
 		name: 'Fonética y Práctica en Laboratorio IV',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -683,6 +711,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Contrastivo del Inglés y el Español',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -717,6 +746,7 @@ const courses: RawCourse[] = [
 		name: 'Didáctica del Inglés para el Nivel Secundario y Superior',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -751,6 +781,7 @@ const courses: RawCourse[] = [
 		name: 'Investigación Educativa en Lenguas Extranjeras',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -773,6 +804,7 @@ const courses: RawCourse[] = [
 		name: 'Estudios Literarios',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -795,6 +827,7 @@ const courses: RawCourse[] = [
 		name: 'Tecnología Educativa',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -829,6 +862,7 @@ const courses: RawCourse[] = [
 		name: 'Política Educativa',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -851,6 +885,7 @@ const courses: RawCourse[] = [
 		name: 'Prácticas Docentes en los Niveles Secundario y Superior',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -897,7 +932,8 @@ const courses: RawCourse[] = [
 		code: 'ACA',
 		name: 'Actividades Curriculares Acreditables',
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: []
 	}
 ];

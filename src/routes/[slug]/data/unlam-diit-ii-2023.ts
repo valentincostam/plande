@@ -1,7 +1,8 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
+
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -17,6 +18,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Discreta',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -26,6 +28,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -35,6 +38,7 @@ const courses: RawCourse[] = [
 		name: 'Programación Inicial',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -44,6 +48,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a los Sistemas de Información',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -53,6 +58,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Numeración',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -62,6 +68,7 @@ const courses: RawCourse[] = [
 		name: 'Principios de Calidad de Software',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -73,6 +80,7 @@ const courses: RawCourse[] = [
 		name: 'Álgebra y Geometría Analítica I',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -82,6 +90,7 @@ const courses: RawCourse[] = [
 		name: 'Física I',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -104,6 +113,7 @@ const courses: RawCourse[] = [
 		name: 'Programación Estructurada Básica',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -126,6 +136,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a la Gestión de Requisitos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -148,6 +159,7 @@ const courses: RawCourse[] = [
 		name: 'Fundamentos de Sistemas Embebidos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -170,6 +182,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a Proyectos Informáticos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -185,6 +198,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -207,6 +221,7 @@ const courses: RawCourse[] = [
 		name: 'Física II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -229,6 +244,7 @@ const courses: RawCourse[] = [
 		name: 'Tópicos de Programación',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -263,6 +279,7 @@ const courses: RawCourse[] = [
 		name: 'Bases de Datos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -297,6 +314,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis de Sistemas',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -319,6 +337,7 @@ const courses: RawCourse[] = [
 		name: 'Arquitectura de Computadoras',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -341,6 +360,7 @@ const courses: RawCourse[] = [
 		name: 'Responsabilidad Social Universitaria',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -365,6 +385,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático III',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -387,6 +408,7 @@ const courses: RawCourse[] = [
 		name: 'Algoritmos y Estructuras de Datos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -409,6 +431,7 @@ const courses: RawCourse[] = [
 		name: 'Bases de Datos Aplicada',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -431,6 +454,7 @@ const courses: RawCourse[] = [
 		name: 'Principios de Diseño de Sistemas',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -465,6 +489,7 @@ const courses: RawCourse[] = [
 		name: 'Redes de Computadoras',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -499,6 +524,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión de las Organizaciones',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -522,7 +548,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 2,
-		tag: courseTags.optative,
+		type: courseTypes.optative,
 		requirements: [
 			{
 				id: 1,
@@ -658,6 +684,7 @@ const courses: RawCourse[] = [
 		name: 'Álgebra y Geometría Analítica II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -680,6 +707,7 @@ const courses: RawCourse[] = [
 		name: 'Paradigmas de Programación',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -714,6 +742,7 @@ const courses: RawCourse[] = [
 		name: 'Requisitos Avanzados',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -736,6 +765,7 @@ const courses: RawCourse[] = [
 		name: 'Diseño de Software',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -770,6 +800,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas Operativos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -792,6 +823,7 @@ const courses: RawCourse[] = [
 		name: 'Seguridad de la Información',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -838,6 +870,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -862,6 +895,7 @@ const courses: RawCourse[] = [
 		name: 'Probabilidad y Estadística',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -908,6 +942,7 @@ const courses: RawCourse[] = [
 		name: 'Programación Avanzada',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -942,6 +977,7 @@ const courses: RawCourse[] = [
 		name: 'Arquitecturas de Sistemas Software',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -964,6 +1000,7 @@ const courses: RawCourse[] = [
 		name: 'Virtualización de Hardware',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1010,6 +1047,7 @@ const courses: RawCourse[] = [
 		name: 'Auditoría y Legislación',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1038,6 +1076,7 @@ const courses: RawCourse[] = [
 		name: 'Estadística Aplicada',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1072,6 +1111,7 @@ const courses: RawCourse[] = [
 		name: 'Autómatas y Gramática',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1094,6 +1134,7 @@ const courses: RawCourse[] = [
 		name: 'Programación Concurrente',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1128,6 +1169,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión Aplicada al Desarrollo de Software I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1174,6 +1216,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas Operativos Avanzados',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1196,6 +1239,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión de Proyectos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1244,6 +1288,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Aplicada',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1266,6 +1311,7 @@ const courses: RawCourse[] = [
 		name: 'Lenguajes y Compiladores',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1288,6 +1334,7 @@ const courses: RawCourse[] = [
 		name: 'Inteligencia Artificial',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1322,6 +1369,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión Aplicada al Desarrollo de Software II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1356,6 +1404,7 @@ const courses: RawCourse[] = [
 		name: 'Seguridad Aplicada y Forensia',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1402,6 +1451,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión de la Calidad en Procesos de Sistemas',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1430,6 +1480,7 @@ const courses: RawCourse[] = [
 		name: 'Inteligencia Artificial Aplicada',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1464,6 +1515,7 @@ const courses: RawCourse[] = [
 		name: 'Innovación y Emprendedorismo',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1486,6 +1538,7 @@ const courses: RawCourse[] = [
 		name: 'Ciencia de Datos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1520,6 +1573,7 @@ const courses: RawCourse[] = [
 		name: 'Proyecto Final de Carrera',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1591,7 +1645,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.firstSemester,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1640,7 +1694,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1675,7 +1729,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1715,7 +1769,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel I',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: []
 	},
 	{
@@ -1724,7 +1779,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel II',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: [
 			{
 				id: 1,
@@ -1746,7 +1802,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel III',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: [
 			{
 				id: 1,
@@ -1768,7 +1825,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel IV',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: [
 			{
 				id: 1,
@@ -1792,7 +1850,8 @@ const courses: RawCourse[] = [
 		name: 'Computacional Nivel I',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: []
 	},
 	{
@@ -1801,7 +1860,8 @@ const courses: RawCourse[] = [
 		name: 'Computacional Nivel II',
 		hours: 4,
 		term: courseTerms.semestral,
-		year: TRANSVERSAL_YEAR,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.transversal],
 		requirements: [
 			{
 				id: 1,

@@ -1,5 +1,5 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -12,6 +12,7 @@ const courses: RawCourse[] = [
 		name: 'Problemas de Historia Argentina',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -21,6 +22,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Lectura y Escritura',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -30,6 +32,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -39,6 +42,7 @@ const courses: RawCourse[] = [
 		name: 'Prácticas Culturales',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -48,6 +52,7 @@ const courses: RawCourse[] = [
 		name: 'Conocimiento y Ciencias de la Salud',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -57,6 +62,7 @@ const courses: RawCourse[] = [
 		name: 'Biología para Ciencias de la Salud',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -66,6 +72,7 @@ const courses: RawCourse[] = [
 		name: 'Física y Química para Ciencias de la Salud',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -75,6 +82,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Pública',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -85,6 +93,7 @@ const courses: RawCourse[] = [
 		name: 'Histología, Embriología y Genética',
 		hours: 5,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -194,6 +203,7 @@ const courses: RawCourse[] = [
 		name: 'Biofísica',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -303,6 +313,7 @@ const courses: RawCourse[] = [
 		name: 'Epidemiología',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -412,6 +423,7 @@ const courses: RawCourse[] = [
 		name: 'Anatomía',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -521,6 +533,7 @@ const courses: RawCourse[] = [
 		name: 'Fisiología',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -630,6 +643,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -739,6 +753,7 @@ const courses: RawCourse[] = [
 		name: 'Bioética',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -848,6 +863,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés aplicado a Ciencias de la Salud I',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -870,6 +886,7 @@ const courses: RawCourse[] = [
 		name: 'Kinefisiatría Legal y Deontología',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -979,6 +996,7 @@ const courses: RawCourse[] = [
 		name: 'Kinefilaxia',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Para cursar - Regularizada
@@ -1089,6 +1107,7 @@ const courses: RawCourse[] = [
 		name: 'Biomecánica',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1123,6 +1142,7 @@ const courses: RawCourse[] = [
 		name: 'Semiopatología Clínica',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1157,6 +1177,7 @@ const courses: RawCourse[] = [
 		name: 'Técnicas Kinésicas I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1179,6 +1200,7 @@ const courses: RawCourse[] = [
 		name: 'Evaluaciones Kinefisiátricas',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1201,6 +1223,7 @@ const courses: RawCourse[] = [
 		name: 'Semiopatología Quirúrgica',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1235,6 +1258,7 @@ const courses: RawCourse[] = [
 		name: 'Agentes Físicos',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -1269,6 +1293,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Kinésica I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Para cursar - Regularizada
@@ -1390,6 +1415,7 @@ const courses: RawCourse[] = [
 		name: 'Técnicas Kinésicas II',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1448,6 +1474,7 @@ const courses: RawCourse[] = [
 		name: 'Ortesis y Prótesis',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1470,6 +1497,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación Científica',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1504,6 +1532,7 @@ const courses: RawCourse[] = [
 		name: 'Terapéutica Kinefisiátrica en Traumatología, Ortopedia y Reumatología',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1550,6 +1579,7 @@ const courses: RawCourse[] = [
 		name: 'Psicomotricidad y Neurodesarrollo',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1584,6 +1614,7 @@ const courses: RawCourse[] = [
 		name: 'Organización de Servicios de Salud',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1607,7 +1638,7 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.semestral,
 		year: 4,
-		tag: courseTags.optative,
+		type: courseTypes.optative,
 		requirements: [
 			{
 				id: 1,
@@ -1629,6 +1660,7 @@ const courses: RawCourse[] = [
 		name: 'Farmacología',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1663,6 +1695,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Kinésica II',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1758,6 +1791,7 @@ const courses: RawCourse[] = [
 		name: 'Terapéutica Kinefisiatrica en Pediatría',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1792,6 +1826,7 @@ const courses: RawCourse[] = [
 		name: 'Kinesiología y Fisioterapia en Neurología',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1838,6 +1873,7 @@ const courses: RawCourse[] = [
 		name: 'Terapéutica Kinefisiatrica Cardiorespiratoria',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1860,6 +1896,7 @@ const courses: RawCourse[] = [
 		name: 'Kinesiología y Fisioterapia Deportiva',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1894,6 +1931,7 @@ const courses: RawCourse[] = [
 		name: 'Kinefisiatría Estética',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1928,6 +1966,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Tesina',
 		hours: 5,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1950,6 +1989,7 @@ const courses: RawCourse[] = [
 		name: 'Bioinformática y Rehabilitación Computacional',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1972,6 +2012,7 @@ const courses: RawCourse[] = [
 		name: 'Kinesiología y Fisioterapia Ocupacional y Laboral. Auditoría Kinésica',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1995,7 +2036,7 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.optative,
+		type: courseTypes.optative,
 		requirements: [
 			{
 				id: 1,
@@ -2017,6 +2058,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Kinésica III',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -2124,6 +2166,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -2133,6 +2176,7 @@ const courses: RawCourse[] = [
 		name: 'Informática',
 		hours: 3,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	}

@@ -16,9 +16,9 @@ The document may contain OCR errors and could be in various formats (tables, lis
 
 ```javascript
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -59,9 +59,10 @@ Each course object:
   name: string,                  // Exact name from document
   hours?: number,                // Credit hours (undefined if not specified)
   term: string,                  // courseTerms.firstSemester | secondSemester | annual | semestral
-  year: number,                  // Academic year (1-5) or TRANSVERSAL_YEAR for non-year-specific
+  year?: number,                 // Academic year (1-5), undefined for transversal courses
   requirements: Requirement[],   // Prerequisites
-  tag?: string,                  // courseTags.elective | integrative | optative
+  type: string,                  // courseTypes.mandatory | elective | optative (REQUIRED)
+  attributes?: string[],         // courseAttributes.transversal | integrative | mandatoryFinalExam | contraSemester
   crossYear?: {                  // For courses spanning multiple years
     spansToYear: number,
     endsInTerm: string
@@ -175,15 +176,14 @@ Continuous semester numbering: "3er Cuatrimestre" in Year 2 → `term: courseTer
 Courses that can be taken at any time (not tied to a specific year):
 
 ```javascript
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
-
 {
   id: 1,
   code: '951170',
   name: 'Gestión de la Calidad',
   term: courseTerms.semestral,
-  year: TRANSVERSAL_YEAR,  // Special constant (-1)
-  tag: courseTags.elective,
+  // year is omitted (undefined) for transversal courses
+  type: courseTypes.elective,
+  attributes: [courseAttributes.transversal],
   requirements: [/* still apply */]
 }
 ```
@@ -242,12 +242,12 @@ Pattern: "3° completo", "2do año completo"
 
 When curriculum lists required courses named "Optativa 1", "Optativa 2":
 
-- Tag the course with `courseTags.optative`
+- Set `type: courseTypes.optative`
 - Use `progress: { type: 'mandatory-only' }`
 - List available options in notes
 
 ```javascript
-{ id: 32, name: 'Optativa 1', tag: courseTags.optative, ... }
+{ id: 32, name: 'Optativa 1', type: courseTypes.optative, ... }
 // In notes: "Opciones de Optativa 1: Opción A, Opción B, Opción C"
 ```
 
@@ -264,13 +264,13 @@ Ask: "Is 'Optativa 1' a required slot in the curriculum?" YES → Pattern 1, NO 
 
 <course_name_cleaning>
 
-Remove suffixes and add corresponding tags:
+Remove suffixes and add corresponding type/attributes:
 
-- "(electiva)" → `tag: courseTags.elective`
-- "(integradora)" → `tag: courseTags.integrative`
-- "(optativa)" → `tag: courseTags.optative`
+- "(electiva)" → `type: courseTypes.elective`
+- "(integradora)" → `attributes: [courseAttributes.integrative]`
+- "(optativa)" → `type: courseTypes.optative`
 
-Example: "Geología Aplicada (electiva)" → `name: "Geología Aplicada", tag: courseTags.elective`
+Example: "Geología Aplicada (electiva)" → `name: "Geología Aplicada", type: courseTypes.elective`
 
 </course_name_cleaning>
 
@@ -391,7 +391,7 @@ Before submitting:
 - [ ] ID-Code sync: Numeric codes match IDs
 - [ ] No duplicate IDs
 - [ ] Spot-check: Verified 5-10 courses character-by-character against source
-- [ ] Correct imports: `StudyPlan` from `'$lib/study-plan'`
+- [ ] Correct imports: `courseTypes` from `'$lib/course-type'`, `courseAttributes` from `'$lib/course-attribute'`
 - [ ] Required fields: degreeName, degreeSlug, universityName, universitySlug, durationYears, progress, sources
 
 </validation_checklist>
@@ -400,54 +400,58 @@ Before submitting:
 
 ```javascript
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
 const courses: RawCourse[] = [
-  // Year 1 - No requirements
+  // Year 1 - Mandatory course (always specify type)
   {
     id: 1,
     code: '1',
     name: 'Álgebra y Geometría Analítica',
     hours: 10,
     term: courseTerms.firstSemester,
+    type: courseTypes.mandatory,
     year: 1,
     requirements: []
   },
-  // Year 1 - Integrative tag
+  // Year 1 - Mandatory with integrative attribute
   {
     id: 8,
     code: '8',
     name: 'Sistemas y Procesos de Negocios',
     hours: 3,
     term: courseTerms.annual,
+    type: courseTypes.mandatory,
     year: 1,
-    tag: courseTags.integrative,
+    attributes: [courseAttributes.integrative],
     requirements: []
   },
-  // Year 2 - With requirements (enroll only - from Column 1)
+  // Year 2 - Mandatory with requirements (enroll only - from Column 1)
   {
     id: 14,
     code: '14',
     name: 'Análisis Matemático II',
     hours: 5,
     term: courseTerms.annual,
+    type: courseTypes.mandatory,
     year: 2,
     requirements: [
       { id: 1, requiredCourseId: 1, requiredState: courseStates.taken, requiredFor: requiredFor.enroll },
       { id: 2, requiredCourseId: 5, requiredState: courseStates.taken, requiredFor: requiredFor.enroll }
     ]
   },
-  // Course with both enroll and complete requirements (default pattern)
+  // Mandatory with both enroll and complete requirements (default pattern)
   {
     id: 7,
     code: '7',
     name: 'Análisis Matemático II',
     hours: 10,
     term: courseTerms.firstSemester,
+    type: courseTypes.mandatory,
     year: 2,
     requirements: [
       // Column 1: regularizada para cursar
@@ -460,15 +464,15 @@ const courses: RawCourse[] = [
       { id: 5, requiredCourseId: 5, requiredState: courseStates.passed, requiredFor: requiredFor.complete }
     ]
   },
-  // Transversal elective
+  // Transversal elective (year undefined, has transversal attribute)
   {
     id: 951170,
     code: '951170',
     name: 'Gestión de la Calidad',
     hours: 4,
     term: courseTerms.semestral,
-    year: TRANSVERSAL_YEAR,
-    tag: courseTags.elective,
+    type: courseTypes.elective,
+    attributes: [courseAttributes.transversal],
     requirements: [
       { id: 1, requiredCourseId: 25, requiredState: courseStates.passed, requiredFor: requiredFor.enroll }
     ]

@@ -1,4 +1,5 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -11,6 +12,7 @@ const courses: RawCourse[] = [
 		name: 'Biología Humana',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -20,6 +22,7 @@ const courses: RawCourse[] = [
 		name: 'Historia de la Psicología',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -29,6 +32,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a la Psicología',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -38,6 +42,7 @@ const courses: RawCourse[] = [
 		name: 'Sociología',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -48,6 +53,7 @@ const courses: RawCourse[] = [
 		name: 'Historia Contemporánea',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -57,6 +63,7 @@ const courses: RawCourse[] = [
 		name: 'Neurología y Neurociencias',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -79,6 +86,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología Social',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -113,6 +121,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Práctica Psicoanalítica I',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -148,6 +157,7 @@ const courses: RawCourse[] = [
 		name: 'Antropología',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -157,6 +167,7 @@ const courses: RawCourse[] = [
 		name: 'Filosofía',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -166,6 +177,7 @@ const courses: RawCourse[] = [
 		name: 'Lingüística',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -175,6 +187,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología del Desarrollo I',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -198,6 +211,7 @@ const courses: RawCourse[] = [
 		name: 'Filosofía Contemporánea',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -220,6 +234,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología del Desarrollo II',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -242,6 +257,7 @@ const courses: RawCourse[] = [
 		name: 'Psicopatología',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -276,6 +292,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Práctica Psicoanalítica II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -311,6 +328,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica Psicopatológica',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -369,6 +387,7 @@ const courses: RawCourse[] = [
 		name: 'Dinámica de Grupos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -403,6 +422,7 @@ const courses: RawCourse[] = [
 		name: 'Estadística Aplicada a la Investigación Psicológica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -425,6 +445,7 @@ const courses: RawCourse[] = [
 		name: 'Psicoterapias Cognitivas',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -448,6 +469,7 @@ const courses: RawCourse[] = [
 		name: 'Métodos de Investigación',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -482,6 +504,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología de la Educación',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -504,6 +527,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Técnicas de Evaluación Psicológica I',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -527,6 +551,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés Técnico',
 		hours: undefined,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -537,6 +562,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología Institucional y Organizacional',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -571,6 +597,7 @@ const courses: RawCourse[] = [
 		name: 'Psicofarmacología',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -605,6 +632,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Técnica Clínica Sistémica',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -639,6 +667,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Técnicas de Evaluación Psicológica II',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -662,6 +691,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica de Niños y Adolescentes',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -696,6 +726,7 @@ const courses: RawCourse[] = [
 		name: 'Cultura y Problemáticas Psicosociales',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -730,6 +761,7 @@ const courses: RawCourse[] = [
 		name: 'Epistemología',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -752,6 +784,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología del Trabajo',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -775,6 +808,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica de Adultos y Gerontes',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -809,6 +843,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada I',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -867,6 +902,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología Forense y Jurisprudencia',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -889,6 +925,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Mental Comunitaria',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -936,6 +973,7 @@ const courses: RawCourse[] = [
 		name: 'Ética y Deontología Profesional',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -958,6 +996,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada II',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -992,6 +1031,7 @@ const courses: RawCourse[] = [
 		name: 'Psiconeuroinmunoendocrinología',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1050,6 +1090,7 @@ const courses: RawCourse[] = [
 		name: 'Trabajo Integrador Final',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{

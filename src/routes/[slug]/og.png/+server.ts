@@ -26,6 +26,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	// Apply states to courses
 	const coursesWithState = studyPlan.courses.map((course, index) => ({
 		...course,
+		attributes: course.attributes ?? [],
 		state: coursesStates[index] ?? courseStates.notTaken,
 		grade: coursesGrades[index] ?? undefined
 	}));
@@ -47,9 +48,10 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const passedCourses = stateDistribution.passed;
 	const totalCourses = coursesWithState.length;
 
-	// Calculate passed years
+	// Calculate passed years (exclude transversals with undefined year)
 	const coursesByYear = new Map<number, typeof coursesWithState>();
 	for (const course of coursesWithState) {
+		if (course.year === undefined) continue; // Skip transversal courses
 		const yearCourses = coursesByYear.get(course.year) || [];
 		yearCourses.push(course);
 		coursesByYear.set(course.year, yearCourses);

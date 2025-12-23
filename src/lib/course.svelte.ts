@@ -1,14 +1,13 @@
+import type { CourseAttribute } from './course-attribute';
 import { courseStates, isCourseStateGreaterOrEqual, type CourseState } from './course-state';
-import type { CourseTag } from './course-tag';
 import type { CourseTerm } from './course-term';
+import { type CourseType } from './course-type';
 import {
 	requiredFor,
 	type RawCourse,
 	type RawCourseRequirement,
 	type RequiredFor
 } from './raw-course';
-
-export const TRANSVERSAL_YEAR = -1;
 
 export type CourseRequirement = {
 	id: number;
@@ -32,13 +31,14 @@ export type CrossYearInfo = {
 type CourseProperties = {
 	id: number;
 	name: string;
-	year: number;
+	year?: number;
 	term: CourseTerm;
 	hours?: number;
 	code?: string;
 	requirementsForEnrollment?: CourseRequirement[];
 	requirementsForCompletion?: CourseRequirement[];
-	tag?: CourseTag;
+	type: CourseType;
+	attributes: CourseAttribute[];
 	state?: CourseState;
 	grade?: number;
 	dependents?: CourseDependent[];
@@ -49,11 +49,12 @@ type CourseProperties = {
 export class Course {
 	id: number;
 	name: string;
-	year: number;
+	year?: number;
 	term: CourseTerm;
 	hours?: number;
 	code?: string;
-	tag?: CourseTag;
+	type: CourseType;
+	attributes: CourseAttribute[];
 	state = $state<CourseState>(courseStates.notTaken);
 	grade = $state<number | undefined>();
 	requirementsForEnrollment: CourseRequirement[];
@@ -86,7 +87,8 @@ export class Course {
 		this.term = properties.term;
 		this.requirementsForEnrollment = properties.requirementsForEnrollment || [];
 		this.requirementsForCompletion = properties.requirementsForCompletion || [];
-		this.tag = properties.tag;
+		this.type = properties.type;
+		this.attributes = properties.attributes;
 		this.hours = properties.hours;
 		this.code = properties.code;
 		this.crossYear = properties.crossYear;
@@ -120,7 +122,8 @@ const createCourseWithoutCorrelatives = (
 		term: rawCourse.term,
 		hours: rawCourse.hours,
 		code: rawCourse.code,
-		tag: rawCourse.tag,
+		type: rawCourse.type,
+		attributes: rawCourse.attributes ?? [],
 		crossYear: rawCourse.crossYear,
 		state: state || courseStates.notTaken,
 		grade,

@@ -1,4 +1,5 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -11,6 +12,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Diseño Gráfico 1',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -20,6 +22,7 @@ const courses: RawCourse[] = [
 		name: 'Medios Expresivos',
 		hours: 3,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -29,6 +32,7 @@ const courses: RawCourse[] = [
 		name: 'Tipografía 1',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -38,6 +42,7 @@ const courses: RawCourse[] = [
 		name: 'Historia del Diseño',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -47,6 +52,7 @@ const courses: RawCourse[] = [
 		name: 'Semiótica y Cultura Visual',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -56,6 +62,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Escritura',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -65,6 +72,7 @@ const courses: RawCourse[] = [
 		name: 'Morfología 1',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -74,6 +82,7 @@ const courses: RawCourse[] = [
 		name: 'Historia del Diseño Gráfico',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -90,6 +99,7 @@ const courses: RawCourse[] = [
 		name: 'Comunicación',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -108,6 +118,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Diseño Gráfico 2',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -124,6 +135,7 @@ const courses: RawCourse[] = [
 		name: 'Morfología 2',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -140,6 +152,7 @@ const courses: RawCourse[] = [
 		name: 'Tipografía 2',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -156,6 +169,7 @@ const courses: RawCourse[] = [
 		name: 'Tecnología',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -165,6 +179,7 @@ const courses: RawCourse[] = [
 		name: 'Escenarios Contemporáneos de la Comunicación',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -187,6 +202,7 @@ const courses: RawCourse[] = [
 		name: 'Ciudadanía y Diversidad Cultural y Derechos Humanos',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -198,6 +214,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Diseño Gráfico 3',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -214,6 +231,7 @@ const courses: RawCourse[] = [
 		name: 'Laboratorio de gráfica, sonido y movimiento',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -230,6 +248,7 @@ const courses: RawCourse[] = [
 		name: 'Tipografía 3',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -246,6 +265,7 @@ const courses: RawCourse[] = [
 		name: 'Tecnología, Diseño y Sociedad',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -255,6 +275,7 @@ const courses: RawCourse[] = [
 		name: 'Extensión, territorio y organizaciones',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -264,6 +285,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión empresarial y mercadotecnia',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -273,6 +295,7 @@ const courses: RawCourse[] = [
 		name: 'Legislación y práctica profesional',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -282,6 +305,7 @@ const courses: RawCourse[] = [
 		name: 'Espacio Curricular Optativo 1',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -291,6 +315,7 @@ const courses: RawCourse[] = [
 		name: 'Espacio Curricular Optativo 2',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -300,6 +325,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Social Educativa',
 		hours: 2,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -309,6 +335,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -320,6 +347,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Proyecto Final',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -414,6 +442,7 @@ const courses: RawCourse[] = [
 		name: 'Diseño Estratégico y Sustentable',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -430,6 +459,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría y Crítica del Diseño',
 		hours: 2,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -458,6 +488,7 @@ const courses: RawCourse[] = [
 		name: 'Laboratorio de multiplataformas y Transmedia',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -474,6 +505,7 @@ const courses: RawCourse[] = [
 		name: 'Diseño Editorial',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -496,6 +528,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación en Diseño',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: []
 	},
@@ -505,6 +538,7 @@ const courses: RawCourse[] = [
 		name: 'Espacio Curricular Optativo 3',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: []
 	},
@@ -514,6 +548,7 @@ const courses: RawCourse[] = [
 		name: 'Espacio Curricular Optativo 4',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: []
 	}

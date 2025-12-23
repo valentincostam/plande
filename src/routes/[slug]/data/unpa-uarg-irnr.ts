@@ -1,7 +1,8 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
+
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -15,6 +16,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas Naturales',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -24,6 +26,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática I',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -33,6 +36,7 @@ const courses: RawCourse[] = [
 		name: 'Química General',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -42,6 +46,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción al Conocimiento Científico',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -51,6 +56,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis y Producción del Discurso',
 		hours: 2,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -60,6 +66,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática II',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Correlativa: 0387
@@ -83,6 +90,7 @@ const courses: RawCourse[] = [
 		name: 'Biología General',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -92,6 +100,7 @@ const courses: RawCourse[] = [
 		name: 'Principios de Geología',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -105,6 +114,7 @@ const courses: RawCourse[] = [
 		name: 'Estadística y Diseño Experimental',
 		hours: 9,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 0387
@@ -128,6 +138,7 @@ const courses: RawCourse[] = [
 		name: 'Física Aplicada',
 		hours: 9,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 0390
@@ -151,6 +162,7 @@ const courses: RawCourse[] = [
 		name: 'Botánica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 0324
@@ -174,6 +186,7 @@ const courses: RawCourse[] = [
 		name: 'Zoología',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 0324
@@ -197,6 +210,7 @@ const courses: RawCourse[] = [
 		name: 'Química Biológica',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 1527
@@ -220,6 +234,7 @@ const courses: RawCourse[] = [
 		name: 'Cartografía y Teledetección',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Correlativa: 0391
@@ -243,6 +258,7 @@ const courses: RawCourse[] = [
 		name: 'Economía General',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -256,6 +272,7 @@ const courses: RawCourse[] = [
 		name: 'Edafología',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativas: 1527/0391
@@ -291,6 +308,7 @@ const courses: RawCourse[] = [
 		name: 'Ecología',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativas: 0393/0396/0397
@@ -338,6 +356,7 @@ const courses: RawCourse[] = [
 		name: 'Nutrición Animal',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativas: 0397/1903
@@ -373,6 +392,7 @@ const courses: RawCourse[] = [
 		name: 'Administración Estratégica',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativa: 0395
@@ -396,6 +416,7 @@ const courses: RawCourse[] = [
 		name: 'Tecnología de Gestión de las Organizaciones',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativa: 0392
@@ -419,6 +440,7 @@ const courses: RawCourse[] = [
 		name: 'Relación Suelo-Planta-Animal',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativa: 0402
@@ -442,6 +464,7 @@ const courses: RawCourse[] = [
 		name: 'Genética',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativas: 0324/0393
@@ -477,6 +500,7 @@ const courses: RawCourse[] = [
 		name: 'Fundamentos de Limnología y Oceanografía',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Correlativa: 0402
@@ -504,6 +528,7 @@ const courses: RawCourse[] = [
 		name: 'Manejo de Recursos Hídricos',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 0404
@@ -527,6 +552,7 @@ const courses: RawCourse[] = [
 		name: 'Manejo de Recursos Bioacuáticos',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 0394
@@ -550,6 +576,7 @@ const courses: RawCourse[] = [
 		name: 'Dinámica Poblacional',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 0402
@@ -573,6 +600,7 @@ const courses: RawCourse[] = [
 		name: 'Manejo de Bosques',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 0402
@@ -596,6 +624,7 @@ const courses: RawCourse[] = [
 		name: 'Evaluación y Manejo de Pastizales',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 0408
@@ -619,6 +648,7 @@ const courses: RawCourse[] = [
 		name: 'Formulación de Proyectos',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Correlativa: 1904
@@ -646,6 +676,7 @@ const courses: RawCourse[] = [
 		name: 'Impacto Ambiental',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Correlativa: 0402
@@ -669,6 +700,7 @@ const courses: RawCourse[] = [
 		name: 'Manejo de Fauna',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Correlativa: 0425
@@ -696,8 +728,8 @@ const courses: RawCourse[] = [
 		name: 'Forrajes',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0403/0408
 			{
@@ -732,8 +764,8 @@ const courses: RawCourse[] = [
 		name: 'Forestación y Viveros',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0396/0404
 			{
@@ -768,8 +800,8 @@ const courses: RawCourse[] = [
 		name: 'Producción Ovina',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0403/1907
 			{
@@ -804,8 +836,8 @@ const courses: RawCourse[] = [
 		name: 'Tecnología Pesquera',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 1903/1906
 			{
@@ -840,8 +872,8 @@ const courses: RawCourse[] = [
 		name: 'Acuicultura',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativa: 0394
 			{
@@ -864,8 +896,8 @@ const courses: RawCourse[] = [
 		name: 'Frutihorticultura',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0396/0404
 			{
@@ -900,8 +932,8 @@ const courses: RawCourse[] = [
 		name: 'Producción Bovina',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0403/1907
 			{
@@ -936,8 +968,8 @@ const courses: RawCourse[] = [
 		name: 'Energías Renovables',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			// Correlativas: 0390/0399
 			{

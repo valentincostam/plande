@@ -1,5 +1,5 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -11,6 +11,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Individual',
 		hours: 23,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -20,6 +21,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Colectiva',
 		hours: 7,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -29,6 +31,7 @@ const courses: RawCourse[] = [
 		name: 'Crecimiento y Desarrollo',
 		hours: 22,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -63,6 +66,7 @@ const courses: RawCourse[] = [
 		name: 'Nutrición',
 		hours: 22,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -97,6 +101,7 @@ const courses: RawCourse[] = [
 		name: 'Sexualidad Género y Reproducción',
 		hours: 22,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -131,6 +136,7 @@ const courses: RawCourse[] = [
 		name: 'Trabajo y Tiempo Libre',
 		hours: 26,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -165,6 +171,7 @@ const courses: RawCourse[] = [
 		name: 'El Ser Humano y su Medio',
 		hours: 26,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -201,7 +208,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [],
-		tag: courseTags.elective
+		type: courseTypes.elective
 	},
 	{
 		id: 9,
@@ -211,7 +218,7 @@ const courses: RawCourse[] = [
 		term: courseTerms.semestral,
 		year: 3,
 		requirements: [],
-		tag: courseTags.elective
+		type: courseTypes.elective
 	},
 	{
 		id: 10,
@@ -219,6 +226,7 @@ const courses: RawCourse[] = [
 		name: 'Injuria',
 		hours: 22,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -253,6 +261,7 @@ const courses: RawCourse[] = [
 		name: 'Defensa',
 		hours: 22,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -275,6 +284,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación Científica I',
 		hours: 7,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -315,6 +325,7 @@ const courses: RawCourse[] = [
 		name: 'Electivas',
 		hours: 15,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -349,6 +360,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Integral del Niño y del Adolescente',
 		hours: 10,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -371,6 +383,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Integral del Adulto Joven',
 		hours: 17,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -402,7 +415,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		type: courseTypes.elective
 	},
 	{
 		id: 17,
@@ -419,7 +432,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		type: courseTypes.elective
 	},
 	{
 		id: 18,
@@ -442,7 +455,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.enroll
 			}
 		],
-		tag: courseTags.elective
+		type: courseTypes.elective
 	},
 	{
 		id: 19,
@@ -450,6 +463,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Integral del Adulto Mayor',
 		hours: 17,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -472,6 +486,7 @@ const courses: RawCourse[] = [
 		name: 'Salud Integral de la Mujer',
 		hours: 10,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -488,6 +503,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción a las Especialidades Clínico-Quirúrgicas',
 		hours: 10,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -510,6 +526,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación Científica II',
 		hours: 14,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -538,6 +555,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica Pediátrica',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -602,6 +620,7 @@ const courses: RawCourse[] = [
 		name: 'Gineco-Obstetricia',
 		hours: 8,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -666,6 +685,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica Quirúrgica',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -730,6 +750,7 @@ const courses: RawCourse[] = [
 		name: 'Clínica Médica',
 		hours: 10,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -794,6 +815,7 @@ const courses: RawCourse[] = [
 		name: 'Medicina Familiar y General',
 		hours: undefined,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -858,6 +880,7 @@ const courses: RawCourse[] = [
 		name: 'Emergentología',
 		hours: 6,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -922,6 +945,7 @@ const courses: RawCourse[] = [
 		name: 'Escuela de Salud (ESP)',
 		hours: undefined,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -998,6 +1022,7 @@ const courses: RawCourse[] = [
 		name: 'Prácticas Integradas (CISS)',
 		hours: undefined,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{

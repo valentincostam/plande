@@ -1,5 +1,6 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -12,7 +13,8 @@ const courses: RawCourse[] = [
 		name: 'Conocimientos Aeronáuticos y Espaciales I',
 		term: courseTerms.annual,
 		year: 1,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: []
 	},
 	{
@@ -20,6 +22,7 @@ const courses: RawCourse[] = [
 		code: '2',
 		name: 'Sistemas de Representación en Ingeniería',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -28,6 +31,7 @@ const courses: RawCourse[] = [
 		code: '3',
 		name: 'Diseño y Representación Aeroespacial',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -43,6 +47,7 @@ const courses: RawCourse[] = [
 		code: '4',
 		name: 'Álgebra y Geometría Analítica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -51,6 +56,7 @@ const courses: RawCourse[] = [
 		code: '5',
 		name: 'Análisis Matemático I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -59,6 +65,7 @@ const courses: RawCourse[] = [
 		code: '6',
 		name: 'Física I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -67,6 +74,7 @@ const courses: RawCourse[] = [
 		code: '7',
 		name: 'Química General',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -75,6 +83,7 @@ const courses: RawCourse[] = [
 		code: '8',
 		name: 'Ingeniería y Sociedad',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -83,6 +92,7 @@ const courses: RawCourse[] = [
 		code: '9',
 		name: 'Inglés I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -93,7 +103,8 @@ const courses: RawCourse[] = [
 		name: 'Conocimientos Aeronáuticos y Espaciales II',
 		term: courseTerms.annual,
 		year: 2,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -120,6 +131,7 @@ const courses: RawCourse[] = [
 		code: '11',
 		name: 'Estructuras Aeroespaciales I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -147,6 +159,7 @@ const courses: RawCourse[] = [
 		code: '12',
 		name: 'Materiales Metálicos',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -168,6 +181,7 @@ const courses: RawCourse[] = [
 		code: '13',
 		name: 'Computación',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -189,6 +203,7 @@ const courses: RawCourse[] = [
 		code: '14',
 		name: 'Análisis Matemático II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -210,6 +225,7 @@ const courses: RawCourse[] = [
 		code: '15',
 		name: 'Mecánica Racional',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -231,6 +247,7 @@ const courses: RawCourse[] = [
 		code: '16',
 		name: 'Física II',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -252,6 +269,7 @@ const courses: RawCourse[] = [
 		code: '17',
 		name: 'Probabilidad y Estadística',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -273,6 +291,7 @@ const courses: RawCourse[] = [
 		code: '18',
 		name: 'Economía',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -295,6 +314,7 @@ const courses: RawCourse[] = [
 		code: '19',
 		name: 'Matemáticas Avanzadas para Ingeniería',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -341,7 +361,8 @@ const courses: RawCourse[] = [
 		name: 'Programación y Análisis Numérico',
 		term: courseTerms.secondSemester,
 		year: 3,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -380,6 +401,7 @@ const courses: RawCourse[] = [
 		code: '21',
 		name: 'Estructuras Aeroespaciales II',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -401,6 +423,7 @@ const courses: RawCourse[] = [
 		code: '22',
 		name: 'Electrotecnia y Electrónica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -440,6 +463,7 @@ const courses: RawCourse[] = [
 		code: '23',
 		name: 'Mecánica del Sólido',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -467,6 +491,7 @@ const courses: RawCourse[] = [
 		code: '24',
 		name: 'Termodinámica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -506,6 +531,7 @@ const courses: RawCourse[] = [
 		code: '25',
 		name: 'Organización Industrial',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -539,6 +565,7 @@ const courses: RawCourse[] = [
 		code: '26',
 		name: 'Mecánica de los Fluidos',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -572,6 +599,7 @@ const courses: RawCourse[] = [
 		code: '27',
 		name: 'Materiales No Metálicos',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -613,7 +641,8 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Vehículos Aéreos y Espaciales',
 		term: courseTerms.annual,
 		year: 4,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -652,6 +681,7 @@ const courses: RawCourse[] = [
 		code: '29',
 		name: 'Motores Aeronáuticos',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -691,6 +721,7 @@ const courses: RawCourse[] = [
 		code: '30',
 		name: 'Estructuras Aeroespaciales III',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -736,6 +767,7 @@ const courses: RawCourse[] = [
 		code: '31',
 		name: 'Mecanismos',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -769,6 +801,7 @@ const courses: RawCourse[] = [
 		code: '32',
 		name: 'Sistemas de Control',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -808,6 +841,7 @@ const courses: RawCourse[] = [
 		code: '33',
 		name: 'Aerodinámica Teórica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -853,6 +887,7 @@ const courses: RawCourse[] = [
 		code: '34',
 		name: 'Instrumentos y Aviónica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -898,6 +933,7 @@ const courses: RawCourse[] = [
 		code: '35',
 		name: 'Materiales Aeroespaciales',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -925,6 +961,7 @@ const courses: RawCourse[] = [
 		code: '36',
 		name: 'Mecánica Orbital',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -958,6 +995,7 @@ const courses: RawCourse[] = [
 		code: '37',
 		name: 'Inglés II',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -974,6 +1012,7 @@ const courses: RawCourse[] = [
 		code: '38',
 		name: 'Procesos de Fabricación Aeroespacial',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1020,7 +1059,8 @@ const courses: RawCourse[] = [
 		name: 'Proyecto y Diseño Aerodinámico',
 		term: courseTerms.annual,
 		year: 5,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1060,7 +1100,8 @@ const courses: RawCourse[] = [
 		name: 'Mecánica del Vuelo',
 		term: courseTerms.annual,
 		year: 5,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1099,6 +1140,7 @@ const courses: RawCourse[] = [
 		code: '41',
 		name: 'Proyecto y Diseño de Estructuras Aeronáuticas',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1138,6 +1180,7 @@ const courses: RawCourse[] = [
 		code: '42',
 		name: 'Helicópteros',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1184,7 +1227,8 @@ const courses: RawCourse[] = [
 		name: 'Análisis y Diseño de Misiles y Lanzadores',
 		term: courseTerms.annual,
 		year: 5,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1241,6 +1285,7 @@ const courses: RawCourse[] = [
 		code: '44',
 		name: 'Ingeniería de Sistemas Espaciales',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1298,6 +1343,7 @@ const courses: RawCourse[] = [
 		code: '45',
 		name: 'Legislación y Ejercicio Profesional',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1319,6 +1365,7 @@ const courses: RawCourse[] = [
 		code: '46',
 		name: 'Normativa Aeronáutica',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1353,6 +1400,7 @@ const courses: RawCourse[] = [
 		code: '47',
 		name: 'Proyecto y Diseño de Estructuras Espaciales',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 6,
 		requirements: [
 			{
@@ -1398,6 +1446,7 @@ const courses: RawCourse[] = [
 		code: '48',
 		name: 'Mantenimiento General de Aeronaves',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 6,
 		requirements: [
 			{
@@ -1443,6 +1492,7 @@ const courses: RawCourse[] = [
 		code: '49',
 		name: 'Aeropuertos, Aeronavegación e Impacto Ambiental',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 6,
 		requirements: [
 			{
@@ -1489,7 +1539,8 @@ const courses: RawCourse[] = [
 		name: 'Proyecto Final',
 		term: courseTerms.annual,
 		year: 6,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1534,6 +1585,7 @@ const courses: RawCourse[] = [
 		code: '99',
 		name: 'Práctica Profesional Supervisada',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 6,
 		requirements: [
 			{

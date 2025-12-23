@@ -1,5 +1,5 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -11,6 +11,7 @@ const courses: RawCourse[] = [
 		code: '1.01',
 		name: 'Introducción a la Arquitectura',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -19,6 +20,7 @@ const courses: RawCourse[] = [
 		code: '1.02',
 		name: 'Técnicas de Representación I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -27,6 +29,7 @@ const courses: RawCourse[] = [
 		code: '1.03',
 		name: 'Sistemas de Representación I',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -35,6 +38,7 @@ const courses: RawCourse[] = [
 		code: '1.04',
 		name: 'Matemática I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -43,6 +47,7 @@ const courses: RawCourse[] = [
 		code: '1.05',
 		name: 'Introducción a la Construcción',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -51,6 +56,7 @@ const courses: RawCourse[] = [
 		code: '1.06',
 		name: 'Arquitectura I',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Introducción a la Arquitectura passed
@@ -81,6 +87,7 @@ const courses: RawCourse[] = [
 		code: '1.07',
 		name: 'Matemática II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Matemática I taken
@@ -104,6 +111,7 @@ const courses: RawCourse[] = [
 		code: '1.08',
 		name: 'Construcciones I',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -128,6 +136,7 @@ const courses: RawCourse[] = [
 		code: '2.01',
 		name: 'Arquitectura II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -163,6 +172,7 @@ const courses: RawCourse[] = [
 		code: '2.02',
 		name: 'Técnicas de Representación II',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -185,6 +195,7 @@ const courses: RawCourse[] = [
 		code: '2.03',
 		name: 'Sistemas de Representación II',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -207,6 +218,7 @@ const courses: RawCourse[] = [
 		code: '2.04',
 		name: 'Matemática III e Introducción a la Física',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -235,6 +247,7 @@ const courses: RawCourse[] = [
 		code: '2.05',
 		name: 'Computación Gráfica I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -257,6 +270,7 @@ const courses: RawCourse[] = [
 		code: '2.06',
 		name: 'Instalaciones I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Construcciones I taken
@@ -280,6 +294,7 @@ const courses: RawCourse[] = [
 		code: '2.07',
 		name: 'Historia de la Arquitectura I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -288,6 +303,7 @@ const courses: RawCourse[] = [
 		code: '2.08',
 		name: 'Arquitectura III',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Arquitectura II passed
@@ -318,6 +334,7 @@ const courses: RawCourse[] = [
 		code: '2.09',
 		name: 'Estructuras I',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Matemática III e Introducción a la Física taken
@@ -341,6 +358,7 @@ const courses: RawCourse[] = [
 		code: '2.10',
 		name: 'Computación Gráfica II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Computación Gráfica I taken
@@ -364,6 +382,7 @@ const courses: RawCourse[] = [
 		code: '2.11',
 		name: 'Instalaciones II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Instalaciones I taken
@@ -387,6 +406,7 @@ const courses: RawCourse[] = [
 		code: '2.12',
 		name: 'Historia de la Arquitectura II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Historia de la Arquitectura I taken
@@ -410,6 +430,7 @@ const courses: RawCourse[] = [
 		code: '2.13',
 		name: 'Metodología de la Investigación',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -420,6 +441,7 @@ const courses: RawCourse[] = [
 		code: '3.01',
 		name: 'Arquitectura IV',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Técnicas de Representación II passed
@@ -457,6 +479,7 @@ const courses: RawCourse[] = [
 		code: '3.02',
 		name: 'Técnicas de Representación III',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Técnicas de Representación II passed
@@ -480,6 +503,7 @@ const courses: RawCourse[] = [
 		code: '3.03',
 		name: 'Documentación de Obra',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Sistemas de Representación II taken
@@ -503,6 +527,7 @@ const courses: RawCourse[] = [
 		code: '3.04',
 		name: 'Estructuras II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Matemática II passed
@@ -533,6 +558,7 @@ const courses: RawCourse[] = [
 		code: '3.05',
 		name: 'Construcciones II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Introducción a la Construcción passed
@@ -563,6 +589,7 @@ const courses: RawCourse[] = [
 		code: '3.06',
 		name: 'Historia de la Arquitectura III',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Historia de la Arquitectura I passed
@@ -610,13 +637,14 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.complete
 			}
 		],
-		tag: courseTags.optative
+		type: courseTypes.optative
 	},
 	{
 		id: 29,
 		code: '3.07',
 		name: 'Arquitectura V',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Arquitectura IV passed
@@ -647,6 +675,7 @@ const courses: RawCourse[] = [
 		code: '3.08',
 		name: 'Estructuras III',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Matemática III e Introducción a la Física passed
@@ -677,6 +706,7 @@ const courses: RawCourse[] = [
 		code: '3.09',
 		name: 'Construcciones III',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Construcciones I passed
@@ -707,6 +737,7 @@ const courses: RawCourse[] = [
 		code: '3.10',
 		name: 'Historia de la Arquitectura IV',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Historia de la Arquitectura II passed
@@ -737,6 +768,7 @@ const courses: RawCourse[] = [
 		code: '3.11',
 		name: 'Arquitectura Legal y Ética Profesional',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Construcciones I passed
@@ -762,6 +794,7 @@ const courses: RawCourse[] = [
 		code: '4.01',
 		name: 'Arquitectura VI',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Técnicas de Representación III passed
@@ -799,6 +832,7 @@ const courses: RawCourse[] = [
 		code: '4.02',
 		name: 'Dirección y Organización de Obra I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Construcciones III taken
@@ -822,6 +856,7 @@ const courses: RawCourse[] = [
 		code: '4.03',
 		name: 'Estructuras IV',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Estructuras I passed
@@ -852,6 +887,7 @@ const courses: RawCourse[] = [
 		code: '4.04',
 		name: 'Instalaciones III',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Instalaciones II passed
@@ -882,6 +918,7 @@ const courses: RawCourse[] = [
 		code: '4.05',
 		name: 'Historia Política, Social y Económica de la Arquitectura Argentina I',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Historia de la Arquitectura IV taken
@@ -905,6 +942,7 @@ const courses: RawCourse[] = [
 		code: '4.06',
 		name: 'Patrimonio y Conservación',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Historia de la Arquitectura II taken
@@ -945,13 +983,14 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.complete
 			}
 		],
-		tag: courseTags.optative
+		type: courseTypes.optative
 	},
 	{
 		id: 41,
 		code: '4.07',
 		name: 'Arquitectura VII',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Arquitectura VI passed
@@ -975,6 +1014,7 @@ const courses: RawCourse[] = [
 		code: '4.08',
 		name: 'Teoría y Crítica de la Arquitectura y el Urbanismo',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Arquitectura VI passed
@@ -998,6 +1038,7 @@ const courses: RawCourse[] = [
 		code: '4.09',
 		name: 'Dirección y Organización de Obra II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Dirección y Organización de Obra I taken
@@ -1021,6 +1062,7 @@ const courses: RawCourse[] = [
 		code: '4.10',
 		name: 'Estructuras V',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Estructuras III passed
@@ -1051,6 +1093,7 @@ const courses: RawCourse[] = [
 		code: '4.11',
 		name: 'Infraestructura Urbana',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Instalaciones III taken
@@ -1074,6 +1117,7 @@ const courses: RawCourse[] = [
 		code: '4.12',
 		name: 'Historia Política, Social y Económica de la Arquitectura Argentina II',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Historia de la Arquitectura III passed
@@ -1121,7 +1165,7 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.complete
 			}
 		],
-		tag: courseTags.optative
+		type: courseTypes.optative
 	},
 
 	// 5to año
@@ -1130,6 +1174,7 @@ const courses: RawCourse[] = [
 		code: '5.01',
 		name: 'Planificación Urbanística',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Arquitectura VII passed
@@ -1153,6 +1198,7 @@ const courses: RawCourse[] = [
 		code: '5.02',
 		name: 'Proyecto Final',
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{

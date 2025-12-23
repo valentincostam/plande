@@ -3,7 +3,7 @@
 	import FullscreenButton from './fullscreen-button.svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import type { Course } from '$lib/course.svelte';
-	import { courseTags } from '$lib/course-tag';
+	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
 	import CourseNode from './course-node.svelte';
 	import { createDagreLayout, getEdgeStyle } from './diagram-utils';
 	import type { Edge, Node } from '@xyflow/svelte';
@@ -19,8 +19,8 @@
 	let showElectives = $state(true);
 
 	// Detect which course types exist
-	const hasElectives = $derived(courses.some((c) => c.tag === courseTags.elective));
-	const hasOptatives = $derived(courses.some((c) => c.tag === courseTags.optative));
+	const hasElectives = $derived(courses.some((c) => c.type === courseTypes.elective));
+	const hasOptatives = $derived(courses.some((c) => c.type === courseTypes.optative));
 
 	// Dynamic label for electives checkbox
 	const electivesLabel = $derived(
@@ -31,14 +31,8 @@
 				: 'Mostrar optativas'
 	);
 
-	// Filter courses based on toggle
 	const displayedCourses = $derived(
-		courses.filter((c) => {
-			if (!showElectives && (c.tag === courseTags.elective || c.tag === courseTags.optative)) {
-				return false;
-			}
-			return true;
-		})
+		courses.filter((c) => showElectives || !isElectiveOrOptative(c.type))
 	);
 
 	// Layout derived from displayed courses - recalculates when filters change

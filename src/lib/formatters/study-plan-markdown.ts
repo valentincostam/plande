@@ -1,6 +1,7 @@
 import type { StudyPlan } from '../study-plan';
 import { courseTermLabels } from '../course-term';
-import { courseTagLabels } from '../course-tag';
+import { courseTypeLabels } from '../course-type';
+import { courseAttributeLabels } from '../course-attribute';
 import { femenineCourseStateLabels } from '../course-state';
 import { requiredFor, requiredForLabels } from '../raw-course';
 
@@ -52,7 +53,7 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 	sections.push('');
 
 	// Group courses by year
-	const coursesByYear = new Map<number, typeof studyPlan.courses>();
+	const coursesByYear = new Map<number | undefined, typeof studyPlan.courses>();
 
 	for (const course of studyPlan.courses) {
 		if (!coursesByYear.has(course.year)) {
@@ -61,14 +62,18 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 		coursesByYear.get(course.year)!.push(course);
 	}
 
-	// Sort years
-	const sortedYears = Array.from(coursesByYear.keys()).sort((a, b) => a - b);
+	// Sort years (undefined = transversal goes last)
+	const sortedYears = Array.from(coursesByYear.keys()).sort((a, b) => {
+		if (a === undefined) return 1;
+		if (b === undefined) return -1;
+		return a - b;
+	});
 
 	sections.push('## Materias');
 	sections.push('');
 
 	for (const year of sortedYears) {
-		sections.push(`### Año ${year}`);
+		sections.push(year !== undefined ? `### Año ${year}` : '### Materias Transversales');
 		sections.push('');
 
 		const courses = coursesByYear.get(year)!;
@@ -93,8 +98,11 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 				sections.push(`- **Período**: ${termLabel}`);
 			}
 
-			if (course.tag) {
-				sections.push(`- **Tipo**: ${courseTagLabels[course.tag]}`);
+			sections.push(`- **Tipo**: ${courseTypeLabels[course.type]}`);
+
+			if (course.attributes && course.attributes.length > 0) {
+				const attrLabels = course.attributes.map((a) => courseAttributeLabels[a]).join(', ');
+				sections.push(`- **Atributos**: ${attrLabels}`);
 			}
 
 			if (course.crossYear) {

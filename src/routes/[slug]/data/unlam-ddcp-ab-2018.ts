@@ -1,4 +1,5 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -13,6 +14,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Político',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -22,6 +24,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción al Estudio del Derecho',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -31,6 +34,7 @@ const courses: RawCourse[] = [
 		name: 'Historia y Evolución de las Instituciones del Derecho',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -40,6 +44,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel I',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -49,6 +54,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Constitucional I',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -83,6 +89,7 @@ const courses: RawCourse[] = [
 		name: 'Filosofía del Derecho',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -92,6 +99,7 @@ const courses: RawCourse[] = [
 		name: 'Economía Política',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -101,6 +109,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial I (Parte General)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -139,6 +148,7 @@ const courses: RawCourse[] = [
 		name: 'Computación Nivel I',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -148,6 +158,7 @@ const courses: RawCourse[] = [
 		name: 'Sociología',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -170,6 +181,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Constitucional II',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -192,6 +204,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Público: Provincial y Municipal',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -214,6 +227,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial II (Obligaciones Civiles y Comerciales)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -236,6 +250,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel II',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -258,6 +273,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Penal I',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -280,6 +296,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Administrativo I',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -302,6 +319,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial III (Contratos Civiles y Comerciales)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -328,6 +346,7 @@ const courses: RawCourse[] = [
 		name: 'Computación Nivel II',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -350,6 +369,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Penal II',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -372,6 +392,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial IV (Derechos Reales y Garantías)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -394,6 +415,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Empresario I (Sociedades Comerciales y Concursos)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -416,6 +438,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Procesal I',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -450,6 +473,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Administrativo II',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -472,6 +496,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial V (Derecho de Familia y Sucesiones)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -498,6 +523,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel III',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -520,6 +546,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Procesal II',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -554,6 +581,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Internacional Público',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -576,6 +604,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho del Trabajo y la Seguridad Social',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -598,6 +627,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés Nivel IV',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -620,6 +650,7 @@ const courses: RawCourse[] = [
 		name: 'Finanzas y Derecho Tributario',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -654,6 +685,7 @@ const courses: RawCourse[] = [
 		name: 'Política Económica',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -676,6 +708,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Retórica y Oratoria Forense',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -698,6 +731,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Empresario II (Títulos Valores, Concursos y Quiebras)',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -748,6 +782,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación Jurídica',
 		hours: 2,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -794,6 +829,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Ambiental y de los Recursos Naturales',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -816,6 +852,7 @@ const courses: RawCourse[] = [
 		name: 'Seminario de Resolución Adecuada de Controversias',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -838,6 +875,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional I',
 		hours: 8,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -884,6 +922,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Internacional Privado',
 		hours: 6,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -918,6 +957,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional II',
 		hours: 8,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -940,6 +980,7 @@ const courses: RawCourse[] = [
 		name: 'Seminario de Derecho de los Consumidores',
 		hours: 4,
 		term: courseTerms.semestral,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{

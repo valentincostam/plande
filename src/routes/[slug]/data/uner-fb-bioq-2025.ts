@@ -1,4 +1,5 @@
 import { courseStates } from '$lib/course-state';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -12,6 +13,7 @@ const courses: RawCourse[] = [
 		code: '1.1.1',
 		name: 'Taller de Introducción a las Ciencias Bioquímicas',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -20,6 +22,7 @@ const courses: RawCourse[] = [
 		code: '1.2.1',
 		name: 'Matemática',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -28,6 +31,7 @@ const courses: RawCourse[] = [
 		code: '1.3.1',
 		name: 'Química General e Inorgánica',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -36,6 +40,7 @@ const courses: RawCourse[] = [
 		code: '1.4.2',
 		name: 'Biología',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Regularizada: 1.3.1
@@ -59,6 +64,7 @@ const courses: RawCourse[] = [
 		code: '1.5.2',
 		name: 'Química Orgánica I',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Regularizada: 1.3.1
@@ -82,6 +88,7 @@ const courses: RawCourse[] = [
 		code: '1.6.2',
 		name: 'Física',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			// Regularizada: 1.2.1
@@ -109,6 +116,7 @@ const courses: RawCourse[] = [
 		code: '2.7.1',
 		name: 'Anatomía e Histología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 1.4.2
@@ -145,6 +153,7 @@ const courses: RawCourse[] = [
 		code: '2.8.1',
 		name: 'Química Orgánica II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 1.5.2
@@ -181,6 +190,7 @@ const courses: RawCourse[] = [
 		code: '2.9.1',
 		name: 'Fisicoquímica',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 1.5.2, 1.6.2
@@ -229,6 +239,7 @@ const courses: RawCourse[] = [
 		code: '2.10.2',
 		name: 'Bioquímica Estructural',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 2.7.1, 2.8.1
@@ -277,6 +288,7 @@ const courses: RawCourse[] = [
 		code: '2.11.2',
 		name: 'Química Analítica',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 2.8.1, 2.9.1
@@ -325,6 +337,7 @@ const courses: RawCourse[] = [
 		code: '2.12.2',
 		name: 'Bioestadística Aplicada al Diseño de Experimentos',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: -- (ninguna)
@@ -355,6 +368,7 @@ const courses: RawCourse[] = [
 		code: '2.13.2',
 		name: 'Taller Integrador para la Intervención en el Ámbito Profesional y Social en Salud',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Regularizada: 2.7.1, 2.8.1
@@ -395,6 +409,7 @@ const courses: RawCourse[] = [
 		code: '3.14.1',
 		name: 'Química Analítica Instrumental',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 2.11.2
@@ -431,6 +446,7 @@ const courses: RawCourse[] = [
 		code: '3.15.1',
 		name: 'Fisiología e Inmunología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 2.10.2
@@ -461,6 +477,7 @@ const courses: RawCourse[] = [
 		code: '3.16.1',
 		name: 'Bioquímica Metabólica',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 2.10.2
@@ -491,6 +508,7 @@ const courses: RawCourse[] = [
 		code: '3.17.2',
 		name: 'Genética y Biotecnología Aplicada',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 2.10.2, 2.11.2
@@ -533,6 +551,7 @@ const courses: RawCourse[] = [
 		code: '3.18.2',
 		name: 'Microbiología General',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 2.10.2
@@ -563,6 +582,7 @@ const courses: RawCourse[] = [
 		code: '3.19.2',
 		name: 'Fisiopatología',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Regularizada: 3.15.1, 3.16.1
@@ -615,6 +635,7 @@ const courses: RawCourse[] = [
 		code: '4.20.1',
 		name: 'Farmacología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.15.1, 3.16.1
@@ -663,6 +684,7 @@ const courses: RawCourse[] = [
 		code: '4.21.1',
 		name: 'Microbiología Clínica',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.15.1, 3.18.2
@@ -705,6 +727,7 @@ const courses: RawCourse[] = [
 		code: '4.22.1',
 		name: 'Nutrición y Bromatología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.15.1, 3.16.1
@@ -747,6 +770,7 @@ const courses: RawCourse[] = [
 		code: '4.23.2',
 		name: 'Bioquímica Clínica I',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.19.2
@@ -789,6 +813,7 @@ const courses: RawCourse[] = [
 		code: '4.24.2',
 		name: 'Toxicología y Química Legal',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 4.20.1
@@ -825,6 +850,7 @@ const courses: RawCourse[] = [
 		code: '4.25.2',
 		name: 'Bioética y Legislación Bioquímica',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.19.2
@@ -855,6 +881,7 @@ const courses: RawCourse[] = [
 		code: '4.26.2',
 		name: 'Genética Diagnóstica',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 3.17.2
@@ -885,6 +912,7 @@ const courses: RawCourse[] = [
 		code: '4.27.2',
 		name: 'Práctica Profesional Supervisada en Bioquímica Clínica',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Regularizada: 4.20.1, 4.21.1
@@ -949,6 +977,7 @@ const courses: RawCourse[] = [
 		code: '5.28.1',
 		name: 'Bioquímica Clínica II',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Regularizada: 4.23.2
@@ -985,6 +1014,7 @@ const courses: RawCourse[] = [
 		code: '5.29.1',
 		name: 'Gestión y Control de Calidad en el Laboratorio Analítico',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Regularizada: 4.23.2, 4.25.2
@@ -1027,6 +1057,7 @@ const courses: RawCourse[] = [
 		code: '5.30.1',
 		name: 'Epidemiología y Salud Pública',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Regularizada: 4.21.1, 4.23.2

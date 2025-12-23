@@ -1,5 +1,5 @@
 import { courseStates } from './course-state';
-import { courseTags } from './course-tag';
+import { courseTypes, isElectiveOrOptative } from './course-type';
 import type { Course } from './course.svelte';
 
 export type DegreeProgressType =
@@ -25,12 +25,10 @@ export function calculateDegreeProgress(
 	config: DegreeProgressConfig
 ): DegreeProgressCalculation {
 	const mandatoryCourses = courses.filter(
-		(course) => course.tag !== courseTags.elective && course.tag !== courseTags.optative
+		(course) => course.type === courseTypes.mandatory
 	);
 
-	const electiveCourses = courses.filter(
-		(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
-	);
+	const electiveCourses = courses.filter((course) => isElectiveOrOptative(course.type));
 
 	const passedMandatoryCourses = mandatoryCourses.filter(
 		(course) => course.state === courseStates.passed

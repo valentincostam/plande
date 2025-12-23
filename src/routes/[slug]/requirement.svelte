@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { isTransversal } from '$lib/course-attribute';
 	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
-	import { toKebabCase, TRANSVERSAL_YEAR, type CourseRequirement } from '$lib/course.svelte';
+	import { toKebabCase, type CourseRequirement } from '$lib/course.svelte';
+	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
@@ -16,6 +18,16 @@
 
 	const isRequirementMet = $derived(
 		isCourseStateGreaterOrEqual(requirement.requiredCourse.state, requirement.requiredState)
+	);
+
+	const courseIsTransversal = $derived(isTransversal(requirement.requiredCourse.attributes));
+	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(requirement.requiredCourse.type));
+
+	// Show type label if elective/optative, otherwise show "transversal"
+	const courseLabel = $derived(
+		courseIsElectiveOrOptative
+			? courseTypeLabels[requirement.requiredCourse.type].toLowerCase()
+			: 'transversal'
 	);
 </script>
 
@@ -37,7 +49,7 @@
 			{/if}
 			{requirement.requiredCourse.name}
 		</a>
-		{#if requirement.requiredCourse.year !== TRANSVERSAL_YEAR}
+		{#if requirement.requiredCourse.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">
 				{requirement.requiredCourse.year}<sup
@@ -45,8 +57,8 @@
 				>
 				año
 			</span>
-		{:else}
-			(electiva)
+		{:else if courseIsTransversal}
+			({courseLabel})
 		{/if}
 		debe estar al menos
 		<StatePill state={requirement.requiredState} />

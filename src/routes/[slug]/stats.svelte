@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { courseStates } from '$lib/course-state';
-	import { courseTags } from '$lib/course-tag';
+	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
 	import type { Course } from '$lib/course.svelte';
 	import type { Year } from '$lib/year.svelte';
 	import type { DegreeProgressConfig } from '$lib/degree-progress';
@@ -16,9 +16,13 @@
 
 	const someCourseHasHours = $derived(courses.some((course) => course.hours));
 
-	const hasOptativeCourses = $derived(courses.some((course) => course.tag === courseTags.optative));
+	const hasOptativeCourses = $derived(
+		courses.some((course) => course.type === courseTypes.optative)
+	);
 
-	const hasElectiveCourses = $derived(courses.some((course) => course.tag === courseTags.elective));
+	const hasElectiveCourses = $derived(
+		courses.some((course) => course.type === courseTypes.elective)
+	);
 
 	const passedCourses = $derived(courses.filter((course) => course.state === courseStates.passed));
 
@@ -31,9 +35,7 @@
 	);
 
 	const electiveCourses = $derived(
-		courses.filter(
-			(course) => course.tag === courseTags.elective || course.tag === courseTags.optative
-		)
+		courses.filter((course) => isElectiveOrOptative(course.type))
 	);
 
 	const passedElectiveCourses = $derived(
@@ -41,9 +43,7 @@
 	);
 
 	const mandatoryCourses = $derived(
-		courses.filter(
-			(course) => course.tag !== courseTags.elective && course.tag !== courseTags.optative
-		)
+		courses.filter((course) => course.type === courseTypes.mandatory)
 	);
 
 	const passedMandatoryCourses = $derived(

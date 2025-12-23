@@ -1,7 +1,8 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
-import { TRANSVERSAL_YEAR } from '$lib/course.svelte';
+
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -14,7 +15,8 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 1,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: []
 	},
 	{
@@ -23,6 +25,7 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería y Sociedad',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -32,6 +35,7 @@ const courses: RawCourse[] = [
 		name: 'Álgebra y Geometría Analítica',
 		hours: 10,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -41,6 +45,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático I',
 		hours: 10,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -50,6 +55,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático II',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -84,6 +90,7 @@ const courses: RawCourse[] = [
 		name: 'Química General',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -93,6 +100,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Representación',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -102,6 +110,7 @@ const courses: RawCourse[] = [
 		name: 'Fundamentos de Informática',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -114,7 +123,8 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 2,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -160,6 +170,7 @@ const courses: RawCourse[] = [
 		name: 'Probabilidad y Estadística',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -194,6 +205,7 @@ const courses: RawCourse[] = [
 		name: 'Química Inorgánica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -216,6 +228,7 @@ const courses: RawCourse[] = [
 		name: 'Física I',
 		hours: 10,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -225,6 +238,7 @@ const courses: RawCourse[] = [
 		name: 'Física II',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -259,6 +273,7 @@ const courses: RawCourse[] = [
 		name: 'Química Orgánica',
 		hours: 6,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -281,6 +296,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -290,6 +306,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Superior Aplicada',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -327,7 +344,8 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 3,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -403,6 +421,7 @@ const courses: RawCourse[] = [
 		name: 'Termodinámica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -467,6 +486,7 @@ const courses: RawCourse[] = [
 		name: 'Economía',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -495,6 +515,7 @@ const courses: RawCourse[] = [
 		name: 'Legislación',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -523,6 +544,7 @@ const courses: RawCourse[] = [
 		name: 'Mecánica Eléctrica Industrial',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -557,6 +579,7 @@ const courses: RawCourse[] = [
 		name: 'Fisicoquímica',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -591,6 +614,7 @@ const courses: RawCourse[] = [
 		name: 'Fenómenos del Transporte',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -613,6 +637,7 @@ const courses: RawCourse[] = [
 		name: 'Química Analítica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -665,6 +690,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -684,7 +710,8 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 4,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -766,6 +793,7 @@ const courses: RawCourse[] = [
 		name: 'Operaciones Unitarias I',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -788,6 +816,7 @@ const courses: RawCourse[] = [
 		name: 'Tecnología de la Energía Térmica',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -810,6 +839,7 @@ const courses: RawCourse[] = [
 		name: 'Biotecnología',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -856,6 +886,7 @@ const courses: RawCourse[] = [
 		name: 'Operaciones Unitarias II',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -908,6 +939,7 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería de las Reacciones Químicas',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -960,6 +992,7 @@ const courses: RawCourse[] = [
 		name: 'Organización Industrial',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1003,7 +1036,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 5,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1055,6 +1089,7 @@ const courses: RawCourse[] = [
 		name: 'Control Automático de Procesos',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1107,6 +1142,7 @@ const courses: RawCourse[] = [
 		name: 'Control Estadístico de Procesos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1155,6 +1191,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada',
 		hours: 6,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -1245,8 +1282,8 @@ const courses: RawCourse[] = [
 		name: 'Gestión de la Calidad',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1280,8 +1317,8 @@ const courses: RawCourse[] = [
 		name: 'Cálculo por Elementos Finitos',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1303,8 +1340,8 @@ const courses: RawCourse[] = [
 		name: 'Química Analítica Aplicada',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1338,8 +1375,8 @@ const courses: RawCourse[] = [
 		name: 'Seguridad e Higiene Laboral',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1385,8 +1422,8 @@ const courses: RawCourse[] = [
 		name: 'Introducción a la Ciencia e Ingeniería de los Materiales Metálicos',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1432,8 +1469,8 @@ const courses: RawCourse[] = [
 		name: 'Materiales Cerámicos',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1479,8 +1516,8 @@ const courses: RawCourse[] = [
 		name: 'Radioquímica y Aplicaciones Nucleares',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1514,8 +1551,8 @@ const courses: RawCourse[] = [
 		name: 'Electrónica para Ing. Química',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1537,8 +1574,8 @@ const courses: RawCourse[] = [
 		name: 'Electrónica para Ing. Química II',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1560,8 +1597,8 @@ const courses: RawCourse[] = [
 		name: 'Ing. de las Instalaciones',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1583,8 +1620,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Comunicacional I',
 		hours: 6,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1606,8 +1643,8 @@ const courses: RawCourse[] = [
 		name: 'Inglés Comunicacional II',
 		hours: 6,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1635,8 +1672,8 @@ const courses: RawCourse[] = [
 		name: 'Tecnología y Gestión de la Energía',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1670,8 +1707,8 @@ const courses: RawCourse[] = [
 		name: 'Innovación y Emprendedorismo',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1693,8 +1730,8 @@ const courses: RawCourse[] = [
 		name: 'Diseño de Equipos',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1728,8 +1765,8 @@ const courses: RawCourse[] = [
 		name: 'Alimentos de Origen Animal',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1799,8 +1836,8 @@ const courses: RawCourse[] = [
 		name: 'Alimentos de Origen Vegetal',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1870,8 +1907,8 @@ const courses: RawCourse[] = [
 		name: 'Evaluación de Impacto Ambiental y Sustentabilidad',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1941,8 +1978,8 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería y Factibilidad Ambiental',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -2012,8 +2049,8 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería Ambiental y Sustentabilidad',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -2095,8 +2132,8 @@ const courses: RawCourse[] = [
 		name: 'Biotecnología Ambiental',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -2130,8 +2167,8 @@ const courses: RawCourse[] = [
 		name: 'Tratamiento Fisicoquímico de Efluentes',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -2177,8 +2214,8 @@ const courses: RawCourse[] = [
 		name: 'Reactores Biológicos',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -2224,8 +2261,8 @@ const courses: RawCourse[] = [
 		name: 'Reactores Nucleares',
 		hours: 5,
 		term: courseTerms.unknown,
-		year: TRANSVERSAL_YEAR,
-		tag: courseTags.elective,
+		attributes: [courseAttributes.transversal],
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,

@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { toKebabCase, TRANSVERSAL_YEAR, type CourseDependent } from '$lib/course.svelte';
-	import { requiredFor, requiredForLabels } from '$lib/raw-course';
+	import { isTransversal } from '$lib/course-attribute';
+	import { toKebabCase, type CourseDependent } from '$lib/course.svelte';
+	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
+	import { requiredForLabels } from '$lib/raw-course';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
@@ -14,6 +16,15 @@
 	};
 
 	let { dependent, isRequirementMet, showCodes = false }: Props = $props();
+
+	const courseIsTransversal = $derived(isTransversal(dependent.dependentCourse.attributes));
+	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(dependent.dependentCourse.type));
+
+	const courseLabel = $derived(
+		courseIsElectiveOrOptative
+			? courseTypeLabels[dependent.dependentCourse.type].toLowerCase()
+			: 'transversal'
+	);
 </script>
 
 <li class="flex items-baseline gap-1 leading-relaxed">
@@ -34,7 +45,7 @@
 			{/if}
 			{dependent.dependentCourse.name}
 		</a>
-		{#if dependent.dependentCourse.year !== TRANSVERSAL_YEAR}
+		{#if dependent.dependentCourse.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">
 				{dependent.dependentCourse.year}<sup
@@ -42,8 +53,8 @@
 				>
 				año
 			</span>
-		{:else}
-			(electiva)
+		{:else if courseIsTransversal}
+			({courseLabel})
 		{/if}
 		necesita esta materia al menos <StatePill state={dependent.requiredState} /> para
 		{requiredForLabels[dependent.requiredFor]}

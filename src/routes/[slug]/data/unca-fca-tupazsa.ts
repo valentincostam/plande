@@ -1,5 +1,5 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -10,6 +10,7 @@ const courses: RawCourse[] = [
 		code: '1',
 		name: 'Sistemas Agropecuarios',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -18,6 +19,7 @@ const courses: RawCourse[] = [
 		code: '2',
 		name: 'Matemática y Estadística',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -26,6 +28,7 @@ const courses: RawCourse[] = [
 		code: '3',
 		name: 'Botánica',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -34,6 +37,7 @@ const courses: RawCourse[] = [
 		code: '4',
 		name: 'Química General',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -42,6 +46,7 @@ const courses: RawCourse[] = [
 		code: '5',
 		name: 'Física General',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -50,6 +55,7 @@ const courses: RawCourse[] = [
 		code: '6',
 		name: 'Seguridad e Higiene Laboral',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -65,6 +71,7 @@ const courses: RawCourse[] = [
 		code: '7',
 		name: 'Agroclimatología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -92,6 +99,7 @@ const courses: RawCourse[] = [
 		code: '8',
 		name: 'Edafología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -113,6 +121,7 @@ const courses: RawCourse[] = [
 		code: '9',
 		name: 'Ecofisiología',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -134,6 +143,7 @@ const courses: RawCourse[] = [
 		code: '10',
 		name: 'Anatomía y Fisiología Animal',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -149,6 +159,7 @@ const courses: RawCourse[] = [
 		code: '11',
 		name: 'Maquinaria e Implementos Agrícolas',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -176,6 +187,7 @@ const courses: RawCourse[] = [
 		code: '12',
 		name: 'Agroecología',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -203,6 +215,7 @@ const courses: RawCourse[] = [
 		code: '13',
 		name: 'Genética y Reproducción Animal',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -224,6 +237,7 @@ const courses: RawCourse[] = [
 		code: '14',
 		name: 'Sanidad y Nutrición Animal',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -245,6 +259,7 @@ const courses: RawCourse[] = [
 		code: '15',
 		name: 'Construcciones Rurales',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -272,6 +287,7 @@ const courses: RawCourse[] = [
 		code: '16',
 		name: 'Forrajes y Manejo de Pasturas',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -318,7 +334,7 @@ const courses: RawCourse[] = [
 		name: 'Electiva',
 		term: courseTerms.firstSemester,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -351,6 +367,7 @@ const courses: RawCourse[] = [
 		code: '18',
 		name: 'Porcinos',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -378,6 +395,7 @@ const courses: RawCourse[] = [
 		code: '19',
 		name: 'Administración y Comercialización Agrícola',
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -405,6 +423,7 @@ const courses: RawCourse[] = [
 		code: '20',
 		name: 'PYMES y Microemprendimientos',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -420,6 +439,7 @@ const courses: RawCourse[] = [
 		code: '21',
 		name: 'Caprinos y Ovinos',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -453,6 +473,7 @@ const courses: RawCourse[] = [
 		code: '22',
 		name: 'Producción de Cultivos Industriales Regionales y Cereales',
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{

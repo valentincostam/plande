@@ -1,5 +1,6 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -12,6 +13,7 @@ const courses: RawCourse[] = [
 		name: 'Administración I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -21,6 +23,7 @@ const courses: RawCourse[] = [
 		name: 'Comercialización',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -30,6 +33,7 @@ const courses: RawCourse[] = [
 		name: 'Contabilidad I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -39,6 +43,7 @@ const courses: RawCourse[] = [
 		name: 'Historia Social y Económica',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -48,6 +53,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés I',
 		hours: 2,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -59,6 +65,7 @@ const courses: RawCourse[] = [
 		name: 'Comercio Internacional',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -68,6 +75,7 @@ const courses: RawCourse[] = [
 		name: 'Principios de Economía',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -77,6 +85,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática I',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -86,6 +95,7 @@ const courses: RawCourse[] = [
 		name: 'Administración II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -108,6 +118,7 @@ const courses: RawCourse[] = [
 		name: 'Informática',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -117,6 +128,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés II',
 		hours: 2,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: [
 			{
@@ -141,6 +153,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática II',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -163,6 +176,7 @@ const courses: RawCourse[] = [
 		name: 'Microeconomía',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -185,6 +199,7 @@ const courses: RawCourse[] = [
 		name: 'Contabilidad II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -207,6 +222,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría de las Organizaciones',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -229,6 +245,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Constitucional y Administrativo',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -240,6 +257,7 @@ const courses: RawCourse[] = [
 		name: 'Psicología Aplicada',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -249,6 +267,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Información',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -271,6 +290,7 @@ const courses: RawCourse[] = [
 		name: 'Macroeconomía',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -293,6 +313,7 @@ const courses: RawCourse[] = [
 		name: 'Informática Aplicada',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -315,6 +336,7 @@ const courses: RawCourse[] = [
 		name: 'Problemática del Mundo Actual',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -339,6 +361,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Financiera',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -361,6 +384,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Civil y Comercial',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -383,6 +407,7 @@ const courses: RawCourse[] = [
 		name: 'Estadística',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -405,6 +430,7 @@ const courses: RawCourse[] = [
 		name: 'Costos I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -439,6 +465,7 @@ const courses: RawCourse[] = [
 		name: 'Estructura y Política Económica Argentina',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -450,6 +477,7 @@ const courses: RawCourse[] = [
 		name: 'Administración Financiera',
 		hours: 5,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -484,6 +512,7 @@ const courses: RawCourse[] = [
 		name: 'Sociedades',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -506,6 +535,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis de Estados Contables',
 		hours: 5,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -529,7 +559,7 @@ const courses: RawCourse[] = [
 		hours: 5,
 		term: courseTerms.secondSemester,
 		year: 3,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory, attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -563,6 +593,7 @@ const courses: RawCourse[] = [
 		name: 'Costos II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -587,6 +618,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Laboral y Previsional',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -609,6 +641,7 @@ const courses: RawCourse[] = [
 		name: 'Evaluación de Proyectos',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -643,6 +676,7 @@ const courses: RawCourse[] = [
 		name: 'Auditoría',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -665,6 +699,7 @@ const courses: RawCourse[] = [
 		name: 'Finanzas Públicas y Derecho Tributario',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -687,6 +722,7 @@ const courses: RawCourse[] = [
 		name: 'Metodología de la Investigación',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -711,6 +747,7 @@ const courses: RawCourse[] = [
 		name: 'Concursos y Quiebras',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -745,6 +782,7 @@ const courses: RawCourse[] = [
 		name: 'Impuesto a las Rentas y Patrimonio',
 		hours: 5,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -767,6 +805,7 @@ const courses: RawCourse[] = [
 		name: 'Impuesto sobre los Consumos y Procedimiento Tributario',
 		hours: 5,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -789,6 +828,7 @@ const courses: RawCourse[] = [
 		name: 'Técnicas Cuantitativas',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -811,6 +851,7 @@ const courses: RawCourse[] = [
 		name: 'Taller de Trabajo Final',
 		hours: 3,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -835,6 +876,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Impositiva',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -869,6 +911,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Administrativo-Contable',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -915,6 +958,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Jurídica-Contable',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			{
@@ -937,6 +981,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada',
 		hours: 6.25,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Regular para cursar (solo no-redundantes)
@@ -1141,6 +1186,7 @@ const courses: RawCourse[] = [
 		name: 'Trabajo Final',
 		hours: 3,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Regular para cursar (solo no-redundantes)
@@ -1345,6 +1391,7 @@ const courses: RawCourse[] = [
 		name: 'Experiencias Formativas Obligatorias de Carácter Electivo',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: []
 	}

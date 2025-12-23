@@ -1,5 +1,5 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -15,6 +15,7 @@ const courses: RawCourse[] = [
 		name: 'Introducción al Derecho',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -23,6 +24,7 @@ const courses: RawCourse[] = [
 		name: 'Sociología',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -31,6 +33,7 @@ const courses: RawCourse[] = [
 		name: 'Instituciones de Derecho Civil',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -39,6 +42,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Penal I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -47,6 +51,7 @@ const courses: RawCourse[] = [
 		name: 'Historia Constitucional',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -57,6 +62,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Romano',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -65,6 +71,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Político',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -73,6 +80,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Constitucional I',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -87,6 +95,7 @@ const courses: RawCourse[] = [
 		name: 'Obligaciones Civiles y Comerciales',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Requiere: Introducción al Derecho, Instituciones de Derecho Civil, Derecho Romano
@@ -133,6 +142,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Penal II',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Requiere: Derecho Penal I
@@ -155,6 +165,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Internacional Público',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Requiere: Introducción al Derecho
@@ -177,6 +188,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Constitucional II',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Requiere: Derecho Constitucional I
@@ -199,6 +211,7 @@ const courses: RawCourse[] = [
 		name: 'Optativa I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -209,6 +222,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Público Provincial y Municipal',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Requiere: Derecho Constitucional II
@@ -231,6 +245,7 @@ const courses: RawCourse[] = [
 		name: 'Economía Política',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -239,6 +254,7 @@ const courses: RawCourse[] = [
 		name: 'Optativa II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -253,6 +269,7 @@ const courses: RawCourse[] = [
 		name: 'Contratos Civiles y Comerciales',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Obligaciones Civiles y Comerciales
@@ -275,6 +292,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Financiero',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Economía Política, Derecho Constitucional II
@@ -309,6 +327,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Procesal I',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Derecho Penal II, Derecho Constitucional II
@@ -343,6 +362,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Laboral',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Derecho Constitucional II
@@ -365,6 +385,7 @@ const courses: RawCourse[] = [
 		name: 'Optativa III',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -375,6 +396,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Tributario',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Derecho Financiero
@@ -397,6 +419,7 @@ const courses: RawCourse[] = [
 		name: 'Sociedades Comerciales',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Contratos Civiles y Comerciales
@@ -419,6 +442,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional I',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Requiere: Derecho Procesal I
@@ -441,6 +465,7 @@ const courses: RawCourse[] = [
 		name: 'Optativa IV',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -455,6 +480,7 @@ const courses: RawCourse[] = [
 		name: 'Filosofía del Derecho',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Sociedades Comerciales, Derecho Penal II, Derecho Político
@@ -501,6 +527,7 @@ const courses: RawCourse[] = [
 		name: 'Derechos Reales',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Contratos Civiles y Comerciales
@@ -523,6 +550,7 @@ const courses: RawCourse[] = [
 		name: 'Concursos y Quiebras',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Sociedades Comerciales
@@ -545,6 +573,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Procesal II',
 		hours: 5,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Derecho Procesal I, Concursos y Quiebras
@@ -579,6 +608,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Administrativo I',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Contratos Civiles y Comerciales, Derecho Constitucional II
@@ -615,6 +645,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Ambiental',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Derechos Reales
@@ -637,6 +668,7 @@ const courses: RawCourse[] = [
 		name: 'Mediación y Resolución de Conflictos',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Derecho Procesal II
@@ -659,6 +691,7 @@ const courses: RawCourse[] = [
 		name: 'Ética',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Requiere: Filosofía del Derecho
@@ -687,6 +720,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho de Familia',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derechos Reales
@@ -709,6 +743,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho de Navegación',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Concursos y Quiebras
@@ -731,6 +766,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho de Minería y Energía',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derechos Reales, Derecho Administrativo I
@@ -765,6 +801,7 @@ const courses: RawCourse[] = [
 		name: 'Defensa del Consumidor',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derecho Administrativo I
@@ -787,6 +824,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Administrativo II',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derecho Administrativo I
@@ -811,6 +849,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Notarial y Registral',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derecho de Familia, Derecho Procesal II
@@ -845,6 +884,7 @@ const courses: RawCourse[] = [
 		name: 'Derecho Internacional Privado',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Derecho de Navegación, Derecho de Familia, Derecho Procesal II
@@ -891,6 +931,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Requiere: Práctica Profesional I, Derecho Procesal II

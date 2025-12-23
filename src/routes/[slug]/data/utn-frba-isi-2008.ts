@@ -1,5 +1,6 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -16,6 +17,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático I',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -25,6 +27,7 @@ const courses: RawCourse[] = [
 		name: 'Álgebra y Geometría Analítica',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -34,6 +37,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Discreta',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -44,7 +48,8 @@ const courses: RawCourse[] = [
 		hours: 3,
 		term: courseTerms.annual,
 		year: 1,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: []
 	},
 	{
@@ -53,6 +58,7 @@ const courses: RawCourse[] = [
 		name: 'Algoritmos y Estructura de Datos',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -62,6 +68,7 @@ const courses: RawCourse[] = [
 		name: 'Arquitectura de Computadoras',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -73,6 +80,7 @@ const courses: RawCourse[] = [
 		name: 'Química',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -84,6 +92,7 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería y Sociedad',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -99,6 +108,7 @@ const courses: RawCourse[] = [
 		name: 'Física I',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -108,6 +118,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático II',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Cursadas para cursar: 1, 2
@@ -145,7 +156,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 2,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			// Cursadas para cursar: 4, 5
 			{
@@ -181,6 +193,7 @@ const courses: RawCourse[] = [
 		name: 'Sintaxis y Semántica de los Lenguajes',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Cursadas para cursar: 3, 5
@@ -217,6 +230,7 @@ const courses: RawCourse[] = [
 		name: 'Paradigmas de Programación',
 		hours: 4,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Cursadas para cursar: 3, 5
@@ -253,6 +267,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Representación',
 		hours: 3,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -264,6 +279,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés I',
 		hours: 4,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -275,6 +291,7 @@ const courses: RawCourse[] = [
 		name: 'Probabilidad y Estadística',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			// Cursadas para cursar: 1, 2
@@ -318,7 +335,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 3,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			// Cursadas para cursar: 12, 14
 			{
@@ -375,6 +393,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas Operativos',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 3, 5, 6
@@ -425,6 +444,7 @@ const courses: RawCourse[] = [
 		name: 'Física II',
 		hours: 10,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 1, 7
@@ -463,6 +483,7 @@ const courses: RawCourse[] = [
 		name: 'Economía',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 12
@@ -502,6 +523,7 @@ const courses: RawCourse[] = [
 		name: 'Gestión de Datos',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
@@ -571,6 +593,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés II',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Aprobadas para cursar: 8
@@ -590,6 +613,7 @@ const courses: RawCourse[] = [
 		name: 'Matemática Superior',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 10
@@ -629,6 +653,7 @@ const courses: RawCourse[] = [
 		name: 'Legislación',
 		hours: 4,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			// Cursadas para cursar: 12, 22
@@ -685,7 +710,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 4,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			// Cursadas para cursar: 15, 18, 23
 			{
@@ -760,6 +786,7 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería de Software',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 17, 18, 21
@@ -829,6 +856,7 @@ const courses: RawCourse[] = [
 		name: 'Teoría de Control',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 9, 20
@@ -880,6 +908,7 @@ const courses: RawCourse[] = [
 		name: 'Comunicaciones',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 6, 10, 11
@@ -949,6 +978,7 @@ const courses: RawCourse[] = [
 		name: 'Redes de Información',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 15, 19
@@ -1018,6 +1048,7 @@ const courses: RawCourse[] = [
 		name: 'Investigación Operativa',
 		hours: 10,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 17, 20
@@ -1063,6 +1094,7 @@ const courses: RawCourse[] = [
 		name: 'Simulación',
 		hours: 8,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			// Cursadas para cursar: 17, 20
@@ -1113,7 +1145,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 5,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			// Cursadas para cursar: 25, 26, 29, 31
 			{
@@ -1262,6 +1295,7 @@ const courses: RawCourse[] = [
 		name: 'Inteligencia Artificial',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Cursadas para cursar: 27, 28
@@ -1319,6 +1353,7 @@ const courses: RawCourse[] = [
 		name: 'Administración Gerencial',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Cursadas para cursar: 26, 27
@@ -1388,6 +1423,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas de Gestión',
 		hours: 8,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
 			// Cursadas para cursar: 26, 27, 28
@@ -1471,7 +1507,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1519,7 +1555,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1568,7 +1604,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1617,7 +1653,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1666,7 +1702,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1715,7 +1751,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1763,7 +1799,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1811,7 +1847,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1859,7 +1895,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1907,7 +1943,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -1955,7 +1991,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -2003,7 +2039,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -2051,7 +2087,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 3,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 12, 13, 14
 			{
@@ -2104,7 +2140,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 18, 15, 21
 			{
@@ -2171,7 +2207,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 18, 15, 21
 			{
@@ -2238,7 +2274,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 18, 15, 21
 			{
@@ -2306,7 +2342,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 18, 15, 21
 			{
@@ -2378,7 +2414,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2457,7 +2493,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2537,7 +2573,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2617,7 +2653,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2696,7 +2732,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2775,7 +2811,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2854,7 +2890,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -2933,7 +2969,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3012,7 +3048,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3091,7 +3127,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3171,7 +3207,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3250,7 +3286,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3329,7 +3365,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: []
 	},
 	{
@@ -3338,7 +3374,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3418,7 +3454,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3498,7 +3534,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3577,7 +3613,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3657,7 +3693,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3737,7 +3773,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3817,7 +3853,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3897,7 +3933,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -3977,7 +4013,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -4057,7 +4093,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -4136,7 +4172,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{
@@ -4215,7 +4251,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.semestral,
 		year: 5,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			// Cursadas para cursar: 25, 26, 28, 29
 			{

@@ -1,5 +1,6 @@
 import { courseStates } from '$lib/course-state';
-import { courseTags } from '$lib/course-tag';
+import { courseTypes } from '$lib/course-type';
+import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
 import { requiredFor, type RawCourse } from '$lib/raw-course';
 import type { StudyPlan } from '$lib/study-plan';
@@ -12,6 +13,7 @@ const courses: RawCourse[] = [
 		name: 'Álgebra',
 		hours: 9,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -21,6 +23,7 @@ const courses: RawCourse[] = [
 		name: 'Informática I',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -30,6 +33,7 @@ const courses: RawCourse[] = [
 		name: 'Química',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -40,7 +44,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 1,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: []
 	},
 
@@ -51,6 +56,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés I',
 		hours: 2,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -62,6 +68,7 @@ const courses: RawCourse[] = [
 		name: 'Economía General',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -71,6 +78,7 @@ const courses: RawCourse[] = [
 		name: 'Física',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -80,6 +88,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis Matemático',
 		hours: 9,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
 	},
@@ -91,6 +100,7 @@ const courses: RawCourse[] = [
 		name: 'Conocimiento de Materiales',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -125,6 +135,7 @@ const courses: RawCourse[] = [
 		name: 'Costos',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -159,6 +170,7 @@ const courses: RawCourse[] = [
 		name: 'Informática II',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -182,7 +194,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 2,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -216,6 +229,7 @@ const courses: RawCourse[] = [
 		name: 'Probabilidad y Estadística',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -250,6 +264,7 @@ const courses: RawCourse[] = [
 		name: 'Inglés II',
 		hours: 2,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: []
 	},
@@ -260,7 +275,7 @@ const courses: RawCourse[] = [
 		hours: 2,
 		term: courseTerms.firstSemester,
 		year: 2,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -278,6 +293,7 @@ const courses: RawCourse[] = [
 		name: 'Comercialización',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -324,6 +340,7 @@ const courses: RawCourse[] = [
 		name: 'Estudio del Trabajo',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -346,6 +363,7 @@ const courses: RawCourse[] = [
 		name: 'Procesos Industriales',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -392,6 +410,7 @@ const courses: RawCourse[] = [
 		name: 'Investigación Operativa',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
 			{
@@ -428,6 +447,7 @@ const courses: RawCourse[] = [
 		name: 'Economía de la Empresa',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -463,7 +483,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 3,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -509,6 +530,7 @@ const courses: RawCourse[] = [
 		name: 'Legislación',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: []
 	},
@@ -518,6 +540,7 @@ const courses: RawCourse[] = [
 		name: 'Sistemas y Métodos Administrativos',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -570,6 +593,7 @@ const courses: RawCourse[] = [
 		name: 'Planificación y Control de la Producción',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -616,6 +640,7 @@ const courses: RawCourse[] = [
 		name: 'Ingeniería de Calidad',
 		hours: 5,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -658,6 +683,7 @@ const courses: RawCourse[] = [
 		name: 'Análisis de Estados Contables',
 		hours: 9,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -698,6 +724,7 @@ const courses: RawCourse[] = [
 		name: 'Seguridad, Higiene e Ingeniería Ambiental',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
@@ -764,6 +791,7 @@ const courses: RawCourse[] = [
 		name: 'Comercio Exterior',
 		hours: 6,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -822,6 +850,7 @@ const courses: RawCourse[] = [
 		name: 'Evaluación de Proyecto',
 		hours: 9,
 		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -901,7 +930,7 @@ const courses: RawCourse[] = [
 		hours: 9,
 		term: courseTerms.firstSemester,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -972,7 +1001,8 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.annual,
 		year: 4,
-		tag: courseTags.integrative,
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,
@@ -1069,6 +1099,7 @@ const courses: RawCourse[] = [
 		name: 'Relaciones Industriales',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1127,6 +1158,7 @@ const courses: RawCourse[] = [
 		name: 'Control de Gestión',
 		hours: 6,
 		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{
@@ -1174,7 +1206,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1245,7 +1277,7 @@ const courses: RawCourse[] = [
 		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1316,7 +1348,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1387,7 +1419,7 @@ const courses: RawCourse[] = [
 		hours: 4,
 		term: courseTerms.secondSemester,
 		year: 4,
-		tag: courseTags.elective,
+		type: courseTypes.elective,
 		requirements: [
 			{
 				id: 1,
@@ -1422,6 +1454,7 @@ const courses: RawCourse[] = [
 		name: 'Práctica Profesional Supervisada',
 		hours: 6,
 		term: courseTerms.annual,
+		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
 			{

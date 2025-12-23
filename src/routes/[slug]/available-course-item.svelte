@@ -1,19 +1,33 @@
 <script lang="ts">
-	import { courseTagLabels, courseTags } from '$lib/course-tag';
+	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
 	import type { Course } from '$lib/course.svelte';
-	import { toKebabCase, TRANSVERSAL_YEAR, countAllDependents } from '$lib/course.svelte';
+	import { toKebabCase, countAllDependents } from '$lib/course.svelte';
+	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 
 	type Props = {
 		course: Course;
 		showCodes?: boolean;
-		hideTagForTransversal?: boolean;
+		hideTypeForTransversal?: boolean;
 	};
 
-	let { course, showCodes = false, hideTagForTransversal = false }: Props = $props();
+	let { course, showCodes = false, hideTypeForTransversal = false }: Props = $props();
 
 	const totalDependents = $derived(countAllDependents(course));
+	const courseIsTransversal = $derived(isTransversal(course.attributes));
+	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(course.type));
+
+	// Show type label unless:
+	// - It's mandatory (no need to label)
+	// - It's transversal and we're hiding type for transversal (context already shows it)
+	const showTypeLabel = $derived(
+		courseIsElectiveOrOptative && !(courseIsTransversal && hideTypeForTransversal)
+	);
+
+	// Show "(transversal)" only for mandatory transversal courses
+	// Elective/optative courses are already flexible, so no need to mark as transversal
+	const showTransversalLabel = $derived(courseIsTransversal && !courseIsElectiveOrOptative);
 </script>
 
 <li>
@@ -27,18 +41,13 @@
 		{/if}
 		{course.name}
 	</a>
-	{#if course.year === TRANSVERSAL_YEAR}
-		{#if course.tag === courseTags.elective || course.tag === courseTags.optative}
-			{#if !hideTagForTransversal}
-				({courseTagLabels[course.tag].toLowerCase()})
-			{/if}
-		{:else}
-			(transversal)
-		{/if}
-	{:else}
-		{#if course.tag === courseTags.elective || course.tag === courseTags.optative}
-			({courseTagLabels[course.tag].toLowerCase()})
-		{/if}
+	{#if showTypeLabel}
+		({courseTypeLabels[course.type].toLowerCase()})
+	{/if}
+	{#if showTransversalLabel}
+		({courseAttributeLabels.transversal.toLowerCase()})
+	{/if}
+	{#if course.year !== undefined}
 		<span class="whitespace-nowrap">
 			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año
 		</span>

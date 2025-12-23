@@ -1,15 +1,17 @@
+import { courseAttributeLabels, isTransversal } from './course-attribute';
 import type { Course } from './course.svelte';
-import { courseTermLabels } from './course-term';
-import { courseTagLabels } from './course-tag';
 import { femenineCourseStateLabels } from './course-state';
+import { courseTermLabels } from './course-term';
+import { courseTypeLabels } from './course-type';
 
 export type ExportableCourse = {
 	codigo: string;
 	materia: string;
-	año: number;
+	año: string;
 	periodo: string;
 	horas: string;
-	etiqueta: string;
+	tipo: string;
+	atributos: string;
 	estado: string;
 	nota?: number;
 };
@@ -21,10 +23,11 @@ function courseToExportable(course: Course): ExportableCourse {
 	return {
 		codigo: course.code ?? '',
 		materia: course.name,
-		año: course.year,
+		año: course.year?.toString() ?? (isTransversal(course.attributes) ? 'Transversal' : ''),
 		periodo: courseTermLabels[course.term],
 		horas: course.hours ? course.hours.toString() : '',
-		etiqueta: course.tag ? courseTagLabels[course.tag] : '',
+		tipo: courseTypeLabels[course.type],
+		atributos: course.attributes.map((attr) => courseAttributeLabels[attr]).join(', '),
 		estado: femenineCourseStateLabels[course.state],
 		nota: course.grade
 	};
@@ -40,7 +43,8 @@ export function exportToCSV(courses: Course[]): string {
 		'Año',
 		'Período/Modalidad',
 		'Horas',
-		'Etiqueta',
+		'Tipo',
+		'Atributos',
 		'Estado',
 		'Nota'
 	];
@@ -49,10 +53,11 @@ export function exportToCSV(courses: Course[]): string {
 		return [
 			escapeCsvValue(exp.codigo),
 			escapeCsvValue(exp.materia),
-			exp.año,
+			escapeCsvValue(exp.año),
 			escapeCsvValue(exp.periodo),
 			exp.horas,
-			escapeCsvValue(exp.etiqueta),
+			escapeCsvValue(exp.tipo),
+			escapeCsvValue(exp.atributos),
 			escapeCsvValue(exp.estado),
 			exp.nota
 		];
@@ -91,7 +96,7 @@ export function exportToTOON(courses: Course[]): string {
 	const count = exportable.length;
 
 	// Header con declaración de campos
-	const fields = 'codigo,materia,año,periodo,horas,etiqueta,estado,nota';
+	const fields = 'codigo,materia,año,periodo,horas,tipo,atributos,estado,nota';
 	const header = `materias[${count}]{${fields}}:`;
 
 	// Filas de datos
@@ -102,7 +107,8 @@ export function exportToTOON(courses: Course[]): string {
 			course.año,
 			escapeToonValue(course.periodo),
 			course.horas,
-			escapeToonValue(course.etiqueta),
+			escapeToonValue(course.tipo),
+			escapeToonValue(course.atributos),
 			escapeToonValue(course.estado),
 			course.nota
 		].join(',');
