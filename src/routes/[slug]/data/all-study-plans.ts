@@ -29,6 +29,7 @@ import { unmdpFhLcp } from './unmdp-fh-lcp';
 import { unpaUargIrnr } from './unpa-uarg-irnr';
 import { utnFrbaIsi2008 } from './utn-frba-isi-2008';
 import { ucaeceLp2023 } from './ucaece-lp-2023';
+import { unsamEbynLb } from './unsam-ebyn-lb';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -62,5 +63,6 @@ export const allStudyPlans: StudyPlan[] = [
 	unmdpFhLcp,
 	unpaUargIrnr,
 	utnFrbaIsi2008,
-	ucaeceLp2023
+	ucaeceLp2023,
+	unsamEbynLb
 ];
