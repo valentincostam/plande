@@ -1,6 +1,5 @@
 import { courseStates } from '$lib/course-state';
 import { courseTypes } from '$lib/course-type';
-import { courseAttributes } from '$lib/course-attribute';
 import { courseTerms } from '$lib/course-term';
 
 import { requiredFor, type RawCourse } from '$lib/raw-course';
@@ -720,7 +719,7 @@ const courses: RawCourse[] = [
 	},
 
 	// ═══════════════════════════════════════════════════════════
-	// MATERIAS ELECTIVAS (se deben cursar 4 de 8)
+	// MATERIAS OPTATIVAS (se deben cursar 4 de 8)
 	// ═══════════════════════════════════════════════════════════
 	{
 		id: 413,
@@ -728,8 +727,8 @@ const courses: RawCourse[] = [
 		name: 'Forrajes',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 4,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0403/0408
 			{
@@ -764,8 +763,8 @@ const courses: RawCourse[] = [
 		name: 'Forestación y Viveros',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 4,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0396/0404
 			{
@@ -800,8 +799,8 @@ const courses: RawCourse[] = [
 		name: 'Producción Ovina',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 5,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0403/1907
 			{
@@ -836,8 +835,8 @@ const courses: RawCourse[] = [
 		name: 'Tecnología Pesquera',
 		hours: 6,
 		term: courseTerms.firstSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 5,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 1903/1906
 			{
@@ -872,8 +871,8 @@ const courses: RawCourse[] = [
 		name: 'Acuicultura',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 4,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativa: 0394
 			{
@@ -896,8 +895,8 @@ const courses: RawCourse[] = [
 		name: 'Frutihorticultura',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 4,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0396/0404
 			{
@@ -932,8 +931,8 @@ const courses: RawCourse[] = [
 		name: 'Producción Bovina',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 5,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0403/1907
 			{
@@ -968,8 +967,8 @@ const courses: RawCourse[] = [
 		name: 'Energías Renovables',
 		hours: 6,
 		term: courseTerms.secondSemester,
-		attributes: [courseAttributes.transversal],
-		type: courseTypes.elective,
+		year: 4,
+		type: courseTypes.optative,
 		requirements: [
 			// Correlativas: 0390/0399
 			{
