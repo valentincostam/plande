@@ -13,9 +13,9 @@
 
 	// Handle colors based on state
 	const handleColors = {
-		[courseStates.notTaken]: 'bg-gray-300'!,
-		[courseStates.inProgress]: 'bg-blue-500'!,
-		[courseStates.taken]: 'bg-amber-500'!,
+		[courseStates.notTaken]: 'bg-gray-300!',
+		[courseStates.inProgress]: 'bg-blue-500!',
+		[courseStates.taken]: 'bg-amber-500!',
 		[courseStates.passed]: 'bg-green-500!'
 	};
 
