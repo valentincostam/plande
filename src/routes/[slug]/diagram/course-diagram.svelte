@@ -22,14 +22,15 @@
 	// Detect which course types exist
 	const hasElectives = $derived(courses.some((c) => c.type === courseTypes.elective));
 	const hasOptatives = $derived(courses.some((c) => c.type === courseTypes.optative));
+	const electiveCount = $derived(courses.filter((c) => isElectiveOrOptative(c.type)).length);
 
 	// Dynamic label for electives checkbox
 	const electivesLabel = $derived(
 		hasElectives && hasOptatives
-			? 'Mostrar electivas/optativas'
+			? `Mostrar electivas y optativas (${electiveCount})`
 			: hasElectives
-				? 'Mostrar electivas'
-				: 'Mostrar optativas'
+				? `Mostrar electivas (${electiveCount})`
+				: `Mostrar optativas (${electiveCount})`
 	);
 
 	const displayedCourses = $derived(
