@@ -7,9 +7,18 @@
 		courses: Course[];
 		showCodes?: boolean;
 		hideTypeForTransversal?: boolean;
+		viewMode?: 'list' | 'diagram';
+		onNavigateToDiagram?: (courseId: number) => void;
 	};
 
-	let { title, courses, showCodes = false, hideTypeForTransversal = false }: Props = $props();
+	let {
+		title,
+		courses,
+		showCodes = false,
+		hideTypeForTransversal = false,
+		viewMode = 'list',
+		onNavigateToDiagram
+	}: Props = $props();
 </script>
 
 {#if courses.length > 0}
@@ -23,7 +32,7 @@
 		{/if}
 		<ul class="grid list-disc gap-2 px-9">
 			{#each courses as course}
-				<AvailableCourseItem {course} {showCodes} {hideTypeForTransversal} />
+				<AvailableCourseItem {course} {showCodes} {hideTypeForTransversal} {viewMode} {onNavigateToDiagram} />
 			{/each}
 		</ul>
 	</div>

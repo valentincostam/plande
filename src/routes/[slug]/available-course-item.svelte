@@ -10,9 +10,26 @@
 		course: Course;
 		showCodes?: boolean;
 		hideTypeForTransversal?: boolean;
+		viewMode?: 'list' | 'diagram';
+		onNavigateToDiagram?: (courseId: number) => void;
 	};
 
-	let { course, showCodes = false, hideTypeForTransversal = false }: Props = $props();
+	let {
+		course,
+		showCodes = false,
+		hideTypeForTransversal = false,
+		viewMode = 'list',
+		onNavigateToDiagram
+	}: Props = $props();
+
+	function onclick(e: MouseEvent) {
+		if (viewMode === 'diagram' && onNavigateToDiagram) {
+			e.preventDefault();
+			onNavigateToDiagram(course.id);
+		} else {
+			handleSmoothScroll(e);
+		}
+	}
 
 	const totalDependents = $derived(countAllDependents(course));
 	const courseIsTransversal = $derived(isTransversal(course.attributes));
@@ -33,7 +50,7 @@
 <li>
 	<a
 		href={`#${toKebabCase(course.name)}`}
-		onclick={handleSmoothScroll}
+		{onclick}
 		class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 	>
 		{#if showCodes && course.code}

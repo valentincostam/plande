@@ -6,7 +6,8 @@
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import StateSelect from '../state-select.svelte';
 
-	let { data }: NodeProps<Node<{ course: Course; isSelected?: boolean }>> = $props();
+	let { data }: NodeProps<Node<{ course: Course; isSelected?: boolean; isHighlighted?: boolean }>> =
+		$props();
 
 	// Year ordinal suffix
 	const yearSuffix = ['', '°', '°', '°', '°', '°', '°'];
@@ -33,7 +34,8 @@
 	class={[
 		'flex max-w-[280px] min-w-[240px] items-center gap-2 rounded-md p-3 text-sm transition-all',
 		courseBgColors[data.course.state],
-		data.isSelected && 'ring-2 ring-blue-500 ring-offset-1'
+		data.isSelected && 'ring-2 ring-blue-500 ring-offset-1',
+		data.isHighlighted && 'is-highlighted'
 	]}
 >
 	<!-- Año -->
@@ -100,3 +102,10 @@
 		/>
 	{/if}
 </div>
+
+<style>
+	.is-highlighted {
+		outline: 2px solid transparent;
+		animation: outline-fade-out 3s ease-in-out 1;
+	}
+</style>

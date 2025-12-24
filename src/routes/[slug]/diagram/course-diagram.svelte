@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { SvelteFlow, Background, Controls } from '@xyflow/svelte';
 	import FullscreenButton from './fullscreen-button.svelte';
+	import DiagramNavigator from './diagram-navigator.svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import type { Course } from '$lib/course.svelte';
 	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
@@ -43,7 +44,22 @@
 	let edges = $state.raw<Edge<CourseEdgeData>[]>([]);
 
 	let selectedNodeId = $state<string | null>(null);
+	let highlightedNodeId = $state<number | null>(null);
 	let isFullscreen = $state(false);
+	let navigatorRef: DiagramNavigator | undefined;
+
+	// Expose focusOnCourse to parent component
+	export function focusOnCourse(courseId: number) {
+		navigatorRef?.focusOnCourse(courseId);
+	}
+
+	function onFocus(courseId: number) {
+		highlightedNodeId = courseId;
+		// Clear highlight after animation completes (3s)
+		setTimeout(() => {
+			highlightedNodeId = null;
+		}, 3000);
+	}
 
 	// Recursive BFS to find all connected nodes in both directions
 	function getConnectedIdsRecursive(nodeId: string | null): Set<string> {
@@ -98,7 +114,8 @@
 			...node,
 			data: {
 				...node.data,
-				isSelected: node.id === selectedNodeId
+				isSelected: node.id === selectedNodeId,
+				isHighlighted: node.data.course.id === highlightedNodeId
 			},
 			class: selectedNodeId && !connectedIds.has(node.id) ? 'opacity-20' : ''
 		}));
@@ -111,12 +128,12 @@
 
 	const nodeTypes = { course: CourseNode };
 
-	function handleNodeClick(event: { node: { id: string } }) {
+	function onnodeclick(event: { node: { id: string } }) {
 		const nodeId = event.node.id;
 		selectedNodeId = selectedNodeId === nodeId ? null : nodeId;
 	}
 
-	function handlePaneClick() {
+	function onpaneclick() {
 		selectedNodeId = null;
 	}
 </script>
@@ -146,13 +163,14 @@
 		minZoom={0.1}
 		maxZoom={3}
 		nodesConnectable={false}
-		onnodeclick={handleNodeClick}
-		onpaneclick={handlePaneClick}
+		{onnodeclick}
+		{onpaneclick}
 	>
 		<Background />
 		<Controls position="bottom-right" showLock={false}>
 			<FullscreenButton bind:isFullscreen />
 		</Controls>
+		<DiagramNavigator bind:this={navigatorRef} {onFocus} />
 	</SvelteFlow>
 
 	<!-- Visibility filter -->

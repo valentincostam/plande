@@ -42,6 +42,43 @@
 	let { data }: PageProps = $props();
 
 	let viewMode = $state<'list' | 'diagram'>('list');
+	let diagramRef = $state<CourseDiagram | undefined>();
+	let pendingFocusCourseId: number | null = $state(null);
+
+	// Handle deferred navigation when diagram mounts
+	$effect(() => {
+		if (diagramRef && pendingFocusCourseId !== null) {
+			const courseId = pendingFocusCourseId;
+			pendingFocusCourseId = null;
+
+			// First scroll to diagram container, then focus on course
+			const diagramContainer = document.getElementById('diagram-container');
+			if (diagramContainer) {
+				diagramContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+
+			// Delay focus to allow scroll to complete
+			setTimeout(() => {
+				diagramRef?.focusOnCourse(courseId);
+			}, 400);
+		}
+	});
+
+	function onNavigateToDiagram(courseId: number) {
+		if (viewMode === 'diagram' && diagramRef) {
+			// Already in diagram view - scroll to diagram then focus
+			const diagramContainer = document.getElementById('diagram-container');
+			if (diagramContainer) {
+				diagramContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+			setTimeout(() => {
+				diagramRef?.focusOnCourse(courseId);
+			}, 300);
+		} else {
+			pendingFocusCourseId = courseId;
+			viewMode = 'diagram';
+		}
+	}
 
 	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
 	let isStrictModeEnabled = $state(untrack(() => data.isStrictModeEnabled));
@@ -364,7 +401,9 @@
 
 	<main class="grid gap-9">
 		{#if viewMode === 'diagram'}
-			<CourseDiagram {courses} />
+			<div id="diagram-container">
+				<CourseDiagram {courses} bind:this={diagramRef} />
+			</div>
 		{:else}
 			{#each years as year, index}
 				<Year
@@ -408,26 +447,36 @@
 						title={courseTermLabels[courseTerms.annual]}
 						courses={annualAvailableCourses}
 						{showCodes}
+						{viewMode}
+						{onNavigateToDiagram}
 					/>
 					<AvailableCoursesTerm
 						title={courseTermLabels[courseTerms.firstSemester]}
 						courses={firstSemesterAvailableCourses}
 						{showCodes}
+						{viewMode}
+						{onNavigateToDiagram}
 					/>
 					<AvailableCoursesTerm
 						title={courseTermLabels[courseTerms.secondSemester]}
 						courses={secondSemesterAvailableCourses}
 						{showCodes}
+						{viewMode}
+						{onNavigateToDiagram}
 					/>
 					<AvailableCoursesTerm
 						title={courseTermLabels[courseTerms.semestral]}
 						courses={semestralAvailableCourses}
 						{showCodes}
+						{viewMode}
+						{onNavigateToDiagram}
 					/>
 					<AvailableCoursesTerm
 						title="Materias electivas"
 						courses={unknownAvailableCourses}
 						{showCodes}
+						{viewMode}
+						{onNavigateToDiagram}
 						hideTypeForTransversal
 					/>
 				</div>
