@@ -1,7 +1,7 @@
 import type { StudyPlan } from '../study-plan';
 import { courseTermLabels } from '../course-term';
-import { courseTypeLabels } from '../course-type';
-import { courseAttributeLabels } from '../course-attribute';
+import { courseTypeLabels, isElectiveOrOptative } from '../course-type';
+import { courseAttributeLabels, isTransversal } from '../course-attribute';
 import { femenineCourseStateLabels } from '../course-state';
 import { requiredFor, requiredForLabels } from '../raw-course';
 
@@ -71,16 +71,11 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 	sections.push('## Materias');
 	sections.push('');
 
-	for (const year of sortedYears) {
-		sections.push(year !== undefined ? `### Año ${year}` : '### Materias Transversales');
-		sections.push('');
-
-		const courses = coursesByYear.get(year)!;
-
+	// Helper function to render a list of courses
+	const renderCourses = (courses: typeof studyPlan.courses) => {
 		for (const course of courses) {
 			// Course header
-			const courseHeader = course.code ? `#### ${course.name}` : `#### ${course.name}`;
-			sections.push(courseHeader);
+			sections.push(`#### ${course.name}`);
 			sections.push('');
 
 			// Course details
@@ -150,6 +145,35 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 			sections.push('');
 			sections.push('---');
 			sections.push('');
+		}
+	};
+
+	for (const year of sortedYears) {
+		const courses = coursesByYear.get(year)!;
+
+		if (year !== undefined) {
+			// Regular year - render all courses under one heading
+			sections.push(`### Año ${year}`);
+			sections.push('');
+			renderCourses(courses);
+		} else {
+			// Courses without year - separate transversal mandatory from electives
+			const transversalMandatoryCourses = courses.filter(
+				(c) => isTransversal(c.attributes ?? []) && !isElectiveOrOptative(c.type)
+			);
+			const electiveCourses = courses.filter((c) => isElectiveOrOptative(c.type));
+
+			if (transversalMandatoryCourses.length > 0) {
+				sections.push('### Materias Transversales');
+				sections.push('');
+				renderCourses(transversalMandatoryCourses);
+			}
+
+			if (electiveCourses.length > 0) {
+				sections.push('### Materias Electivas');
+				sections.push('');
+				renderCourses(electiveCourses);
+			}
 		}
 	}
 
