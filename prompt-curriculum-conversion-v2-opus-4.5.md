@@ -320,10 +320,23 @@ Only include `year` if officially documented in plan name.
 
 <hours_extraction>
 
-For semester courses (firstSemester/secondSemester): Use SEMESTER hours, not annual hours.
-Example: "Annual: 5, 1st Semester: 10" for a firstSemester course → `hours: 10`
+**Priority order for hours field:**
 
-Annual courses: Use annual hours directly.
+1. **Weekly hours** (horas semanales) - ALWAYS prefer this when available
+2. If only total hours available, convert to weekly: `weekly = total / weeks_per_term`
+
+**Never use total hours directly.** The `hours` field represents weekly class hours, which is the standard measure for course load.
+
+**Determining weeks per term:**
+- Look for explicit duration in the curriculum document (e.g., "16 semanas por cuatrimestre", "18 weeks")
+- Check university academic calendar if available
+- **Do NOT assume** 16 weeks for semesters or 32 for annual - verify first
+- If weeks cannot be determined, ask the user or note the uncertainty
+
+**Examples:**
+- Source: "8 horas semanales, 128 horas totales" → `hours: 8`
+- Source: "96 horas totales" + doc says "16 semanas" → `hours: 6` (96/16)
+- Source: "Carga horaria: 4hs" (ambiguous) → Assume weekly, `hours: 4`
 
 </hours_extraction>
 
