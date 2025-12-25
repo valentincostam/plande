@@ -17,6 +17,7 @@
 	stroke-width="2"
 	stroke-linecap="round"
 	stroke-linejoin="round"
+	aria-hidden="true"
 	class={props.class}
 >
 	<line x1="18" y1="6" x2="6" y2="18" />

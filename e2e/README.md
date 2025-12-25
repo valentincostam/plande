@@ -11,6 +11,7 @@
    - Nunca selectores por ID, clase CSS, o atributos `data-testid`
 
 2. **Verificar lo visible, no la implementación**
+
    ```typescript
    // ❌ Mal: valor interno
    await expect(select).toHaveValue('notTaken');
@@ -19,11 +20,31 @@
    await expect(select.locator('option:checked')).toHaveText('No cursada');
    ```
 
+   ```typescript
+   // ❌ Mal: solo verificar atributo ARIA
+   await expect(button).toHaveAttribute('aria-expanded', 'true');
+
+   // ✅ Bien: verificar que el contenido realmente es visible
+   await expect(button).toHaveAttribute('aria-expanded', 'true');
+   await expect(page.getByText('Contenido del panel')).toBeVisible();
+   ```
+
+   ```typescript
+   // ❌ Mal: buscar por ID (el usuario no ve IDs)
+   page.locator('#mi-elemento');
+
+   // ✅ Bien: buscar por texto o rol
+   page.getByText('Texto visible');
+   page.getByRole('button', { name: 'Guardar' });
+   ```
+
 3. **Si no es accesible, no es testeable**
    - Si un test necesita un selector feo, mejorar la accesibilidad del componente
-   - Agregar `aria-label`, `aria-expanded`, etc. según corresponda
+   - Agregar `aria-label`, `aria-expanded`, `aria-controls`, etc. según corresponda
+   - Los tests deben impulsar mejoras de accesibilidad, no evitarlas
 
 4. **Interacciones reales**
+
    ```typescript
    // Click + selección como haría un usuario
    await select.click();
@@ -54,12 +75,13 @@ Usamos [Playwright Fixtures](https://playwright.dev/docs/test-fixtures) con un e
 import { test, expect } from './fixtures';
 
 test('example', async ({ studyPlan }) => {
-  await studyPlan.goto();
-  await studyPlan.setCourseState('Álgebra', 'Regular');
+	await studyPlan.goto();
+	await studyPlan.setCourseState('Álgebra', 'Regular');
 });
 ```
 
 **¿Por qué fixtures y no Page Object Model (clases)?**
+
 - Más funcional, menos boilerplate
 - No requiere instanciar objetos en cada test
 - El `page` se inyecta automáticamente

@@ -86,6 +86,7 @@
 			{onclick}
 			{onkeydown}
 			aria-expanded={isExpanded}
+			aria-controls="{toKebabCase(course.name)}-details"
 			aria-label="{course.name}{course.hours ? `, ${numberFormatter.format(course.hours)} horas` : ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
 			aria-keyshortcuts="n e r a"
 			class={[
@@ -153,7 +154,7 @@
 	</div>
 
 	{#if isExpanded}
-		<div class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div id="{toKebabCase(course.name)}-details" class="px-3 pb-3" transition:slide={{ duration: 200 }}>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
 				{#if course.hours}
 					<li>
