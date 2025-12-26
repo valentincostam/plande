@@ -10,6 +10,9 @@ type StudyPlanFixture = {
 		getAvailableCoursesSection: () => Locator;
 		getStrictModeToggle: () => Locator;
 		setCourseState: (courseName: string, state: string) => Promise<void>;
+		getYearSection: (year: number) => Locator;
+		getYearBulkSelect: (year: number) => Locator;
+		setYearState: (year: number, state: string) => Promise<void>;
 	};
 };
 
@@ -22,7 +25,10 @@ export const test = base.extend<StudyPlanFixture>({
 			getCourseDetailsPanel: (name: string) => helpers.getCourseDetailsPanel(page, name),
 			getAvailableCoursesSection: () => helpers.getAvailableCoursesSection(page),
 			getStrictModeToggle: () => helpers.getStrictModeToggle(page),
-			setCourseState: (name: string, state: string) => helpers.setCourseState(page, name, state)
+			setCourseState: (name: string, state: string) => helpers.setCourseState(page, name, state),
+			getYearSection: (year: number) => helpers.getYearSection(page, year),
+			getYearBulkSelect: (year: number) => helpers.getYearBulkSelect(page, year),
+			setYearState: (year: number, state: string) => helpers.setYearState(page, year, state)
 		});
 	}
 });

@@ -64,10 +64,10 @@
 	};
 </script>
 
-<article>
+<section aria-labelledby="year-{year.year}-heading">
 	<header class="flex items-center justify-between">
 		<div class="flex items-center gap-3 p-3">
-			<h2 class="text-lg font-bold">
+			<h2 id="year-{year.year}-heading" class="text-lg font-bold">
 				{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año
 			</h2>
 			{#if year.state === courseStates.passed}
@@ -77,6 +77,7 @@
 		{#if showBulkSelect}
 			<BulkStateSelect
 				id={`year-${year.year}-state-select`}
+				label={`Cambiar estado de todas las materias de ${year.year}° año`}
 				{onchange}
 				bind:value={selectValue}
 				canPass
@@ -135,4 +136,4 @@
 			{/each}
 		</Term>
 	{/if}
-</article>
+</section>

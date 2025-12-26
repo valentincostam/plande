@@ -15,9 +15,10 @@
 		class?: string;
 		value?: CourseState | '';
 		canPass?: boolean;
+		label?: string;
 	};
 
-	let { id, onchange, class: className = '', value = $bindable(), canPass }: Props = $props();
+	let { id, onchange, class: className = '', value = $bindable(), canPass, label }: Props = $props();
 </script>
 
 <label
@@ -32,6 +33,7 @@
 		bind:value
 		{onchange}
 		{id}
+		aria-label={label || 'Cambiar estado de todas las materias'}
 		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-0 opacity-0"
 		title="Cambiar estado de todas las materias"
 	>

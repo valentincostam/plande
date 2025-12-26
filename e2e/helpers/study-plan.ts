@@ -27,3 +27,15 @@ export const setCourseState = async (page: Page, courseName: string, state: stri
 	await select.click();
 	await select.selectOption({ label: state });
 };
+
+export const getYearSection = (page: Page, year: number): Locator =>
+	page.getByRole('region', { name: new RegExp(`${year}.* Año`) });
+
+export const getYearBulkSelect = (page: Page, year: number): Locator =>
+	page.getByRole('combobox', { name: `Cambiar estado de todas las materias de ${year}° año` });
+
+export const setYearState = async (page: Page, year: number, state: string) => {
+	const select = getYearBulkSelect(page, year);
+	await select.click();
+	await select.selectOption({ label: state });
+};
