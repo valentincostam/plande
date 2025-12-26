@@ -57,9 +57,32 @@
    - Si algo necesita `waitForTimeout()`, probablemente hay un mejor approach
 
 6. **Match exacto cuando hay nombres similares**
+
    ```typescript
    // Evita que "AM I" matchee "AM II"
    page.getByRole('combobox', { name: '...', exact: true });
+   ```
+
+7. **Acotar locators a un contexto específico**
+   - Encadenar locators para buscar dentro de un área específica
+   - Imita cómo el usuario escanea: "dentro de esta sección, buscar..."
+
+   ```typescript
+   // ❌ Amplio: busca en toda la página (puede matchear elementos no deseados)
+   await expect(page.getByText('Ninguno')).toBeVisible();
+
+   // ✅ Acotado: busca dentro del panel de detalles del curso expandido
+   const panel = await studyPlan.getCourseDetailsPanel('Álgebra');
+   await expect(panel.getByText('Ninguno')).toBeVisible();
+   ```
+
+   ```typescript
+   // ❌ Amplio: podría encontrar cualquier link con ese nombre
+   await expect(page.getByRole('link', { name: 'AM II' }).first()).toBeVisible();
+
+   // ✅ Acotado: busca específicamente en la sección de requisitos
+   const panel = await studyPlan.getCourseDetailsPanel('Física I');
+   await expect(panel.getByRole('link', { name: 'AM II' })).toBeVisible();
    ```
 
 ## Arquitectura

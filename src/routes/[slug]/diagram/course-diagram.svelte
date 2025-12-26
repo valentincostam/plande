@@ -141,6 +141,8 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
+	role="region"
+	aria-label="Diagrama de correlatividades"
 	class={[
 		'overflow-hidden bg-gray-50',
 		isFullscreen

@@ -9,9 +9,10 @@
 	let { value = $bindable() }: Props = $props();
 </script>
 
-<div class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm">
+<div class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm" role="group" aria-label="Modo de vista">
 	<button
 		onclick={() => (value = 'list')}
+		aria-pressed={value === 'list'}
 		class={[
 			'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
 			value === 'list' ? 'bg-white text-gray-900' : 'text-gray-500 hover:text-gray-700'
@@ -22,6 +23,7 @@
 	</button>
 	<button
 		onclick={() => (value = 'diagram')}
+		aria-pressed={value === 'diagram'}
 		class={[
 			'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
 			value === 'diagram' ? 'bg-white text-gray-900' : 'text-gray-500 hover:text-gray-700'

@@ -15,6 +15,13 @@ export const getAvailableCoursesSection = (page: Page): Locator =>
 export const getStrictModeToggle = (page: Page): Locator =>
 	page.getByRole('checkbox', { name: /modo estricto/i });
 
+export const getCourseDetailsPanel = async (page: Page, courseName: string): Promise<Locator> => {
+	const button = getCourseButton(page, courseName);
+	const panelId = await button.getAttribute('aria-controls');
+	if (!panelId) throw new Error(`Course button for "${courseName}" has no aria-controls`);
+	return page.locator(`#${panelId}`);
+};
+
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
 	const select = getCourseSelect(page, courseName);
 	await select.click();
