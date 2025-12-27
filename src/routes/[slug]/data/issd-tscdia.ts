@@ -711,7 +711,7 @@ const courses: RawCourse[] = [
 
 export const issdTscdia: StudyPlan = {
 	courses,
-	degreeName: 'Técnico Superior en Ciencia de Datos e Inteligencia Artificial',
+	degreeName: 'Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial',
 	degreeSlug: 'TSCDIA',
 	universityName: 'Instituto Superior Santo Domingo',
 	universitySlug: 'ISSD',
