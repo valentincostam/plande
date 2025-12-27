@@ -7,7 +7,7 @@
 		courseNameColors
 	} from '$lib/course-state';
 	import type { Course } from '$lib/course.svelte';
-	import WandIcon from './wand-icon.svelte';
+	import MoreIcon from './more-icon.svelte';
 
 	type Props = {
 		id: string;
@@ -19,6 +19,14 @@
 	};
 
 	let { id, onchange, class: className = '', value = $bindable(), canPass, label }: Props = $props();
+
+	const handleChange = (event: Event) => {
+		const target = event.target as HTMLSelectElement;
+		onchange(event);
+		// Reset both the binding and the DOM element directly
+		value = '';
+		target.value = '';
+	};
 </script>
 
 <label
@@ -28,10 +36,10 @@
 	]}
 	for={id}
 >
-	<WandIcon class="h-4 w-4 text-gray-400" />
+	<MoreIcon class="h-4 w-4 text-gray-400" />
 	<select
 		bind:value
-		{onchange}
+		onchange={handleChange}
 		{id}
 		aria-label={label || 'Cambiar estado de todas las materias'}
 		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-0 opacity-0"

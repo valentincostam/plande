@@ -40,6 +40,7 @@
 		{#if courses.length > 1 && allCoursesEnabled}
 			<BulkStateSelect
 				id={`${year ?? 'transversal'}-${title}-state-select`}
+				label={`Cambiar estado de todas las materias de ${title}`}
 				{onchange}
 				bind:value={selectValue}
 				{canPass}
