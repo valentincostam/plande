@@ -1,0 +1,15 @@
+{
+  "agent": {
+    "allowedCommands": [
+      "ls", "cat", "head", "tail", "grep", "find", "wc",
+      "echo", "pwd", "which", "whoami", "date", "env",
+      "sort", "uniq", "cut", "tr", "diff", "file", "stat",
+      "mkdir", "touch", "cp", "mv", "tree", "jq", "sed", "awk",
+      "git status", "git diff", "git log", "git branch",
+      "git add", "git commit", "git show", "git stash",
+      "git checkout", "git mv",
+      "bun run", "bun test", "bun add", "bun install",
+      "node", "curl", "xargs"
+    ]
+  }
+}

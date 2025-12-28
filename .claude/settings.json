@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '\\n💡 Important learnings? Use /learnings to save them\\n'"
+          }
+        ]
+      }
+    ]
+  }
+}
