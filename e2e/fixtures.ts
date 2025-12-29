@@ -20,6 +20,8 @@ type StudyPlanFixture = {
 		getStatByLabel: (labelPattern: string | RegExp) => Locator;
 		setGrade: (grade: number) => Promise<void>;
 		getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => Locator;
+		getShareButton: () => Locator;
+		getCopyLinkButton: () => Locator;
 	};
 };
 
@@ -43,7 +45,9 @@ export const test = base.extend<StudyPlanFixture>({
 			getDegreeProgressBar: () => helpers.getDegreeProgressBar(page),
 			getStatByLabel: (labelPattern: string | RegExp) => helpers.getStatByLabel(page, labelPattern),
 			setGrade: (grade: number) => helpers.setGrade(page, grade),
-			getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => helpers.getExportButton(page, format)
+			getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => helpers.getExportButton(page, format),
+			getShareButton: () => helpers.getShareButton(page),
+			getCopyLinkButton: () => helpers.getCopyLinkButton(page)
 		});
 	}
 });

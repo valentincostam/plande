@@ -62,3 +62,9 @@ export const setGrade = async (page: Page, grade: number) => {
 
 export const getExportButton = (page: Page, format: 'CSV' | 'JSON' | 'TOON'): Locator =>
 	page.getByRole('button', { name: `Descargar ${format}` });
+
+export const getShareButton = (page: Page): Locator =>
+	page.getByRole('button', { name: /Compartir plan de estudios/ });
+
+export const getCopyLinkButton = (page: Page): Locator =>
+	page.getByRole('button', { name: /Copiar link/ });
