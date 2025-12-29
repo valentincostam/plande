@@ -59,3 +59,6 @@ export const setGrade = async (page: Page, grade: number) => {
 	await gradeInput.fill(grade.toString());
 	await gradeInput.blur();
 };
+
+export const getExportButton = (page: Page, format: 'CSV' | 'JSON' | 'TOON'): Locator =>
+	page.getByRole('button', { name: `Descargar ${format}` });
