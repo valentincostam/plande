@@ -1,15 +1,52 @@
 {
-  "agent": {
-    "allowedCommands": [
-      "ls", "cat", "head", "tail", "grep", "find", "wc",
-      "echo", "pwd", "which", "whoami", "date", "env",
-      "sort", "uniq", "cut", "tr", "diff", "file", "stat",
-      "mkdir", "touch", "cp", "mv", "tree", "jq", "sed", "awk",
-      "git status", "git diff", "git log", "git branch",
-      "git add", "git commit", "git show", "git stash",
-      "git checkout", "git mv",
-      "bun run", "bun test", "bun add", "bun install",
-      "node", "curl", "xargs"
-    ]
-  }
+  "permission": {
+    "bash": {
+      "ls": "allow",
+      "cat": "allow",
+      "head": "allow",
+      "tail": "allow",
+      "grep": "allow",
+      "find": "allow",
+      "wc": "allow",
+      "echo": "allow",
+      "pwd": "allow",
+      "which": "allow",
+      "whoami": "allow",
+      "date": "allow",
+      "env": "allow",
+      "sort": "allow",
+      "uniq": "allow",
+      "cut": "allow",
+      "tr": "allow",
+      "diff": "allow",
+      "file": "allow",
+      "stat": "allow",
+      "mkdir": "allow",
+      "touch": "allow",
+      "cp": "allow",
+      "mv": "allow",
+      "tree": "allow",
+      "jq": "allow",
+      "sed": "allow",
+      "awk": "allow",
+      "git status": "allow",
+      "git diff": "allow",
+      "git log": "allow",
+      "git branch": "allow",
+      "git add": "allow",
+      "git commit": "allow",
+      "git show": "allow",
+      "git stash": "allow",
+      "git checkout": "allow",
+      "git mv": "allow",
+      "bun run": "allow",
+      "bun test": "allow",
+      "bun add": "allow",
+      "bun install": "allow",
+      "node": "allow",
+      "curl": "allow",
+      "xargs": "allow"
+    }
+  },
+  "$schema": "https://opencode.ai/config.json"
 }

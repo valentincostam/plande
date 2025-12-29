@@ -10,6 +10,7 @@
 		rounded?: boolean;
 		class?: ClassValue;
 		children?: Snippet;
+		label?: string;
 	};
 
 	let {
@@ -19,7 +20,8 @@
 		bg = 'oklch(87.2% 0.01 258.338)', // gray-300
 		rounded = true,
 		class: className,
-		children
+		children,
+		label = 'Avance de carrera'
 	}: Props = $props();
 
 	// Cálculos internos en un viewBox 0..100
@@ -29,7 +31,15 @@
 	const dashOffset = $derived(circumference - (clamped / 100) * circumference);
 </script>
 
-<div class={['relative w-full', className]} style="aspect-ratio: 1 / 1;">
+<div
+	class={['relative w-full', className]}
+	style="aspect-ratio: 1 / 1;"
+	role="progressbar"
+	aria-valuenow={Math.round(clamped)}
+	aria-valuemin={0}
+	aria-valuemax={100}
+	aria-label={label}
+>
 	<svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full">
 		<circle cx="50" cy="50" r={radius} stroke={bg} stroke-width={strokeWidth} fill="transparent" />
 		<circle

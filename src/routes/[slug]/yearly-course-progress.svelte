@@ -20,8 +20,13 @@
 	);
 </script>
 
-<div class={['grid gap-3 rounded-md bg-gray-100 px-6 pt-3 pb-5', className]}>
-	<div class="text-gray-700">Materias aprobadas por año</div>
+<section
+	aria-labelledby="yearly-progress-heading"
+	class={['grid gap-3 rounded-md bg-gray-100 px-6 pt-3 pb-5', className]}
+>
+	<h3 id="yearly-progress-heading" class="text-base font-normal text-gray-700">
+		Materias aprobadas por año
+	</h3>
 	<ul class="grid gap-3">
 		{#each rows as y}
 			<li class="grid grid-cols-[3rem_1fr_2.5rem] items-center gap-2">
@@ -46,4 +51,4 @@
 			</li>
 		{/each}
 	</ul>
-</div>
+</section>

@@ -15,6 +15,12 @@ export const getAvailableCoursesSection = (page: Page): Locator =>
 export const getStrictModeToggle = (page: Page): Locator =>
 	page.getByRole('checkbox', { name: /modo estricto/i });
 
+export const getShowCodesToggle = (page: Page): Locator =>
+	page.getByRole('checkbox', { name: /mostrar identificadores/i });
+
+export const getResetProgressButton = (page: Page): Locator =>
+	page.getByRole('button', { name: /reiniciar progreso/i });
+
 export const getCourseDetailsPanel = async (page: Page, courseName: string): Promise<Locator> => {
 	const button = getCourseButton(page, courseName);
 	const panelId = await button.getAttribute('aria-controls');
@@ -38,4 +44,18 @@ export const setYearState = async (page: Page, year: number, state: string) => {
 	const select = getYearBulkSelect(page, year);
 	await select.click();
 	await select.selectOption({ label: state });
+};
+
+export const gotoWithState = (page: Page, slug: string, stateParam: string) =>
+	page.goto(`/${slug}?s=${stateParam}`, { waitUntil: 'networkidle' });
+
+export const getDegreeProgressBar = (page: Page): Locator => page.getByRole('progressbar');
+
+export const getStatByLabel = (page: Page, labelPattern: string | RegExp): Locator =>
+	page.getByRole('listitem').filter({ hasText: labelPattern });
+
+export const setGrade = async (page: Page, grade: number) => {
+	const gradeInput = page.getByRole('spinbutton');
+	await gradeInput.fill(grade.toString());
+	await gradeInput.blur();
 };
