@@ -80,3 +80,12 @@ export const getListViewButton = (page: Page): Locator =>
 
 export const getDiagramRegion = (page: Page): Locator =>
 	page.getByRole('region', { name: 'Diagrama de correlatividades' });
+
+export const getFullscreenButton = (page: Page): Locator =>
+	page.getByRole('button', { name: 'Pantalla completa' });
+
+export const getExitFullscreenButton = (page: Page): Locator =>
+	page.getByRole('button', { name: 'Salir de pantalla completa (Esc)' });
+
+export const getBodyOverflow = (page: Page): Promise<string> =>
+	page.evaluate(() => document.body.style.overflow);

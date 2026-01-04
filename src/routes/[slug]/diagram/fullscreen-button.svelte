@@ -23,6 +23,14 @@
 		window.addEventListener('keydown', handleKeydown);
 		return () => window.removeEventListener('keydown', handleKeydown);
 	});
+
+	// Hide body scrollbar when fullscreen
+	$effect(() => {
+		document.body.style.overflow = isFullscreen ? 'hidden' : '';
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
 </script>
 
 <ControlButton

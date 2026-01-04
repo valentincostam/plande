@@ -26,6 +26,9 @@ type StudyPlanFixture = {
 		getDiagramViewButton: () => Locator;
 		getListViewButton: () => Locator;
 		getDiagramRegion: () => Locator;
+		getFullscreenButton: () => Locator;
+		getExitFullscreenButton: () => Locator;
+		getBodyOverflow: () => Promise<string>;
 	};
 };
 
@@ -55,7 +58,10 @@ export const test = base.extend<StudyPlanFixture>({
 			getDiagramDownloadButton: () => helpers.getDiagramDownloadButton(page),
 			getDiagramViewButton: () => helpers.getDiagramViewButton(page),
 			getListViewButton: () => helpers.getListViewButton(page),
-			getDiagramRegion: () => helpers.getDiagramRegion(page)
+			getDiagramRegion: () => helpers.getDiagramRegion(page),
+			getFullscreenButton: () => helpers.getFullscreenButton(page),
+			getExitFullscreenButton: () => helpers.getExitFullscreenButton(page),
+			getBodyOverflow: () => helpers.getBodyOverflow(page)
 		});
 	}
 });
