@@ -3,12 +3,12 @@
 	import { createCourses } from '$lib/course.svelte';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
-	import { createYears, isYearPassed, getCourseEffectiveTerm } from '$lib/year.svelte';
-	import { courseTerms, courseTermLabels } from '$lib/course-term';
+	import { createYears, isYearPassed } from '$lib/year.svelte';
 	import SettingToggle from './setting-toggle.svelte';
 	import ResetButton from './reset-button.svelte';
-	import AvailableCoursesTerm from './available-courses-term.svelte';
+	import AvailableCoursesSection from './available-courses-section.svelte';
 	import Stats from './stats.svelte';
+	import Section from './section.svelte';
 	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
@@ -258,46 +258,7 @@
 
 	const hasCodes = $derived(courses.some((course) => course.code));
 
-	const notTakenCourses = $derived.by(() =>
-		courses.filter((course) => course.state === courseStates.notTaken)
-	);
-
-	const availableCourses = $derived.by(() => notTakenCourses.filter((course) => course.isEnabled));
-
-	const areAllCoursesAvailable = $derived(
-		(availableCourses.length > 0 && availableCourses.length === courses.length) ||
-			!isStrictModeEnabled
-	);
-
-	const annualAvailableCourses = $derived.by(() =>
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annual
-		)
-	);
-
-	const firstSemesterAvailableCourses = $derived.by(() =>
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.firstSemester
-		)
-	);
-
-	const secondSemesterAvailableCourses = $derived.by(() =>
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.secondSemester
-		)
-	);
-
-	const semestralAvailableCourses = $derived.by(() =>
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.semestral
-		)
-	);
-
-	const unknownAvailableCourses = $derived.by(() =>
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.unknown
-		)
-	);
+	
 
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
@@ -426,79 +387,24 @@
 			<CopyLinkButton />
 		</section>
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Qué podés cursar</h3>
-			{#if areAllCoursesAvailable}
-				<p class="px-3">
-					Todas las materias están disponibles para cursar{!isStrictModeEnabled
-						? ' porque el modo estricto no está activado y los requisitos de las materias no son obligatorios'
-						: ''}.
-				</p>
-			{:else if availableCourses.length === 0}
-				<p class="px-3">No hay materias disponibles para cursar.</p>
-			{:else}
-				<div class="grid gap-5">
-					<p class="px-3">
-						{#if availableCourses.length == 1}
-							En tu situación actual, esta es la materia que podés cursar.
-						{:else}
-							En tu situación actual, estas son las {availableCourses.length} materias que podés cursar.
-						{/if}
-						El número entre paréntesis indica cuántas materias desbloquea.
-					</p>
-					<AvailableCoursesTerm
-						title={courseTermLabels[courseTerms.annual]}
-						courses={annualAvailableCourses}
-						{showCodes}
-						{viewMode}
-						{onNavigateToDiagram}
-					/>
-					<AvailableCoursesTerm
-						title={courseTermLabels[courseTerms.firstSemester]}
-						courses={firstSemesterAvailableCourses}
-						{showCodes}
-						{viewMode}
-						{onNavigateToDiagram}
-					/>
-					<AvailableCoursesTerm
-						title={courseTermLabels[courseTerms.secondSemester]}
-						courses={secondSemesterAvailableCourses}
-						{showCodes}
-						{viewMode}
-						{onNavigateToDiagram}
-					/>
-					<AvailableCoursesTerm
-						title={courseTermLabels[courseTerms.semestral]}
-						courses={semestralAvailableCourses}
-						{showCodes}
-						{viewMode}
-						{onNavigateToDiagram}
-					/>
-					<AvailableCoursesTerm
-						title="Materias electivas"
-						courses={unknownAvailableCourses}
-						{showCodes}
-						{viewMode}
-						{onNavigateToDiagram}
-						hideTypeForTransversal
-					/>
-				</div>
-			{/if}
-		</section>
+		<AvailableCoursesSection
+			{courses}
+			{isStrictModeEnabled}
+			{showCodes}
+			{viewMode}
+			{onNavigateToDiagram}
+		/>
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Estadísticas</h3>
+		<Section id="estadisticas" title="Estadísticas">
 			<div class="grid gap-3">
 				<Charts {courses} {years} progress={data.studyPlan.progress} />
 				<Stats {courses} {years} progress={data.studyPlan.progress} />
 			</div>
-		</section>
+		</Section>
 
 		<PriorityCourses {courses} {showCodes} {viewMode} {onNavigateToDiagram} />
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Datos del Plan de Estudios</h3>
-
+		<Section id="datos" title="Datos del Plan de Estudios">
 			<ul class="grid list-disc gap-3 px-9">
 				<li>
 					<span class="font-bold">Carrera:</span>
@@ -525,11 +431,10 @@
 					</li>
 				{/if}
 			</ul>
-		</section>
+		</Section>
 
 		{#if data.studyPlan.notes && data.studyPlan.notes.length > 0}
-			<section>
-				<h3 class="p-3 text-lg font-bold">Notas</h3>
+			<Section id="notas" title="Notas">
 				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.studyPlan.notes as note}
 						<li class="note">
@@ -537,12 +442,11 @@
 						</li>
 					{/each}
 				</ol>
-			</section>
+			</Section>
 		{/if}
 
 		{#if data.studyPlan.sources}
-			<section>
-				<h3 class="p-3 text-lg font-bold">Fuentes</h3>
+			<Section id="fuentes" title="Fuentes">
 				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.studyPlan.sources as source}
 						<li>
@@ -555,12 +459,10 @@
 						</li>
 					{/each}
 				</ol>
-			</section>
+			</Section>
 		{/if}
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Referencias</h3>
-			<p class="px-3 pb-3">Posibles estados de una materia:</p>
+		<Section id="referencias" title="Referencias" description="Posibles estados de una materia:">
 			<ul class="grid list-disc gap-3 px-9">
 				<li>
 					<StatePill state={courseStates.notTaken} class="text-sm" />: Aún no has asistido a sus
@@ -579,13 +481,13 @@
 					aprobaste.
 				</li>
 			</ul>
-		</section>
+		</Section>
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Exportar</h3>
-			<p class="px-3">
-				Exportá las materias del plan de estudios y su estado en diferentes formatos.
-			</p>
+		<Section
+			id="exportar"
+			title="Exportar"
+			description="Exportá las materias del plan de estudios y su estado en diferentes formatos."
+		>
 			<div class="flex flex-wrap gap-3 p-3">
 				<ExportButton
 					format="csv"
@@ -609,11 +511,9 @@
 					collegeSlug={data.studyPlan.collegeSlug ?? null}
 				/>
 			</div>
-		</section>
+		</Section>
 
-		<section>
-			<h3 class="p-3 text-lg font-bold">Configuración</h3>
-
+		<Section id="configuracion" title="Configuración">
 			<div class="grid gap-3 px-3 md:px-0">
 				<SettingToggle
 					id="strict-mode"
@@ -621,17 +521,17 @@
 					label="Modo estricto"
 					description="Los requisitos de las materias son obligatorios"
 				/>
-			{#if hasCodes}
-				<SettingToggle
-					id="show-codes"
-					bind:value={showCodes}
-					label="Mostrar identificadores"
-					description="Los códigos de las materias se muestran junto a sus nombres"
-				/>
-			{/if}
+				{#if hasCodes}
+					<SettingToggle
+						id="show-codes"
+						bind:value={showCodes}
+						label="Mostrar identificadores"
+						description="Los códigos de las materias se muestran junto a sus nombres"
+					/>
+				{/if}
 				<ResetButton onclick={resetAllState} />
 			</div>
-		</section>
+		</Section>
 	</main>
 
 	<Disclaimer college={getFullCollegeName(data.studyPlan)} />

@@ -59,7 +59,8 @@ Academic degree planning tool that displays programs and course progression for 
 
 ### Established Patterns
 
-<!-- Project-specific conventions -->
+- **Mobile-first design** (2025-01-04): Avoid hover-only interactions (opacity on hover, tooltips on hover). Mobile users can't trigger hover states. Always make interactive elements visible by default.
+  - Example: Anchor link icons should be always visible, not `opacity-0 group-hover:opacity-100`
 
 ### Performance
 
@@ -67,4 +68,4 @@ Academic degree planning tool that displays programs and course progression for 
 
 ---
 
-_Last updated: 2024-12-28_
+_Last updated: 2025-01-04_

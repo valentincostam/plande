@@ -5,6 +5,7 @@
 
 	import Course from './course.svelte';
 	import Term from './term.svelte';
+	import Section from './section.svelte';
 	import { getCourseEffectiveTerm } from '$lib/year.svelte';
 
 	type Props = {
@@ -24,6 +25,8 @@
 	);
 
 	const displayTitle = $derived(title ?? defaultTitle);
+
+	const sectionId = $derived(allCoursesAreElective ? 'electivas' : 'transversales');
 
 	const annualCourses = $derived(
 		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.annual)
@@ -46,13 +49,7 @@
 	);
 </script>
 
-<article>
-	<header>
-		<h2 class="p-3 text-lg font-bold">
-			{displayTitle}
-		</h2>
-	</header>
-
+<Section id={sectionId} title={displayTitle}>
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses}>
 			{#each annualCourses as course}
@@ -92,4 +89,4 @@
 			{/each}
 		</Term>
 	{/if}
-</article>
+</Section>

@@ -9,14 +9,15 @@
 
 ## Key Components in [slug]/
 
-| Component                  | Purpose                   |
-| -------------------------- | ------------------------- |
-| `course.svelte`            | Individual course card    |
-| `year.svelte`              | Year section with courses |
-| `term.svelte`              | Term grouping             |
-| `stats.svelte`             | Progress statistics       |
-| `state-select.svelte`      | Course state dropdown     |
-| `bulk-state-select.svelte` | Bulk state change         |
+| Component                  | Purpose                        |
+| -------------------------- | ------------------------------ |
+| `course.svelte`            | Individual course card         |
+| `year.svelte`              | Year section with courses      |
+| `term.svelte`              | Term grouping                  |
+| `section.svelte`           | Reusable section with h2 title |
+| `stats.svelte`             | Progress statistics            |
+| `state-select.svelte`      | Course state dropdown          |
+| `bulk-state-select.svelte` | Bulk state change              |
 
 ## Patterns
 
@@ -31,7 +32,29 @@
 
 ### Svelte 5 Components
 
-<!-- Component patterns with runes -->
+- **Section component for consistent sections** (2025-01-04): Use `Section.svelte` for page sections with titles. Provides:
+  - Consistent `h2` heading with `aria-labelledby`
+  - Anchor link with copy-to-clipboard + hash update
+  - Visual feedback ("Copiado" + check icon)
+  - Optional description prop
+
+  ```svelte
+  <Section id="estadisticas" title="Estadísticas" description="...">
+    <!-- content -->
+  </Section>
+  ```
+
+  - File: `section.svelte`
+
+- **When to extract components** (2025-01-04): Extract to separate file when:
+  - > 50 lines of logic + template
+  - Has own `$derived` computations
+  - Potentially reusable
+
+  Keep inline when:
+  - <30 lines, template-only
+  - Just renders props
+  - Page-specific
 
 ### Reactive State
 
@@ -51,7 +74,7 @@
 
   - File: `donut.svelte`
 
-- **Use `<section>` + `<h3>` for titled sections** (2025-12-28): Better than `<div>` with text - enables heading navigation and `getByRole('region')`
+- **Use `<section>` with proper heading** (2025-12-28): Better than `<div>` with text - enables heading navigation and `getByRole('region')`
 
   ```svelte
   <!-- ❌ No semantics -->
@@ -62,17 +85,30 @@
 
   <!-- ✅ Semantic structure -->
   <section aria-labelledby="yearly-progress-heading">
-    <h3 id="yearly-progress-heading">Materias aprobadas por año</h3>
+    <h2 id="yearly-progress-heading">Materias aprobadas por año</h2>
     <ul>...</ul>
   </section>
   ```
 
   - File: `yearly-course-progress.svelte`
 
+- **Heading hierarchy must be consistent** (2025-01-04): All main page sections should use same heading level. If years use `h2`, other sections (Estadísticas, Configuración, etc.) should also use `h2`, not `h3`.
+
+  ```
+  h1: Page title
+    h2: 1° Año, 2° Año...
+    h2: Estadísticas
+    h2: Configuración
+  ```
+
 ### UX/UI
 
-<!-- Interface decisions -->
+- **Copy-to-clipboard feedback** (2025-01-04): When copying to clipboard, provide visual feedback:
+  1. Change icon (link → check)
+  2. Show text confirmation ("Copiado")
+  3. Auto-reset after ~2 seconds
+  - File: `section.svelte`
 
 ---
 
-_Last updated: 2025-12-28_
+_Last updated: 2025-01-04_

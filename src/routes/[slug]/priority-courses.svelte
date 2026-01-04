@@ -5,6 +5,7 @@
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import UnlockIcon from './unlock-icon.svelte';
 	import CourseLink from './course-link.svelte';
+	import Section from './section.svelte';
 
 	type Props = {
 		courses: Course[];
@@ -95,12 +96,11 @@
 </script>
 
 {#if priorityCourses.length > 0}
-	<section aria-labelledby="priority-courses-heading">
-		<h3 id="priority-courses-heading" class="p-3 text-lg font-bold">Orden de prioridad sugerido</h3>
-		<p class="px-3 pb-3">
-			Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más
-			opciones de materias para cursar después. No se incluyen materias que no desbloquean otras.
-		</p>
+	<Section
+		id="prioridad"
+		title="Orden de prioridad sugerido"
+		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. No se incluyen materias que no desbloquean otras."
+	>
 		<div class="px-3">
 			<table class="w-full text-left text-sm">
 				<thead class="border-b border-gray-200 text-xs uppercase text-gray-500">
@@ -134,5 +134,5 @@
 				</tbody>
 			</table>
 		</div>
-	</section>
+	</Section>
 {/if}
