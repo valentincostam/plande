@@ -23,11 +23,13 @@
 
 ### Core Rules
 
-1. **Test like a user, not a developer**
+1. **Write tests in English** — test descriptions, variable names, and comments must be in English
+
+2. **Test like a user, not a developer**
    - Use `getByRole`, `getByLabel`, `getByText`
    - Never use ID, CSS class, or `data-testid` selectors
 
-2. **Verify what's visible, not implementation**
+3. **Verify what's visible, not implementation**
 
    ```typescript
    // ❌ Bad: internal value
@@ -37,7 +39,7 @@
    await expect(select.getByRole('option', { selected: true })).toHaveText('Regular');
    ```
 
-3. **Use semantic assertions**
+4. **Use semantic assertions**
 
    ```typescript
    // ❌ Verifies attribute
@@ -47,29 +49,29 @@
    await expect(option).toBeEnabled();
    ```
 
-4. **If it's not accessible, it's not testable**
+5. **If it's not accessible, it's not testable**
    - If a test needs an ugly selector, improve component accessibility
    - Add `aria-label`, `aria-expanded`, `aria-controls`, etc.
 
-5. **Real interactions**
+6. **Real interactions**
 
    ```typescript
    await select.click();
    await select.selectOption({ label: 'Regular' });
    ```
 
-6. **Avoid hardcoded timeouts**
+7. **Avoid hardcoded timeouts**
    - Trust Playwright's auto-retry (5s default)
    - Use `waitUntil: 'networkidle'` for initial navigation
 
-7. **Exact match for similar names**
+8. **Exact match for similar names**
 
    ```typescript
    // Prevents "AM I" from matching "AM II"
    page.getByRole('combobox', { name: '...', exact: true });
    ```
 
-8. **Scope locators instead of `.first()`**
+9. **Scope locators instead of `.first()`**
 
    ```typescript
    // ❌ Uses .first() because multiple matches
@@ -80,16 +82,16 @@
    year1.getByRole('combobox', { name: '...' });
    ```
 
-9. **Verify preconditions, not just results**
+10. **Verify preconditions, not just results**
 
-   ```typescript
-   // ❌ Only verifies result
-   await expect(termBulkSelect).toBeVisible();
+    ```typescript
+    // ❌ Only verifies result
+    await expect(termBulkSelect).toBeVisible();
 
-   // ✅ Verify precondition that causes result
-   await expect(studyPlan.getCourseSelect('Álgebra')).toBeEnabled();
-   await expect(termBulkSelect).toBeVisible();
-   ```
+    // ✅ Verify precondition that causes result
+    await expect(studyPlan.getCourseSelect('Álgebra')).toBeEnabled();
+    await expect(termBulkSelect).toBeVisible();
+    ```
 
 ---
 

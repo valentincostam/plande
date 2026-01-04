@@ -55,4 +55,29 @@ test.describe('Available courses', () => {
 		// Message indicates all courses are available
 		await expect(section.getByText(/todas las materias están disponibles/i)).toBeVisible();
 	});
+
+	test('clicking course name in list mode scrolls to course section', async ({ studyPlan }) => {
+		const section = studyPlan.getAvailableCoursesSection();
+		const courseLink = section.getByRole('link', { name: 'Álgebra y Geometría Analítica' });
+
+		await courseLink.click();
+
+		const courseButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');
+		await expect(courseButton).toBeInViewport();
+	});
+
+	test('clicking course name in diagram mode shows course node in viewport', async ({
+		studyPlan
+	}) => {
+		await studyPlan.getDiagramViewButton().click();
+		await expect(studyPlan.getDiagramRegion()).toBeVisible();
+
+		const section = studyPlan.getAvailableCoursesSection();
+		const courseLink = section.getByRole('link', { name: 'Álgebra y Geometría Analítica' });
+		await courseLink.click();
+
+		const diagramRegion = studyPlan.getDiagramRegion();
+		const courseNode = diagramRegion.getByText('Álgebra y Geometría Analítica').first();
+		await expect(courseNode).toBeInViewport();
+	});
 });

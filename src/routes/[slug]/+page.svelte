@@ -38,6 +38,7 @@
 	import { getFullCollegeName } from '$lib/study-plan';
 	import ViewToggle from './view-toggle.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
+	import PriorityCourses from './priority-courses.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -492,6 +493,8 @@
 				<Stats {courses} {years} progress={data.studyPlan.progress} />
 			</div>
 		</section>
+
+		<PriorityCourses {courses} {showCodes} {viewMode} {onNavigateToDiagram} />
 
 		<section>
 			<h3 class="p-3 text-lg font-bold">Datos del Plan de Estudios</h3>

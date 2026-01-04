@@ -89,3 +89,9 @@ export const getExitFullscreenButton = (page: Page): Locator =>
 
 export const getBodyOverflow = (page: Page): Promise<string> =>
 	page.evaluate(() => document.body.style.overflow);
+
+export const getPriorityCoursesSection = (page: Page): Locator =>
+	page.getByRole('region', { name: /orden de prioridad/i });
+
+export const getPriorityCoursesTable = (page: Page): Locator =>
+	getPriorityCoursesSection(page).getByRole('table');

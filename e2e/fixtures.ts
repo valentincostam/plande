@@ -29,6 +29,8 @@ type StudyPlanFixture = {
 		getFullscreenButton: () => Locator;
 		getExitFullscreenButton: () => Locator;
 		getBodyOverflow: () => Promise<string>;
+		getPriorityCoursesSection: () => Locator;
+		getPriorityCoursesTable: () => Locator;
 	};
 };
 
@@ -61,7 +63,9 @@ export const test = base.extend<StudyPlanFixture>({
 			getDiagramRegion: () => helpers.getDiagramRegion(page),
 			getFullscreenButton: () => helpers.getFullscreenButton(page),
 			getExitFullscreenButton: () => helpers.getExitFullscreenButton(page),
-			getBodyOverflow: () => helpers.getBodyOverflow(page)
+			getBodyOverflow: () => helpers.getBodyOverflow(page),
+			getPriorityCoursesSection: () => helpers.getPriorityCoursesSection(page),
+			getPriorityCoursesTable: () => helpers.getPriorityCoursesTable(page)
 		});
 	}
 });
