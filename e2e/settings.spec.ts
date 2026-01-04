@@ -57,6 +57,20 @@ test.describe('Settings - Strict Mode', () => {
 });
 
 test.describe('Settings - Show Identifiers', () => {
+	test('show codes toggle is hidden when study plan has no course codes', async ({ studyPlan }) => {
+		await studyPlan.goto('uba-fp-lp-1985');
+
+		const showCodesToggle = studyPlan.getShowCodesToggle();
+		await expect(showCodesToggle).not.toBeVisible();
+	});
+
+	test('show codes toggle is visible when study plan has course codes', async ({ studyPlan }) => {
+		await studyPlan.goto('utn-frcu-isi-2023');
+
+		const showCodesToggle = studyPlan.getShowCodesToggle();
+		await expect(showCodesToggle).toBeVisible();
+	});
+
 	test('course codes are hidden by default', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 

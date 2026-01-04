@@ -255,6 +255,8 @@
 		courses.filter((course) => isTransversal(course.attributes))
 	);
 
+	const hasCodes = $derived(courses.some((course) => course.code));
+
 	const notTakenCourses = $derived.by(() =>
 		courses.filter((course) => course.state === courseStates.notTaken)
 	);
@@ -616,12 +618,14 @@
 					label="Modo estricto"
 					description="Los requisitos de las materias son obligatorios"
 				/>
+			{#if hasCodes}
 				<SettingToggle
 					id="show-codes"
 					bind:value={showCodes}
 					label="Mostrar identificadores"
 					description="Los códigos de las materias se muestran junto a sus nombres"
 				/>
+			{/if}
 				<ResetButton onclick={resetAllState} />
 			</div>
 		</section>
