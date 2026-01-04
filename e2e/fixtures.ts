@@ -22,6 +22,10 @@ type StudyPlanFixture = {
 		getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => Locator;
 		getShareButton: () => Locator;
 		getCopyLinkButton: () => Locator;
+		getDiagramDownloadButton: () => Locator;
+		getDiagramViewButton: () => Locator;
+		getListViewButton: () => Locator;
+		getDiagramRegion: () => Locator;
 	};
 };
 
@@ -47,7 +51,11 @@ export const test = base.extend<StudyPlanFixture>({
 			setGrade: (grade: number) => helpers.setGrade(page, grade),
 			getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => helpers.getExportButton(page, format),
 			getShareButton: () => helpers.getShareButton(page),
-			getCopyLinkButton: () => helpers.getCopyLinkButton(page)
+			getCopyLinkButton: () => helpers.getCopyLinkButton(page),
+			getDiagramDownloadButton: () => helpers.getDiagramDownloadButton(page),
+			getDiagramViewButton: () => helpers.getDiagramViewButton(page),
+			getListViewButton: () => helpers.getListViewButton(page),
+			getDiagramRegion: () => helpers.getDiagramRegion(page)
 		});
 	}
 });

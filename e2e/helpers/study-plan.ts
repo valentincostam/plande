@@ -68,3 +68,15 @@ export const getShareButton = (page: Page): Locator =>
 
 export const getCopyLinkButton = (page: Page): Locator =>
 	page.getByRole('button', { name: /Copiar link/ });
+
+export const getDiagramDownloadButton = (page: Page): Locator =>
+	page.getByRole('button', { name: 'Descargar imagen PNG' });
+
+export const getDiagramViewButton = (page: Page): Locator =>
+	page.getByRole('button', { name: 'Diagrama' });
+
+export const getListViewButton = (page: Page): Locator =>
+	page.getByRole('button', { name: 'Lista' });
+
+export const getDiagramRegion = (page: Page): Locator =>
+	page.getByRole('region', { name: 'Diagrama de correlatividades' });

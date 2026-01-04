@@ -404,7 +404,7 @@
 	<main class="grid gap-9">
 		{#if viewMode === 'diagram'}
 			<div id="diagram-container">
-				<CourseDiagram {courses} bind:this={diagramRef} />
+				<CourseDiagram {courses} slug={data.slug} bind:this={diagramRef} />
 			</div>
 		{:else}
 			{#each years as year, index}

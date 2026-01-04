@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { SvelteFlow, Background, Controls } from '@xyflow/svelte';
 	import FullscreenButton from './fullscreen-button.svelte';
+	import DownloadImageButton from './download-image-button.svelte';
 	import DiagramNavigator from './diagram-navigator.svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import type { Course } from '$lib/course.svelte';
@@ -12,9 +13,10 @@
 
 	type Props = {
 		courses: Course[];
+		slug: string;
 	};
 
-	let { courses }: Props = $props();
+	let { courses, slug }: Props = $props();
 
 	// Filter toggle (checked = show, unchecked = hide)
 	let showElectives = $state(true);
@@ -171,6 +173,7 @@
 	>
 		<Background />
 		<Controls position="bottom-right" showLock={false}>
+			<DownloadImageButton {slug} />
 			<FullscreenButton bind:isFullscreen />
 		</Controls>
 		<DiagramNavigator bind:this={navigatorRef} {onFocus} />
