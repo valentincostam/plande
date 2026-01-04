@@ -1230,13 +1230,13 @@ export const udemmLp: StudyPlan = {
         \n - H0043. **Psicopedagogía en Educación Especial I**
         \n - H0220. **Investigación de Mercados**
         \n - H0222. **Psicología de la Tercera Edad**
+        \n - H0218. **Comunicación**
+        \n - H0258. **Género, Sexualidad y Subjetividad**
       `
 		},
 		{
 			id: 3,
 			text: `Las opciones de materias electivas de 5<sup>to</sup> año son:
-        \n - H0218. **Comunicación**
-        \n - H0258. **Género, Sexualidad y Subjetividad**
         \n - H0219. **Publicidad y Promoción**
         \n - H0259. **Psicología de las Nuevas Tecnologías**
         \n - H0225. **Introducción a la Psicología del Deporte**
