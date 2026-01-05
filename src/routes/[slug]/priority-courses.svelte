@@ -3,6 +3,7 @@
 	import { countAllDependents } from '$lib/course.svelte';
 	import { courseStates } from '$lib/course-state';
 	import { courseTerms, type CourseTerm } from '$lib/course-term';
+	import { courseTypes, isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import UnlockIcon from './unlock-icon.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
 	import CourseLink from './course-link.svelte';
@@ -19,6 +20,15 @@
 	let { courses, showCodes = false, viewMode = 'list', onNavigateToDiagram }: Props = $props();
 
 	let showPassedCourses = $state(true);
+	let showElectiveCourses = $state(true);
+
+	const electiveLabel = $derived.by(() => {
+		const hasElective = courses.some((c) => c.type === courseTypes.elective);
+		const hasOptative = courses.some((c) => c.type === courseTypes.optative);
+		if (hasElective && hasOptative) return 'electivas/optativas';
+		if (hasOptative) return 'optativas';
+		return 'electivas';
+	});
 
 	type PriorityCourse = {
 		course: Course;
@@ -44,12 +54,10 @@
 	};
 
 	const priorityCourses = $derived.by(() => {
-		const coursesWithDependents: PriorityCourse[] = courses
-			.map((course) => ({
-				course,
-				dependentCount: countAllDependents(course)
-			}))
-			.filter((item) => item.dependentCount > 1);
+		const coursesWithDependents: PriorityCourse[] = courses.map((course) => ({
+			course,
+			dependentCount: countAllDependents(course)
+		}));
 
 		return coursesWithDependents.sort((a, b) => {
 			// 1. Dependientes (descendente)
@@ -77,9 +85,11 @@
 	});
 
 	const filteredPriorityCourses = $derived(
-		showPassedCourses
-			? priorityCourses
-			: priorityCourses.filter(({ course }) => course.state !== courseStates.passed)
+		priorityCourses.filter(({ course }) => {
+			if (!showPassedCourses && course.state === courseStates.passed) return false;
+			if (!showElectiveCourses && isElectiveOrOptative(course.type)) return false;
+			return true;
+		})
 	);
 
 	</script>
@@ -88,13 +98,19 @@
 	<Section
 		id="prioridad"
 		title="Orden de prioridad sugerido"
-		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. No se incluyen materias que no desbloquean otras. Si estás indeciso entre dos materias, priorizá la que aparezca más arriba en esta lista."
+		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. Si estás indeciso entre dos materias, priorizá la que aparezca más arriba en esta lista."
 	>
 		<div class="px-3">
-			<label class="mb-3 flex cursor-pointer items-center gap-2 text-sm text-gray-600">
-				<input type="checkbox" bind:checked={showPassedCourses} class="h-4 w-4 rounded" />
-				Mostrar materias aprobadas
-			</label>
+			<div class="mb-3 flex flex-wrap gap-x-4 gap-y-2">
+				<label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
+					<input type="checkbox" bind:checked={showPassedCourses} class="h-4 w-4 rounded" />
+					Mostrar materias aprobadas
+				</label>
+				<label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
+					<input type="checkbox" bind:checked={showElectiveCourses} class="h-4 w-4 rounded" />
+					Mostrar materias {electiveLabel}
+				</label>
+			</div>
 			<table class="w-full text-left text-sm">
 				<thead class="border-b border-gray-200 text-xs uppercase text-gray-500">
 					<tr>
@@ -118,6 +134,11 @@
 										{/if}
 										{course.name}
 									</CourseLink>
+									{#if isElectiveOrOptative(course.type)}
+										<span class="inline-block rounded-md px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700 border border-gray-200">
+											{courseTypeLabels[course.type]}
+										</span>
+									{/if}
 									<StatePill state={course.state} class="text-xs" />
 								</span>
 							</td>

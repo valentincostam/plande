@@ -37,18 +37,24 @@ test.describe('Priority courses section', () => {
 		expect(first).toBeGreaterThanOrEqual(second);
 	});
 
-	test('excludes courses with 1 or fewer dependents', async ({ studyPlan }) => {
+	test('includes courses with 0 dependents', async ({ studyPlan }) => {
 		await studyPlan.goto();
 
 		const table = studyPlan.getPriorityCoursesTable();
 		const rows = table.getByRole('row');
 		const rowCount = await rows.count();
 
+		let hasZeroDependents = false;
 		for (let i = 1; i < rowCount; i++) {
 			const unlocks = await rows.nth(i).getByRole('cell').last().textContent();
 			const count = parseInt(unlocks ?? '0');
-			expect(count).toBeGreaterThan(1);
+			if (count === 0) {
+				hasZeroDependents = true;
+				break;
+			}
 		}
+
+		expect(hasZeroDependents).toBe(true);
 	});
 
 	test('table order is static and does not change when course state changes', async ({
@@ -166,5 +172,83 @@ test.describe('Priority courses section', () => {
 		await expect(
 			table.getByRole('link', { name: firstCourseName!.trim(), exact: true })
 		).not.toBeVisible();
+	});
+
+	test('shows elective courses checkbox checked by default', async ({ studyPlan }) => {
+		await studyPlan.goto();
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const checkbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
+
+		await expect(checkbox).toBeVisible();
+		await expect(checkbox).toBeChecked();
+	});
+
+	test('hides elective courses when checkbox is unchecked', async ({ studyPlan }) => {
+		await studyPlan.goto();
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const table = studyPlan.getPriorityCoursesTable();
+		const checkbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
+
+		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
+
+		await checkbox.uncheck();
+
+		await expect(
+			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
+		).not.toBeVisible();
+	});
+
+	test('shows elective courses again when checkbox is re-checked', async ({ studyPlan }) => {
+		await studyPlan.goto();
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const table = studyPlan.getPriorityCoursesTable();
+		const checkbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
+
+		await checkbox.uncheck();
+		await expect(
+			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
+		).not.toBeVisible();
+
+		await checkbox.check();
+		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
+	});
+
+	test('combines filters - hides passed elective when both checkboxes unchecked', async ({
+		studyPlan
+	}) => {
+		await studyPlan.goto();
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const table = studyPlan.getPriorityCoursesTable();
+		const passedCheckbox = section.getByRole('checkbox', { name: /mostrar materias aprobadas/i });
+		const electiveCheckbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
+
+		await studyPlan.getStrictModeToggle().uncheck();
+		await studyPlan.setCourseState('Emprendedorismo', 'Aprobada');
+		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
+
+		await passedCheckbox.uncheck();
+		await expect(
+			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
+		).not.toBeVisible();
+
+		await passedCheckbox.check();
+		await electiveCheckbox.uncheck();
+		await expect(
+			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
+		).not.toBeVisible();
+	});
+
+	test('shows optativas label for plans with optative courses', async ({ studyPlan }) => {
+		await studyPlan.goto('unaj-ics-kf');
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const checkbox = section.getByRole('checkbox', { name: /mostrar materias optativas/i });
+
+		await expect(checkbox).toBeVisible();
+		await expect(checkbox).toBeChecked();
 	});
 });
