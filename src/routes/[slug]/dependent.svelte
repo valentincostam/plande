@@ -3,7 +3,7 @@
 	import { toKebabCase, type CourseDependent } from '$lib/course.svelte';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import { requiredForLabels } from '$lib/raw-course';
-	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
@@ -48,10 +48,7 @@
 		{#if dependent.dependentCourse.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">
-				{dependent.dependentCourse.year}<sup
-					>{getOrdinalSuperscript(dependent.dependentCourse.year)}</sup
-				>
-				año
+				<Ordinal number={dependent.dependentCourse.year} noun="año" />
 			</span>
 		{:else if courseIsTransversal}
 			({courseLabel})

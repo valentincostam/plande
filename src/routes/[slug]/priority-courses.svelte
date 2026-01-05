@@ -3,8 +3,8 @@
 	import { countAllDependents } from '$lib/course.svelte';
 	import { courseStates } from '$lib/course-state';
 	import { courseTerms, type CourseTerm } from '$lib/course-term';
-	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import UnlockIcon from './unlock-icon.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import CourseLink from './course-link.svelte';
 	import Section from './section.svelte';
 	import StatePill from './state-pill.svelte';
@@ -82,28 +82,7 @@
 			: priorityCourses.filter(({ course }) => course.state !== courseStates.passed)
 	);
 
-	const formatPeriod = (course: Course): string => {
-		const year = course.year;
-		if (year === undefined) return '';
-
-		const yearSup = getOrdinalSuperscript(year);
-		const yearText = `${year}<sup>${yearSup}</sup> año`;
-
-		switch (course.term) {
-			case courseTerms.annual:
-				return `${yearText}, anual`;
-			case courseTerms.firstSemester:
-				return `${yearText}, 1<sup>er</sup> cuat.`;
-			case courseTerms.secondSemester:
-				return `${yearText}, 2<sup>do</sup> cuat.`;
-			case courseTerms.semestral:
-			case courseTerms.crossYear:
-			case courseTerms.unknown:
-			default:
-				return yearText;
-		}
-	};
-</script>
+	</script>
 
 {#if priorityCourses.length > 0}
 	<Section
@@ -143,7 +122,9 @@
 								</span>
 							</td>
 							<td class="whitespace-nowrap py-2 pr-4 align-top text-gray-600">
-								{@html formatPeriod(course)}
+								{#if course.year !== undefined}
+									<Ordinal number={course.year} noun="año" />{#if course.term === courseTerms.annual}, anual{:else if course.term === courseTerms.firstSemester}, <Ordinal number={1} noun="cuat." />{:else if course.term === courseTerms.secondSemester}, <Ordinal number={2} noun="cuat." />{/if}
+								{/if}
 							</td>
 							<td class="whitespace-nowrap py-2 align-top text-right text-gray-600">{dependentCount}</td>
 						</tr>

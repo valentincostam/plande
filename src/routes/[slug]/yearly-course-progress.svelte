@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Year } from '$lib/year.svelte';
-	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import { courseStates } from '$lib/course-state';
 	import type { ClassValue } from 'svelte/elements';
 
@@ -31,7 +31,7 @@
 		{#each rows as y}
 			<li class="grid grid-cols-[3rem_1fr_2.5rem] items-center gap-2">
 				<span class="text-right text-xs whitespace-nowrap text-gray-500">
-					{y.year}<sup>{getOrdinalSuperscript(y.year)}</sup> año
+					<Ordinal number={y.year} noun="año" />
 				</span>
 				<div
 					class="grid h-2 w-full gap-0.5 overflow-hidden"

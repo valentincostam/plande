@@ -14,7 +14,7 @@ test.describe('View toggle (Lista/Diagrama)', () => {
 		await expect(diagramaButton).toHaveAttribute('aria-pressed', 'false');
 
 		// List content should be visible (years with courses)
-		await expect(page.getByRole('heading', { name: /1.* Año/ })).toBeVisible();
+		await expect(page.getByRole('heading', { name: /primer Año/i })).toBeVisible();
 	});
 
 	test('clicking Diagrama switches to diagram view', async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe('View toggle (Lista/Diagrama)', () => {
 		await expect(listaButton).toHaveAttribute('aria-pressed', 'false');
 
 		// Year headings should not be visible in diagram view
-		await expect(page.getByRole('heading', { name: /1.* Año/ })).not.toBeVisible();
+		await expect(page.getByRole('heading', { name: /primer Año/i })).not.toBeVisible();
 
 		// Diagram region should be visible
 		await expect(page.getByRole('region', { name: 'Diagrama de correlatividades' })).toBeVisible();
@@ -40,7 +40,7 @@ test.describe('View toggle (Lista/Diagrama)', () => {
 
 		// Switch to diagram first
 		await diagramaButton.click();
-		await expect(page.getByRole('heading', { name: /1.* Año/ })).not.toBeVisible();
+		await expect(page.getByRole('heading', { name: /primer Año/i })).not.toBeVisible();
 
 		// Switch back to list
 		await listaButton.click();
@@ -50,7 +50,7 @@ test.describe('View toggle (Lista/Diagrama)', () => {
 		await expect(diagramaButton).toHaveAttribute('aria-pressed', 'false');
 
 		// List content should be visible again
-		await expect(page.getByRole('heading', { name: /1.* Año/ })).toBeVisible();
+		await expect(page.getByRole('heading', { name: /primer Año/i })).toBeVisible();
 	});
 
 	test('view toggle group has accessible label', async ({ page }) => {

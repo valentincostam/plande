@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { utnFrcuIsi2023 } from '../../[slug]/data/utn-frcu-isi-2023';
 	import Footer from '../../footer.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 </script>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
@@ -31,13 +32,13 @@
 
 		<ul class="list-disc pl-6">
 			<li>
-				4 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+				4 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
 			</li>
 			<li>
-				6 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+				6 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
 			</li>
 			<li>
-				10 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+				10 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
 			</li>
 		</ul>
 
@@ -63,13 +64,13 @@
 
 		<ul class="list-disc pl-6">
 			<li>
-				8 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+				8 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
 			</li>
 			<li>
-				12 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+				12 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
 			</li>
 			<li>
-				20 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+				20 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
 			</li>
 		</ul>
 
@@ -87,21 +88,21 @@
 
 		<ul class="grid list-disc gap-2 pl-6">
 			<li>
-				8 horas cátedra semanales en el <span class="whitespace-nowrap">3<sup>er</sup> nivel</span>
+				8 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
 				<ul class="list-disc pl-6">
 					<li>4 horas de <em>Metodología de la Investigación</em></li>
 					<li>4 horas de <em>Emprendedorismo</em></li>
 				</ul>
 			</li>
 			<li>
-				14 horas cátedra semanales en el <span class="whitespace-nowrap">4<sup>to</sup> nivel</span>
+				14 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
 				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Relaciones Humanas</em></li>
 					<li>8 horas de <em>Sistemas Distribuidos</em></li>
 				</ul>
 			</li>
 			<li>
-				30 horas cátedra semanales en el <span class="whitespace-nowrap">5<sup>to</sup> nivel</span>
+				30 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
 				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Auditoría de Sistemas de Información</em></li>
 					<li>

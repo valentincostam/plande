@@ -1,5 +1,21 @@
 import type { Page, Locator } from '@playwright/test';
 
+const getOrdinalWord = (year: number): string => {
+	const ordinals: Record<number, string> = {
+		1: 'primer',
+		2: 'segundo',
+		3: 'tercer',
+		4: 'cuarto',
+		5: 'quinto',
+		6: 'sexto',
+		7: 'séptimo',
+		8: 'octavo',
+		9: 'noveno',
+		10: 'décimo'
+	};
+	return ordinals[year] ?? `${year}°`;
+};
+
 export const goto = (page: Page, slug = 'utn-frcu-isi') =>
 	page.goto(`/${slug}`, { waitUntil: 'networkidle' });
 
@@ -35,7 +51,7 @@ export const setCourseState = async (page: Page, courseName: string, state: stri
 };
 
 export const getYearSection = (page: Page, year: number): Locator =>
-	page.getByRole('region', { name: new RegExp(`${year}.* Año`) });
+	page.getByRole('region', { name: new RegExp(`${getOrdinalWord(year)} Año`, 'i') });
 
 export const getYearBulkSelect = (page: Page, year: number): Locator =>
 	page.getByRole('combobox', { name: `Cambiar estado de todas las materias de ${year}° año` });

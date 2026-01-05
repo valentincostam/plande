@@ -3,7 +3,8 @@
 
 	import Course from './course.svelte';
 	import Term from './term.svelte';
-	import { getOrdinalSuperscript, getCourseEffectiveTerm, type Year } from '$lib/year.svelte';
+	import { getCourseEffectiveTerm, type Year } from '$lib/year.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import BulkStateSelect from './bulk-state-select.svelte';
 	import { courseStates, type CourseState } from '$lib/course-state';
 	import StatePill from './state-pill.svelte';
@@ -68,7 +69,7 @@
 	<header class="flex items-center justify-between">
 		<div class="flex items-center gap-3 p-3">
 			<h2 id="year-{year.year}-heading" class="text-lg font-bold">
-				{year.year}<sup>{getOrdinalSuperscript(year.year)}</sup> Año
+				<Ordinal number={year.year} noun="Año" />
 			</h2>
 			{#if year.state === courseStates.passed}
 				<StatePill state={courseStates.passed} gender="masculine" class="text-xs" />

@@ -3,7 +3,7 @@
 	import type { Course } from '$lib/course.svelte';
 	import { countAllDependents } from '$lib/course.svelte';
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
-	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import CourseLink from './course-link.svelte';
 	import UnlockIcon from './unlock-icon.svelte';
 
@@ -49,7 +49,7 @@
 	{/if}
 	{#if course.year !== undefined}
 		<span class="whitespace-nowrap">
-			de {course.year}<sup>{getOrdinalSuperscript(course.year)}</sup> año
+			de <Ordinal number={course.year} noun="año" />
 		</span>
 	{/if}
 	{#if totalDependents > 0}

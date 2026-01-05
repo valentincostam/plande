@@ -50,6 +50,22 @@ export const getOrdinalSuperscript = (number: number) => {
 	return 'to';
 };
 
+export const getOrdinalWord = (number: number) => {
+	const ordinals: Record<number, string> = {
+		1: 'primer',
+		2: 'segundo',
+		3: 'tercer',
+		4: 'cuarto',
+		5: 'quinto',
+		6: 'sexto',
+		7: 'séptimo',
+		8: 'octavo',
+		9: 'noveno',
+		10: 'décimo'
+	};
+	return ordinals[number] ?? `${number}°`;
+};
+
 // Helper function to get the effective term for a course in a specific year
 export const getCourseEffectiveTerm = (course: Course, displayYear?: number) => {
 	// If this course has crossYear property and we're showing it in the ending year

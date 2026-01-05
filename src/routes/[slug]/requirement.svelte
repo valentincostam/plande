@@ -3,7 +3,7 @@
 	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
 	import { toKebabCase, type CourseRequirement } from '$lib/course.svelte';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
-	import { getOrdinalSuperscript } from '$lib/year.svelte';
+	import Ordinal from '$lib/ordinal.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
@@ -52,10 +52,7 @@
 		{#if requirement.requiredCourse.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">
-				{requirement.requiredCourse.year}<sup
-					>{getOrdinalSuperscript(requirement.requiredCourse.year)}</sup
-				>
-				año
+				<Ordinal number={requirement.requiredCourse.year} noun="año" />
 			</span>
 		{:else if courseIsTransversal}
 			({courseLabel})
