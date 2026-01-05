@@ -51,16 +51,40 @@ test.describe('Priority courses section', () => {
 		}
 	});
 
-	test('table is static and does not change when course state changes', async ({ studyPlan }) => {
+	test('table order is static and does not change when course state changes', async ({
+		studyPlan
+	}) => {
 		await studyPlan.goto();
 
 		const table = studyPlan.getPriorityCoursesTable();
-		const firstRowBefore = await table.getByRole('row').nth(1).textContent();
+		const firstCourseNameBefore = await table
+			.getByRole('row')
+			.nth(1)
+			.getByRole('link')
+			.textContent();
 
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
 
-		const firstRowAfter = await table.getByRole('row').nth(1).textContent();
-		expect(firstRowAfter).toBe(firstRowBefore);
+		const firstCourseNameAfter = await table
+			.getByRole('row')
+			.nth(1)
+			.getByRole('link')
+			.textContent();
+		expect(firstCourseNameAfter).toBe(firstCourseNameBefore);
+	});
+
+	test('shows course state and updates when state changes', async ({ studyPlan }) => {
+		await studyPlan.goto();
+
+		const table = studyPlan.getPriorityCoursesTable();
+		const firstRow = table.getByRole('row').nth(1);
+
+		await expect(firstRow.getByText('No cursada')).toBeVisible();
+
+		const courseName = await firstRow.getByRole('link').textContent();
+		await studyPlan.setCourseState(courseName!.trim(), 'Aprobada');
+
+		await expect(firstRow.getByText('Aprobada')).toBeVisible();
 	});
 
 	test('shows period with correct superscript format', async ({ studyPlan }) => {

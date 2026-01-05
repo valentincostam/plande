@@ -6,6 +6,7 @@
 	import UnlockIcon from './unlock-icon.svelte';
 	import CourseLink from './course-link.svelte';
 	import Section from './section.svelte';
+	import StatePill from './state-pill.svelte';
 
 	type Props = {
 		courses: Course[];
@@ -116,19 +117,22 @@
 				<tbody>
 					{#each priorityCourses as { course, dependentCount }, index}
 						<tr class="border-b border-gray-100">
-							<td class="py-2 pr-2 text-gray-400">{index + 1}</td>
-							<td class="py-2 pr-2">
-								<CourseLink {course} {viewMode} {onNavigateToDiagram}>
-									{#if showCodes && course.code}
-										<span class="text-gray-400">{course.code}.</span>
-									{/if}
-									{course.name}
-								</CourseLink>
+							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
+							<td class="py-2 pr-2 align-top">
+								<span class="inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+									<CourseLink {course} {viewMode} {onNavigateToDiagram}>
+										{#if showCodes && course.code}
+											<span class="text-gray-400">{course.code}.</span>
+										{/if}
+										{course.name}
+									</CourseLink>
+									<StatePill state={course.state} class="text-xs" />
+								</span>
 							</td>
-							<td class="whitespace-nowrap py-2 pr-4 text-gray-600">
+							<td class="whitespace-nowrap py-2 pr-4 align-top text-gray-600">
 								{@html formatPeriod(course)}
 							</td>
-							<td class="whitespace-nowrap py-2 text-right text-gray-600">{dependentCount}</td>
+							<td class="whitespace-nowrap py-2 align-top text-right text-gray-600">{dependentCount}</td>
 						</tr>
 					{/each}
 				</tbody>
