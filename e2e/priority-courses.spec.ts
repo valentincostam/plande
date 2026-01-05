@@ -7,7 +7,7 @@ test.describe('Priority courses section', () => {
 		const section = studyPlan.getPriorityCoursesSection();
 		await expect(section).toBeVisible();
 		await expect(section.getByRole('heading', { name: /orden de prioridad/i })).toBeVisible();
-		await expect(section.getByText(/si las aprobás primero/i)).toBeVisible();
+		await expect(section.getByText(/conviene priorizarlas/i)).toBeVisible();
 	});
 
 	test('shows table with correct columns', async ({ studyPlan }) => {

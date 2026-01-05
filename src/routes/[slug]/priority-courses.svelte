@@ -98,7 +98,7 @@
 	<Section
 		id="prioridad"
 		title="Orden de prioridad sugerido"
-		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. Si estás indeciso entre dos materias, priorizá la que aparezca más arriba en esta lista."
+		description="Todas las materias ordenadas por cantidad de otras que desbloquean. Las que están más arriba son requisito de más materias, así que conviene priorizarlas."
 	>
 		<div class="px-3">
 			<div class="mb-3 flex flex-wrap gap-x-4 gap-y-2">
