@@ -99,7 +99,7 @@
 	<Section
 		id="prioridad"
 		title="Orden de prioridad sugerido"
-		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. No se incluyen materias que no desbloquean otras."
+		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. No se incluyen materias que no desbloquean otras. Si estás indeciso entre dos materias, priorizá la que aparezca más arriba en esta lista."
 	>
 		<div class="px-3">
 			<table class="w-full text-left text-sm">
