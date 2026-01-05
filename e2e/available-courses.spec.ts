@@ -80,4 +80,15 @@ test.describe('Available courses', () => {
 		const courseNode = diagramRegion.getByText('Álgebra y Geometría Analítica').first();
 		await expect(courseNode).toBeInViewport();
 	});
+
+	test('course shows unlock count badge with tooltip', async ({ studyPlan }) => {
+		const section = studyPlan.getAvailableCoursesSection();
+		const algebraItem = section
+			.getByRole('listitem')
+			.filter({ hasText: 'Álgebra y Geometría Analítica' });
+		const unlockBadge = algebraItem.locator('[title^="Desbloquea"]');
+
+		await expect(unlockBadge).toBeVisible();
+		await expect(unlockBadge).toHaveAttribute('title', /Desbloquea \d+ materias?/);
+	});
 });

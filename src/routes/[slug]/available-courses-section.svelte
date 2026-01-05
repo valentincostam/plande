@@ -75,7 +75,7 @@
 				{:else}
 					En tu situación actual, estas son las {availableCourses.length} materias que podés cursar.
 				{/if}
-				El número entre paréntesis indica cuántas materias desbloquea.
+				El número junto al candado indica cuántas materias desbloquea.
 			</p>
 			<AvailableCoursesTerm
 				title={courseTermLabels[courseTerms.annual]}

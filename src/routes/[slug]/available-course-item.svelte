@@ -5,6 +5,7 @@
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import CourseLink from './course-link.svelte';
+	import UnlockIcon from './unlock-icon.svelte';
 
 	type Props = {
 		course: Course;
@@ -52,6 +53,12 @@
 		</span>
 	{/if}
 	{#if totalDependents > 0}
-		<span class="text-gray-400">({totalDependents})</span>
+		<span
+			class="inline-flex items-center gap-0.5 rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-500"
+			title="Desbloquea {totalDependents} {totalDependents === 1 ? 'materia' : 'materias'}"
+		>
+			<UnlockIcon class="size-3" />
+			{totalDependents}
+		</span>
 	{/if}
 </li>
