@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Course } from '$lib/course.svelte';
 	import { countAllDependents } from '$lib/course.svelte';
+	import { courseStates } from '$lib/course-state';
 	import { courseTerms, type CourseTerm } from '$lib/course-term';
 	import { getOrdinalSuperscript } from '$lib/year.svelte';
 	import UnlockIcon from './unlock-icon.svelte';
@@ -16,6 +17,8 @@
 	};
 
 	let { courses, showCodes = false, viewMode = 'list', onNavigateToDiagram }: Props = $props();
+
+	let showPassedCourses = $state(true);
 
 	type PriorityCourse = {
 		course: Course;
@@ -73,6 +76,12 @@
 		});
 	});
 
+	const filteredPriorityCourses = $derived(
+		showPassedCourses
+			? priorityCourses
+			: priorityCourses.filter(({ course }) => course.state !== courseStates.passed)
+	);
+
 	const formatPeriod = (course: Course): string => {
 		const year = course.year;
 		if (year === undefined) return '';
@@ -103,6 +112,10 @@
 		description="Estas materias son requisito de muchas otras. Si las aprobás primero, vas a tener más opciones de materias para cursar después. No se incluyen materias que no desbloquean otras. Si estás indeciso entre dos materias, priorizá la que aparezca más arriba en esta lista."
 	>
 		<div class="px-3">
+			<label class="mb-3 flex cursor-pointer items-center gap-2 text-sm text-gray-600">
+				<input type="checkbox" bind:checked={showPassedCourses} class="h-4 w-4 rounded" />
+				Mostrar materias aprobadas
+			</label>
 			<table class="w-full text-left text-sm">
 				<thead class="border-b border-gray-200 text-xs uppercase text-gray-500">
 					<tr>
@@ -115,7 +128,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each priorityCourses as { course, dependentCount }, index}
+					{#each filteredPriorityCourses as { course, dependentCount }, index}
 						<tr class="border-b border-gray-100">
 							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
 							<td class="py-2 pr-2 align-top">

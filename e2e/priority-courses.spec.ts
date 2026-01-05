@@ -146,4 +146,25 @@ test.describe('Priority courses section', () => {
 		const courseNode = diagramRegion.getByText(courseName!.trim()).first();
 		await expect(courseNode).toBeInViewport();
 	});
+
+	test('hides passed courses when checkbox is unchecked', async ({ studyPlan }) => {
+		await studyPlan.goto();
+
+		const section = studyPlan.getPriorityCoursesSection();
+		const table = studyPlan.getPriorityCoursesTable();
+		const checkbox = section.getByRole('checkbox', { name: /mostrar materias aprobadas/i });
+
+		const firstCourseName = await table.getByRole('row').nth(1).getByRole('link').textContent();
+		await studyPlan.setCourseState(firstCourseName!.trim(), 'Aprobada');
+
+		await expect(checkbox).toBeChecked();
+		await expect(
+			table.getByRole('link', { name: firstCourseName!.trim(), exact: true })
+		).toBeVisible();
+
+		await checkbox.uncheck();
+		await expect(
+			table.getByRole('link', { name: firstCourseName!.trim(), exact: true })
+		).not.toBeVisible();
+	});
 });
