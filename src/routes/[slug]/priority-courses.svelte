@@ -116,7 +116,6 @@
 					<tr>
 						<th scope="col" class="py-2 pr-2">#</th>
 						<th scope="col" class="py-2 pr-2">Materia</th>
-						<th scope="col" class="whitespace-nowrap py-2 pr-4">Período</th>
 						<th scope="col" class="py-2 text-right" title="Cantidad de materias que desbloquea">
 							<UnlockIcon class="inline-block" />
 						</th>
@@ -124,7 +123,7 @@
 				</thead>
 				<tbody>
 					{#each filteredPriorityCourses as { course, dependentCount }, index}
-						<tr class="border-b border-gray-100">
+						<tr class="border-b border-gray-100 last:border-b-0">
 							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
 							<td class="py-2 pr-2 align-top">
 								<span class="inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
@@ -134,6 +133,11 @@
 										{/if}
 										{course.name}
 									</CourseLink>
+									{#if course.year !== undefined}
+										<span class="whitespace-nowrap">
+											de <Ordinal number={course.year} noun="año" />
+										</span>
+									{/if}
 									{#if isElectiveOrOptative(course.type)}
 										<span class="inline-block rounded-md px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700 border border-gray-200">
 											{courseTypeLabels[course.type]}
@@ -141,11 +145,6 @@
 									{/if}
 									<StatePill state={course.state} class="text-xs" />
 								</span>
-							</td>
-							<td class="whitespace-nowrap py-2 pr-4 align-top text-gray-600">
-								{#if course.year !== undefined}
-									<Ordinal number={course.year} noun="año" />{#if course.term === courseTerms.annual}, anual{:else if course.term === courseTerms.firstSemester}, <Ordinal number={1} noun="cuat." />{:else if course.term === courseTerms.secondSemester}, <Ordinal number={2} noun="cuat." />{/if}
-								{/if}
 							</td>
 							<td class="whitespace-nowrap py-2 align-top text-right text-gray-600">{dependentCount}</td>
 						</tr>

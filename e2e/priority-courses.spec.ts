@@ -18,7 +18,6 @@ test.describe('Priority courses section', () => {
 
 		await expect(table.getByRole('columnheader', { name: '#' })).toBeVisible();
 		await expect(table.getByRole('columnheader', { name: 'Materia', exact: true })).toBeVisible();
-		await expect(table.getByRole('columnheader', { name: /período/i })).toBeVisible();
 		await expect(table.getByRole('columnheader', { name: /cantidad de materias/i })).toBeVisible();
 	});
 
@@ -93,7 +92,7 @@ test.describe('Priority courses section', () => {
 		await expect(firstRow.getByText('Aprobada')).toBeVisible();
 	});
 
-	test('shows period with correct superscript format', async ({ studyPlan }) => {
+	test('shows year with correct superscript format', async ({ studyPlan }) => {
 		await studyPlan.goto();
 
 		const table = studyPlan.getPriorityCoursesTable();
