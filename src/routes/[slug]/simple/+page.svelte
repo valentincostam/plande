@@ -7,8 +7,10 @@
 	import SimpleYear from './simple-year.svelte';
 	import SimpleStats from './simple-stats.svelte';
 	import SimpleCourse from './simple-course.svelte';
-	import { untrack } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
+	import { decodeCoursesStates } from '$lib/course-state';
 	import ShareButton from '../share-button.svelte';
 	import CopyLinkButton from '../copy-link-button.svelte';
 
@@ -46,6 +48,41 @@
 		const ogImageUrl = `https://plande.app/${data.slug}/og.png${page.url.search}`;
 
 		return { title, description, url, ogImageUrl };
+	});
+
+	const storageKey = $derived(`plande-${data.slug}`);
+
+	onMount(() => {
+		if (!browser) return;
+
+		// Solo cargar de localStorage si no hay datos en URL
+		if (data.coursesStates.length > 0) return;
+
+		const savedData = localStorage.getItem(storageKey);
+		if (!savedData) return;
+
+		try {
+			const parsed = JSON.parse(savedData);
+
+			if (parsed.coursesStates) {
+				const decodedStates = decodeCoursesStates(parsed.coursesStates);
+				courses.forEach((course, index) => {
+					if (decodedStates[index]) {
+						course.state = decodedStates[index];
+					}
+				});
+			}
+
+			if (parsed.grades) {
+				courses.forEach((course, index) => {
+					if (index < parsed.grades.length) {
+						course.grade = parsed.grades[index] ?? undefined;
+					}
+				});
+			}
+		} catch (error) {
+			console.warn('Failed to parse saved course states:', error);
+		}
 	});
 </script>
 
