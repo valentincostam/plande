@@ -30,7 +30,7 @@
 	}
 
 	const baseClasses =
-		'text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500';
+		'text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 font-noto tracking-tight';
 </script>
 
 <a href={`#${toKebabCase(course.name)}`} {onclick} class="{baseClasses} {className}">
