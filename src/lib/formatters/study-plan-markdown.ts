@@ -5,6 +5,40 @@ import { courseAttributeLabels, isTransversal } from '../course-attribute';
 import { femenineCourseStateLabels } from '../course-state';
 import { requiredFor, requiredForLabels } from '../raw-course';
 
+/**
+ * Count all courses that transitively depend on a given course.
+ * Works with raw study plan data (no Svelte reactivity).
+ */
+function countDependents(courseId: number, allCourses: StudyPlan['courses']): number {
+	// Build dependency graph: courseId -> Set of courses that directly depend on it
+	const dependentsMap = new Map<number, Set<number>>();
+
+	for (const course of allCourses) {
+		for (const req of course.requirements ?? []) {
+			if (!dependentsMap.has(req.requiredCourseId)) {
+				dependentsMap.set(req.requiredCourseId, new Set());
+			}
+			dependentsMap.get(req.requiredCourseId)!.add(course.id);
+		}
+	}
+
+	// BFS to count all transitive dependents
+	const visited = new Set<number>();
+	const queue = [courseId];
+
+	while (queue.length > 0) {
+		const current = queue.shift()!;
+		for (const depId of dependentsMap.get(current) ?? []) {
+			if (!visited.has(depId)) {
+				visited.add(depId);
+				queue.push(depId);
+			}
+		}
+	}
+
+	return visited.size;
+}
+
 export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 	const sections: string[] = [];
 
@@ -176,6 +210,40 @@ export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
 			}
 		}
 	}
+
+	// Priority section - courses sorted by how many others they unlock
+	sections.push('## Orden de Prioridad Sugerido');
+	sections.push('');
+	sections.push(
+		'Materias ordenadas por cantidad de otras que desbloquean. Conviene priorizar las que están más arriba.'
+	);
+	sections.push('');
+	sections.push('| # | Materia | Año | Desbloquea |');
+	sections.push('|---|---------|-----|------------|');
+
+	const coursesWithDependents = studyPlan.courses
+		.map((course) => ({
+			course,
+			dependentCount: countDependents(course.id, studyPlan.courses)
+		}))
+		.sort((a, b) => {
+			if (b.dependentCount !== a.dependentCount) {
+				return b.dependentCount - a.dependentCount;
+			}
+			const yearA = a.course.year ?? Infinity;
+			const yearB = b.course.year ?? Infinity;
+			if (yearA !== yearB) {
+				return yearA - yearB;
+			}
+			return a.course.name.localeCompare(b.course.name, 'es');
+		});
+
+	coursesWithDependents.forEach(({ course, dependentCount }, index) => {
+		const yearStr = course.year !== undefined ? `${course.year}º` : '-';
+		sections.push(`| ${index + 1} | ${course.name} | ${yearStr} | ${dependentCount} |`);
+	});
+
+	sections.push('');
 
 	// Sources
 	if (studyPlan.sources.length > 0) {
