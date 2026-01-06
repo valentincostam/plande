@@ -39,6 +39,7 @@
 	import ViewToggle from './view-toggle.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
+	import { page } from '$app/state';
 
 	let { data }: PageProps = $props();
 
@@ -258,7 +259,9 @@
 
 	const hasCodes = $derived(courses.some((course) => course.code));
 
-	
+	const simpleViewUrl = $derived(`/${data.slug}/simple${page.url.search}`);
+
+
 
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
@@ -385,6 +388,12 @@
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
+			<a
+				href={simpleViewUrl}
+				class="mx-auto text-sm text-blue-700 hover:underline"
+			>
+				Ver versión simple
+			</a>
 		</section>
 
 		<AvailableCoursesSection

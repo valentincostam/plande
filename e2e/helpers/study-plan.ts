@@ -83,7 +83,7 @@ export const getShareButton = (page: Page): Locator =>
 	page.getByRole('button', { name: /Compartir plan de estudios/ });
 
 export const getCopyLinkButton = (page: Page): Locator =>
-	page.getByRole('button', { name: /Copiar link/ });
+	page.getByRole('button', { name: 'Copiar link para compartir' });
 
 export const getDiagramDownloadButton = (page: Page): Locator =>
 	page.getByRole('button', { name: 'Descargar imagen PNG' });
@@ -111,3 +111,24 @@ export const getPriorityCoursesSection = (page: Page): Locator =>
 
 export const getPriorityCoursesTable = (page: Page): Locator =>
 	getPriorityCoursesSection(page).getByRole('table');
+
+export const gotoSimple = (page: Page, slug = 'utn-frcu-isi') =>
+	page.goto(`/${slug}/simple`, { waitUntil: 'networkidle' });
+
+export const gotoSimpleWithState = (
+	page: Page,
+	slug: string,
+	stateParam: string,
+	gradeParam?: string
+) => {
+	const params = new URLSearchParams();
+	params.set('s', stateParam);
+	if (gradeParam) params.set('n', gradeParam);
+	return page.goto(`/${slug}/simple?${params}`, { waitUntil: 'networkidle' });
+};
+
+export const getFullViewLink = (page: Page): Locator =>
+	page.getByRole('link', { name: /Ver versión completa/ });
+
+export const getSimpleViewLink = (page: Page): Locator =>
+	page.getByRole('link', { name: /Ver versión simple/ });
