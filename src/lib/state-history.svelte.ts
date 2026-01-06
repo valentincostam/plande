@@ -5,18 +5,6 @@ let redoStack = $state<string[]>([]);
 let currentState = $state<string>('');
 let isApplyingHistory = $state(false);
 
-export function getCanUndo() {
-	return undoStack.length > 0;
-}
-
-export function getCanRedo() {
-	return redoStack.length > 0;
-}
-
-export function getHasHistory() {
-	return undoStack.length > 0 || redoStack.length > 0;
-}
-
 export function getIsApplyingHistory() {
 	return isApplyingHistory;
 }

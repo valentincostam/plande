@@ -21,13 +21,10 @@
 		pushState as pushHistoryState,
 		undo as historyUndo,
 		redo as historyRedo,
-		getCanUndo,
-		getCanRedo,
 		getIsApplyingHistory,
 		clearIsApplyingHistory,
 		resetHistory
 	} from '$lib/state-history.svelte';
-	import UndoRedoButtons from './undo-redo-buttons.svelte';
 	import { encodeGrades } from '$lib/grade-encoding';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
@@ -246,10 +243,6 @@
 			e.preventDefault();
 		}
 	}
-
-	// Reactive wrappers for history state
-	const canUndo = $derived(getCanUndo());
-	const canRedo = $derived(getCanRedo());
 
 	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
