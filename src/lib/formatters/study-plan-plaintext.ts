@@ -252,5 +252,15 @@ export function studyPlanToPlainText(studyPlan: StudyPlan): string {
 		}
 	}
 
+	// Credits
+	sections.push(SUBSEPARATOR);
+	sections.push('');
+	sections.push('Este plan de estudios fue creado con Plande (https://plande.app).');
+	sections.push('Plande es un proyecto de Valentín Costa (https://valentincosta.com).');
+	sections.push(
+		'Podés apoyar el proyecto comprándole un café a Valentín en Cafecito (https://cafecito.app/valentincostam).'
+	);
+	sections.push('');
+
 	return sections.join('\n');
 }
