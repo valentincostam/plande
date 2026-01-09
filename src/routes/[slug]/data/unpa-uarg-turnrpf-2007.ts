@@ -563,7 +563,8 @@ const courses: RawCourse[] = [
 
 export const unpaUargTurnrpf2007: StudyPlan = {
 	courses,
-	degreeName: 'Tecnicatura Universitaria en Recursos Naturales Renovables (Orientación Producción Frutihortícola)',
+	degreeName:
+		'Tecnicatura Universitaria en Recursos Naturales Renovables (Orientación Producción Frutihortícola)',
 	degreeSlug: 'TURNRPF',
 	universityName: 'Universidad Nacional de la Patagonia Austral',
 	universitySlug: 'UNPA',
@@ -587,14 +588,10 @@ export const unpaUargTurnrpf2007: StudyPlan = {
 	notes: [
 		{
 			id: 1,
-			text: 'Orientación en Producción Frutihortícola (Cód. 075)'
-		},
-		{
-			id: 2,
 			text: '**Práctica**: Práctica de Horticultura y Fruticultura requerida para obtener el título.'
 		},
 		{
-			id: 3,
+			id: 2,
 			text: '**Idioma/Ofimática**: Aprobar examen de suficiencia de Idioma Inglés y nivel de Ofimática antes de cursar el 3° año (se ofrecerán cursos extracurriculares opcionales).'
 		}
 	]
