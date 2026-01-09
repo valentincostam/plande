@@ -5,6 +5,7 @@
 	import { courseTerms, type CourseTerm } from '$lib/course-term';
 	import { courseTypes, isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import UnlockIcon from './unlock-icon.svelte';
+	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
 	import CourseLink from './course-link.svelte';
 	import Section from './section.svelte';
@@ -19,8 +20,11 @@
 
 	let { courses, showCodes = false, viewMode = 'list', onNavigateToDiagram }: Props = $props();
 
+	const INITIAL_LIMIT = 10;
+
 	let showPassedCourses = $state(true);
 	let showElectiveCourses = $state(true);
+	let showAll = $state(false);
 
 	const electiveLabel = $derived.by(() => {
 		const hasElective = courses.some((c) => c.type === courseTypes.elective);
@@ -92,7 +96,11 @@
 		})
 	);
 
-	</script>
+	const shouldShowExpandButton = $derived(filteredPriorityCourses.length > INITIAL_LIMIT);
+	const visibleCourses = $derived(
+		showAll ? filteredPriorityCourses : filteredPriorityCourses.slice(0, INITIAL_LIMIT)
+	);
+</script>
 
 {#if priorityCourses.length > 0}
 	<Section
@@ -101,7 +109,7 @@
 		description="Todas las materias ordenadas por cantidad de otras que desbloquean. Las que están más arriba son requisito de más materias, así que conviene priorizarlas."
 	>
 		<div class="px-3">
-			<div class="mb-3 flex flex-wrap gap-x-4 gap-y-2">
+			<div class="mb-3 flex flex-wrap gap-x-6 gap-y-3">
 				<label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
 					<input type="checkbox" bind:checked={showPassedCourses} class="h-4 w-4 rounded" />
 					Mostrar materias aprobadas
@@ -122,7 +130,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each filteredPriorityCourses as { course, dependentCount }, index}
+					{#each visibleCourses as { course, dependentCount }, index}
 						<tr class="border-b border-gray-100 last:border-b-0">
 							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
 							<td class="py-2 pr-2 align-top">
@@ -151,6 +159,18 @@
 					{/each}
 				</tbody>
 			</table>
+			{#if shouldShowExpandButton}
+				<button
+					onclick={() => (showAll = !showAll)}
+					class="mt-2 flex w-full cursor-pointer items-center justify-center gap-1 py-2 text-sm text-gray-500 transition-colors hover:text-gray-700"
+					aria-expanded={showAll}
+				>
+					{showAll ? 'Mostrar menos' : 'Mostrar todas'}
+					<ChevronDownIcon
+						class={['h-4 w-4 transition-transform', showAll && 'rotate-180']}
+					/>
+				</button>
+			{/if}
 		</div>
 	</Section>
 {/if}

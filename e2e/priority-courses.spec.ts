@@ -39,7 +39,11 @@ test.describe('Priority courses section', () => {
 	test('includes courses with 0 dependents', async ({ studyPlan }) => {
 		await studyPlan.goto();
 
+		const section = studyPlan.getPriorityCoursesSection();
 		const table = studyPlan.getPriorityCoursesTable();
+
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
+
 		const rows = table.getByRole('row');
 		const rowCount = await rows.count();
 
@@ -190,6 +194,7 @@ test.describe('Priority courses section', () => {
 		const table = studyPlan.getPriorityCoursesTable();
 		const checkbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
 
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
 
 		await checkbox.uncheck();
@@ -206,12 +211,14 @@ test.describe('Priority courses section', () => {
 		const table = studyPlan.getPriorityCoursesTable();
 		const checkbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
 
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await checkbox.uncheck();
 		await expect(
 			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
 		).not.toBeVisible();
 
 		await checkbox.check();
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
 	});
 
@@ -226,15 +233,18 @@ test.describe('Priority courses section', () => {
 		const electiveCheckbox = section.getByRole('checkbox', { name: /mostrar materias electivas/i });
 
 		await studyPlan.getStrictModeToggle().uncheck();
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await studyPlan.setCourseState('Emprendedorismo', 'Aprobada');
 		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
 
 		await passedCheckbox.uncheck();
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await expect(
 			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
 		).not.toBeVisible();
 
 		await passedCheckbox.check();
+		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await electiveCheckbox.uncheck();
 		await expect(
 			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
@@ -249,5 +259,122 @@ test.describe('Priority courses section', () => {
 
 		await expect(checkbox).toBeVisible();
 		await expect(checkbox).toBeChecked();
+	});
+
+	test.describe('Show more/less button', () => {
+		test('shows only first 10 courses by default when list has more than 10', async ({
+			studyPlan
+		}) => {
+			await studyPlan.goto();
+
+			const table = studyPlan.getPriorityCoursesTable();
+			const rows = table.getByRole('row');
+			// 1 header row + 10 data rows = 11 total
+			await expect(rows).toHaveCount(11);
+		});
+
+		test('shows "Mostrar más" button when list has more than 10 items', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+			const showMoreButton = section.getByRole('button', { name: /mostrar todas/i });
+
+			await expect(showMoreButton).toBeVisible();
+			await expect(showMoreButton).toHaveAttribute('aria-expanded', 'false');
+		});
+
+		test('expands to show all courses when clicking "Mostrar más"', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+			const table = studyPlan.getPriorityCoursesTable();
+
+			await section.getByRole('button', { name: /mostrar todas/i }).click();
+
+			const rows = table.getByRole('row');
+			const rowCount = await rows.count();
+			// Should have more than 11 rows (header + all courses)
+			expect(rowCount).toBeGreaterThan(11);
+		});
+
+		test('shows "Mostrar menos" button after expanding', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+
+			await section.getByRole('button', { name: /mostrar todas/i }).click();
+
+			const showLessButton = section.getByRole('button', { name: /mostrar menos/i });
+			await expect(showLessButton).toBeVisible();
+			await expect(showLessButton).toHaveAttribute('aria-expanded', 'true');
+		});
+
+		test('collapses back to 10 courses when clicking "Mostrar menos"', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+			const table = studyPlan.getPriorityCoursesTable();
+
+			await section.getByRole('button', { name: /mostrar todas/i }).click();
+			await section.getByRole('button', { name: /mostrar menos/i }).click();
+
+			const rows = table.getByRole('row');
+			await expect(rows).toHaveCount(11);
+		});
+
+		test('hides button when filtered list has 10 or fewer items', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+
+			await studyPlan.setYearState(1, 'Aprobadas');
+			await studyPlan.setYearState(2, 'Aprobadas');
+			await studyPlan.setYearState(3, 'Aprobadas');
+			await studyPlan.setYearState(4, 'Aprobadas');
+			await studyPlan.setYearState(5, 'Aprobadas');
+
+			await section.getByRole('checkbox', { name: /mostrar materias aprobadas/i }).uncheck();
+			await section.getByRole('checkbox', { name: /mostrar materias electivas/i }).uncheck();
+
+			await expect(section.getByRole('button', { name: /mostrar todas/i })).not.toBeVisible();
+		});
+
+		test('keeps expanded state when passed courses filter changes', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+			const table = studyPlan.getPriorityCoursesTable();
+
+			// Expand the list
+			await section.getByRole('button', { name: /mostrar todas/i }).click();
+			const expandedRowCount = await table.getByRole('row').count();
+			expect(expandedRowCount).toBeGreaterThan(11);
+
+			// Toggle filter - should stay expanded
+			await section.getByRole('checkbox', { name: /mostrar materias aprobadas/i }).uncheck();
+
+			const rows = table.getByRole('row');
+			const rowCount = await rows.count();
+			expect(rowCount).toBeGreaterThan(11);
+		});
+
+		test('keeps expanded state when elective courses filter changes', async ({ studyPlan }) => {
+			await studyPlan.goto();
+
+			const section = studyPlan.getPriorityCoursesSection();
+			const table = studyPlan.getPriorityCoursesTable();
+
+			// Expand the list
+			await section.getByRole('button', { name: /mostrar todas/i }).click();
+			const expandedRowCount = await table.getByRole('row').count();
+			expect(expandedRowCount).toBeGreaterThan(11);
+
+			// Toggle filter - should stay expanded
+			await section.getByRole('checkbox', { name: /mostrar materias electivas/i }).uncheck();
+
+			const rows = table.getByRole('row');
+			const rowCount = await rows.count();
+			expect(rowCount).toBeGreaterThan(11);
+		});
 	});
 });
