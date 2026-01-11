@@ -330,8 +330,9 @@ Only include `year` if officially documented in plan name.
 **Determining weeks per term:**
 - Look for explicit duration in the curriculum document (e.g., "16 semanas por cuatrimestre", "18 weeks")
 - Check university academic calendar if available
-- **Do NOT assume** 16 weeks for semesters or 32 for annual - verify first
-- If weeks cannot be determined, ask the user or note the uncertainty
+- If weeks cannot be determined, **ask the user** - default to 16 weeks for semesters/32 for annual if user confirms
+
+**CRITICAL: Never omit hours.** If only total hours exist, convert using the formula above. Omitting hours degrades user experience.
 
 **Examples:**
 - Source: "8 horas semanales, 128 horas totales" → `hours: 8`

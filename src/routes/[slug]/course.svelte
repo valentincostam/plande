@@ -66,7 +66,7 @@
 		course.state = newState;
 	}
 
-	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
+	const formatHours = (hours: number) => Math.round(hours);
 
 	const hasRequirementsForCompletion = $derived(course.requirementsForCompletion.length > 0);
 	const totalDependentsCount = $derived(countAllDependents(course));
@@ -87,7 +87,7 @@
 			{onkeydown}
 			aria-expanded={isExpanded}
 			aria-controls="{toKebabCase(course.name)}-details"
-			aria-label="{course.name}{course.hours ? `, ${numberFormatter.format(course.hours)} horas` : ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
+			aria-label="{course.name}{course.hours ? `, ${formatHours(course.hours)} horas` : ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
 			aria-keyshortcuts="n e r a"
 			class={[
 				!course.isEnabled && 'pr-0',
@@ -131,7 +131,7 @@
 						'shrink-0 text-sm whitespace-nowrap transition-colors'
 					]}
 				>
-					{numberFormatter.format(course.hours)} hs
+					{formatHours(course.hours)} hs
 				</span>
 			{/if}
 			{#if !course.isEnabled}
@@ -159,7 +159,7 @@
 				{#if course.hours}
 					<li>
 						<strong>Carga horaria:</strong>
-						{numberFormatter.format(course.hours)} horas cátedra semanales
+						{formatHours(course.hours)} horas cátedra semanales
 					</li>
 				{/if}
 				{#if course.state === courseStates.passed || course.grade !== undefined}

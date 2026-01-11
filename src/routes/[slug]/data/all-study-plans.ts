@@ -33,6 +33,7 @@ import { ucaeceLp2023 } from './ucaece-lp-2023';
 import { unsamEbynLb } from './unsam-ebyn-lb';
 import { issdTscdia } from './issd-tscdia';
 import { ubaFpLp1985 } from './uba-fp-lp-1985';
+import { unsDcsLe2017 } from './uns-dcs-le-2017';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
@@ -70,5 +71,6 @@ export const allStudyPlans: StudyPlan[] = [
 	ucaeceLp2023,
 	unsamEbynLb,
 	issdTscdia,
-	ubaFpLp1985
+	ubaFpLp1985,
+	unsDcsLe2017
 ];

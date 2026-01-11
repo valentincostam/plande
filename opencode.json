@@ -1,13 +1,5 @@
 {
-	"mcp": {
-		"playwriter": {
-			"type": "local",
-			"command": ["npx", "-y", "playwriter@latest"],
-			"environment": {
-				"PLAYWRITER_AUTO_ENABLE": "1"
-			}
-		}
-	},
+
 	"permission": {
 		"bash": {
 			"ls": "allow",

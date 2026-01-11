@@ -218,7 +218,6 @@ test.describe('Priority courses section', () => {
 		).not.toBeVisible();
 
 		await checkbox.check();
-		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
 	});
 
@@ -238,13 +237,11 @@ test.describe('Priority courses section', () => {
 		await expect(table.getByRole('link', { name: 'Emprendedorismo', exact: true })).toBeVisible();
 
 		await passedCheckbox.uncheck();
-		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await expect(
 			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
 		).not.toBeVisible();
 
 		await passedCheckbox.check();
-		await section.getByRole('button', { name: /mostrar todas/i }).click();
 		await electiveCheckbox.uncheck();
 		await expect(
 			table.getByRole('link', { name: 'Emprendedorismo', exact: true })
