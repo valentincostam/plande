@@ -742,7 +742,32 @@ const courses: RawCourse[] = [
 		term: courseTerms.annual,
 		type: courseTypes.mandatory,
 		year: 5,
-		requirements: []
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 32,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 28,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
 	}
 ];
 
