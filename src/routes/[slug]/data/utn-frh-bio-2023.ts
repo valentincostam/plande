@@ -739,6 +739,7 @@ const courses: RawCourse[] = [
 		id: 99,
 		code: '99',
 		name: 'Práctica Profesional Supervisada',
+		hours: 5,
 		term: courseTerms.annual,
 		type: courseTypes.mandatory,
 		year: 5,
