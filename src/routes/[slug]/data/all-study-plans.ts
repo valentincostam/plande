@@ -24,6 +24,7 @@ import { unsaFceLf2005 } from './unsa-fce-lf-2005';
 import { unajIcsKf2015 } from './unaj-ics-kf-2015';
 import { unerFbBioq2025 } from './uner-fb-bioq-2025';
 import { utnFrhIa2023 } from './utn-frh-ia-2023';
+import { utnFrhBio2023 } from './utn-frh-bio-2023';
 import { udeFdcsAb } from './ude-fdcs-ab';
 import { unmdpFhLcp } from './unmdp-fh-lcp';
 import { unpaUargIrnr } from './unpa-uarg-irnr';
@@ -63,6 +64,7 @@ export const allStudyPlans: StudyPlan[] = [
 	unsaFceLf2005,
 	unerFbBioq2025,
 	utnFrhIa2023,
+	utnFrhBio2023,
 	udeFdcsAb,
 	unmdpFhLcp,
 	unpaUargIrnr,
