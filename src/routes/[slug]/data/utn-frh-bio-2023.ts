@@ -812,7 +812,7 @@ export const utnFrhBio2023: StudyPlan = {
 		},
 		{
 			id: 3,
-			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse.'
+			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 5 horas semanales, obtenido de dividir las 150 horas totales exigidas entre 32 semanas (lo que dura un año académico).'
 		}
 	]
 };
