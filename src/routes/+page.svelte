@@ -52,6 +52,104 @@
 		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
 	/>
 	<link rel="canonical" href="https://plande.app/" />
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Plande - Planificador de Carreras Universitarias" />
+	<meta property="og:description" content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso." />
+	<meta property="og:url" content="https://plande.app/" />
+	<meta property="og:site_name" content="Plande" />
+	<meta property="og:image" content="https://plande.app/og-home.png" />
+	<meta property="og:locale" content="es_AR" />
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Plande - Planificador de Carreras Universitarias" />
+	<meta name="twitter:description" content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso." />
+	<meta name="twitter:image" content="https://plande.app/og-home.png" />
+
+	<!-- Schema.org: WebApplication -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: 'Plande',
+		alternateName: 'Planes de Estudios Interactivos',
+		url: 'https://plande.app',
+		applicationCategory: 'EducationApplication',
+		operatingSystem: 'Any',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'ARS'
+		},
+		description: 'Aplicación web gratuita para planificar carreras universitarias argentinas. Visualiza requisitos y correlatividades entre materias, simula escenarios y comparte tu progreso.',
+		inLanguage: 'es',
+		audience: {
+			'@type': 'Audience',
+			audienceType: 'Estudiantes universitarios'
+		},
+		featureList: [
+			'Visualización interactiva de correlatividades',
+			'Simulación de escenarios de cursada',
+			'Cálculo automático de prioridades de materias',
+			'Compartir progreso mediante URL',
+			'Exportación a CSV, JSON y texto',
+			'Tracking de estados de materias'
+		],
+		softwareVersion: '1.0',
+		author: {
+			'@type': 'Organization',
+			name: 'Plande'
+		}
+	})}<\/script>`}
+
+	<!-- Schema.org: FAQPage -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: [
+			{
+				'@type': 'Question',
+				name: '¿Qué es Plande?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Plande es una aplicación web gratuita que ayuda a estudiantes universitarios argentinos a planificar sus carreras. Permite visualizar requisitos y correlatividades entre materias, simular escenarios, calcular prioridades automáticamente y compartir el progreso mediante URLs.'
+				}
+			},
+			{
+				'@type': 'Question',
+				name: '¿Cómo funcionan los estados de las materias?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Las materias pueden tener cuatro estados: No cursada (sin empezar), En curso (cursando actualmente), Regular (cursada aprobada pero final pendiente) y Aprobada (cursada y final aprobados). Al cambiar el estado de una materia, Plande actualiza automáticamente qué otras materias se habilitan para cursar.'
+				}
+			},
+			{
+				'@type': 'Question',
+				name: '¿Cómo puedo compartir mi progreso?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Plande codifica el estado de todas las materias en la URL. Simplemente copiá la URL de tu navegador y compartila. Cualquier persona que acceda a ese link verá exactamente el mismo progreso que vos.'
+				}
+			},
+			{
+				'@type': 'Question',
+				name: '¿Es gratis?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario. Los datos se almacenan localmente en tu navegador o en la URL para compartir.'
+				}
+			},
+			{
+				'@type': 'Question',
+				name: '¿Cómo puedo agregar mi carrera?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Si tu carrera no está disponible, completá el formulario en https://forms.gle/bCC6rCb44LLYERHu6 con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.'
+				}
+			}
+		]
+	})}<\/script>`}
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
@@ -354,14 +452,182 @@
 						</div>
 					{/each}
 
-					<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
-						<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-						<a
-							href="https://forms.gle/bCC6rCb44LLYERHu6"
-							class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
-						>
-					</div>
+				<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+					<span class="text-sm text-gray-600">¿No está tu carrera?</span>
+					<a
+						href="https://forms.gle/bCC6rCb44LLYERHu6"
+						class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
+					>
 				</div>
+			</div>
+		</section>
+
+		<section id="faq" class="grid gap-6 px-6 md:px-0 pb-6">
+			<header class="grid gap-1">
+				<h2 class="text-center text-2xl font-bold">
+					<span class="whitespace-nowrap">Preguntas Frecuentes 💬</span>
+				</h2>
+				<p class="text-center text-gray-700">Todo lo que necesitás saber sobre Plande</p>
+			</header>
+
+			<div class="grid gap-1">
+				<details class="group rounded-t-lg bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Qué es Plande?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						Plande es una aplicación web gratuita que ayuda a estudiantes universitarios argentinos
+						a planificar sus carreras. Permite visualizar requisitos y correlatividades entre materias,
+						simular escenarios, calcular prioridades automáticamente y compartir el progreso mediante URLs.
+					</div>
+				</details>
+
+				<details class="group bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Cómo funcionan los estados de las materias?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						<div class="space-y-2">
+							<p>Las materias pueden tener cuatro estados:</p>
+							<ul class="list-disc space-y-2 pl-5">
+								<li><strong class="text-gray-700">No cursada</strong>: No se ha comenzado</li>
+								<li><strong class="text-blue-700">En curso</strong>: Se está cursando actualmente</li>
+								<li><strong class="text-amber-700">Regular</strong>: Cursada aprobada pero examen final pendiente</li>
+								<li><strong class="text-green-700">Aprobada</strong>: Cursada y examen final aprobados</li>
+							</ul>
+							<p>
+								Al cambiar el estado de una materia, Plande actualiza automáticamente
+								qué otras materias se habilitan para cursar.
+							</p>
+						</div>
+					</div>
+				</details>
+
+				<details class="group bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Cómo guardo mi progreso?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						Plande guarda tu progreso automáticamente:
+						<ul class="list-disc space-y-1 pl-5 mt-2">
+							<li><strong>En tu dispositivo</strong>: Tu progreso se guarda automáticamente en tu navegador, así que cuando vuelvas a la página vas a encontrar todo como lo dejaste.</li>
+							<li><strong>En la URL</strong>: El estado de tus materias se codifica automáticamente en la dirección del navegador. Si copiás y guardás esa URL, tu progreso viaja con ella.</li>
+						</ul>
+						<p class="mt-2">
+							No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.
+						</p>
+					</div>
+				</details>
+
+				<details class="group bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Cómo comparto mi plan y mi progreso?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						<p>
+							Plande codifica el estado de todas las materias en la URL del navegador. Simplemente copiá
+							la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba el link
+							va a ver exactamente el mismo progreso que vos.
+						</p>
+						<p class="mt-2">
+							Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros académicos.
+							También podés usarlo para consultar dudas sobre correlatividades en grupos de estudio.
+						</p>
+					</div>
+				</details>
+
+				<details class="group bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Es gratis?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario.
+						Los datos se almacenan localmente en tu navegador o en la URL para compartir.
+					</div>
+				</details>
+
+				<details class="group rounded-b-lg bg-gray-50">
+					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+						<span>¿Cómo puedo agregar mi carrera?</span>
+						<svg
+							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<polyline points="6 9 12 15 18 9" />
+						</svg>
+					</summary>
+					<div class="px-4 pb-4 text-gray-700">
+						Si tu carrera no está disponible, completá el formulario en
+						<a href="https://forms.gle/bCC6rCb44LLYERHu6" class="text-blue-700 hover:underline">este link</a>
+						con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
+					</div>
+				</details>
 			</div>
 		</section>
 

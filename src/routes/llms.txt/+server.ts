@@ -38,79 +38,241 @@ function generateLlmsTxt(): string {
 
 			let description = plan.degreeName;
 			if (plan.year) {
-				description += ` (${plan.year})`;
+				description += ` (Plan ${plan.year})`;
 			}
 
 			return `- \`${slug}\` - ${description} - ${parts.join(' - ')}`;
 		})
 		.join('\n');
 
-	return `# llms.txt
+	// Generate dynamic university list
+	const universityCounts = new Map<string, { name: string; slug: string; count: number }>();
+	for (const plan of studyPlans) {
+		const key = plan.universitySlug;
+		const existing = universityCounts.get(key);
+		if (existing) {
+			existing.count++;
+		} else {
+			universityCounts.set(key, {
+				name: plan.universityName,
+				slug: plan.universitySlug,
+				count: 1
+			});
+		}
+	}
 
-> This file provides guidance for LLMs on how to access and use Plande's academic degree planning data.
+	// Sort by count descending, then alphabetically
+	const sortedUniversities = Array.from(universityCounts.values()).sort((a, b) => {
+		if (b.count !== a.count) return b.count - a.count;
+		return a.name.localeCompare(b.name);
+	});
 
-## About Plande
+	// Format university list
+	const topUniversities = sortedUniversities.slice(0, 5);
+	const otherUniversities = sortedUniversities.slice(5);
 
-Plande is a web application that provides interactive study plans (planes de estudios) for university degree programs in Argentina. It helps students visualize course prerequisites, track their academic progress, and plan their degree completion.
+	const topUniversitiesSection = topUniversities
+		.map(
+			(uni) =>
+				`- **${uni.name}** (${uni.slug}): ${uni.count} ${uni.count === 1 ? 'plan' : 'planes'}`
+		)
+		.join('\n');
 
-## API Access
+	const otherUniversitiesSection = otherUniversities
+		.map((uni) => `${uni.name} (${uni.slug})`)
+		.join(', ');
 
-Plande provides programmatic access to study plan data through content negotiation. All study plans are accessible via the base URL pattern:
+	return `# Plande - Planificador de Carreras Universitarias
+
+> Guía para modelos de lenguaje (LLMs) sobre cómo acceder y utilizar los datos de planificación académica de Plande.
+
+## Qué es Plande
+
+Plande es una aplicación web gratuita que ayuda a estudiantes universitarios a planificar sus carreras mediante planes de estudio interactivos. Permite:
+
+- **Visualizar requisitos y correlatividades** entre materias de forma interactiva
+- **Simular escenarios** cambiando el estado de las materias sin afectar la realidad
+- **Calcular prioridades** automáticamente según qué materias desbloquean más otras
+- **Compartir progreso** mediante URLs con estado codificado
+- **Exportar datos** en CSV, JSON y texto plano
+
+Plande está diseñada para el sistema universitario argentino, utilizando terminología local como "correlativas", "regularizada" y "cursada", pero los conceptos son universales en educación superior.
+
+## Estados de Materias
+
+Cada materia puede tener uno de cuatro estados:
+
+1. **No cursada (N)**: Estado inicial. No se ha comenzado la materia.
+2. **En curso (E)**: Se está cursando actualmente.
+3. **Regular (R)**: Cursada aprobada pero examen final pendiente. (En otros países: "cursada completada")
+4. **Aprobada (A)**: Cursada y examen final aprobados. Materia completada.
+
+## Acceso a Datos
+
+Plande proporciona acceso programático a los planes de estudio mediante negociación de contenido (content negotiation).
+
+### URL Base
 
 \`\`\`
 https://plande.app/{slug}
 \`\`\`
 
-Where \`{slug}\` is the study plan identifier (e.g., \`utn-frcu-isi\` for UTN FRCU Ingeniería en Sistemas de Información).
+Donde \`{slug}\` es el identificador del plan (ejemplo: \`utn-frcu-isi\` para UTN FRCU Ingeniería en Sistemas de Información).
 
-### Content Negotiation
+### Negociación de Contenido
 
-The API supports multiple content types via the \`Accept\` header:
+La API soporta múltiples formatos mediante el header \`Accept\`:
 
-- **\`text/markdown\`** - Returns study plan in Markdown format (recommended for LLMs)
-- **\`text/plain\`** - Returns study plan in plain text format
-- **\`application/json\`** - Returns structured JSON data
-- **\`*/*\`** - Defaults to Markdown format
+- \`text/markdown\` - Formato Markdown (recomendado para LLMs)
+- \`text/plain\` - Texto plano
+- \`application/json\` - Datos estructurados en JSON
+- \`*/*\` - Por defecto devuelve Markdown
 
-### Example Usage
+### Ejemplos de Uso
 
 \`\`\`bash
-# Get study plan as Markdown (recommended)
+# Obtener plan como Markdown (recomendado)
 curl -H "Accept: text/markdown" https://plande.app/utn-frcu-isi
 
-# Get study plan as JSON
+# Obtener plan como JSON
 curl -H "Accept: application/json" https://plande.app/utn-frcu-isi
 
-# Get study plan as plain text
+# Obtener plan como texto plano
 curl -H "Accept: text/plain" https://plande.app/utn-frcu-isi
 \`\`\`
 
-## Available Study Plans
+## Codificación de Estados en URLs
 
-The following study plans are currently available:
+Plande codifica el estado de todas las materias en el parámetro de query \`s\`, permitiendo compartir el progreso mediante URLs.
+
+### Formato de Codificación
+
+- Cada estado se representa con una letra: \`n\` (no cursada), \`e\` (en curso), \`r\` (regular), \`a\` (aprobada)
+- Estados consecutivos idénticos se comprimen: \`a2n5\` = dos aprobadas seguidas de cinco no cursadas
+- El orden de letras corresponde al orden de materias en el plan de estudios
+
+### Ejemplo
+
+\`\`\`
+https://plande.app/utn-frcu-isi?s=a2n6r5e3
+\`\`\`
+
+Decodificación:
+- \`a2\`: Primeras 2 materias aprobadas
+- \`n6\`: Siguientes 6 materias no cursadas (comprimido de 6 letras 'n')
+- \`r5\`: Siguientes 5 materias regularizadas
+- \`e3\`: Últimas 3 materias en curso
+
+### Generación Manual de URLs
+
+Para crear una URL con estados específicos:
+
+1. Obtener la lista de materias en orden del plan de estudios
+2. Mapear cada materia a su letra de estado
+3. Comprimir secuencias consecutivas idénticas (n3, a2, etc.)
+4. Agregar como parámetro \`?s=\` a la URL del plan
+
+### Parámetros de URL Adicionales
+
+- \`?r=no\`: Desactivar modo estricto (permite simular escenarios hipotéticos)
+- \`?c=si\`: Mostrar códigos de materias
+- \`?n=<codificado>\`: Incluir notas/calificaciones (sistema de codificación separado)
+
+## Planes de Estudio Disponibles
 
 ${studyPlanList}
 
-## Data Structure
+## Universidades Disponibles
 
-Each study plan includes:
+**Total**: ${studyPlans.length} planes de estudio de ${universityCounts.size} universidades
 
-- **Degree Information**: University, college, degree name, duration
-- **Courses**: Complete list of courses with codes, names, hours, terms, and years
-- **Prerequisites**: Course requirements and dependencies
-- **Sources**: References to official documentation
-- **Progress Configuration**: Requirements for degree completion
+### Principales universidades (por cantidad de planes)
 
-## Best Practices for LLMs
+${topUniversitiesSection}
 
-1. Use \`Accept: text/markdown\` header for the most token-efficient format
-2. Study plans are read-only - they represent official academic programs
-3. Course codes and names are in Spanish (Argentine universities)
-4. All data is publicly available and does not require authentication
+### Otras universidades incluidas
 
-## Additional Resources
+${otherUniversitiesSection}
+
+## Cómo Solicitar Nuevos Planes
+
+Si un plan de estudios no está disponible:
+
+1. Visitar https://forms.gle/bCC6rCb44LLYERHu6
+2. Completar el formulario con el plan de estudios oficial de la universidad
+3. El mantenedor agregará el plan manualmente a la base de datos
+
+## Estructura de Datos
+
+Cada plan de estudio incluye:
+
+- **Información del título**: Universidad, facultad, nombre de la carrera, duración
+- **Materias**: Lista completa con códigos, nombres, horas, cuatrimestres y años
+- **Requisitos**: Dependencias y requisitos entre materias
+- **Fuentes**: Links a documentación oficial
+- **Configuración de progreso**: Requisitos para completar el título
+
+### Estructura de Materia
+
+\`\`\`json
+{
+  "id": 1,
+  "name": "Matemática I",
+  "code": "MAT101",
+  "year": 1,
+  "term": "firstSemester",
+  "hours": 144,
+  "type": "mandatory",
+  "attributes": [],
+  "requirements": [
+    {
+      "requiredCourseId": 2,
+      "requiredState": "passed",
+      "requiredFor": "enroll"
+    }
+  ]
+}
+\`\`\`
+
+**Cuatrimestres**: \`annual\`, \`firstSemester\`, \`secondSemester\`, \`annualOrSemestral\`, \`semestral\`, \`crossYear\`, \`unknown\`
+
+**Tipos**: \`mandatory\` (obligatoria), \`elective\` (electiva), \`optative\` (optativa)
+
+**Propósitos de requisito**: \`enroll\` (para cursar), \`complete\` (para aprobar/finalizar)
+
+## Endpoints Disponibles
+
+\`\`\`
+GET /{slug}                  # Página del plan de estudio (con negociación de contenido)
+GET /{slug}/simple           # Vista simplificada sin interactividad
+GET /{slug}/og.png           # Imagen OpenGraph dinámica con estadísticas
+GET /sitemap.xml             # Sitemap XML con todos los planes
+GET /llms.txt                # Este archivo
+\`\`\`
+
+## Mejores Prácticas para LLMs
+
+1. **Usar Markdown**: El formato \`text/markdown\` es más eficiente en tokens y legible
+2. **Datos de solo lectura**: Los planes representan programas académicos oficiales
+3. **Idioma**: Nombres de materias y códigos están en español
+4. **Acceso público**: No requiere autenticación
+5. **URLs compartibles**: Usar el parámetro \`s\` para referenciar estados específicos
+
+## Limitaciones
+
+- Los planes deben agregarse manualmente (no hay integración automática con universidades)
+- Progreso almacenado localmente o en URLs (sin cuentas de usuario)
+- Enfocado en universidades argentinas (pero extensible a otros países)
+
+## Recursos Adicionales
 
 - Website: https://plande.app
+- Solicitar planes: https://forms.gle/bCC6rCb44LLYERHu6
+- Feedback: https://forms.gle/5iR99PJAffwFmayC6
+
+---
+
+**Nota legal**: La información proviene de fuentes oficiales compartidas por estudiantes. Siempre verificar con la documentación oficial de la universidad.
 `;
 }
 
@@ -119,7 +281,7 @@ export const GET: RequestHandler = async () => {
 
 	return new Response(content, {
 		headers: {
-			'Content-Type': 'text/markdown; charset=utf-8',
+			'Content-Type': 'text/plain; charset=utf-8',
 			'Cache-Control': 'max-age=0, s-maxage=3600'
 		}
 	});
