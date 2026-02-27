@@ -1,11 +1,46 @@
 <script lang="ts">
 	import ChatMessage from './chat-message.svelte';
 	import Footer from './footer.svelte';
+	import HighlightText from './highlight-text.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
+	import { matchesSearch, normalizeSearchText } from '$lib/search';
 
-	const groupedStudyPlans = groupStudyPlansByUniversityAndCollege(allStudyPlans);
+	let searchQuery = $state('');
+
+	function getStudyPlanSearchText(plan: (typeof allStudyPlans)[number]): string {
+		return [
+			plan.degreeName,
+			plan.universityName,
+			plan.universitySlug,
+			plan.collegeName,
+			plan.collegeSlug
+		]
+			.filter(Boolean)
+			.join(' ');
+	}
+
+	const normalizedQuery = $derived(normalizeSearchText(searchQuery));
+
+	const filteredStudyPlans = $derived.by(() => {
+		if (!normalizedQuery) return allStudyPlans;
+
+		return allStudyPlans.filter((plan) =>
+			matchesSearch(getStudyPlanSearchText(plan), searchQuery)
+		);
+	});
+
+	const groupedPlans = $derived(groupStudyPlansByUniversityAndCollege(filteredStudyPlans));
+
+	const totalResults = $derived(
+		groupedPlans.reduce(
+			(total, uni) => total + uni.colleges.reduce((sum, col) => sum + col.degrees.length, 0),
+			0
+		)
+	);
+
+	const hasActiveSearch = $derived(normalizedQuery.length > 0);
 </script>
 
 <svelte:head>
@@ -191,8 +226,49 @@
 
 			<div class="grid gap-4 pb-6">
 				<h2 class="text-lg font-bold">Carreras disponibles</h2>
+				<div class="grid gap-1">
+					<label for="career-search" class="sr-only">Buscar carrera, facultad o universidad</label>
+					<div class="relative">
+						<input
+							id="career-search"
+							type="text"
+							placeholder="Buscar carrera, facultad o universidad..."
+							bind:value={searchQuery}
+							class="w-full rounded-md border border-gray-300 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none"
+						/>
+						{#if hasActiveSearch}
+							<button
+								type="button"
+								onclick={() => (searchQuery = '')}
+								aria-label="Limpiar búsqueda"
+								class="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<line x1="18" y1="6" x2="6" y2="18" />
+									<line x1="6" y1="6" x2="18" y2="18" />
+								</svg>
+							</button>
+						{/if}
+					</div>
+					{#if hasActiveSearch}
+						<p class="text-sm text-gray-600 px-2" role="status">
+							{totalResults}
+							{totalResults === 1 ? 'carrera encontrada' : 'carreras encontradas'}
+						</p>
+					{/if}
+				</div>
 				<div class="grid gap-4">
-					{#each groupedStudyPlans as university}
+				{#each groupedPlans as university}
 						<div class="relative grid gap-5 rounded-md border border-gray-300 p-5">
 							<img
 								src={`/${university.universitySlug.toLowerCase()}.png`}
@@ -202,14 +278,36 @@
 									'md:absolute md:top-5 md:right-5  md:max-h-16 md:max-w-32 md:opacity-30'
 								]}
 							/>
-							<h3 class="text-center font-semibold text-gray-900 md:text-left">
-								{university.universityName} ({university.universitySlug})
-							</h3>
+						<h3 class="text-center font-semibold text-gray-900 md:text-left">
+							<HighlightText text={university.universityName} query={searchQuery}>
+								{#snippet children({ highlightedText })}
+									<span>{@html highlightedText}</span>
+								{/snippet}
+							</HighlightText>
+							<span class="text-gray-500">
+								(<HighlightText text={university.universitySlug} query={searchQuery}>
+									{#snippet children({ highlightedText })}
+										<span>{@html highlightedText}</span>
+									{/snippet}
+								</HighlightText>)
+							</span>
+						</h3>
 							{#each university.colleges as college}
 								{#if college.collegeName}
 									<div class="grid gap-2">
 										<h4 class="font-medium text-gray-700">
-											{college.collegeName} ({college.collegeSlug})
+											<HighlightText text={college.collegeName} query={searchQuery}>
+												{#snippet children({ highlightedText })}
+													<span>{@html highlightedText}</span>
+												{/snippet}
+											</HighlightText>
+											<span class="text-gray-500">
+												(<HighlightText text={college.collegeSlug ?? ''} query={searchQuery}>
+													{#snippet children({ highlightedText })}
+														<span>{@html highlightedText}</span>
+													{/snippet}
+												</HighlightText>)
+											</span>
 										</h4>
 										<ul class="space-y-2 md:pl-4">
 											{#each college.degrees as degree}
@@ -218,7 +316,11 @@
 														href={`/${getStudyPlanSlugWithYear(degree)}`}
 														class="text-blue-700 transition-colors hover:text-blue-900"
 													>
-														{degree.degreeName}
+														<HighlightText text={degree.degreeName} query={searchQuery}>
+															{#snippet children({ highlightedText })}
+																<span>{@html highlightedText}</span>
+															{/snippet}
+														</HighlightText>
 														{#if degree.year}
 															<span class="text-gray-500"> (Plan {degree.year})</span>
 														{/if}
@@ -227,23 +329,27 @@
 											{/each}
 										</ul>
 									</div>
-								{:else}
-									<ul class="space-y-2 md:pl-4">
-										{#each college.degrees as degree}
-											<li>
-												<a
-													href={`/${getStudyPlanSlugWithYear(degree)}`}
-													class="text-blue-700 transition-colors hover:text-blue-900"
-												>
-													{degree.degreeName}
-													{#if degree.year}
-														<span class="text-gray-500"> (Plan {degree.year})</span>
-													{/if}
-												</a>
-											</li>
-										{/each}
-									</ul>
-								{/if}
+									{:else}
+										<ul class="space-y-2 md:pl-4">
+											{#each college.degrees as degree}
+												<li>
+													<a
+														href={`/${getStudyPlanSlugWithYear(degree)}`}
+														class="text-blue-700 transition-colors hover:text-blue-900"
+													>
+														<HighlightText text={degree.degreeName} query={searchQuery}>
+															{#snippet children({ highlightedText })}
+																<span>{@html highlightedText}</span>
+															{/snippet}
+														</HighlightText>
+														{#if degree.year}
+															<span class="text-gray-500"> (Plan {degree.year})</span>
+														{/if}
+													</a>
+												</li>
+											{/each}
+										</ul>
+									{/if}
 							{/each}
 						</div>
 					{/each}
