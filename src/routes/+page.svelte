@@ -126,10 +126,18 @@
 			},
 			{
 				'@type': 'Question',
-				name: '¿Cómo puedo compartir mi progreso?',
+				name: '¿Cómo guardo mi progreso?',
 				acceptedAnswer: {
 					'@type': 'Answer',
-					text: 'Plande codifica el estado de todas las materias en la URL. Simplemente copiá la URL de tu navegador y compartila. Cualquier persona que acceda a ese link verá exactamente el mismo progreso que vos.'
+					text: 'Plande guarda tu progreso automáticamente en tu dispositivo y en la URL. No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.'
+				}
+			},
+			{
+				'@type': 'Question',
+				name: '¿Cómo comparto mi plan y mi progreso?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Plande codifica el estado de todas las materias en la URL del navegador. Simplemente copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba el link va a ver exactamente el mismo progreso que vos.'
 				}
 			},
 			{
