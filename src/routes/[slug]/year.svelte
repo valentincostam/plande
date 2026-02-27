@@ -3,11 +3,12 @@
 
 	import Course from './course.svelte';
 	import Term from './term.svelte';
-	import { getCourseEffectiveTerm, type Year } from '$lib/year.svelte';
+	import { getCourseEffectiveTerm, getOrdinalPrefix, type Year } from '$lib/year.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
 	import BulkStateSelect from './bulk-state-select.svelte';
 	import { courseStates, type CourseState } from '$lib/course-state';
 	import StatePill from './state-pill.svelte';
+	import AnchoredHeading from './anchored-heading.svelte';
 
 	type Props = {
 		year: Year;
@@ -18,6 +19,11 @@
 	let { year, showCodes = false, showBulkSelect = false }: Props = $props();
 
 	let selectValue = $state<CourseState | ''>('');
+
+	const yearOrdinalPrefix = $derived(getOrdinalPrefix(year.year));
+
+	const yearId = $derived(`${yearOrdinalPrefix}-año`);
+	const headingId = $derived(`${yearId}-heading`);
 
 	const annualCourses = $derived(
 		year.courses.filter(
@@ -71,12 +77,17 @@
 	};
 </script>
 
-<section aria-labelledby="year-{year.year}-heading">
+<section aria-labelledby={headingId} id={yearId}>
 	<header class="flex items-center justify-between">
 		<div class="flex items-center gap-3 p-3">
-			<h2 id="year-{year.year}-heading" class="text-lg font-bold">
+			<AnchoredHeading
+				id={yearId}
+				{headingId}
+				ariaLabel={`Copiar enlace a ${yearOrdinalPrefix} año`}
+				class="text-lg font-bold"
+			>
 				<Ordinal number={year.year} noun="Año" />
-			</h2>
+			</AnchoredHeading>
 			{#if year.state === courseStates.passed}
 				<StatePill state={courseStates.passed} gender="masculine" class="text-xs" />
 			{/if}

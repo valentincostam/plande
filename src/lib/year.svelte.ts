@@ -50,6 +50,10 @@ export const getOrdinalSuperscript = (number: number) => {
 	return 'to';
 };
 
+export const getOrdinalPrefix = (number: number) => {
+	return `${number}${getOrdinalSuperscript(number)}`;
+};
+
 export const getOrdinalWord = (number: number) => {
 	const ordinals: Record<number, string> = {
 		1: 'primer',

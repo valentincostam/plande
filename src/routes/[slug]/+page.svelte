@@ -117,8 +117,13 @@
 		}
 
 		tick().then(() => {
+			const hash = window.location.hash;
+			const urlWithState = urlSearchParams.toString()
+				? `?${urlSearchParams}`
+				: window.location.pathname;
+
 			replaceState(
-				urlSearchParams.toString() ? `?${urlSearchParams}` : window.location.pathname,
+				`${urlWithState}${hash}`,
 				{}
 			);
 

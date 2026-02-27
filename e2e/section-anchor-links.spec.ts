@@ -68,6 +68,34 @@ test.describe('Section Anchor Links', () => {
 		expect(page.url()).toContain('#estadisticas');
 	});
 
+	test('year anchor link copies readable year hash', async ({ studyPlan, page }) => {
+		await studyPlan.goto('utn-frba-isi-2023');
+
+		const yearSection = page.getByRole('region', { name: /quinto Año/i });
+		const anchorLink = yearSection.getByRole('link', { name: 'Copiar enlace a 5to año' });
+
+		await anchorLink.click();
+
+		const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+
+		expect(decodeURIComponent(clipboardText)).toContain('#5to-año');
+	});
+
+	test('hash fragment is preserved after hydration and URL state updates', async ({ page }) => {
+		await page.goto('/utn-frba-isi-2023#5to-año', { waitUntil: 'networkidle' });
+
+		await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#5to-a%C3%B1o');
+
+		const algebraSelect = page.getByRole('combobox', {
+			name: 'Estado de Álgebra y Geometría Analítica',
+			exact: true
+		});
+		await algebraSelect.selectOption({ label: 'Aprobada' });
+
+		await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#5to-a%C3%B1o');
+		await expect(page).toHaveURL(/\?s=.*#5to-a%C3%B1o$/);
+	});
+
 	test('shared section link preserves course state in new browser', async ({
 		studyPlan,
 		page,
