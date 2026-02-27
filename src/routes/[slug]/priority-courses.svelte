@@ -41,19 +41,21 @@
 
 	const getTermSortOrder = (term: CourseTerm): number => {
 		switch (term) {
-			case courseTerms.annual:
+			case courseTerms.annualOrSemestral:
 				return 0;
-			case courseTerms.firstSemester:
+			case courseTerms.annual:
 				return 1;
-			case courseTerms.secondSemester:
+			case courseTerms.firstSemester:
 				return 2;
-			case courseTerms.semestral:
+			case courseTerms.secondSemester:
 				return 3;
-			case courseTerms.crossYear:
+			case courseTerms.semestral:
 				return 4;
+			case courseTerms.crossYear:
+				return 5;
 			case courseTerms.unknown:
 			default:
-				return 5;
+				return 6;
 		}
 	};
 

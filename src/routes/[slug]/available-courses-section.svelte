@@ -51,6 +51,12 @@
 		)
 	);
 
+	const annualOrSemestralAvailableCourses = $derived(
+		availableCourses.filter(
+			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annualOrSemestral
+		)
+	);
+
 	const unknownAvailableCourses = $derived(
 		availableCourses.filter(
 			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.unknown
@@ -77,6 +83,13 @@
 				{/if}
 				El número junto al candado indica cuántas materias desbloquea.
 			</p>
+			<AvailableCoursesTerm
+				title={courseTermLabels[courseTerms.annualOrSemestral]}
+				courses={annualOrSemestralAvailableCourses}
+				{showCodes}
+				{viewMode}
+				{onNavigateToDiagram}
+			/>
 			<AvailableCoursesTerm
 				title={courseTermLabels[courseTerms.annual]}
 				courses={annualAvailableCourses}

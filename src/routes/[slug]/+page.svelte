@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { isTransversal } from '$lib/course-attribute';
+	import { isElectiveOrOptative } from '$lib/course-type';
 	import { createCourses } from '$lib/course.svelte';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
@@ -247,7 +248,9 @@
 	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
 	const transversalCourses = $derived(
-		courses.filter((course) => isTransversal(course.attributes))
+		courses.filter(
+			(course) => isTransversal(course.attributes) || (isElectiveOrOptative(course.type) && !course.year)
+		)
 	);
 
 	const hasCodes = $derived(courses.some((course) => course.code));

@@ -43,6 +43,12 @@
 		)
 	);
 
+	const annualOrSemestralCourses = $derived(
+		year.courses.filter(
+			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.annualOrSemestral
+		)
+	);
+
 	const unknownCourses = $derived(
 		year.courses.filter(
 			(course) => getCourseEffectiveTerm(course, year.year) === courseTerms.unknown
@@ -85,6 +91,18 @@
 			/>
 		{/if}
 	</header>
+
+	{#if annualOrSemestralCourses.length > 0}
+		<Term
+			title={courseTermLabels[courseTerms.annualOrSemestral]}
+			courses={annualOrSemestralCourses}
+			year={year.year}
+		>
+			{#each annualOrSemestralCourses as course}
+				<Course {course} {showCodes} />
+			{/each}
+		</Term>
+	{/if}
 
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses} year={year.year}>

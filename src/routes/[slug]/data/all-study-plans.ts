@@ -30,6 +30,7 @@ import { unmdpFhLcp } from './unmdp-fh-lcp';
 import { unpaUargIrnr } from './unpa-uarg-irnr';
 import { unpaUargTurnrpf2007 } from './unpa-uarg-turnrpf-2007';
 import { utnFrbaIsi2008 } from './utn-frba-isi-2008';
+import { utnFrbaIsi2023 } from './utn-frba-isi-2023';
 import { ucaeceLp2023 } from './ucaece-lp-2023';
 import { unsamEbynLb } from './unsam-ebyn-lb';
 import { issdTscdia } from './issd-tscdia';
@@ -70,6 +71,7 @@ export const allStudyPlans: StudyPlan[] = [
 	unpaUargIrnr,
 	unpaUargTurnrpf2007,
 	utnFrbaIsi2008,
+	utnFrbaIsi2023,
 	ucaeceLp2023,
 	unsamEbynLb,
 	issdTscdia,

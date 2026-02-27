@@ -44,12 +44,24 @@
 		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.semestral)
 	);
 
+	const annualOrSemestralCourses = $derived(
+		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.annualOrSemestral)
+	);
+
 	const unknownCourses = $derived(
 		courses.filter((course) => getCourseEffectiveTerm(course) === courseTerms.unknown)
 	);
 </script>
 
 <Section id={sectionId} title={displayTitle}>
+	{#if annualOrSemestralCourses.length > 0}
+		<Term title={courseTermLabels[courseTerms.annualOrSemestral]} courses={annualOrSemestralCourses}>
+			{#each annualOrSemestralCourses as course}
+				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+			{/each}
+		</Term>
+	{/if}
+
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses}>
 			{#each annualCourses as course}

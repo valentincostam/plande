@@ -3,6 +3,7 @@ export const courseTerms = {
 	firstSemester: 'firstSemester',
 	secondSemester: 'secondSemester',
 	semestral: 'semestral',
+	annualOrSemestral: 'annualOrSemestral',
 	crossYear: 'crossYear',
 	unknown: 'unknown'
 } as const;
@@ -14,6 +15,7 @@ export const courseTermLabels = {
 	[courseTerms.firstSemester]: 'Primer cuatrimestre',
 	[courseTerms.secondSemester]: 'Segundo cuatrimestre',
 	[courseTerms.semestral]: 'Cuatrimestral',
+	[courseTerms.annualOrSemestral]: 'Anual o Cuatrimestral',
 	[courseTerms.crossYear]: 'Plurianual',
 	[courseTerms.unknown]: ''
 } as const;

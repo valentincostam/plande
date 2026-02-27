@@ -2,7 +2,7 @@
 	import ChatMessage from './chat-message.svelte';
 	import Footer from './footer.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
-	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlug } from '$lib/study-plan';
+	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 
 	const groupedStudyPlans = groupStudyPlansByUniversityAndCollege(allStudyPlans);
@@ -215,7 +215,7 @@
 											{#each college.degrees as degree}
 												<li>
 													<a
-														href={`/${getStudyPlanSlug(degree)}`}
+														href={`/${getStudyPlanSlugWithYear(degree)}`}
 														class="text-blue-700 transition-colors hover:text-blue-900"
 													>
 														{degree.degreeName}
@@ -232,7 +232,7 @@
 										{#each college.degrees as degree}
 											<li>
 												<a
-													href={`/${getStudyPlanSlug(degree)}`}
+													href={`/${getStudyPlanSlugWithYear(degree)}`}
 													class="text-blue-700 transition-colors hover:text-blue-900"
 												>
 													{degree.degreeName}
