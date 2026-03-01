@@ -17,7 +17,7 @@
 	let { courses, showCodes = false, title }: Props = $props();
 
 	const allCoursesAreElective = $derived(
-		courses.length > 0 && courses.every((course) => isElectiveOrOptative(course.type))
+		courses.length > 0 && courses.every((course) => course.type === 'elective')
 	);
 
 	const defaultTitle = $derived(

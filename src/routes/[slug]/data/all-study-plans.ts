@@ -37,9 +37,11 @@ import { issdTscdia } from './issd-tscdia';
 import { ubaFpLp1985 } from './uba-fp-lp-1985';
 import { unsDcsLe2017 } from './uns-dcs-le-2017';
 import { unlpFpLp } from './unlp-fp-lp';
+import { unlpFahcePm2003 } from './unlp-fahce-pm-2003';
 import type { StudyPlan } from '$lib/study-plan';
 
 export const allStudyPlans: StudyPlan[] = [
+	unlpFahcePm2003,
 	utnFrcuIsi2023,
 	utnFrcuIe2023,
 	ucuFauArq2007,
