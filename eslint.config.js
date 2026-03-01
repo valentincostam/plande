@@ -25,13 +25,13 @@ export default ts.config(
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
 			'no-undef': 'off',
 			'@typescript-eslint/no-unused-vars': 'error',
-			'@typescript-eslint/no-explicit-any': 'warn',
+			'@typescript-eslint/no-explicit-any': 'error',
 			'no-useless-escape': 'error',
-			'svelte/no-at-html-tags': 'warn',
-			'svelte/no-navigation-without-resolve': 'warn',
-			'svelte/prefer-svelte-reactivity': 'warn',
+			'svelte/no-at-html-tags': 'error',
+			'svelte/no-navigation-without-resolve': 'error',
+			'svelte/prefer-svelte-reactivity': 'error',
 			'svelte/require-each-key': 'error',
-			'svelte/no-unused-svelte-ignore': 'warn'
+			'svelte/no-unused-svelte-ignore': 'error'
 		}
 	},
 	{
