@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { isTransversal } from '$lib/course-attribute';
+	import { courseStates } from '$lib/course-state';
 	import { toKebabCase, type CourseDependent } from '$lib/course.svelte';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import { requiredForLabels } from '$lib/raw-course';
@@ -53,7 +54,8 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		necesita esta materia al menos <StatePill state={dependent.requiredState} /> para
+		necesita esta materia {#if dependent.requiredState !== courseStates.passed}al menos {/if}
+    <StatePill state={dependent.requiredState}/> para
 		{requiredForLabels[dependent.requiredFor]}
 	</span>
 </li>

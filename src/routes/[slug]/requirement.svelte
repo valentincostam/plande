@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { isTransversal } from '$lib/course-attribute';
-	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
+	import { courseStates, isCourseStateGreaterOrEqual } from '$lib/course-state';
 	import { toKebabCase, type CourseRequirement } from '$lib/course.svelte';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import Ordinal from '$lib/ordinal.svelte';
@@ -57,7 +57,7 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		debe estar al menos
+		debe estar {#if requirement.requiredState !== courseStates.passed}al menos {/if}
 		<StatePill state={requirement.requiredState} />
 
 		{#if !isRequirementMet}
