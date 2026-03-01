@@ -15,7 +15,8 @@
 		years.map((y) => {
 			const total = y.courses.length;
 			const passed = y.courses.filter((c) => c.state === courseStates.passed).length;
-			return { year: y.year, total, passed };
+			const courseIndexes = Array.from({ length: total }, (_, i) => i);
+			return { year: y.year, total, passed, courseIndexes };
 		})
 	);
 </script>
@@ -28,7 +29,7 @@
 		Materias aprobadas por año
 	</h3>
 	<ul class="grid gap-3">
-		{#each rows as y}
+		{#each rows as y (y.year)}
 			<li class="grid grid-cols-[3rem_1fr_2.5rem] items-center gap-2">
 				<span class="text-right text-xs whitespace-nowrap text-gray-500">
 					<Ordinal number={y.year} noun="año" />
@@ -37,7 +38,7 @@
 					class="grid h-2 w-full gap-0.5 overflow-hidden"
 					style={`grid-template-columns: repeat(${Math.max(1, y.total)}, minmax(0, 1fr));`}
 				>
-					{#each Array(y.total) as _, i}
+					{#each y.courseIndexes as i (i)}
 						<div
 							class={`h-full ${i === 0 ? 'rounded-l-full ' : ''}${i === y.total - 1 ? 'rounded-r-full ' : ''}${i < y.passed ? 'bg-green-500' : 'bg-gray-300'}`}
 						></div>

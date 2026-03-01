@@ -38,7 +38,9 @@
 		</div>
 		<div class="flex items-center gap-1">
 			<span class="flex items-center text-2xl font-bold whitespace-nowrap text-gray-600">
-				{showPercentage ? progress : numberFormatter.format(unit === 'hs.' ? Math.round(value) : value)}<span
+				{showPercentage
+					? progress
+					: numberFormatter.format(unit === 'hs.' ? Math.round(value) : value)}<span
 					class="text-xs font-normal text-gray-500">{showPercentage ? '%' : ''}</span
 				>
 			</span>

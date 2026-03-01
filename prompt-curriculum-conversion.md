@@ -221,35 +221,35 @@ When prerequisites are listed without detailed columns or specifications (e.g., 
 // When curriculum only says: "Correlativas: Matemática I, Física I"
 // Create BOTH requirements for each prerequisite:
 requirements: [
-  // Matemática I - regularizada para cursar
-  {
-    id: 1,
-    requiredCourseId: 5,  // Matemática I
-    requiredState: courseStates.taken,
-    requiredFor: requiredFor.enroll
-  },
-  // Matemática I - aprobada para rendir
-  {
-    id: 2,
-    requiredCourseId: 5,  // Matemática I
-    requiredState: courseStates.passed,
-    requiredFor: requiredFor.complete
-  },
-  // Física I - regularizada para cursar
-  {
-    id: 3,
-    requiredCourseId: 8,  // Física I
-    requiredState: courseStates.taken,
-    requiredFor: requiredFor.enroll
-  },
-  // Física I - aprobada para rendir
-  {
-    id: 4,
-    requiredCourseId: 8,  // Física I
-    requiredState: courseStates.passed,
-    requiredFor: requiredFor.complete
-  }
-]
+	// Matemática I - regularizada para cursar
+	{
+		id: 1,
+		requiredCourseId: 5, // Matemática I
+		requiredState: courseStates.taken,
+		requiredFor: requiredFor.enroll
+	},
+	// Matemática I - aprobada para rendir
+	{
+		id: 2,
+		requiredCourseId: 5, // Matemática I
+		requiredState: courseStates.passed,
+		requiredFor: requiredFor.complete
+	},
+	// Física I - regularizada para cursar
+	{
+		id: 3,
+		requiredCourseId: 8, // Física I
+		requiredState: courseStates.taken,
+		requiredFor: requiredFor.enroll
+	},
+	// Física I - aprobada para rendir
+	{
+		id: 4,
+		requiredCourseId: 8, // Física I
+		requiredState: courseStates.passed,
+		requiredFor: requiredFor.complete
+	}
+];
 ```
 
 ### When NOT to Use Default Rule:
@@ -908,12 +908,14 @@ The `code` field should contain the official course identifier from the curricul
 #### Pattern 1: Optatives Already in Curriculum (Use `mandatory-only`)
 
 **Identification**:
+
 - Curriculum lists specific required courses named "Optativa 1", "Optativa 2", "Materia Optativa I", etc.
 - These courses appear in the year structure alongside other mandatory courses
 - They count toward total course requirements
 - Student must complete them to graduate, but can choose from available options
 
 **Implementation**:
+
 ```javascript
 // Course already in curriculum structure
 {
@@ -942,6 +944,7 @@ notes: [
 **Examples**: UNAJ Kinesiología, UNAHUR Informática
 
 **Key Rules**:
+
 - ❌ Do NOT create separate course objects for each option (Opción A, Opción B, etc.)
 - ❌ Do NOT use `mandatory-plus-elective-count` progress type
 - ✅ Use `tag: courseTags.optative` on the required optative courses
@@ -951,11 +954,13 @@ notes: [
 #### Pattern 2: Separate Elective Options (Use `mandatory-plus-elective-count`)
 
 **Identification**:
+
 - Curriculum shows elective options OUTSIDE the main year structure
 - Student must choose N electives from a pool of options
 - Electives are ADDITIONAL to the mandatory courses
 
 **Implementation**:
+
 ```javascript
 // Create separate course objects for each elective option
 {
@@ -977,6 +982,7 @@ progress: {
 **Examples**: UNSa Física (requires 2 electives from pool), UTN FRBA (requires 40 hours of electives)
 
 **Key Rules**:
+
 - ✅ Create course objects for each elective option
 - ✅ Use appropriate progress type (`mandatory-plus-elective-count` or `mandatory-plus-elective-hours`)
 - ✅ Use `tag: courseTags.elective` on elective course objects
@@ -984,6 +990,7 @@ progress: {
 #### How to Decide:
 
 Ask: "Is 'Optativa 1' a specific required course in the curriculum structure?"
+
 - **YES** → Pattern 1 (optatives in curriculum, use `mandatory-only`)
 - **NO** → Pattern 2 (separate electives, use `mandatory-plus-elective-count`)
 

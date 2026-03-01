@@ -25,7 +25,7 @@ test.describe('Simple View - Basic display', () => {
 		await expect(course.getByText('No cursada')).toBeVisible();
 	});
 
-	test('has link to full view', async ({ studyPlan, page }) => {
+	test('has link to full view', async ({ studyPlan }) => {
 		await studyPlan.gotoSimple('utn-frcu-isi-2023');
 
 		const link = studyPlan.getFullViewLink();
@@ -141,7 +141,7 @@ test.describe('Simple View - Read-only behavior', () => {
 });
 
 test.describe('Simple View - Navigation', () => {
-	test('full view link preserves query params', async ({ studyPlan, page }) => {
+	test('full view link preserves query params', async ({ studyPlan }) => {
 		await studyPlan.gotoSimpleWithState('utn-frcu-isi-2023', 'a2');
 
 		const link = studyPlan.getFullViewLink();

@@ -9,7 +9,7 @@
 		isCourseStateGreaterOrEqual
 	} from '$lib/course-state';
 	import { toKebabCase, type Course, countAllDependents } from '$lib/course.svelte';
-	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
+	import { courseAttributeLabels } from '$lib/course-attribute';
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
@@ -87,7 +87,9 @@
 			{onkeydown}
 			aria-expanded={isExpanded}
 			aria-controls="{toKebabCase(course.name)}-details"
-			aria-label="{course.name}{course.hours ? `, ${formatHours(course.hours)} horas` : ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
+			aria-label="{course.name}{course.hours
+				? `, ${formatHours(course.hours)} horas`
+				: ''}{!course.isEnabled ? ', bloqueada por correlativas' : ''}"
 			aria-keyshortcuts="n e r a"
 			class={[
 				!course.isEnabled && 'pr-0',
@@ -118,7 +120,7 @@
 						>{courseTypeLabels[course.type]}</span
 					>
 				{/if}
-				{#each course.attributes.filter((attr) => attr !== 'transversal') as attr}
+				{#each course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
 					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
 						>{courseAttributeLabels[attr]}</span
 					>
@@ -154,7 +156,11 @@
 	</div>
 
 	{#if isExpanded}
-		<div id="{toKebabCase(course.name)}-details" class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div
+			id="{toKebabCase(course.name)}-details"
+			class="px-3 pb-3"
+			transition:slide={{ duration: 200 }}
+		>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
 				{#if course.hours}
 					<li>
@@ -184,7 +190,7 @@
 					<li class="grid gap-2">
 						<strong>Requisitos para cursar {hasRequirementsForCompletion ? '' : 'y rendir'}</strong>
 						<ul class="grid gap-2">
-							{#each course.requirementsForEnrollment as requirement}
+							{#each course.requirementsForEnrollment as requirement (`${requirement.requiredCourse.id}-${requirement.requiredState}`)}
 								<Requirement {requirement} {showCodes} />
 							{/each}
 						</ul>
@@ -201,7 +207,7 @@
 						<li class="grid gap-2">
 							<strong>Requisitos para rendir</strong>
 							<ul class="grid gap-2">
-								{#each course.requirementsForCompletion as requirement}
+								{#each course.requirementsForCompletion as requirement (`${requirement.requiredCourse.id}-${requirement.requiredState}`)}
 									<Requirement {requirement} {showCodes} />
 								{/each}
 							</ul>
@@ -216,7 +222,7 @@
 					<li class="grid gap-2">
 						<strong>Materias que desbloquea</strong>
 						<ul class="grid gap-2">
-							{#each course.dependents as dependent}
+							{#each course.dependents as dependent (`${dependent.dependentCourse.id}-${dependent.requiredState}-${dependent.requiredFor}`)}
 								<Dependent
 									{dependent}
 									isRequirementMet={isCourseStateGreaterOrEqual(

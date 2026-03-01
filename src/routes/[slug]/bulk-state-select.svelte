@@ -6,7 +6,6 @@
 		courseBgColors,
 		courseNameColors
 	} from '$lib/course-state';
-	import type { Course } from '$lib/course.svelte';
 	import MoreIcon from './more-icon.svelte';
 
 	type Props = {
@@ -18,7 +17,14 @@
 		label?: string;
 	};
 
-	let { id, onchange, class: className = '', value = $bindable(), canPass, label }: Props = $props();
+	let {
+		id,
+		onchange,
+		class: className = '',
+		value = $bindable(),
+		canPass,
+		label
+	}: Props = $props();
 
 	const handleChange = (event: Event) => {
 		const target = event.target as HTMLSelectElement;
@@ -47,7 +53,7 @@
 	>
 		<option value="" disabled>Cambiar materias a...</option>
 
-		{#each Object.values(courseStates) as state}
+		{#each Object.values(courseStates) as state (state)}
 			<option
 				value={state}
 				disabled={!canPass && state === courseStates.passed}

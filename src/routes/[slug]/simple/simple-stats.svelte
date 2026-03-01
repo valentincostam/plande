@@ -62,7 +62,7 @@
 </script>
 
 <section aria-labelledby="stats-heading">
-	<h2 id="stats-heading" class="text-lg font-bold p-3">Estadísticas</h2>
+	<h2 id="stats-heading" class="p-3 text-lg font-bold">Estadísticas</h2>
 
 	<ul>
 		<li class="flex items-center justify-between gap-3 border-b border-gray-100 p-3">
@@ -79,7 +79,9 @@
 		</li>
 
 		{#if hasElectiveCourses || hasOptativeCourses}
-			<li class="flex items-center justify-between gap-3 border-b border-gray-100 p-3 last:border-b-0">
+			<li
+				class="flex items-center justify-between gap-3 border-b border-gray-100 p-3 last:border-b-0"
+			>
 				<span class="flex-1">{electiveLabel}</span>
 				<span>
 					<span class="font-bold text-gray-700">{passedElectiveCourses.length}</span>

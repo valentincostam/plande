@@ -122,7 +122,7 @@
 				</label>
 			</div>
 			<table class="w-full text-left text-sm">
-				<thead class="border-b border-gray-200 text-xs uppercase text-gray-500">
+				<thead class="border-b border-gray-200 text-xs text-gray-500 uppercase">
 					<tr>
 						<th scope="col" class="py-2 pr-2">#</th>
 						<th scope="col" class="py-2 pr-2">Materia</th>
@@ -132,7 +132,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each visibleCourses as { course, dependentCount }, index}
+					{#each visibleCourses as { course, dependentCount }, index (course.id)}
 						<tr class="border-b border-gray-100 last:border-b-0">
 							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
 							<td class="py-2 pr-2 align-top">
@@ -149,14 +149,18 @@
 										</span>
 									{/if}
 									{#if isElectiveOrOptative(course.type)}
-										<span class="inline-block rounded-md px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700 border border-gray-200">
+										<span
+											class="inline-block rounded-md border border-gray-200 px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700"
+										>
 											{courseTypeLabels[course.type]}
 										</span>
 									{/if}
 									<StatePill state={course.state} class="text-xs" />
 								</span>
 							</td>
-							<td class="whitespace-nowrap py-2 align-top text-right text-gray-600">{dependentCount}</td>
+							<td class="py-2 text-right align-top whitespace-nowrap text-gray-600"
+								>{dependentCount}</td
+							>
 						</tr>
 					{/each}
 				</tbody>
@@ -168,9 +172,7 @@
 					aria-expanded={showAll}
 				>
 					{showAll ? 'Mostrar menos' : 'Mostrar todas'}
-					<ChevronDownIcon
-						class={['h-4 w-4 transition-transform', showAll && 'rotate-180']}
-					/>
+					<ChevronDownIcon class={['h-4 w-4 transition-transform', showAll && 'rotate-180']} />
 				</button>
 			{/if}
 		</div>

@@ -67,7 +67,7 @@
 				{courseTypeLabels[data.course.type]}
 			</span>
 		{/if}
-		{#each data.course.attributes.filter((attr) => attr !== 'transversal') as attr}
+		{#each data.course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
 			<span class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600">
 				{courseAttributeLabels[attr]}
 			</span>

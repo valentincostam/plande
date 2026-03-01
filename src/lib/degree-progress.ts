@@ -23,9 +23,7 @@ export function calculateDegreeProgress(
 	courses: Course[],
 	config: DegreeProgressConfig
 ): DegreeProgressCalculation {
-	const mandatoryCourses = courses.filter(
-		(course) => course.type === courseTypes.mandatory
-	);
+	const mandatoryCourses = courses.filter((course) => course.type === courseTypes.mandatory);
 
 	const electiveCourses = courses.filter((course) => isElectiveOrOptative(course.type));
 

@@ -9,7 +9,11 @@
 	let { value = $bindable() }: Props = $props();
 </script>
 
-<div class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm" role="group" aria-label="Modo de vista">
+<div
+	class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm"
+	role="group"
+	aria-label="Modo de vista"
+>
 	<button
 		onclick={() => (value = 'list')}
 		aria-pressed={value === 'list'}

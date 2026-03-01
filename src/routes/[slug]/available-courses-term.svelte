@@ -31,8 +31,14 @@
 			</h4>
 		{/if}
 		<ul class="grid list-disc gap-2 px-9">
-			{#each courses as course}
-				<AvailableCourseItem {course} {showCodes} {hideTypeForTransversal} {viewMode} {onNavigateToDiagram} />
+			{#each courses as course (course.id)}
+				<AvailableCourseItem
+					{course}
+					{showCodes}
+					{hideTypeForTransversal}
+					{viewMode}
+					{onNavigateToDiagram}
+				/>
 			{/each}
 		</ul>
 	</div>

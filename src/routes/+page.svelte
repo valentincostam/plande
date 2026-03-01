@@ -26,9 +26,7 @@
 	const filteredStudyPlans = $derived.by(() => {
 		if (!normalizedQuery) return allStudyPlans;
 
-		return allStudyPlans.filter((plan) =>
-			matchesSearch(getStudyPlanSearchText(plan), searchQuery)
-		);
+		return allStudyPlans.filter((plan) => matchesSearch(getStudyPlanSearchText(plan), searchQuery));
 	});
 
 	const groupedPlans = $derived(groupStudyPlansByUniversityAndCollege(filteredStudyPlans));
@@ -56,7 +54,10 @@
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="Plande - Planificador de Carreras Universitarias" />
-	<meta property="og:description" content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso." />
+	<meta
+		property="og:description"
+		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
+	/>
 	<meta property="og:url" content="https://plande.app/" />
 	<meta property="og:site_name" content="Plande" />
 	<meta property="og:image" content="https://plande.app/og-home.png" />
@@ -65,7 +66,10 @@
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Plande - Planificador de Carreras Universitarias" />
-	<meta name="twitter:description" content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso." />
+	<meta
+		name="twitter:description"
+		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
+	/>
 	<meta name="twitter:image" content="https://plande.app/og-home.png" />
 
 	<!-- Schema.org: WebApplication -->
@@ -82,7 +86,8 @@
 			price: '0',
 			priceCurrency: 'ARS'
 		},
-		description: 'Aplicación web gratuita para planificar carreras universitarias argentinas. Visualiza requisitos y correlatividades entre materias, simula escenarios y comparte tu progreso.',
+		description:
+			'Aplicación web gratuita para planificar carreras universitarias argentinas. Visualiza requisitos y correlatividades entre materias, simula escenarios y comparte tu progreso.',
 		inLanguage: 'es',
 		audience: {
 			'@type': 'Audience',
@@ -101,7 +106,7 @@
 			'@type': 'Organization',
 			name: 'Plande'
 		}
-	})}<\/script>`}
+	})}<${'/'}script>`}
 
 	<!-- Schema.org: FAQPage -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
@@ -157,7 +162,7 @@
 				}
 			}
 		]
-	})}<\/script>`}
+	})}<${'/'}script>`}
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
@@ -367,14 +372,14 @@
 						{/if}
 					</div>
 					{#if hasActiveSearch}
-						<p class="text-sm text-gray-600 px-2" role="status">
+						<p class="px-2 text-sm text-gray-600" role="status">
 							{totalResults}
 							{totalResults === 1 ? 'carrera encontrada' : 'carreras encontradas'}
 						</p>
 					{/if}
 				</div>
 				<div class="grid gap-4">
-				{#each groupedPlans as university}
+					{#each groupedPlans as university (university.universitySlug)}
 						<div class="relative grid gap-5 rounded-md border border-gray-300 p-5">
 							<img
 								src={`/${university.universitySlug.toLowerCase()}.png`}
@@ -384,21 +389,21 @@
 									'md:absolute md:top-5 md:right-5  md:max-h-16 md:max-w-32 md:opacity-30'
 								]}
 							/>
-						<h3 class="text-center font-semibold text-gray-900 md:text-left">
-							<HighlightText text={university.universityName} query={searchQuery}>
-								{#snippet children({ highlightedText })}
-									<span>{@html highlightedText}</span>
-								{/snippet}
-							</HighlightText>
-							<span class="text-gray-500">
-								(<HighlightText text={university.universitySlug} query={searchQuery}>
+							<h3 class="text-center font-semibold text-gray-900 md:text-left">
+								<HighlightText text={university.universityName} query={searchQuery}>
 									{#snippet children({ highlightedText })}
 										<span>{@html highlightedText}</span>
 									{/snippet}
-								</HighlightText>)
-							</span>
-						</h3>
-							{#each university.colleges as college}
+								</HighlightText>
+								<span class="text-gray-500">
+									(<HighlightText text={university.universitySlug} query={searchQuery}>
+										{#snippet children({ highlightedText })}
+											<span>{@html highlightedText}</span>
+										{/snippet}
+									</HighlightText>)
+								</span>
+							</h3>
+							{#each university.colleges as college, collegeIndex (`${university.universitySlug}-${college.collegeSlug ?? college.collegeName ?? collegeIndex}`)}
 								{#if college.collegeName}
 									<div class="grid gap-2">
 										<h4 class="font-medium text-gray-700">
@@ -416,7 +421,7 @@
 											</span>
 										</h4>
 										<ul class="space-y-2 md:pl-4">
-											{#each college.degrees as degree}
+											{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 												<li>
 													<a
 														href={`/${getStudyPlanSlugWithYear(degree)}`}
@@ -435,42 +440,43 @@
 											{/each}
 										</ul>
 									</div>
-									{:else}
-										<ul class="space-y-2 md:pl-4">
-											{#each college.degrees as degree}
-												<li>
-													<a
-														href={`/${getStudyPlanSlugWithYear(degree)}`}
-														class="text-blue-700 transition-colors hover:text-blue-900"
-													>
-														<HighlightText text={degree.degreeName} query={searchQuery}>
-															{#snippet children({ highlightedText })}
-																<span>{@html highlightedText}</span>
-															{/snippet}
-														</HighlightText>
-														{#if degree.year}
-															<span class="text-gray-500"> (Plan {degree.year})</span>
-														{/if}
-													</a>
-												</li>
-											{/each}
-										</ul>
-									{/if}
+								{:else}
+									<ul class="space-y-2 md:pl-4">
+										{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
+											<li>
+												<a
+													href={`/${getStudyPlanSlugWithYear(degree)}`}
+													class="text-blue-700 transition-colors hover:text-blue-900"
+												>
+													<HighlightText text={degree.degreeName} query={searchQuery}>
+														{#snippet children({ highlightedText })}
+															<span>{@html highlightedText}</span>
+														{/snippet}
+													</HighlightText>
+													{#if degree.year}
+														<span class="text-gray-500"> (Plan {degree.year})</span>
+													{/if}
+												</a>
+											</li>
+										{/each}
+									</ul>
+								{/if}
 							{/each}
 						</div>
 					{/each}
 
-				<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
-					<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-					<a
-						href="https://forms.gle/bCC6rCb44LLYERHu6"
-						class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
-					>
+					<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+						<span class="text-sm text-gray-600">¿No está tu carrera?</span>
+						<a
+							href="https://forms.gle/bCC6rCb44LLYERHu6"
+							class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
+						>
+					</div>
 				</div>
 			</div>
 		</section>
 
-		<section id="faq" class="grid gap-6 px-6 md:px-0 pb-6">
+		<section id="faq" class="grid gap-6 px-6 pb-6 md:px-0">
 			<header class="grid gap-1">
 				<h2 class="text-center text-2xl font-bold">
 					<span class="whitespace-nowrap">Preguntas Frecuentes 💬</span>
@@ -480,7 +486,9 @@
 
 			<div class="grid gap-1">
 				<details class="group rounded-t-lg bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Qué es Plande?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -497,13 +505,16 @@
 					</summary>
 					<div class="px-4 pb-4 text-gray-700">
 						Plande es una aplicación web gratuita que ayuda a estudiantes universitarios argentinos
-						a planificar sus carreras. Permite visualizar requisitos y correlatividades entre materias,
-						simular escenarios, calcular prioridades automáticamente y compartir el progreso mediante URLs.
+						a planificar sus carreras. Permite visualizar requisitos y correlatividades entre
+						materias, simular escenarios, calcular prioridades automáticamente y compartir el
+						progreso mediante URLs.
 					</div>
 				</details>
 
 				<details class="group bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Cómo funcionan los estados de las materias?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -523,20 +534,29 @@
 							<p>Las materias pueden tener cuatro estados:</p>
 							<ul class="list-disc space-y-2 pl-5">
 								<li><strong class="text-gray-700">No cursada</strong>: No se ha comenzado</li>
-								<li><strong class="text-blue-700">En curso</strong>: Se está cursando actualmente</li>
-								<li><strong class="text-amber-700">Regular</strong>: Cursada aprobada pero examen final pendiente</li>
-								<li><strong class="text-green-700">Aprobada</strong>: Cursada y examen final aprobados</li>
+								<li>
+									<strong class="text-blue-700">En curso</strong>: Se está cursando actualmente
+								</li>
+								<li>
+									<strong class="text-amber-700">Regular</strong>: Cursada aprobada pero examen
+									final pendiente
+								</li>
+								<li>
+									<strong class="text-green-700">Aprobada</strong>: Cursada y examen final aprobados
+								</li>
 							</ul>
 							<p>
-								Al cambiar el estado de una materia, Plande actualiza automáticamente
-								qué otras materias se habilitan para cursar.
+								Al cambiar el estado de una materia, Plande actualiza automáticamente qué otras
+								materias se habilitan para cursar.
 							</p>
 						</div>
 					</div>
 				</details>
 
 				<details class="group bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Cómo guardo mi progreso?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -553,18 +573,27 @@
 					</summary>
 					<div class="px-4 pb-4 text-gray-700">
 						Plande guarda tu progreso automáticamente:
-						<ul class="list-disc space-y-1 pl-5 mt-2">
-							<li><strong>En tu dispositivo</strong>: Tu progreso se guarda automáticamente en tu navegador, así que cuando vuelvas a la página vas a encontrar todo como lo dejaste.</li>
-							<li><strong>En la URL</strong>: El estado de tus materias se codifica automáticamente en la dirección del navegador. Si copiás y guardás esa URL, tu progreso viaja con ella.</li>
+						<ul class="mt-2 list-disc space-y-1 pl-5">
+							<li>
+								<strong>En tu dispositivo</strong>: Tu progreso se guarda automáticamente en tu
+								navegador, así que cuando vuelvas a la página vas a encontrar todo como lo dejaste.
+							</li>
+							<li>
+								<strong>En la URL</strong>: El estado de tus materias se codifica automáticamente en
+								la dirección del navegador. Si copiás y guardás esa URL, tu progreso viaja con ella.
+							</li>
 						</ul>
 						<p class="mt-2">
-							No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.
+							No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu
+							dispositivo.
 						</p>
 					</div>
 				</details>
 
 				<details class="group bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Cómo comparto mi plan y mi progreso?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -581,19 +610,22 @@
 					</summary>
 					<div class="px-4 pb-4 text-gray-700">
 						<p>
-							Plande codifica el estado de todas las materias en la URL del navegador. Simplemente copiá
-							la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba el link
-							va a ver exactamente el mismo progreso que vos.
+							Plande codifica el estado de todas las materias en la URL del navegador. Simplemente
+							copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba
+							el link va a ver exactamente el mismo progreso que vos.
 						</p>
 						<p class="mt-2">
-							Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros académicos.
-							También podés usarlo para consultar dudas sobre correlatividades en grupos de estudio.
+							Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros
+							académicos. También podés usarlo para consultar dudas sobre correlatividades en grupos
+							de estudio.
 						</p>
 					</div>
 				</details>
 
 				<details class="group bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Es gratis?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -609,13 +641,15 @@
 						</svg>
 					</summary>
 					<div class="px-4 pb-4 text-gray-700">
-						Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario.
-						Los datos se almacenan localmente en tu navegador o en la URL para compartir.
+						Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario. Los datos se
+						almacenan localmente en tu navegador o en la URL para compartir.
 					</div>
 				</details>
 
 				<details class="group rounded-b-lg bg-gray-50">
-					<summary class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900">
+					<summary
+						class="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-gray-900"
+					>
 						<span>¿Cómo puedo agregar mi carrera?</span>
 						<svg
 							class="h-5 w-5 flex-none stroke-gray-500 transition-transform group-open:rotate-180"
@@ -632,7 +666,9 @@
 					</summary>
 					<div class="px-4 pb-4 text-gray-700">
 						Si tu carrera no está disponible, completá el formulario en
-						<a href="https://forms.gle/bCC6rCb44LLYERHu6" class="text-blue-700 hover:underline">este link</a>
+						<a href="https://forms.gle/bCC6rCb44LLYERHu6" class="text-blue-700 hover:underline"
+							>este link</a
+						>
 						con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
 					</div>
 				</details>

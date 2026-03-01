@@ -32,13 +32,19 @@
 
 		<ul class="list-disc pl-6">
 			<li>
-				4 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
+				4 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={3} noun="nivel" /></span
+				>
 			</li>
 			<li>
-				6 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
+				6 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={4} noun="nivel" /></span
+				>
 			</li>
 			<li>
-				10 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
+				10 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={5} noun="nivel" /></span
+				>
 			</li>
 		</ul>
 
@@ -57,27 +63,33 @@
 			Sin embargo, en la UTN FRCU, las materias electivas son de
 			<strong>dictado cuatrimestral</strong>. Esto significa que la misma cantidad de horas debe ser
 			dictada en la mitad del tiempo.
-			<em> (Recordemos que un cuatrimestre se cursa durante la mitad de un año). </em> Por lo tanto,
-			para cumplir con dicha ordenanza, la carga horaria mínima (de dictado cuatrimestral) de las materias
+			<em> (Recordemos que un cuatrimestre se cursa durante la mitad de un año). </em> Por lo tanto, para
+			cumplir con dicha ordenanza, la carga horaria mínima (de dictado cuatrimestral) de las materias
 			electivas debe ser el doble, es decir:
 		</p>
 
 		<ul class="list-disc pl-6">
 			<li>
-				8 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
+				8 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={3} noun="nivel" /></span
+				>
 			</li>
 			<li>
-				12 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
+				12 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={4} noun="nivel" /></span
+				>
 			</li>
 			<li>
-				20 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
+				20 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={5} noun="nivel" /></span
+				>
 			</li>
 		</ul>
 
 		<p>
 			Esto suma un total de <strong>40 horas cátedra semanales</strong> (de dictado cuatrimestral). Esta
-			es la cantidad de horas cátedra semanales mínimas de materias electivas aprobadas que exige el
-			plan de estudios para egresarse en la carrera de Ingeniería de Sistemas de Información.
+			es la cantidad de horas cátedra semanales mínimas de materias electivas aprobadas que exige el plan
+			de estudios para egresarse en la carrera de Ingeniería de Sistemas de Información.
 		</p>
 
 		<p>
@@ -88,21 +100,27 @@
 
 		<ul class="grid list-disc gap-2 pl-6">
 			<li>
-				8 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={3} noun="nivel" /></span>
+				8 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={3} noun="nivel" /></span
+				>
 				<ul class="list-disc pl-6">
 					<li>4 horas de <em>Metodología de la Investigación</em></li>
 					<li>4 horas de <em>Emprendedorismo</em></li>
 				</ul>
 			</li>
 			<li>
-				14 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={4} noun="nivel" /></span>
+				14 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={4} noun="nivel" /></span
+				>
 				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Relaciones Humanas</em></li>
 					<li>8 horas de <em>Sistemas Distribuidos</em></li>
 				</ul>
 			</li>
 			<li>
-				30 horas cátedra semanales en el <span class="whitespace-nowrap"><Ordinal number={5} noun="nivel" /></span>
+				30 horas cátedra semanales en el <span class="whitespace-nowrap"
+					><Ordinal number={5} noun="nivel" /></span
+				>
 				<ul class="list-disc pl-6">
 					<li>6 horas de <em>Auditoría de Sistemas de Información</em></li>
 					<li>

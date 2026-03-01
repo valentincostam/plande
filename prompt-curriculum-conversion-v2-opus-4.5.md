@@ -328,6 +328,7 @@ Only include `year` if officially documented in plan name.
 **Never use total hours directly.** The `hours` field represents weekly class hours, which is the standard measure for course load.
 
 **Determining weeks per term:**
+
 - Look for explicit duration in the curriculum document (e.g., "16 semanas por cuatrimestre", "18 weeks")
 - Check university academic calendar if available
 - If weeks cannot be determined, **ask the user** - default to 16 weeks for semesters/32 for annual if user confirms
@@ -335,6 +336,7 @@ Only include `year` if officially documented in plan name.
 **CRITICAL: Never omit hours.** If only total hours exist, convert using the formula above. Omitting hours degrades user experience.
 
 **Examples:**
+
 - Source: "8 horas semanales, 128 horas totales" → `hours: 8`
 - Source: "96 horas totales" + doc says "16 semanas" → `hours: 6` (96/16)
 - Source: "Carga horaria: 4hs" (ambiguous) → Assume weekly, `hours: 4`

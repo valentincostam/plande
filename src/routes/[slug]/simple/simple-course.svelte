@@ -12,7 +12,7 @@
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 </script>
 
-<li class="border-b last:border-b-0 border-gray-100 p-3">
+<li class="border-b border-gray-100 p-3 last:border-b-0">
 	<div class="flex items-center justify-between gap-3">
 		<span class="font-noto tracking-tight">{course.name}</span>
 		<span class="flex shrink-0 items-center gap-3">

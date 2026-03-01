@@ -34,9 +34,7 @@
 			.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
 
-	const electiveCourses = $derived(
-		courses.filter((course) => isElectiveOrOptative(course.type))
-	);
+	const electiveCourses = $derived(courses.filter((course) => isElectiveOrOptative(course.type)));
 
 	const passedElectiveCourses = $derived(
 		electiveCourses.filter((course) => course.state === courseStates.passed)

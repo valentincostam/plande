@@ -559,7 +559,8 @@ const courses: RawCourse[] = [
 		hours: 5,
 		term: courseTerms.secondSemester,
 		year: 3,
-		type: courseTypes.mandatory, attributes: [courseAttributes.integrative],
+		type: courseTypes.mandatory,
+		attributes: [courseAttributes.integrative],
 		requirements: [
 			{
 				id: 1,

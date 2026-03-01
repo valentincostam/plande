@@ -109,7 +109,7 @@
 			courses={annualOrSemestralCourses}
 			year={year.year}
 		>
-			{#each annualOrSemestralCourses as course}
+			{#each annualOrSemestralCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>
@@ -117,7 +117,7 @@
 
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses} year={year.year}>
-			{#each annualCourses as course}
+			{#each annualCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>
@@ -129,7 +129,7 @@
 			courses={firstSemesterCourses}
 			year={year.year}
 		>
-			{#each firstSemesterCourses as course}
+			{#each firstSemesterCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>
@@ -141,7 +141,7 @@
 			courses={secondSemesterCourses}
 			year={year.year}
 		>
-			{#each secondSemesterCourses as course}
+			{#each secondSemesterCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>
@@ -153,7 +153,7 @@
 			courses={semestralCourses}
 			year={year.year}
 		>
-			{#each semestralCourses as course}
+			{#each semestralCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>
@@ -161,7 +161,7 @@
 
 	{#if unknownCourses.length > 0}
 		<Term courses={unknownCourses} year={year.year}>
-			{#each unknownCourses as course}
+			{#each unknownCourses as course (course.id)}
 				<Course {course} {showCodes} />
 			{/each}
 		</Term>

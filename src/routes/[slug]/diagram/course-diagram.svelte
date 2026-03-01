@@ -77,9 +77,7 @@
 			if (visitedBack.has(current)) continue;
 			visitedBack.add(current);
 			connected.add(current);
-			layout.edges
-				.filter((e) => e.target === current)
-				.forEach((e) => backQueue.push(e.source));
+			layout.edges.filter((e) => e.target === current).forEach((e) => backQueue.push(e.source));
 		}
 
 		// BFS forwards (dependents of dependents...)
@@ -90,9 +88,7 @@
 			if (visitedForward.has(current)) continue;
 			visitedForward.add(current);
 			connected.add(current);
-			layout.edges
-				.filter((e) => e.source === current)
-				.forEach((e) => forwardQueue.push(e.target));
+			layout.edges.filter((e) => e.source === current).forEach((e) => forwardQueue.push(e.target));
 		}
 
 		return connected;
@@ -154,7 +150,7 @@
 	style={isFullscreen
 		? 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100dvh; z-index: 9999;'
 		: ''}
-	>
+>
 	<SvelteFlow
 		{nodes}
 		{edges}

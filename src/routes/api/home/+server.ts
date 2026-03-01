@@ -125,7 +125,7 @@ function generateHomepagePlainText(): string {
 		.replace(/## /g, '')
 		.replace(/### /g, '')
 		.replace(/\*\*/g, '')
-		.replace(/\`/g, '')
+		.replace(/`/g, '')
 		.replace(/\n\n/g, '\n')
 		.replace(/- /g, '• ');
 }

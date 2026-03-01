@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { courseTermLabels, courseTerms } from '$lib/course-term';
-	import { isElectiveOrOptative } from '$lib/course-type';
 	import type { Course as CourseType } from '$lib/course.svelte';
 
 	import Course from './course.svelte';
@@ -55,8 +54,11 @@
 
 <Section id={sectionId} title={displayTitle}>
 	{#if annualOrSemestralCourses.length > 0}
-		<Term title={courseTermLabels[courseTerms.annualOrSemestral]} courses={annualOrSemestralCourses}>
-			{#each annualOrSemestralCourses as course}
+		<Term
+			title={courseTermLabels[courseTerms.annualOrSemestral]}
+			courses={annualOrSemestralCourses}
+		>
+			{#each annualOrSemestralCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
@@ -64,7 +66,7 @@
 
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses}>
-			{#each annualCourses as course}
+			{#each annualCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
@@ -72,7 +74,7 @@
 
 	{#if firstSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.firstSemester]} courses={firstSemesterCourses}>
-			{#each firstSemesterCourses as course}
+			{#each firstSemesterCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
@@ -80,7 +82,7 @@
 
 	{#if secondSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.secondSemester]} courses={secondSemesterCourses}>
-			{#each secondSemesterCourses as course}
+			{#each secondSemesterCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
@@ -88,7 +90,7 @@
 
 	{#if semestralCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.semestral]} courses={semestralCourses}>
-			{#each semestralCourses as course}
+			{#each semestralCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
@@ -96,7 +98,7 @@
 
 	{#if unknownCourses.length > 0}
 		<Term courses={unknownCourses}>
-			{#each unknownCourses as course}
+			{#each unknownCourses as course (course.id)}
 				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>

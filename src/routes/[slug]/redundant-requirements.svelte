@@ -7,7 +7,7 @@
 </script>
 
 <ol class="grid list-decimal gap-3 px-9">
-	{#each findRedundantRequirements(courses) as redundantRequirement}
+	{#each findRedundantRequirements(courses) as redundantRequirement (redundantRequirement)}
 		<li>{@html marked(redundantRequirement)}</li>
 	{/each}
 </ol>

@@ -21,7 +21,9 @@
 	);
 
 	const courseIsTransversal = $derived(isTransversal(requirement.requiredCourse.attributes));
-	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(requirement.requiredCourse.type));
+	const courseIsElectiveOrOptative = $derived(
+		isElectiveOrOptative(requirement.requiredCourse.type)
+	);
 
 	// Show type label if elective/optative, otherwise show "transversal"
 	const courseLabel = $derived(
@@ -57,7 +59,8 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		debe estar {#if requirement.requiredState !== courseStates.passed}al menos {/if}
+		debe estar {#if requirement.requiredState !== courseStates.passed}al menos
+		{/if}
 		<StatePill state={requirement.requiredState} />
 
 		{#if !isRequirementMet}

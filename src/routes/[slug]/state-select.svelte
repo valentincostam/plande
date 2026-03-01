@@ -53,7 +53,7 @@
 		'focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 	]}
 >
-	{#each Object.values(courseStates) as state}
+	{#each Object.values(courseStates) as state (state)}
 		<option
 			value={state}
 			disabled={!canPass && state === courseStates.passed}

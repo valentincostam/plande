@@ -54,8 +54,9 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		necesita esta materia {#if dependent.requiredState !== courseStates.passed}al menos {/if}
-    <StatePill state={dependent.requiredState}/> para
+		necesita esta materia {#if dependent.requiredState !== courseStates.passed}al menos
+		{/if}
+		<StatePill state={dependent.requiredState} /> para
 		{requiredForLabels[dependent.requiredFor]}
 	</span>
 </li>

@@ -31,7 +31,10 @@ test.describe('Accessibility', () => {
 		expect(results.violations).toEqual([]);
 	});
 
-	test('study plan with expanded course has no critical violations', async ({ page, studyPlan }) => {
+	test('study plan with expanded course has no critical violations', async ({
+		page,
+		studyPlan
+	}) => {
 		await studyPlan.goto();
 
 		// Expand a course to test the expanded state
@@ -68,7 +71,9 @@ test.describe('Accessibility', () => {
 	test.skip('audit: color contrast issues to fix', async ({ page, studyPlan }) => {
 		await studyPlan.goto();
 
-		const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+		const results = await new AxeBuilder({ page })
+			.withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+			.analyze();
 
 		const contrastViolations = results.violations.filter((v) => knownIssues.includes(v.id));
 

@@ -10,7 +10,7 @@
 	import AvailableCoursesSection from './available-courses-section.svelte';
 	import Stats from './stats.svelte';
 	import Section from './section.svelte';
-	import { createUrlSearchParams, urlStateParameters } from '$lib/url-state-parameter';
+	import { createUrlSearchParams } from '$lib/url-state-parameter';
 	import { replaceState } from '$app/navigation';
 	import ShareButton from './share-button.svelte';
 	import CopyLinkButton from './copy-link-button.svelte';
@@ -86,7 +86,12 @@
 	let isInitializing = $state(true);
 
 	const courses = untrack(() =>
-		createCourses(data.studyPlan.courses, data.coursesStates, () => isStrictModeEnabled, data.coursesGrades)
+		createCourses(
+			data.studyPlan.courses,
+			data.coursesStates,
+			() => isStrictModeEnabled,
+			data.coursesGrades
+		)
 	);
 
 	let isRouterReady = $state(false);
@@ -109,7 +114,7 @@
 
 		// Track state changes for undo/redo
 		const encodedStates = encodeCoursesStates(coursesStates);
-    
+
 		if (!getIsApplyingHistory()) {
 			pushHistoryState(encodedStates);
 		} else {
@@ -122,10 +127,7 @@
 				? `?${urlSearchParams}`
 				: window.location.pathname;
 
-			replaceState(
-				`${urlWithState}${hash}`,
-				{}
-			);
+			replaceState(`${urlWithState}${hash}`, {});
 
 			const storageData = {
 				coursesStates: encodedStates,
@@ -254,7 +256,8 @@
 
 	const transversalCourses = $derived(
 		courses.filter(
-			(course) => isTransversal(course.attributes) || (isElectiveOrOptative(course.type) && !course.year)
+			(course) =>
+				isTransversal(course.attributes) || (isElectiveOrOptative(course.type) && !course.year)
 		)
 	);
 
@@ -262,13 +265,9 @@
 
 	const simpleViewUrl = $derived(`/${data.slug}/simple${page.url.search}`);
 
-
-
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
-		const collegeAbbr = data.studyPlan.collegeSlug
-			? data.studyPlan.collegeSlug.toUpperCase()
-			: '';
+		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
 		const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
 		const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
 		const title = `${data.studyPlan.degreeName} ・ ${institution} ・ Plande`;
@@ -328,7 +327,7 @@
 		educationalLevel: 'Undergraduate',
 		url: seo.url,
 		inLanguage: 'es'
-	})}<\/script>`}
+	})}<${'/'}script>`}
 
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
@@ -347,7 +346,7 @@
 				item: seo.url
 			}
 		]
-	})}<\/script>`}
+	})}<${'/'}script>`}
 </svelte:head>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
@@ -373,7 +372,7 @@
 				<CourseDiagram {courses} slug={data.slug} bind:this={diagramRef} />
 			</div>
 		{:else}
-			{#each years as year, index}
+			{#each years as year, index (year.year)}
 				<Year
 					{year}
 					{showCodes}
@@ -389,10 +388,7 @@
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
-			<a
-				href={simpleViewUrl}
-				class="mx-auto text-sm text-blue-700 hover:underline"
-			>
+			<a href={simpleViewUrl} class="mx-auto text-sm text-blue-700 hover:underline">
 				Ver versión simple
 			</a>
 		</section>
@@ -446,7 +442,7 @@
 		{#if data.studyPlan.notes && data.studyPlan.notes.length > 0}
 			<Section id="notas" title="Notas">
 				<ol class="grid list-decimal gap-3 px-9">
-					{#each data.studyPlan.notes as note}
+					{#each data.studyPlan.notes as note, noteIndex (`${noteIndex}-${note.text}`)}
 						<li class="note">
 							{@html marked(note.text)}
 						</li>
@@ -458,7 +454,7 @@
 		{#if data.studyPlan.sources}
 			<Section id="fuentes" title="Fuentes">
 				<ol class="grid list-decimal gap-3 px-9">
-					{#each data.studyPlan.sources as source}
+					{#each data.studyPlan.sources as source (source.url)}
 						<li>
 							<a
 								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"

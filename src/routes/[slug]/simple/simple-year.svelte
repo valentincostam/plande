@@ -23,7 +23,7 @@
 	</header>
 
 	<ul class="grid gap-1">
-		{#each year.courses as course}
+		{#each year.courses as course (course.id)}
 			<SimpleCourse {course} />
 		{/each}
 	</ul>

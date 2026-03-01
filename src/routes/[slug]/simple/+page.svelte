@@ -17,19 +17,12 @@
 	let { data }: PageProps = $props();
 
 	const courses = untrack(() =>
-		createCourses(
-			data.studyPlan.courses,
-			data.coursesStates,
-			() => false,
-			data.coursesGrades
-		)
+		createCourses(data.studyPlan.courses, data.coursesStates, () => false, data.coursesGrades)
 	);
 
 	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
-	const transversalCourses = $derived(
-		courses.filter((course) => isTransversal(course.attributes))
-	);
+	const transversalCourses = $derived(courses.filter((course) => isTransversal(course.attributes)));
 
 	const fullViewUrl = $derived.by(() => {
 		const searchParams = page.url.search;
@@ -37,9 +30,7 @@
 	});
 
 	const seo = $derived.by(() => {
-		const collegeAbbr = data.studyPlan.collegeSlug
-			? data.studyPlan.collegeSlug.toUpperCase()
-			: '';
+		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
 		const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
 		const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
 		const title = `${data.studyPlan.degreeName} ・ ${institution} ・ Plande`;
@@ -124,7 +115,7 @@
 	</header>
 
 	<main class="grid gap-9">
-		{#each years as year}
+		{#each years as year (year.year)}
 			<SimpleYear {year} />
 		{/each}
 
@@ -134,7 +125,7 @@
 					<h2 id="transversal-heading" class="text-lg font-bold">Transversales</h2>
 				</header>
 				<ul class="grid gap-1">
-					{#each transversalCourses as course}
+					{#each transversalCourses as course (course.id)}
 						<SimpleCourse {course} />
 					{/each}
 				</ul>
@@ -147,10 +138,7 @@
 	<section class="grid gap-3 px-3">
 		<ShareButton title={seo.title} />
 		<CopyLinkButton />
-		<a
-			href={fullViewUrl}
-			class="mx-auto text-sm text-blue-800 hover:underline"
-		>
+		<a href={fullViewUrl} class="mx-auto text-sm text-blue-800 hover:underline">
 			Ver versión completa
 		</a>
 	</section>

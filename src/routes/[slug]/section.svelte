@@ -15,7 +15,12 @@
 </script>
 
 <section aria-labelledby={headingId} {id}>
-	<AnchoredHeading id={id} {headingId} ariaLabel={`Copiar enlace a ${title}`} class="p-3 text-lg font-bold">
+	<AnchoredHeading
+		{id}
+		{headingId}
+		ariaLabel={`Copiar enlace a ${title}`}
+		class="p-3 text-lg font-bold"
+	>
 		{title}
 	</AnchoredHeading>
 	{#if description}
