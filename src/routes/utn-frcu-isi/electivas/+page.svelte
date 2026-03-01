@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { utnFrcuIsi2023 } from '../../[slug]/data/utn-frcu-isi-2023';
 	import Footer from '../../footer.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
@@ -7,7 +8,7 @@
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<a
-			href="/"
+			href={resolve('/')}
 			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
@@ -21,7 +22,9 @@
 		</h2>
 		<p>
 			La <a
-				href={utnFrcuIsi2023.sources[1].url}
+				href={utnFrcuIsi2023.sources[1].url.startsWith('/')
+					? resolve(utnFrcuIsi2023.sources[1].url as `/${string}`)
+					: utnFrcuIsi2023.sources[1].url}
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Ordenanza N° 1877</a
 			>
@@ -154,7 +157,7 @@
 
 		<p class="text-center">
 			<a
-				href="/utn-frcu-isi"
+				href={resolve('/utn-frcu-isi')}
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Volver al plan de estudios</a
 			>

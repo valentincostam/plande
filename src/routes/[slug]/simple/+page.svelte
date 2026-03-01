@@ -9,6 +9,7 @@
 	import SimpleCourse from './simple-course.svelte';
 	import { onMount, untrack } from 'svelte';
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import { browser } from '$app/environment';
 	import { decodeCoursesStates } from '$lib/course-state';
 	import ShareButton from '../share-button.svelte';
@@ -23,11 +24,6 @@
 	const years = $derived(createYears(data.studyPlan.durationYears, courses));
 
 	const transversalCourses = $derived(courses.filter((course) => isTransversal(course.attributes)));
-
-	const fullViewUrl = $derived.by(() => {
-		const searchParams = page.url.search;
-		return `/${data.slug}${searchParams}`;
-	});
 
 	const seo = $derived.by(() => {
 		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
@@ -103,7 +99,7 @@
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<a
-			href="/"
+			href={resolve('/')}
 			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
@@ -138,7 +134,10 @@
 	<section class="grid gap-3 px-3">
 		<ShareButton title={seo.title} />
 		<CopyLinkButton />
-		<a href={fullViewUrl} class="mx-auto text-sm text-blue-800 hover:underline">
+		<a
+			href={`${resolve('/[slug]', { slug: data.slug })}${page.url.search}`}
+			class="mx-auto text-sm text-blue-800 hover:underline"
+		>
 			Ver versión completa
 		</a>
 	</section>

@@ -38,6 +38,7 @@
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
 
@@ -123,11 +124,12 @@
 
 		tick().then(() => {
 			const hash = window.location.hash;
-			const urlWithState = urlSearchParams.toString()
-				? `?${urlSearchParams}`
-				: window.location.pathname;
+			const query = urlSearchParams.toString();
 
-			replaceState(`${urlWithState}${hash}`, {});
+			replaceState(
+				`${resolve('/[slug]', { slug: data.slug })}${query ? `?${query}` : ''}${hash}`,
+				{}
+			);
 
 			const storageData = {
 				coursesStates: encodedStates,
@@ -263,8 +265,6 @@
 
 	const hasCodes = $derived(courses.some((course) => course.code));
 
-	const simpleViewUrl = $derived(`/${data.slug}/simple${page.url.search}`);
-
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
 		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
@@ -352,7 +352,7 @@
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<a
-			href="/"
+			href={resolve('/')}
 			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
@@ -388,7 +388,10 @@
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
-			<a href={simpleViewUrl} class="mx-auto text-sm text-blue-700 hover:underline">
+			<a
+				href={`${resolve('/[slug]/simple', { slug: data.slug })}${page.url.search}`}
+				class="mx-auto text-sm text-blue-700 hover:underline"
+			>
 				Ver versión simple
 			</a>
 		</section>
@@ -458,7 +461,7 @@
 						<li>
 							<a
 								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-								href={source.url}
+								href={source.url.startsWith('/') ? resolve(source.url as `/${string}`) : source.url}
 							>
 								{source.label}
 							</a>

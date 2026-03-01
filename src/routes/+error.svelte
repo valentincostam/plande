@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <svelte:head>
 	<title>Planes de Estudios Interactivos en Plande</title>
 </svelte:head>
@@ -5,7 +9,7 @@
 <main class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)]">
 	<header class="absolute top-0 w-full p-9 text-center">
 		<a
-			href="/"
+			href={resolve('/')}
 			class="text-sm text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
@@ -18,7 +22,7 @@
 		</div>
 		<p>
 			<a
-				href="/"
+				href={resolve('/')}
 				class=" text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Ir a la página principal</a
 			>

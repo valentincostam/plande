@@ -6,6 +6,7 @@
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
+	import { resolve } from '$app/paths';
 
 	let searchQuery = $state('');
 
@@ -190,7 +191,7 @@
 				</ChatMessage>
 
 				<ChatMessage author="Vos" time="19:31" color="blue" isOutgoing>
-					<a href="/utn-frcu-isi?s=a26r5e3" class="text-[#1B8755] underline underline-offset-2"
+					<a href={resolve('/utn-frcu-isi')} class="text-[#1B8755] underline underline-offset-2"
 						>https://plande.app/utn-frcu-isi?s=a26r5e3</a
 					>
 				</ChatMessage>
@@ -390,48 +391,28 @@
 								]}
 							/>
 							<h3 class="text-center font-semibold text-gray-900 md:text-left">
-								<HighlightText text={university.universityName} query={searchQuery}>
-									{#snippet children({ highlightedText })}
-										<span>{@html highlightedText}</span>
-									{/snippet}
-								</HighlightText>
+								<HighlightText text={university.universityName} query={searchQuery} />
 								<span class="text-gray-500">
-									(<HighlightText text={university.universitySlug} query={searchQuery}>
-										{#snippet children({ highlightedText })}
-											<span>{@html highlightedText}</span>
-										{/snippet}
-									</HighlightText>)
+									(<HighlightText text={university.universitySlug} query={searchQuery} />)
 								</span>
 							</h3>
 							{#each university.colleges as college, collegeIndex (`${university.universitySlug}-${college.collegeSlug ?? college.collegeName ?? collegeIndex}`)}
 								{#if college.collegeName}
 									<div class="grid gap-2">
 										<h4 class="font-medium text-gray-700">
-											<HighlightText text={college.collegeName} query={searchQuery}>
-												{#snippet children({ highlightedText })}
-													<span>{@html highlightedText}</span>
-												{/snippet}
-											</HighlightText>
+											<HighlightText text={college.collegeName} query={searchQuery} />
 											<span class="text-gray-500">
-												(<HighlightText text={college.collegeSlug ?? ''} query={searchQuery}>
-													{#snippet children({ highlightedText })}
-														<span>{@html highlightedText}</span>
-													{/snippet}
-												</HighlightText>)
+												(<HighlightText text={college.collegeSlug ?? ''} query={searchQuery} />)
 											</span>
 										</h4>
 										<ul class="space-y-2 md:pl-4">
 											{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 												<li>
 													<a
-														href={`/${getStudyPlanSlugWithYear(degree)}`}
+														href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
 														class="text-blue-700 transition-colors hover:text-blue-900"
 													>
-														<HighlightText text={degree.degreeName} query={searchQuery}>
-															{#snippet children({ highlightedText })}
-																<span>{@html highlightedText}</span>
-															{/snippet}
-														</HighlightText>
+														<HighlightText text={degree.degreeName} query={searchQuery} />
 														{#if degree.year}
 															<span class="text-gray-500"> (Plan {degree.year})</span>
 														{/if}
@@ -445,14 +426,10 @@
 										{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 											<li>
 												<a
-													href={`/${getStudyPlanSlugWithYear(degree)}`}
+													href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
 													class="text-blue-700 transition-colors hover:text-blue-900"
 												>
-													<HighlightText text={degree.degreeName} query={searchQuery}>
-														{#snippet children({ highlightedText })}
-															<span>{@html highlightedText}</span>
-														{/snippet}
-													</HighlightText>
+													<HighlightText text={degree.degreeName} query={searchQuery} />
 													{#if degree.year}
 														<span class="text-gray-500"> (Plan {degree.year})</span>
 													{/if}

@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <footer class="grid gap-6 px-6">
 	<p class="text-center text-sm">
 		¿Tenés dudas, sugerencias o errores?
@@ -19,7 +23,7 @@
 	</p>
 	<p class="text-center text-sm">
 		<a
-			href="/"
+			href={resolve('/')}
 			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 			>Plande</a
 		>
