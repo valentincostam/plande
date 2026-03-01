@@ -52,6 +52,14 @@
 		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
 	);
 
+	const requiredElectiveCount = $derived(
+		progress.type === 'mandatory-plus-elective-count' ? (progress.requiredElectiveCount ?? 1) : 0
+	);
+
+	const passedRequiredElectiveCount = $derived(
+		Math.min(passedElectiveCourses.length, requiredElectiveCount)
+	);
+
 	const passedCoursesWithGrade = $derived(
 		passedCourses.filter((course) => course.grade !== undefined && course.grade !== null)
 	);
@@ -78,16 +86,26 @@
 		unit="mat."
 	/>
 	{#if hasElectiveCourses || hasOptativeCourses}
-		<Stat
-			label={hasElectiveCourses && hasOptativeCourses
-				? 'Materias electivas y optativas aprobadas'
-				: hasOptativeCourses
-					? 'Materias optativas aprobadas'
-					: 'Materias electivas aprobadas'}
-			value={passedElectiveCourses.length}
-			total={electiveCourses.length}
-			unit="mat."
-		/>
+		{#if progress.type === 'mandatory-plus-elective-count'}
+			<Stat
+				label="Materias electivas requeridas aprobadas"
+				description={`${electiveCourses.length} electivas disponibles en el plan`}
+				value={passedRequiredElectiveCount}
+				total={requiredElectiveCount}
+				unit="mat."
+			/>
+		{:else}
+			<Stat
+				label={hasElectiveCourses && hasOptativeCourses
+					? 'Materias electivas y optativas aprobadas'
+					: hasOptativeCourses
+						? 'Materias optativas aprobadas'
+						: 'Materias electivas aprobadas'}
+				value={passedElectiveCourses.length}
+				total={electiveCourses.length}
+				unit="mat."
+			/>
+		{/if}
 	{/if}
 	<Stat label="Años aprobados" value={passedYears.length} total={years.length} unit="años" />
 	{#if progress.type === 'mandatory-plus-elective-hours'}

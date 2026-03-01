@@ -50,7 +50,18 @@
 
 	const numberFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
 
+	const requiredElectiveCount = $derived(
+		progress.type === 'mandatory-plus-elective-count' ? (progress.requiredElectiveCount ?? 1) : 0
+	);
+
+	const passedRequiredElectiveCount = $derived(
+		Math.min(passedElectiveCourses.length, requiredElectiveCount)
+	);
+
 	const electiveLabel = $derived.by(() => {
+		if (progress.type === 'mandatory-plus-elective-count') {
+			return 'Materias electivas requeridas aprobadas';
+		}
 		if (hasElectiveCourses && hasOptativeCourses) {
 			return 'Materias electivas/optativas aprobadas';
 		}
@@ -82,10 +93,25 @@
 			<li
 				class="flex items-center justify-between gap-3 border-b border-gray-100 p-3 last:border-b-0"
 			>
-				<span class="flex-1">{electiveLabel}</span>
+				<span class="flex-1">
+					{electiveLabel}
+					{#if progress.type === 'mandatory-plus-elective-count'}
+						<span class="block text-xs text-gray-500"
+							>{electiveCourses.length} electivas disponibles en el plan</span
+						>
+					{/if}
+				</span>
 				<span>
-					<span class="font-bold text-gray-700">{passedElectiveCourses.length}</span>
-					<span class="text-gray-500">de {electiveCourses.length}</span>
+					<span class="font-bold text-gray-700"
+						>{progress.type === 'mandatory-plus-elective-count'
+							? passedRequiredElectiveCount
+							: passedElectiveCourses.length}</span
+					>
+					<span class="text-gray-500"
+						>de {progress.type === 'mandatory-plus-elective-count'
+							? requiredElectiveCount
+							: electiveCourses.length}</span
+					>
 				</span>
 			</li>
 		{/if}

@@ -9,6 +9,7 @@ import { utnFrcuLoi1995 } from './utn-frcu-loi-1995';
 import { uncaFcaTupazsa } from './unca-fca-tupazsa';
 import { udemmLp } from './udemm-lp';
 import { udemmLpe } from './udemm-lpe';
+import { udemmIem } from './udemm-iem';
 import { utnFrbaIq1995 } from './utn-frba-iq-1995';
 import { unrFapydLdg } from './unr-fapyd-ldg';
 import { unerFcecoCP2020 } from './uner-fceco-cp-2020';
@@ -54,6 +55,7 @@ export const allStudyPlans: StudyPlan[] = [
 	uncaFcaTupazsa,
 	udemmLp,
 	udemmLpe,
+	udemmIem,
 	utnFrbaIq1995,
 	unrFapydLdg,
 	unerFcecoCP2020,

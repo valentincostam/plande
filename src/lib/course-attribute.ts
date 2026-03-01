@@ -1,5 +1,6 @@
 export const courseAttributes = {
 	transversal: 'transversal',
+	workshop: 'workshop',
 	integrative: 'integrative',
 	mandatoryFinalExam: 'mandatoryFinalExam',
 	contraSemester: 'contraSemester'
@@ -9,6 +10,7 @@ export type CourseAttribute = (typeof courseAttributes)[keyof typeof courseAttri
 
 export const courseAttributeLabels = {
 	[courseAttributes.transversal]: 'Transversal',
+	[courseAttributes.workshop]: 'Taller',
 	[courseAttributes.integrative]: 'Integradora',
 	[courseAttributes.mandatoryFinalExam]: 'Final Obligatorio',
 	[courseAttributes.contraSemester]: 'Contra Cuatrimestral'

@@ -154,4 +154,16 @@ test.describe('Stats and Charts - Elective courses', () => {
 
 		await expect(electiveHoursStat).toContainText('4 de 40');
 	});
+
+	test('shows required elective count for count-based plans', async ({ studyPlan }) => {
+		await studyPlan.goto('udemm-iem');
+
+		const electivesStat = studyPlan.getStatByLabel(/^Materias electivas requeridas aprobadas/);
+		await expect(electivesStat).toContainText('0 de 1');
+		await expect(electivesStat).toContainText('6 electivas disponibles en el plan');
+
+		await studyPlan.setCourseState('Estabilidad II', 'Aprobada');
+
+		await expect(electivesStat).toContainText('1 de 1');
+	});
 });

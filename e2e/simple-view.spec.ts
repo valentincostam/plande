@@ -98,6 +98,17 @@ test.describe('Simple View - Stats', () => {
 		await expect(page.getByText(/Materias electivas aprobadas/)).toBeVisible();
 	});
 
+	test('shows required elective count for count-based plans', async ({ studyPlan, page }) => {
+		await studyPlan.gotoSimple('udemm-iem');
+
+		const electivesStat = page
+			.getByRole('listitem')
+			.filter({ hasText: /^Materias electivas requeridas aprobadas/ });
+
+		await expect(electivesStat).toContainText('0 de 1');
+		await expect(electivesStat).toContainText('6 electivas disponibles en el plan');
+	});
+
 	test('shows average when grades exist', async ({ studyPlan, page }) => {
 		await studyPlan.gotoSimpleWithState('utn-frcu-isi-2023', 'a', 'h');
 
