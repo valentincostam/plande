@@ -126,10 +126,7 @@
 			const hash = window.location.hash;
 			const query = urlSearchParams.toString();
 
-			replaceState(
-				`${resolve('/[slug]', { slug: data.slug })}${query ? `?${query}` : ''}${hash}`,
-				{}
-			);
+			replaceState(resolve(`/${data.slug}${query ? `?${query}` : ''}${hash}` as `/${string}`), {});
 
 			const storageData = {
 				coursesStates: encodedStates,
@@ -389,7 +386,7 @@
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
 			<a
-				href={`${resolve('/[slug]/simple', { slug: data.slug })}${page.url.search}`}
+				href={resolve(`/${data.slug}/simple${page.url.search}` as `/${string}`)}
 				class="mx-auto text-sm text-blue-700 hover:underline"
 			>
 				Ver versión simple
@@ -459,12 +456,21 @@
 				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.studyPlan.sources as source (source.url)}
 						<li>
-							<a
-								class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-								href={source.url.startsWith('/') ? resolve(source.url as `/${string}`) : source.url}
-							>
-								{source.label}
-							</a>
+							{#if source.url.startsWith('/')}
+								<a
+									class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+									href={resolve(source.url as `/${string}`)}
+								>
+									{source.label}
+								</a>
+							{:else}
+								<a
+									class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+									href={`https://${source.url.replace(/^https?:\/\//, '')}`}
+								>
+									{source.label}
+								</a>
+							{/if}
 						</li>
 					{/each}
 				</ol>

@@ -5,6 +5,7 @@ import { studyPlanSlugMap, studyPlanSlugWithYearMap } from '../study-plan-maps';
 import { decodeCoursesStates, courseStates } from '$lib/course-state';
 import { decodeGrades } from '$lib/grade-encoding';
 import { calculateDegreeProgress } from '$lib/degree-progress';
+import type { Course } from '$lib/course.svelte';
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
@@ -33,7 +34,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	// Calculate progress
 	const progress = calculateDegreeProgress(
-		coursesWithState.map((c) => ({ ...c, isEnabled: true, canPass: true })) as any,
+		coursesWithState.map((c) => ({ ...c, isEnabled: true, canPass: true })) as unknown as Course[],
 		studyPlan.progress
 	);
 

@@ -22,9 +22,7 @@
 		</h2>
 		<p>
 			La <a
-				href={utnFrcuIsi2023.sources[1].url.startsWith('/')
-					? resolve(utnFrcuIsi2023.sources[1].url as `/${string}`)
-					: utnFrcuIsi2023.sources[1].url}
+				href={`https://${utnFrcuIsi2023.sources[1].url.replace(/^https?:\/\//, '')}`}
 				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
 				>Ordenanza N° 1877</a
 			>

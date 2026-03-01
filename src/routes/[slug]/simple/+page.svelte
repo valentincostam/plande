@@ -135,7 +135,7 @@
 		<ShareButton title={seo.title} />
 		<CopyLinkButton />
 		<a
-			href={`${resolve('/[slug]', { slug: data.slug })}${page.url.search}`}
+			href={resolve(`/${data.slug}${page.url.search}` as `/${string}`)}
 			class="mx-auto text-sm text-blue-800 hover:underline"
 		>
 			Ver versión completa
