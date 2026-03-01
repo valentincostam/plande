@@ -2,6 +2,7 @@ import type { CourseAttribute } from './course-attribute';
 import { courseStates, isCourseStateGreaterOrEqual, type CourseState } from './course-state';
 import type { CourseTerm } from './course-term';
 import { type CourseType } from './course-type';
+import { SvelteSet } from 'svelte/reactivity';
 import {
 	requiredFor,
 	type RawCourse,
@@ -232,7 +233,7 @@ export const createCourses = (
 };
 
 export const countAllDependents = (course: Course): number => {
-	const visited = new Set<number>();
+	const visited = new SvelteSet<number>();
 	const queue: Course[] = [course];
 
 	while (queue.length > 0) {

@@ -271,14 +271,16 @@
 		const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 
 		// Build query params for OG URLs
-		const ogParams = new URLSearchParams();
 		const initialStateLetters =
 			data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
 		const initialGradeLetters =
 			data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
-		if (initialStateLetters) ogParams.set('s', initialStateLetters);
-		if (initialGradeLetters) ogParams.set('n', initialGradeLetters);
-		const ogQuery = ogParams.toString();
+		const ogQuery = [
+			initialStateLetters ? `s=${encodeURIComponent(initialStateLetters)}` : '',
+			initialGradeLetters ? `n=${encodeURIComponent(initialGradeLetters)}` : ''
+		]
+			.filter(Boolean)
+			.join('&');
 
 		// Include query params in URLs so progress is preserved when sharing
 		const url = `https://plande.app/${data.slug.toLowerCase()}${ogQuery ? `?${ogQuery}` : ''}`;
@@ -312,6 +314,7 @@
 	<meta name="twitter:image" content={seo.ogImageUrl} />
 
 	<!-- Structured Data - Course & Organization -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',
@@ -326,6 +329,7 @@
 		inLanguage: 'es'
 	})}<${'/'}script>`}
 
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
@@ -444,6 +448,7 @@
 				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.studyPlan.notes as note, noteIndex (`${noteIndex}-${note.text}`)}
 						<li class="note">
+							<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 							{@html marked(note.text)}
 						</li>
 					{/each}

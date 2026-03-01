@@ -10,6 +10,7 @@
 	import { createDagreLayout, getEdgeStyle } from './diagram-utils';
 	import type { Edge, Node } from '@xyflow/svelte';
 	import type { CourseEdgeData, CourseNodeData } from './diagram-utils';
+	import { SvelteSet } from 'svelte/reactivity';
 
 	type Props = {
 		courses: Course[];
@@ -66,11 +67,11 @@
 
 	// Recursive BFS to find all connected nodes in both directions
 	function getConnectedIdsRecursive(nodeId: string | null): Set<string> {
-		if (!nodeId) return new Set();
-		const connected = new Set<string>();
+		if (!nodeId) return new SvelteSet();
+		const connected = new SvelteSet<string>();
 
 		// BFS backwards (prerequisites of prerequisites...)
-		const visitedBack = new Set<string>();
+		const visitedBack = new SvelteSet<string>();
 		const backQueue = [nodeId];
 		while (backQueue.length > 0) {
 			const current = backQueue.shift()!;
@@ -81,7 +82,7 @@
 		}
 
 		// BFS forwards (dependents of dependents...)
-		const visitedForward = new Set<string>();
+		const visitedForward = new SvelteSet<string>();
 		const forwardQueue = [nodeId];
 		while (forwardQueue.length > 0) {
 			const current = forwardQueue.shift()!;
@@ -96,8 +97,8 @@
 
 	// Get all edges in the dependency chain
 	function getHighlightedEdgeIds(connectedIds: Set<string>): Set<string> {
-		if (connectedIds.size === 0) return new Set();
-		return new Set(
+		if (connectedIds.size === 0) return new SvelteSet();
+		return new SvelteSet(
 			layout.edges
 				.filter((e) => connectedIds.has(e.source) && connectedIds.has(e.target))
 				.map((e) => e.id)

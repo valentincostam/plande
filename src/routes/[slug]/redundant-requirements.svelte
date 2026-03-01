@@ -8,6 +8,7 @@
 
 <ol class="grid list-decimal gap-3 px-9">
 	{#each findRedundantRequirements(courses) as redundantRequirement (redundantRequirement)}
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<li>{@html marked(redundantRequirement)}</li>
 	{/each}
 </ol>

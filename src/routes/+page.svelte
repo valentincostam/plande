@@ -74,6 +74,7 @@
 	<meta name="twitter:image" content="https://plande.app/og-home.png" />
 
 	<!-- Schema.org: WebApplication -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'WebApplication',
@@ -110,6 +111,7 @@
 	})}<${'/'}script>`}
 
 	<!-- Schema.org: FAQPage -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'FAQPage',
