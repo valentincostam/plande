@@ -51,7 +51,7 @@ const courses: RawCourse[] = [
 		code: '5',
 		name: 'Lógica y Estructuras Discretas',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 1,
 		requirements: []
@@ -81,7 +81,7 @@ const courses: RawCourse[] = [
 		code: '8',
 		name: 'Sistemas y Procesos de Negocio',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 1,
 		attributes: [courseAttributes.integrative],
@@ -165,7 +165,7 @@ const courses: RawCourse[] = [
 		code: '13',
 		name: 'Sintaxis y Semántica de los Lenguajes',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
@@ -188,7 +188,7 @@ const courses: RawCourse[] = [
 		code: '14',
 		name: 'Paradigmas de Programación',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
@@ -211,7 +211,7 @@ const courses: RawCourse[] = [
 		code: '15',
 		name: 'Sistemas Operativos',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 2,
 		requirements: [
@@ -252,7 +252,7 @@ const courses: RawCourse[] = [
 		code: '17',
 		name: 'Probabilidad y Estadística',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -275,7 +275,7 @@ const courses: RawCourse[] = [
 		code: '18',
 		name: 'Economía',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -298,7 +298,7 @@ const courses: RawCourse[] = [
 		code: '19',
 		name: 'Bases de Datos',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -333,7 +333,7 @@ const courses: RawCourse[] = [
 		code: '20',
 		name: 'Desarrollo de Software',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -368,7 +368,7 @@ const courses: RawCourse[] = [
 		code: '21',
 		name: 'Comunicación de Datos',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -462,7 +462,7 @@ const courses: RawCourse[] = [
 		code: '24',
 		name: 'Legislación',
 		hours: 2,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -479,7 +479,7 @@ const courses: RawCourse[] = [
 		code: '25',
 		name: 'Ingeniería y Calidad de Software',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -520,7 +520,7 @@ const courses: RawCourse[] = [
 		code: '26',
 		name: 'Redes de Datos',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -543,7 +543,7 @@ const courses: RawCourse[] = [
 		code: '27',
 		name: 'Investigación Operativa',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -566,7 +566,7 @@ const courses: RawCourse[] = [
 		code: '28',
 		name: 'Simulación',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -589,7 +589,7 @@ const courses: RawCourse[] = [
 		code: '29',
 		name: 'Tecnologías para la Automatización',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 4,
 		requirements: [
@@ -648,7 +648,7 @@ const courses: RawCourse[] = [
 		code: '31',
 		name: 'Inteligencia Artificial',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -677,7 +677,7 @@ const courses: RawCourse[] = [
 		code: '32',
 		name: 'Ciencia de Datos',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -706,7 +706,7 @@ const courses: RawCourse[] = [
 		code: '33',
 		name: 'Sistemas de Gestión',
 		hours: 4,
-		term: courseTerms.annual,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -735,7 +735,7 @@ const courses: RawCourse[] = [
 		code: '34',
 		name: 'Gestión Gerencial',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -764,7 +764,7 @@ const courses: RawCourse[] = [
 		code: '35',
 		name: 'Seguridad en los Sistemas de Información',
 		hours: 3,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -843,11 +843,574 @@ const courses: RawCourse[] = [
 		]
 	},
 	{
+		id: 101,
+		code: '101',
+		name: 'Química',
+		hours: 6,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 2,
+		requirements: []
+	},
+	{
+		id: 102,
+		code: '102',
+		name: 'Programación Competitiva I',
+		hours: 4,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 2,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 6,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
+		id: 103,
+		code: '103',
+		name: 'Sistemas de Representación',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 2,
+		requirements: []
+	},
+	{
+		id: 104,
+		code: '104',
+		name: 'Bases de Datos NoSQL',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 4,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
+		id: 105,
+		code: '105',
+		name: 'Estadística Aplicada',
+		hours: 4,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 4,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 9,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
+		id: 106,
+		code: '106',
+		name: 'Taller de Redes',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 4,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 107,
+		code: '107',
+		name: 'Taller de Sistemas de Información ERP',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 4,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 26,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 33,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 7,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 108,
+		code: '108',
+		name: 'Ética Profesional',
+		hours: 4,
+		term: courseTerms.annual,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 23,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 109,
+		code: '109',
+		name: 'Desarrollo de Aplicaciones en la Nube',
+		hours: 6,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 25,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 25,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 110,
+		code: '110',
+		name: 'Dinámica de Sistemas',
+		hours: 6,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: []
+	},
+	{
+		id: 111,
+		code: '111',
+		name: 'Innovación y Emprendedorismo',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 16,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 112,
+		code: '112',
+		name: 'Modelado Semántico de Datos',
+		hours: 6,
+		term: courseTerms.firstSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 25,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 23,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 6,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 113,
+		code: '113',
+		name: 'Sistemas de Información Geográficos',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 30,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 5,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 6,
+				requiredCourseId: 33,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 114,
+		code: '114',
+		name: 'Administración y Finanzas',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 18,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 16,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 18,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
+				requiredCourseId: 16,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 115,
+		code: '115',
+		name: 'Auditoría Informática',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 17,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 4,
+				requiredCourseId: 30,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 116,
+		code: '116',
+		name: 'Desarrollo de Aplicaciones Móviles',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 23,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 19,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 23,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 117,
+		code: '117',
+		name: 'Inteligencia Computacional',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 28,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 31,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 3,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 118,
+		code: '118',
+		name: 'Inteligencia de Negocio: Data Warehouse y Data Mining',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 33,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 33,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 119,
+		code: '119',
+		name: 'Programación Competitiva II',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 102,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
+		id: 120,
+		code: '120',
+		name: 'Programación Concurrente',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			}
+		]
+	},
+	{
+		id: 121,
+		code: '121',
+		name: 'Seguridad en Aplicaciones Web',
+		hours: 6,
+		term: courseTerms.secondSemester,
+		type: courseTypes.elective,
+		year: 5,
+		requirements: []
+	},
+	{
 		id: 99,
 		code: '99',
 		name: 'Práctica Profesional Supervisada',
 		hours: 6,
-		term: courseTerms.annual,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 5,
 		requirements: [
@@ -915,6 +1478,11 @@ export const utnFrsfIsi2023: StudyPlan = {
 			id: 2,
 			label: 'Régimen de Correlatividades Plan 2023',
 			url: 'https://www.frsf.utn.edu.ar/images/mbeninte/SISTEMAS_Correlatividades_Plan_2023.pdf'
+		},
+		{
+			id: 3,
+			label: 'Electivas CEUT FRSF',
+			url: 'https://www.ceut-frsf.com.ar/electivas'
 		}
 	],
 	notes: [
