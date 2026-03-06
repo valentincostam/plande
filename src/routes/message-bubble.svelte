@@ -17,6 +17,16 @@
 		isOutgoing ? 'text-[#D9FDD3] dark:text-[#154D37]' : 'text-white dark:text-[#232626]'
 	);
 	const trianglePosition = $derived(isOutgoing ? '-right-2' : '-left-2');
+	const triangleShadowPath = $derived(
+		isOutgoing
+			? 'M6.467,3.568L0,12.193V1H5.188C6.958,1,7.526,2.156,6.467,3.568z'
+			: 'M1.533,3.568L8,12.193V1H2.812C1.042,1,0.474,2.156,1.533,3.568z'
+	);
+	const trianglePath = $derived(
+		isOutgoing
+			? 'M6.467,2.568L0,11.193V0L5.188,0C6.958,0,7.526,1.156,6.467,2.568z'
+			: 'M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z'
+	);
 	const textColor = $derived(
 		isOutgoing ? 'text-gray-900 dark:text-[#e9edef]' : 'text-gray-900 dark:text-[#e9edef]'
 	);
@@ -40,19 +50,12 @@
 			height="13"
 			width="8"
 			preserveAspectRatio="xMidYMid meet"
-			class=""
 			version="1.1"
 			x="0px"
 			y="0px"
-			enable-background="new 0 0 8 13"
-			transform={isOutgoing ? 'scale(-1, 1)' : undefined}
-			><path
-				opacity="0.13"
-				fill="#0000000"
-				d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"
-			></path><path
+			><path opacity="0.13" fill="#000000" d={triangleShadowPath}></path><path
 				fill="currentColor"
-				d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"
+				d={trianglePath}
 			></path></svg
 		></span
 	>
