@@ -120,7 +120,7 @@
 			{onclick}
 			aria-label={`Tema: ${currentThemeLabel}`}
 			aria-describedby="theme-preference-next theme-preference-announcement"
-			class="w-20 appearance-none overflow-hidden rounded-md border-none bg-gray-100 bg-none px-4 py-2 text-center text-gray-900 transition-colors duration-200 ease-out focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 dark:bg-gray-100 dark:text-gray-900"
+			class="w-20 touch-manipulation appearance-none overflow-hidden rounded-md border-none bg-gray-100 bg-none px-4 py-2 text-center text-gray-900 transition-colors duration-200 ease-out focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 dark:bg-gray-100 dark:text-gray-900"
 			title={currentThemeLabel}
 		>
 			<span aria-hidden="true" class="relative block h-4">
