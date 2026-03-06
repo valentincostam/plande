@@ -349,9 +349,9 @@
 
 			<div class="grid gap-4 pb-6">
 				<h2 class="px-6 text-lg font-bold md:px-0">Carreras disponibles</h2>
-				<div class="grid gap-1">
+				<div class="grid gap-1 px-6 md:px-0">
 					<label for="career-search" class="sr-only">Buscar carrera...</label>
-					<div class="relative px-6 md:px-0">
+					<div class="relative">
 						<input
 							id="career-search"
 							type="text"
@@ -538,7 +538,8 @@
 						</li>
 					</ul>
 					<p class="mt-2">
-						No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.
+						No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu
+						dispositivo.
 					</p>
 				</FaqItem>
 
@@ -550,8 +551,8 @@
 				>
 					<p>
 						Plande codifica el estado de todas las materias en la URL del navegador. Simplemente
-						copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba el
-						link va a ver exactamente el mismo progreso que vos.
+						copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba
+						el link va a ver exactamente el mismo progreso que vos.
 					</p>
 					<p class="mt-2">
 						Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros académicos.
