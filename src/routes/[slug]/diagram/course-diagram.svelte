@@ -161,6 +161,7 @@
 		panOnDrag={true}
 		zoomOnPinch={true}
 		zoomOnScroll={true}
+		zoomOnDoubleClick={false}
 		minZoom={0.1}
 		maxZoom={3}
 		nodesConnectable={false}

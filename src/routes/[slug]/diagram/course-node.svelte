@@ -32,9 +32,9 @@
 
 <div
 	class={[
-		'flex max-w-[280px] min-w-[240px] items-center gap-2 rounded-md p-3 text-sm transition-all',
+		'flex max-w-70 min-w-60 items-center gap-2 rounded-md p-3 text-sm transition-all',
 		courseBgColors[data.course.state],
-		data.isSelected && 'ring-2 ring-blue-500 ring-offset-1',
+		data.isSelected && 'ring-2 ring-blue-500 ring-offset-1 ring-offset-gray-50',
 		data.isHighlighted && 'is-highlighted'
 	]}
 >
@@ -88,7 +88,7 @@
 		/>
 	{:else}
 		<span
-			class="w-[5.5rem] flex-none rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
+			class="w-22 flex-none rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
 		>
 			Bloqueada
 		</span>
