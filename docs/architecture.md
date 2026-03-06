@@ -17,15 +17,15 @@
 
 ## Key Components
 
-| Component                         | Purpose                |
-| --------------------------------- | ---------------------- |
-| `[slug]/course.svelte`            | Individual course card |
-| `[slug]/year.svelte`              | Year section           |
-| `[slug]/term.svelte`              | Term grouping          |
-| `[slug]/section.svelte`           | Reusable section + h2  |
-| `[slug]/stats.svelte`             | Progress statistics    |
-| `[slug]/state-select.svelte`      | Course state dropdown  |
-| `[slug]/bulk-state-select.svelte` | Bulk state change      |
+| Component                         | Purpose                   |
+| --------------------------------- | ------------------------- |
+| `[slug]/course.svelte`            | Individual course card    |
+| `[slug]/year.svelte`              | Year section              |
+| `[slug]/term.svelte`              | Term grouping             |
+| `[slug]/section.svelte`           | Reusable section + h2     |
+| `[slug]/stats.svelte`             | Progress statistics       |
+| `[slug]/state-select.svelte`      | Course state cycle button |
+| `[slug]/bulk-state-select.svelte` | Bulk state change         |
 
 ## Core Logic (src/lib/)
 

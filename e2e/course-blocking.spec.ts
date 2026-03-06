@@ -7,13 +7,15 @@ test.describe('Course blocking and unblocking', () => {
 
 	test('courses without prerequisites are enabled from start', async ({ studyPlan }) => {
 		const algebraButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');
-		const algebraSelect = studyPlan.getCourseSelect('Álgebra y Geometría Analítica');
+		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
 
 		// aria-label does NOT include "bloqueada"
 		await expect(algebraButton).not.toHaveAttribute('aria-label', /bloqueada/i);
-		// Select is visible and in initial state
-		await expect(algebraSelect).toBeVisible();
-		await expect(algebraSelect.locator('option:checked')).toHaveText('No cursada');
+		// State button is visible and in initial state
+		await expect(algebraStateButton).toBeVisible();
+		await expect(algebraStateButton).toHaveAccessibleName(
+			'Estado de Álgebra y Geometría Analítica: No cursada'
+		);
 	});
 
 	test('course with prerequisites shows blocked status', async ({ studyPlan }) => {
@@ -25,18 +27,18 @@ test.describe('Course blocking and unblocking', () => {
 		// Visual "Bloqueada" badge is visible (for sighted users)
 		await expect(am2Button.getByText('Bloqueada')).toBeVisible();
 		// Select is NOT visible (cannot change state)
-		const am2Select = studyPlan.getCourseSelect('Análisis Matemático II');
-		await expect(am2Select).not.toBeVisible();
+		const am2StateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
+		await expect(am2StateButton).not.toBeVisible();
 	});
 
 	test('passing prerequisites unlocks dependent course', async ({ studyPlan }) => {
 		const am2Button = studyPlan.getCourseButton('Análisis Matemático II');
-		const am2Select = studyPlan.getCourseSelect('Análisis Matemático II');
+		const am2StateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
 
 		// Initial state: AM2 is blocked
 		await expect(am2Button).toHaveAttribute('aria-label', /bloqueada por correlativas/i);
 		await expect(am2Button.getByText('Bloqueada')).toBeVisible();
-		await expect(am2Select).not.toBeVisible();
+		await expect(am2StateButton).not.toBeVisible();
 
 		// User changes Algebra to "Regular"
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Regular');
@@ -50,12 +52,12 @@ test.describe('Course blocking and unblocking', () => {
 		// Now AM2 is unlocked
 		await expect(am2Button).not.toHaveAttribute('aria-label', /bloqueada/i);
 		await expect(am2Button.getByText('Bloqueada')).not.toBeVisible();
-		await expect(am2Select).toBeVisible();
+		await expect(am2StateButton).toBeVisible();
 	});
 
 	test('changing prerequisite to lower state re-blocks dependent', async ({ studyPlan }) => {
 		const am2Button = studyPlan.getCourseButton('Análisis Matemático II');
-		const am2Select = studyPlan.getCourseSelect('Análisis Matemático II');
+		const am2StateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
 
 		// Initial state: AM2 blocked
 		await expect(am2Button.getByText('Bloqueada')).toBeVisible();
@@ -66,7 +68,7 @@ test.describe('Course blocking and unblocking', () => {
 
 		await studyPlan.setCourseState('Análisis Matemático I', 'Regular');
 		await expect(am2Button.getByText('Bloqueada')).not.toBeVisible(); // Now unlocked
-		await expect(am2Select).toBeVisible();
+		await expect(am2StateButton).toBeVisible();
 
 		// User sets AM2 to "En curso"
 		await studyPlan.setCourseState('Análisis Matemático II', 'En curso');
@@ -77,7 +79,7 @@ test.describe('Course blocking and unblocking', () => {
 		// AM2 should be re-blocked
 		await expect(am2Button).toHaveAttribute('aria-label', /bloqueada por correlativas/i);
 		await expect(am2Button.getByText('Bloqueada')).toBeVisible();
-		await expect(am2Select).not.toBeVisible();
+		await expect(am2StateButton).not.toBeVisible();
 	});
 
 	test('cascade: changing prerequisite resets entire dependency chain', async ({ studyPlan }) => {

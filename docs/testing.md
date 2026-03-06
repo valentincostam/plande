@@ -25,10 +25,10 @@ Playwright E2E tests.
 
    ```typescript
    // Bad
-   await expect(select).toHaveValue('taken');
+   await expect(stateButton).toHaveAttribute('data-state', 'taken');
 
    // Good
-   await expect(select.getByRole('option', { selected: true })).toHaveText('Regular');
+   await expect(stateButton).toHaveAccessibleName('Estado de Álgebra: Regular');
    ```
 
 4. **Semantic assertions:**
@@ -48,18 +48,23 @@ Playwright E2E tests.
 7. **Exact match for similar names:**
 
    ```typescript
-   page.getByRole('combobox', { name: '...', exact: true });
+   page.getByRole('button', {
+   	name: 'Estado de Álgebra y Geometría Analítica: Regular',
+   	exact: true
+   });
    ```
 
 8. **Scope locators instead of .first():**
 
    ```typescript
    // Bad
-   page.getByRole('combobox', { name: '...' }).first();
+   page.getByRole('button', { name: /Estado de/ }).first();
 
    // Good
    const year1 = studyPlan.getYearSection(1);
-   year1.getByRole('combobox', { name: '...' });
+   year1.getByRole('combobox', {
+   	name: 'Cambiar estado de todas las materias de Primer cuatrimestre'
+   });
    ```
 
 ## Fixtures
@@ -80,15 +85,17 @@ test('example', async ({ studyPlan }) => {
 
 ### Available Methods
 
-| Method                        | Description               |
-| ----------------------------- | ------------------------- |
-| `goto(slug?)`                 | Navigate to degree page   |
-| `getCourseSelect(name)`       | Get course state dropdown |
-| `getCourseButton(name)`       | Get course expand button  |
-| `setCourseState(name, state)` | Set course state          |
-| `getYearSection(year)`        | Get year section locator  |
-| `getYearBulkSelect(year)`     | Get year bulk select      |
-| `setYearState(year, state)`   | Set all courses in year   |
+| Method                        | Description              |
+| ----------------------------- | ------------------------ |
+| `goto(slug?)`                 | Navigate to degree page  |
+| `getCourseStateButton(name)`  | Get course state button  |
+| `getCourseButton(name)`       | Get course expand button |
+| `setCourseState(name, state)` | Set course state         |
+| `getYearSection(year)`        | Get year section locator |
+| `getYearBulkSelect(year)`     | Get year bulk select     |
+| `setYearState(year, state)`   | Set all courses in year  |
+
+Course state controls use `button`. Bulk state controls still use `combobox`.
 
 ## Selectors
 

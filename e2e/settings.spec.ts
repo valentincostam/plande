@@ -7,16 +7,16 @@ test.describe('Settings - Strict Mode', () => {
 		const courseButton = studyPlan.getCourseButton('Análisis Matemático II');
 		await expect(courseButton).toContainText('Bloqueada');
 
-		const courseSelect = studyPlan.getCourseSelect('Análisis Matemático II');
-		await expect(courseSelect).not.toBeVisible();
+		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
+		await expect(courseStateButton).not.toBeVisible();
 	});
 
 	test('courses without requirements are enabled by default', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
-		const courseSelect = studyPlan.getCourseSelect('Álgebra y Geometría Analítica');
-		await expect(courseSelect).toBeVisible();
-		await expect(courseSelect).toBeEnabled();
+		const courseStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		await expect(courseStateButton).toBeVisible();
+		await expect(courseStateButton).toBeEnabled();
 
 		const courseButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');
 		await expect(courseButton).not.toContainText('Bloqueada');
@@ -35,9 +35,9 @@ test.describe('Settings - Strict Mode', () => {
 
 		await expect(blockedCourse).not.toContainText('Bloqueada');
 
-		const courseSelect = studyPlan.getCourseSelect('Análisis Matemático II');
-		await expect(courseSelect).toBeVisible();
-		await expect(courseSelect).toBeEnabled();
+		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
+		await expect(courseStateButton).toBeVisible();
+		await expect(courseStateButton).toBeEnabled();
 	});
 
 	test('meeting requirements unblocks course', async ({ studyPlan }) => {
@@ -51,8 +51,8 @@ test.describe('Settings - Strict Mode', () => {
 
 		await expect(blockedCourse).not.toContainText('Bloqueada');
 
-		const courseSelect = studyPlan.getCourseSelect('Análisis Matemático II');
-		await expect(courseSelect).toBeVisible();
+		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
+		await expect(courseStateButton).toBeVisible();
 	});
 });
 

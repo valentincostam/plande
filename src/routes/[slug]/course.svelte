@@ -140,7 +140,7 @@
 			{/if}
 			{#if !course.isEnabled}
 				<span
-					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 p-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
+					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
 				>
 					Bloqueada
 				</span>

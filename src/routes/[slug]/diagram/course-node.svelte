@@ -88,7 +88,7 @@
 		/>
 	{:else}
 		<span
-			class="flex-none rounded-md bg-gray-400 px-2 py-1 text-xs text-white dark:bg-gray-500 dark:text-gray-100"
+			class="w-[5.5rem] flex-none rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
 		>
 			Bloqueada
 		</span>

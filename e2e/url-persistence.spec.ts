@@ -20,12 +20,14 @@ test.describe('URL state persistence', () => {
 		// URL with Algebra=Regular, AM1=Regular (encoded state)
 		await page.goto('/utn-frcu-isi?s=nrn3r', { waitUntil: 'networkidle' });
 
-		const algebraSelect = studyPlan.getCourseSelect('Álgebra y Geometría Analítica');
-		const am1Select = studyPlan.getCourseSelect('Análisis Matemático I');
+		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		const am1StateButton = studyPlan.getCourseStateButton('Análisis Matemático I');
 
 		// Verify state was restored correctly
-		await expect(algebraSelect.locator('option:checked')).toHaveText('Regular');
-		await expect(am1Select.locator('option:checked')).toHaveText('Regular');
+		await expect(algebraStateButton).toHaveAccessibleName(
+			'Estado de Álgebra y Geometría Analítica: Regular'
+		);
+		await expect(am1StateButton).toHaveAccessibleName('Estado de Análisis Matemático I: Regular');
 	});
 
 	test('sharing link preserves full state', async ({ page, context, studyPlan }) => {
@@ -40,25 +42,31 @@ test.describe('URL state persistence', () => {
 		await newPage.goto(sharedUrl, { waitUntil: 'networkidle' });
 
 		// Verify state was preserved
-		const algebraSelectNewPage = newPage.getByRole('combobox', {
-			name: 'Estado de Álgebra y Geometría Analítica',
+		const algebraStateButtonNewPage = newPage.getByRole('button', {
+			name: 'Estado de Álgebra y Geometría Analítica: Aprobada',
 			exact: true
 		});
-		await expect(algebraSelectNewPage.locator('option:checked')).toHaveText('Aprobada');
+		await expect(algebraStateButtonNewPage).toBeVisible();
 	});
 
 	test('page reload maintains state', async ({ page, studyPlan }) => {
-		const algebraSelect = studyPlan.getCourseSelect('Álgebra y Geometría Analítica');
+		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
 
 		// User changes state
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'En curso');
-		await expect(algebraSelect.locator('option:checked')).toHaveText('En curso');
+		await expect(algebraStateButton).toHaveAccessibleName(
+			'Estado de Álgebra y Geometría Analítica: En curso'
+		);
 
 		// Reload page
 		await page.reload({ waitUntil: 'networkidle' });
 
 		// State is maintained
-		const algebraSelectAfterReload = studyPlan.getCourseSelect('Álgebra y Geometría Analítica');
-		await expect(algebraSelectAfterReload.locator('option:checked')).toHaveText('En curso');
+		const algebraStateButtonAfterReload = studyPlan.getCourseStateButton(
+			'Álgebra y Geometría Analítica'
+		);
+		await expect(algebraStateButtonAfterReload).toHaveAccessibleName(
+			'Estado de Álgebra y Geometría Analítica: En curso'
+		);
 	});
 });

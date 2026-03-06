@@ -11,7 +11,7 @@ type StudyPlanFixture = {
 			stateParam: string,
 			gradeParam?: string
 		) => ReturnType<typeof helpers.gotoSimpleWithState>;
-		getCourseSelect: (courseName: string) => Locator;
+		getCourseStateButton: (courseName: string) => Locator;
 		getCourseButton: (courseName: string) => Locator;
 		getCourseDetailsPanel: (courseName: string) => Promise<Locator>;
 		getAvailableCoursesSection: () => Locator;
@@ -51,7 +51,7 @@ export const test = base.extend<StudyPlanFixture>({
 			gotoSimple: (slug?: string) => helpers.gotoSimple(page, slug),
 			gotoSimpleWithState: (slug: string, stateParam: string, gradeParam?: string) =>
 				helpers.gotoSimpleWithState(page, slug, stateParam, gradeParam),
-			getCourseSelect: (name: string) => helpers.getCourseSelect(page, name),
+			getCourseStateButton: (name: string) => helpers.getCourseStateButton(page, name),
 			getCourseButton: (name: string) => helpers.getCourseButton(page, name),
 			getCourseDetailsPanel: (name: string) => helpers.getCourseDetailsPanel(page, name),
 			getAvailableCoursesSection: () => helpers.getAvailableCoursesSection(page),

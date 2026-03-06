@@ -129,11 +129,11 @@ test.describe('Simple View - Stats', () => {
 });
 
 test.describe('Simple View - Read-only behavior', () => {
-	test('courses are not interactive (no state select)', async ({ studyPlan, page }) => {
+	test('courses are not interactive (no state button)', async ({ studyPlan, page }) => {
 		await studyPlan.gotoSimple('utn-frcu-isi-2023');
 
-		const select = page.getByRole('combobox', { name: /Estado de/ });
-		await expect(select).not.toBeVisible();
+		const stateButton = page.getByRole('button', { name: /^Estado de / });
+		await expect(stateButton).not.toBeVisible();
 	});
 
 	test('courses are not expandable', async ({ studyPlan, page }) => {

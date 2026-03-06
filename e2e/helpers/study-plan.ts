@@ -19,11 +19,29 @@ const getOrdinalWord = (year: number): string => {
 export const goto = (page: Page, slug = 'utn-frcu-isi') =>
 	page.goto(`/${slug}`, { waitUntil: 'networkidle' });
 
-export const getCourseSelect = (page: Page, courseName: string): Locator =>
-	page.getByRole('combobox', { name: `Estado de ${courseName}`, exact: true });
+const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const getCourseStateLabel = async (button: Locator) => {
+	const ariaLabel = await button.getAttribute('aria-label');
+
+	if (!ariaLabel) {
+		throw new Error('Course state button is missing aria-label');
+	}
+
+	const parts = ariaLabel.split(': ');
+
+	if (parts.length < 2) {
+		throw new Error(`Unexpected course state label: ${ariaLabel}`);
+	}
+
+	return parts.slice(1).join(': ');
+};
+
+export const getCourseStateButton = (page: Page, courseName: string): Locator =>
+	page.getByRole('button', { name: new RegExp(`^Estado de ${escapeRegex(courseName)}: `) });
 
 export const getCourseButton = (page: Page, courseName: string): Locator =>
-	page.getByRole('button', { name: new RegExp(courseName) });
+	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) });
 
 export const getAvailableCoursesSection = (page: Page): Locator =>
 	page.locator('section', { has: page.getByRole('heading', { name: 'Qué podés cursar' }) });
@@ -45,9 +63,17 @@ export const getCourseDetailsPanel = async (page: Page, courseName: string): Pro
 };
 
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
-	const select = getCourseSelect(page, courseName);
-	await select.click();
-	await select.selectOption({ label: state });
+	const button = getCourseStateButton(page, courseName);
+
+	for (let attempt = 0; attempt < 4; attempt++) {
+		if ((await getCourseStateLabel(button)) === state) {
+			return;
+		}
+
+		await button.click();
+	}
+
+	throw new Error(`Could not set "${courseName}" to "${state}" by cycling its state button`);
 };
 
 export const getYearSection = (page: Page, year: number): Locator =>

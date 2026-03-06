@@ -81,16 +81,15 @@ test.describe('Section Anchor Links', () => {
 		expect(decodeURIComponent(clipboardText)).toContain('#5to-año');
 	});
 
-	test('hash fragment is preserved after hydration and URL state updates', async ({ page }) => {
+	test('hash fragment is preserved after hydration and URL state updates', async ({
+		page,
+		studyPlan
+	}) => {
 		await page.goto('/utn-frba-isi-2023#5to-año', { waitUntil: 'networkidle' });
 
 		await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#5to-a%C3%B1o');
 
-		const algebraSelect = page.getByRole('combobox', {
-			name: 'Estado de Álgebra y Geometría Analítica',
-			exact: true
-		});
-		await algebraSelect.selectOption({ label: 'Aprobada' });
+		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
 
 		await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#5to-a%C3%B1o');
 		await expect(page).toHaveURL(/\?s=.*#5to-a%C3%B1o$/);
@@ -116,12 +115,12 @@ test.describe('Section Anchor Links', () => {
 		const newPage = await newContext.newPage();
 		await newPage.goto(clipboardText, { waitUntil: 'networkidle' });
 
-		const algebraSelect = newPage.getByRole('combobox', {
-			name: 'Estado de Álgebra y Geometría Analítica',
+		const algebraStateButton = newPage.getByRole('button', {
+			name: 'Estado de Álgebra y Geometría Analítica: Aprobada',
 			exact: true
 		});
 
-		await expect(algebraSelect).toContainText('Aprobada');
+		await expect(algebraStateButton).toBeVisible();
 
 		await newContext.close();
 	});
