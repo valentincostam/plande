@@ -487,7 +487,7 @@
 						onclick={() => toggleFaq(0)}
 						aria-expanded={expandedFaqIndex === 0}
 						aria-controls="faq-answer-0"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Qué es Plande?</span>
 						<svg
@@ -526,7 +526,7 @@
 						onclick={() => toggleFaq(1)}
 						aria-expanded={expandedFaqIndex === 1}
 						aria-controls="faq-answer-1"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo funcionan los estados de las materias?</span>
 						<svg
@@ -582,7 +582,7 @@
 						onclick={() => toggleFaq(2)}
 						aria-expanded={expandedFaqIndex === 2}
 						aria-controls="faq-answer-2"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo guardo mi progreso?</span>
 						<svg
@@ -634,7 +634,7 @@
 						onclick={() => toggleFaq(3)}
 						aria-expanded={expandedFaqIndex === 3}
 						aria-controls="faq-answer-3"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo comparto mi plan y mi progreso?</span>
 						<svg
@@ -679,7 +679,7 @@
 						onclick={() => toggleFaq(4)}
 						aria-expanded={expandedFaqIndex === 4}
 						aria-controls="faq-answer-4"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Es gratis?</span>
 						<svg
@@ -716,7 +716,7 @@
 						onclick={() => toggleFaq(5)}
 						aria-expanded={expandedFaqIndex === 5}
 						aria-controls="faq-answer-5"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo puedo agregar mi carrera?</span>
 						<svg
