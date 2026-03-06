@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChatMessage from './chat-message.svelte';
+	import FaqItem from './faq-item.svelte';
 	import Footer from './footer.svelte';
 	import HighlightText from './highlight-text.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
@@ -8,7 +9,6 @@
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
 	import Link from '$lib/link.svelte';
 	import { resolve } from '$app/paths';
-	import { slide } from 'svelte/transition';
 
 	let searchQuery = $state('');
 
@@ -481,272 +481,105 @@
 			</header>
 
 			<div class="grid gap-1">
-				<div class="rounded-t-lg bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(0)}
-						aria-expanded={expandedFaqIndex === 0}
-						aria-controls="faq-answer-0"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Qué es Plande?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 0 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 0}
-						<div
-							id="faq-answer-0"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							Plande es una aplicación web gratuita que ayuda a estudiantes universitarios
-							argentinos a planificar sus carreras. Permite visualizar requisitos y correlatividades
-							entre materias, simular escenarios, calcular prioridades automáticamente y compartir
-							el progreso mediante URLs.
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Qué es Plande?"
+					answerId="faq-answer-0"
+					isExpanded={expandedFaqIndex === 0}
+					onToggle={() => toggleFaq(0)}
+					isFirst
+				>
+					Plande es una aplicación web gratuita que ayuda a estudiantes universitarios argentinos a
+					planificar sus carreras. Permite visualizar requisitos y correlatividades entre materias,
+					simular escenarios, calcular prioridades automáticamente y compartir el progreso mediante
+					URLs.
+				</FaqItem>
 
-				<div class="bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(1)}
-						aria-expanded={expandedFaqIndex === 1}
-						aria-controls="faq-answer-1"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Cómo funcionan los estados de las materias?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 1 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 1}
-						<div
-							id="faq-answer-1"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							<div class="space-y-2">
-								<p>Las materias pueden tener cuatro estados:</p>
-								<ul class="list-disc space-y-2 pl-5">
-									<li><strong class="text-gray-700">No cursada</strong>: No se ha comenzado</li>
-									<li>
-										<strong class="text-blue-700">En curso</strong>: Se está cursando actualmente
-									</li>
-									<li>
-										<strong class="text-amber-700">Regular</strong>: Cursada aprobada pero examen
-										final pendiente
-									</li>
-									<li>
-										<strong class="text-green-700">Aprobada</strong>: Cursada y examen final
-										aprobados
-									</li>
-								</ul>
-								<p>
-									Al cambiar el estado de una materia, Plande actualiza automáticamente qué otras
-									materias se habilitan para cursar.
-								</p>
-							</div>
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Cómo funcionan los estados de las materias?"
+					answerId="faq-answer-1"
+					isExpanded={expandedFaqIndex === 1}
+					onToggle={() => toggleFaq(1)}
+				>
+					<div class="space-y-2">
+						<p>Las materias pueden tener cuatro estados:</p>
+						<ul class="list-disc space-y-2 pl-5">
+							<li><strong class="text-gray-700">No cursada</strong>: No se ha comenzado</li>
+							<li><strong class="text-blue-700">En curso</strong>: Se está cursando actualmente</li>
+							<li>
+								<strong class="text-amber-700">Regular</strong>: Cursada aprobada pero examen final
+								pendiente
+							</li>
+							<li>
+								<strong class="text-green-700">Aprobada</strong>: Cursada y examen final aprobados
+							</li>
+						</ul>
+						<p>
+							Al cambiar el estado de una materia, Plande actualiza automáticamente qué otras
+							materias se habilitan para cursar.
+						</p>
+					</div>
+				</FaqItem>
 
-				<div class="bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(2)}
-						aria-expanded={expandedFaqIndex === 2}
-						aria-controls="faq-answer-2"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Cómo guardo mi progreso?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 2 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 2}
-						<div
-							id="faq-answer-2"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							Plande guarda tu progreso automáticamente:
-							<ul class="mt-2 list-disc space-y-1 pl-5">
-								<li>
-									<strong>En tu dispositivo</strong>: Tu progreso se guarda automáticamente en tu
-									navegador, así que cuando vuelvas a la página vas a encontrar todo como lo
-									dejaste.
-								</li>
-								<li>
-									<strong>En la URL</strong>: El estado de tus materias se codifica automáticamente
-									en la dirección del navegador. Si copiás y guardás esa URL, tu progreso viaja con
-									ella.
-								</li>
-							</ul>
-							<p class="mt-2">
-								No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu
-								dispositivo.
-							</p>
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Cómo guardo mi progreso?"
+					answerId="faq-answer-2"
+					isExpanded={expandedFaqIndex === 2}
+					onToggle={() => toggleFaq(2)}
+				>
+					Plande guarda tu progreso automáticamente:
+					<ul class="mt-2 list-disc space-y-1 pl-5">
+						<li>
+							<strong>En tu dispositivo</strong>: Tu progreso se guarda automáticamente en tu
+							navegador, así que cuando vuelvas a la página vas a encontrar todo como lo dejaste.
+						</li>
+						<li>
+							<strong>En la URL</strong>: El estado de tus materias se codifica automáticamente en
+							la dirección del navegador. Si copiás y guardás esa URL, tu progreso viaja con ella.
+						</li>
+					</ul>
+					<p class="mt-2">
+						No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.
+					</p>
+				</FaqItem>
 
-				<div class="bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(3)}
-						aria-expanded={expandedFaqIndex === 3}
-						aria-controls="faq-answer-3"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Cómo comparto mi plan y mi progreso?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 3 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 3}
-						<div
-							id="faq-answer-3"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							<p>
-								Plande codifica el estado de todas las materias en la URL del navegador. Simplemente
-								copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que
-								reciba el link va a ver exactamente el mismo progreso que vos.
-							</p>
-							<p class="mt-2">
-								Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros
-								académicos. También podés usarlo para consultar dudas sobre correlatividades en
-								grupos de estudio.
-							</p>
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Cómo comparto mi plan y mi progreso?"
+					answerId="faq-answer-3"
+					isExpanded={expandedFaqIndex === 3}
+					onToggle={() => toggleFaq(3)}
+				>
+					<p>
+						Plande codifica el estado de todas las materias en la URL del navegador. Simplemente
+						copiá la URL y compartila por WhatsApp, email o cualquier medio. La persona que reciba el
+						link va a ver exactamente el mismo progreso que vos.
+					</p>
+					<p class="mt-2">
+						Esto es ideal para mostrarle tu avance a familiares, compañeros o consejeros académicos.
+						También podés usarlo para consultar dudas sobre correlatividades en grupos de estudio.
+					</p>
+				</FaqItem>
 
-				<div class="bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(4)}
-						aria-expanded={expandedFaqIndex === 4}
-						aria-controls="faq-answer-4"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Es gratis?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 4 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 4}
-						<div
-							id="faq-answer-4"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario. Los datos se
-							almacenan localmente en tu navegador o en la URL para compartir.
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Es gratis?"
+					answerId="faq-answer-4"
+					isExpanded={expandedFaqIndex === 4}
+					onToggle={() => toggleFaq(4)}
+				>
+					Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario. Los datos se
+					almacenan localmente en tu navegador o en la URL para compartir.
+				</FaqItem>
 
-				<div class="rounded-b-lg bg-gray-50 dark:bg-gray-100">
-					<button
-						type="button"
-						onclick={() => toggleFaq(5)}
-						aria-expanded={expandedFaqIndex === 5}
-						aria-controls="faq-answer-5"
-						class="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
-					>
-						<span>¿Cómo puedo agregar mi carrera?</span>
-						<svg
-							class={[
-								expandedFaqIndex === 5 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
-							]}
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<polyline points="6 9 12 15 18 9" />
-						</svg>
-					</button>
-					{#if expandedFaqIndex === 5}
-						<div
-							id="faq-answer-5"
-							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
-							transition:slide={{ duration: 200 }}
-						>
-							Si tu carrera no está disponible, completá el formulario en
-							<Link href="https://forms.gle/bCC6rCb44LLYERHu6">este link</Link>
-							con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
-						</div>
-					{/if}
-				</div>
+				<FaqItem
+					question="¿Cómo puedo agregar mi carrera?"
+					answerId="faq-answer-5"
+					isExpanded={expandedFaqIndex === 5}
+					onToggle={() => toggleFaq(5)}
+					isLast
+				>
+					Si tu carrera no está disponible, completá el formulario en
+					<Link href="https://forms.gle/bCC6rCb44LLYERHu6">este link</Link>
+					con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
+				</FaqItem>
 			</div>
 		</section>
 
