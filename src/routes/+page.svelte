@@ -6,6 +6,7 @@
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
+	import Link from '$lib/link.svelte';
 	import { resolve } from '$app/paths';
 	import { slide } from 'svelte/transition';
 
@@ -181,9 +182,9 @@
 	</header>
 
 	<main class="grid gap-9">
-		<section class="relative bg-[#F5F1EB] p-6 md:rounded-md">
+		<section class="relative bg-[#F5F1EB] p-6 md:rounded-md dark:bg-[#161717]">
 			<div
-				class="bg-size-[412.5px 749.25px] absolute inset-0 h-full w-full bg-[url(/wa-bg.png)] opacity-10"
+				class="bg-size-[412.5px 749.25px] absolute inset-0 h-full w-full bg-[url(/wa-bg.png)] opacity-10 dark:bg-[url(/wa-bg-dark.png)] dark:opacity-[0.06]"
 			></div>
 			<div class="relative z-10 grid gap-3">
 				<ChatMessage author="Mamá" time="10:17" color="pink">
@@ -199,7 +200,9 @@
 				</ChatMessage>
 
 				<ChatMessage author="Vos" time="19:31" color="blue" isOutgoing>
-					<a href={resolve('/utn-frcu-isi')} class="text-[#1B8755] underline underline-offset-2"
+					<a
+						href={resolve('/utn-frcu-isi')}
+						class="text-[#1B8755] underline underline-offset-2 dark:text-[#22C063]"
 						>https://plande.app/utn-frcu-isi?s=a26r5e3</a
 					>
 				</ChatMessage>
@@ -258,7 +261,7 @@
 				<a
 					href="#carreras"
 					onclick={handleSmoothScroll}
-					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+					class="block rounded bg-blue-700 px-6 py-3 text-white transition-colors select-none hover:bg-blue-800 active:scale-95 active:bg-blue-900 dark:bg-blue-200 dark:hover:bg-blue-300 dark:active:bg-blue-400"
 				>
 					Probar Plande ahora
 				</a>
@@ -273,22 +276,22 @@
 				<img
 					src="/utn.png"
 					alt="UTN"
-					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale dark:opacity-95 dark:grayscale dark:invert"
 				/>
 				<img
 					src="/uader.png"
 					alt="UADER"
-					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale dark:opacity-95 dark:grayscale dark:invert"
 				/>
 				<img
 					src="/unca.png"
 					alt="UNCA"
-					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale dark:opacity-95 dark:grayscale dark:invert"
 				/>
 				<img
 					src="/udemm.png"
 					alt="UDEMM"
-					class="max-h-10 max-w-32 object-contain opacity-70 grayscale"
+					class="max-h-10 max-w-32 object-contain opacity-70 grayscale dark:opacity-95 dark:grayscale dark:invert"
 				/>
 			</div>
 		</section>
@@ -347,21 +350,21 @@
 			<div class="grid gap-4 pb-6">
 				<h2 class="text-lg font-bold">Carreras disponibles</h2>
 				<div class="grid gap-1">
-					<label for="career-search" class="sr-only">Buscar carrera, facultad o universidad</label>
+					<label for="career-search" class="sr-only">Buscar carrera...</label>
 					<div class="relative">
 						<input
 							id="career-search"
 							type="text"
-							placeholder="Buscar carrera, facultad o universidad..."
+							placeholder="Buscar carrera..."
 							bind:value={searchQuery}
-							class="w-full rounded-md border border-gray-300 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none"
+							class="w-full rounded-md border border-gray-300 bg-gray-50 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none dark:border-gray-300 dark:text-gray-900 dark:placeholder:text-gray-400"
 						/>
 						{#if hasActiveSearch}
 							<button
 								type="button"
 								onclick={() => (searchQuery = '')}
 								aria-label="Limpiar búsqueda"
-								class="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none"
+								class="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none dark:text-gray-500 dark:hover:text-gray-700 dark:focus:text-gray-700"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -394,8 +397,8 @@
 								src={`/${university.universitySlug.toLowerCase()}.png`}
 								alt={university.universityName}
 								class={[
-									'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale',
-									'md:absolute md:top-5 md:right-5  md:max-h-16 md:max-w-32 md:opacity-30'
+									'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale dark:grayscale dark:invert',
+									'md:absolute md:top-5 md:right-5 md:max-h-16 md:max-w-32 md:opacity-30'
 								]}
 							/>
 							<h3 class="text-center font-semibold text-gray-900 md:text-left">
@@ -416,15 +419,14 @@
 										<ul class="space-y-2 md:pl-4">
 											{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 												<li>
-													<a
+													<Link
 														href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
-														class="text-blue-700 transition-colors hover:text-blue-900"
 													>
 														<HighlightText text={degree.degreeName} query={searchQuery} />
 														{#if degree.year}
 															<span class="text-gray-500"> (Plan {degree.year})</span>
 														{/if}
-													</a>
+													</Link>
 												</li>
 											{/each}
 										</ul>
@@ -433,15 +435,14 @@
 									<ul class="space-y-2 md:pl-4">
 										{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 											<li>
-												<a
+												<Link
 													href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
-													class="text-blue-700 transition-colors hover:text-blue-900"
 												>
 													<HighlightText text={degree.degreeName} query={searchQuery} />
 													{#if degree.year}
 														<span class="text-gray-500"> (Plan {degree.year})</span>
 													{/if}
-												</a>
+												</Link>
 											</li>
 										{/each}
 									</ul>
@@ -452,10 +453,7 @@
 
 					<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
 						<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-						<a
-							href="https://forms.gle/bCC6rCb44LLYERHu6"
-							class="ml-1 text-sm text-blue-700 hover:text-blue-900 hover:underline">Pedila acá</a
-						>
+						<Link href="https://forms.gle/bCC6rCb44LLYERHu6" class="ml-1 text-sm">Pedila acá</Link>
 					</div>
 				</div>
 			</div>
@@ -470,19 +468,19 @@
 			</header>
 
 			<div class="grid gap-1">
-				<div class="rounded-t-lg bg-gray-50">
+				<div class="rounded-t-lg bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(0)}
 						aria-expanded={expandedFaqIndex === 0}
 						aria-controls="faq-answer-0"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Qué es Plande?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 0 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -498,7 +496,7 @@
 					{#if expandedFaqIndex === 0}
 						<div
 							id="faq-answer-0"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							Plande es una aplicación web gratuita que ayuda a estudiantes universitarios
@@ -509,19 +507,19 @@
 					{/if}
 				</div>
 
-				<div class="bg-gray-50">
+				<div class="bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(1)}
 						aria-expanded={expandedFaqIndex === 1}
 						aria-controls="faq-answer-1"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo funcionan los estados de las materias?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 1 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -537,7 +535,7 @@
 					{#if expandedFaqIndex === 1}
 						<div
 							id="faq-answer-1"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							<div class="space-y-2">
@@ -565,19 +563,19 @@
 					{/if}
 				</div>
 
-				<div class="bg-gray-50">
+				<div class="bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(2)}
 						aria-expanded={expandedFaqIndex === 2}
 						aria-controls="faq-answer-2"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo guardo mi progreso?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 2 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -593,7 +591,7 @@
 					{#if expandedFaqIndex === 2}
 						<div
 							id="faq-answer-2"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							Plande guarda tu progreso automáticamente:
@@ -617,19 +615,19 @@
 					{/if}
 				</div>
 
-				<div class="bg-gray-50">
+				<div class="bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(3)}
 						aria-expanded={expandedFaqIndex === 3}
 						aria-controls="faq-answer-3"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo comparto mi plan y mi progreso?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 3 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -645,7 +643,7 @@
 					{#if expandedFaqIndex === 3}
 						<div
 							id="faq-answer-3"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							<p>
@@ -662,19 +660,19 @@
 					{/if}
 				</div>
 
-				<div class="bg-gray-50">
+				<div class="bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(4)}
 						aria-expanded={expandedFaqIndex === 4}
 						aria-controls="faq-answer-4"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Es gratis?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 4 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -690,7 +688,7 @@
 					{#if expandedFaqIndex === 4}
 						<div
 							id="faq-answer-4"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							Sí, Plande es 100% gratuito. No requiere registro ni cuenta de usuario. Los datos se
@@ -699,19 +697,19 @@
 					{/if}
 				</div>
 
-				<div class="rounded-b-lg bg-gray-50">
+				<div class="rounded-b-lg bg-gray-50 dark:bg-gray-100">
 					<button
 						type="button"
 						onclick={() => toggleFaq(5)}
 						aria-expanded={expandedFaqIndex === 5}
 						aria-controls="faq-answer-5"
-						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900"
+						class="flex w-full cursor-pointer items-center justify-between p-4 text-left font-semibold text-gray-900 dark:text-gray-900"
 					>
 						<span>¿Cómo puedo agregar mi carrera?</span>
 						<svg
 							class={[
 								expandedFaqIndex === 5 && 'rotate-180',
-								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200'
+								'h-5 w-5 flex-none stroke-gray-500 transition-transform duration-200 dark:stroke-gray-600'
 							]}
 							width="24"
 							height="24"
@@ -727,13 +725,11 @@
 					{#if expandedFaqIndex === 5}
 						<div
 							id="faq-answer-5"
-							class="px-4 pb-4 text-gray-700"
+							class="px-4 pb-4 text-gray-700 dark:text-gray-700"
 							transition:slide={{ duration: 200 }}
 						>
 							Si tu carrera no está disponible, completá el formulario en
-							<a href="https://forms.gle/bCC6rCb44LLYERHu6" class="text-blue-700 hover:underline"
-								>este link</a
-							>
+							<Link href="https://forms.gle/bCC6rCb44LLYERHu6">este link</Link>
 							con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
 						</div>
 					{/if}
@@ -768,7 +764,7 @@
 			<div class="grid justify-center gap-3 text-center">
 				<a
 					href="https://forms.gle/5iR99PJAffwFmayC6"
-					class="block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+					class="block rounded bg-blue-700 px-6 py-3 text-white transition-colors select-none hover:bg-blue-800 active:scale-95 active:bg-blue-900 dark:bg-blue-200 dark:hover:bg-blue-300 dark:active:bg-blue-400"
 				>
 					Escribir opinión o sugerencia
 				</a>

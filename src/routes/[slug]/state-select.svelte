@@ -49,7 +49,7 @@
 	class={[
 		stateSelectBackgroundColors[value],
 		!isEnabled && 'opacity-50',
-		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-xs text-white transition-colors select-none',
+		'shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-xs text-white transition-colors select-none dark:text-gray-100',
 		'focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 	]}
 >

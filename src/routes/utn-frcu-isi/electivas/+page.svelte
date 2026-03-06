@@ -3,15 +3,12 @@
 	import { utnFrcuIsi2023 } from '../../[slug]/data/utn-frcu-isi-2023';
 	import Footer from '../../footer.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
+	import Link from '$lib/link.svelte';
 </script>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
-		<a
-			href={resolve('/')}
-			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>Plande</a
-		>
+		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
 		<p>{utnFrcuIsi2023.collegeName} · {utnFrcuIsi2023.degreeName}</p>
 		<h1 class="text-2xl font-bold">{utnFrcuIsi2023.degreeName}</h1>
 	</header>
@@ -21,10 +18,8 @@
 			¿Por qué debo aprobar 40 horas de materias electivas para egresarme?
 		</h2>
 		<p>
-			La <a
-				href={`https://${utnFrcuIsi2023.sources[1].url.replace(/^https?:\/\//, '')}`}
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-				>Ordenanza N° 1877</a
+			La <Link href={`https://${utnFrcuIsi2023.sources[1].url.replace(/^https?:\/\//, '')}`}
+				>Ordenanza N° 1877</Link
 			>
 			define el plan de estudios de la carrera de Ingeniería en Sistemas de Información de la UTN. En
 			las páginas 37 y 38, establece que la carga horaria mínima (de
@@ -154,11 +149,7 @@
 		</p>
 
 		<p class="text-center">
-			<a
-				href={resolve('/utn-frcu-isi')}
-				class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-				>Volver al plan de estudios</a
-			>
+			<Link href={resolve('/utn-frcu-isi')}>Volver al plan de estudios</Link>
 		</p>
 	</main>
 

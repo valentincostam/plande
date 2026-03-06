@@ -38,10 +38,11 @@
 			);
 
 			const viewportDomNode = document.querySelector<HTMLElement>('.svelte-flow__viewport');
+			const isDarkMode = document.documentElement.classList.contains('dark');
 
 			if (viewport && viewportDomNode) {
 				const dataUrl = await toPng(viewportDomNode, {
-					backgroundColor: '#f9fafb',
+					backgroundColor: isDarkMode ? '#18181b' : '#f9fafb',
 					width: imageWidth,
 					height: imageHeight,
 					style: {

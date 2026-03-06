@@ -102,5 +102,5 @@ export function getEdgeStyle(
 	const opacity = selectedNodeId && !highlightedEdgeIds.has(edge.id) ? 0.15 : 1;
 	const width = selectedNodeId && highlightedEdgeIds.has(edge.id) ? 3 : 2;
 
-	return `stroke: ${EDGE_COLOR_ENROLL}; stroke-width: ${width}px; opacity: ${opacity};`;
+	return `stroke: var(--diagram-edge-color, ${EDGE_COLOR_ENROLL}); stroke-width: ${width}px; opacity: ${opacity};`;
 }

@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import Link from '$lib/link.svelte';
 </script>
 
 <svelte:head>
 	<title>Planes de Estudios Interactivos en Plande</title>
 </svelte:head>
 
-<main class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)]">
+<main
+	class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)] dark:bg-gray-50"
+>
 	<header class="absolute top-0 w-full p-9 text-center">
-		<a
-			href={resolve('/')}
-			class="text-sm text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>Plande</a
-		>
+		<Link href={resolve('/')} class="text-sm">Plande</Link>
 	</header>
 
 	<section class="grid gap-9 text-center">
@@ -21,11 +20,7 @@
 			<p class=" text-gray-500">Nos pasa a todos</p>
 		</div>
 		<p>
-			<a
-				href={resolve('/')}
-				class=" text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-				>Ir a la página principal</a
-			>
+			<Link href={resolve('/')}>Ir a la página principal</Link>
 		</p>
 	</section>
 	<img

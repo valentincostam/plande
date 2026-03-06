@@ -68,10 +68,10 @@ export const chevronStrokeColors = {
 } as const;
 
 export const courseNameColors = {
-	[courseStates.notTaken]: 'text-gray-950',
-	[courseStates.inProgress]: 'text-blue-950',
-	[courseStates.taken]: 'text-amber-950',
-	[courseStates.passed]: 'text-green-950'
+	[courseStates.notTaken]: 'text-gray-900',
+	[courseStates.inProgress]: 'text-blue-900',
+	[courseStates.taken]: 'text-amber-900',
+	[courseStates.passed]: 'text-green-900'
 } as const;
 
 export const hoursColors = {

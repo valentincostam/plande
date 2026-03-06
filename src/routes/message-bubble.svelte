@@ -9,10 +9,22 @@
 
 	let { time, isOutgoing = false, children }: Props = $props();
 
-	const bgColor = $derived(isOutgoing ? 'bg-[#D9FDD3]' : 'bg-white');
+	const bgColor = $derived(
+		isOutgoing ? 'bg-[#D9FDD3] dark:bg-[#154D37]' : 'bg-white dark:bg-[#232626]'
+	);
 	const rounded = $derived(isOutgoing ? 'rounded-tr-none' : 'rounded-tl-none');
-	const triangleColor = $derived(isOutgoing ? 'text-[#D9FDD3]' : 'text-white');
+	const triangleColor = $derived(
+		isOutgoing ? 'text-[#D9FDD3] dark:text-[#154D37]' : 'text-white dark:text-[#232626]'
+	);
 	const trianglePosition = $derived(isOutgoing ? '-right-2' : '-left-2');
+	const textColor = $derived(
+		isOutgoing ? 'text-gray-900 dark:text-[#e9edef]' : 'text-gray-900 dark:text-[#e9edef]'
+	);
+	const timeColor = $derived(
+		isOutgoing
+			? 'text-[rgba(0,0,0,0.6)] dark:text-[#A4B8AF]'
+			: 'text-[rgba(0,0,0,0.6)] dark:text-[#A8A8A8]'
+	);
 </script>
 
 <div
@@ -44,9 +56,9 @@
 			></path></svg
 		></span
 	>
-	<p class="text-sm">
+	<p class={['text-sm', textColor]}>
 		{@render children()}
 		<span class="invisible text-[11px]">{time}</span>
 	</p>
-	<p class="absolute right-2 bottom-1 text-[11px] text-[rgba(0,0,0,0.6)]">{time}</p>
+	<p class={['absolute right-2 bottom-1 text-[11px]', timeColor]}>{time}</p>
 </div>

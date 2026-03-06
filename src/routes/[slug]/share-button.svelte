@@ -49,13 +49,15 @@
 
 <button
 	{onclick}
-	class="relative mx-auto flex items-center justify-center gap-3 overflow-hidden rounded-md bg-blue-700 px-6 py-3 text-left text-white transition select-none active:scale-95 active:bg-blue-800"
+	class="relative mx-auto flex cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-md bg-blue-700 px-6 py-3 text-left text-white transition select-none hover:bg-blue-800 active:scale-95 active:bg-blue-900 dark:bg-blue-200 dark:hover:bg-blue-300 dark:active:bg-blue-400"
 >
 	<ShareIcon class="w-5 shrink-0" />
 
 	<span class="flex flex-col">
 		<span>Compartir plan de estudios</span>
-		<span class="text-xs font-light text-blue-200">y el estado de las materias</span>
+		<span class="text-xs font-light text-blue-200 dark:text-blue-700"
+			>y el estado de las materias</span
+		>
 	</span>
 
 	{#if isCopied}

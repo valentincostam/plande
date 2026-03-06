@@ -3,9 +3,69 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			(() => {
+				const STORAGE_KEY = 'theme';
+				const THEME_SELECTOR_ID = 'theme-preference';
+
+				const getThemePreference = () => {
+					const storedTheme = localStorage.getItem(STORAGE_KEY);
+					return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'system';
+				};
+
+				const applyTheme = (themePreference) => {
+					document.documentElement.classList.toggle(
+						'dark',
+						themePreference === 'dark' ||
+							(themePreference === 'system' &&
+								window.matchMedia('(prefers-color-scheme: dark)').matches)
+					);
+				};
+
+				const syncThemeSelector = () => {
+					const themeSelector = document.getElementById(THEME_SELECTOR_ID);
+					if (!(themeSelector instanceof HTMLSelectElement)) return;
+					themeSelector.value = getThemePreference();
+				};
+
+				const updateTheme = (themePreference) => {
+					if (themePreference === 'system') {
+						localStorage.removeItem(STORAGE_KEY);
+					} else {
+						localStorage.setItem(STORAGE_KEY, themePreference);
+					}
+
+					applyTheme(themePreference);
+					syncThemeSelector();
+				};
+
+				try {
+					applyTheme(getThemePreference());
+
+					document.addEventListener('change', (event) => {
+						const target = event.target;
+						if (!(target instanceof HTMLSelectElement)) return;
+						if (target.id !== THEME_SELECTOR_ID) return;
+						updateTheme(target.value);
+					});
+
+					window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+						if (getThemePreference() === 'system') {
+							applyTheme('system');
+							syncThemeSelector();
+						}
+					});
+
+					document.addEventListener('DOMContentLoaded', syncThemeSelector);
+					window.addEventListener('load', syncThemeSelector);
+				} catch {
+					document.documentElement.classList.remove('dark');
+				}
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover" class="bg-white">
+	<body data-sveltekit-preload-data="hover" class="bg-white text-gray-950 dark:bg-black">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

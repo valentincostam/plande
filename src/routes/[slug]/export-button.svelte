@@ -68,7 +68,7 @@
 
 <button
 	{onclick}
-	class="flex items-center justify-center gap-2 rounded-md bg-blue-50 px-4 py-2 text-blue-900 transition select-none hover:bg-blue-100 active:scale-95"
+	class="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-50 px-4 py-2 text-blue-900 transition select-none hover:bg-blue-100 active:scale-95"
 >
 	{#if isDownloaded}
 		<CheckIcon class="w-4 shrink-0" />

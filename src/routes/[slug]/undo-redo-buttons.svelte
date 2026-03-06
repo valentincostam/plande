@@ -21,7 +21,7 @@
 			disabled={!canUndo}
 			aria-label="Deshacer"
 			aria-keyshortcuts="Control+z Meta+z"
-			class="flex items-center gap-3 rounded-lg bg-white px-3 py-1.5 ring-1 ring-black/10 transition-colors hover:bg-gray-50 disabled:text-gray-300 disabled:hover:bg-white"
+			class="flex items-center gap-3 rounded-lg bg-white px-3 py-1.5 ring-1 ring-black/10 transition-colors hover:bg-gray-50 disabled:text-gray-300 disabled:hover:bg-white dark:bg-gray-200 dark:ring-white/10 dark:hover:bg-gray-300 dark:disabled:hover:bg-gray-200"
 		>
 			<UndoIcon class={['h-3 w-3', !canUndo ? 'text-gray-300' : 'text-gray-700']} />
 			<span class="text-sm">Deshacer</span>
@@ -31,7 +31,7 @@
 			disabled={!canRedo}
 			aria-label="Rehacer"
 			aria-keyshortcuts="Control+Shift+z Meta+Shift+z Control+y"
-			class="flex items-center gap-3 rounded-lg bg-white px-3 py-1.5 ring-1 ring-black/10 transition-colors hover:bg-gray-50 disabled:text-gray-300 disabled:hover:bg-white"
+			class="flex items-center gap-3 rounded-lg bg-white px-3 py-1.5 ring-1 ring-black/10 transition-colors hover:bg-gray-50 disabled:text-gray-300 disabled:hover:bg-white dark:bg-gray-200 dark:ring-white/10 dark:hover:bg-gray-300 dark:disabled:hover:bg-gray-200"
 		>
 			<RedoIcon class={['h-3 w-3', !canRedo ? 'text-gray-300' : 'text-gray-700']} />
 			<span class="text-sm">Rehacer</span>

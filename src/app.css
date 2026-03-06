@@ -1,5 +1,69 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+	color-scheme: light;
+}
+
+.dark {
+	color-scheme: dark;
+	--color-gray-50: #09090b;
+	--color-gray-100: #18181b;
+	--color-gray-200: #27272a;
+	--color-gray-300: #3f3f46;
+	--color-gray-400: #52525b;
+	--color-gray-500: #71717a;
+	--color-gray-600: #a1a1aa;
+	--color-gray-700: #d4d4d8;
+	--color-gray-800: #e4e4e7;
+	--color-gray-900: #f4f4f5;
+	--color-gray-950: #fafafa;
+	--color-blue-50: #0c1a33;
+	--color-blue-100: #10284f;
+	--color-blue-200: #143a73;
+	--color-blue-300: #1f4fa0;
+	--color-blue-400: #3b82f6;
+	--color-blue-500: #60a5fa;
+	--color-blue-600: #93c5fd;
+	--color-blue-700: #bfdbfe;
+	--color-blue-800: #dbeafe;
+	--color-blue-900: #eff6ff;
+	--color-blue-950: #f8fbff;
+	--color-amber-50: #221607;
+	--color-amber-100: #3b2408;
+	--color-amber-200: #5a360d;
+	--color-amber-300: #7b4a0f;
+	--color-amber-400: #f59e0b;
+	--color-amber-500: #fbbf24;
+	--color-amber-600: #fcd34d;
+	--color-amber-700: #fde68a;
+	--color-amber-800: #fef3c7;
+	--color-amber-900: #fffbeb;
+	--color-amber-950: #fffdf7;
+	--color-green-50: #092015;
+	--color-green-100: #0e3120;
+	--color-green-200: #13432b;
+	--color-green-300: #1a5b3a;
+	--color-green-400: #16a34a;
+	--color-green-500: #22c55e;
+	--color-green-600: #4ade80;
+	--color-green-700: #86efac;
+	--color-green-800: #bbf7d0;
+	--color-green-900: #dcfce7;
+	--color-green-950: #f0fdf4;
+	--color-red-50: #270d10;
+	--color-red-100: #3f1117;
+	--color-red-200: #5f1620;
+	--color-red-300: #821d2a;
+	--color-red-400: #dc2626;
+	--color-red-500: #ef4444;
+	--color-red-600: #f87171;
+	--color-red-700: #fca5a5;
+	--color-red-800: #fecaca;
+	--color-red-900: #fee2e2;
+	--color-red-950: #fef2f2;
+}
 
 @font-face {
 	font-family: 'Noto Sans';

@@ -2,6 +2,7 @@
 	import type { Course } from '$lib/course.svelte';
 	import { toKebabCase } from '$lib/course.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
+	import Link from '$lib/link.svelte';
 	import type { Snippet } from 'svelte';
 
 	type Props = {
@@ -29,10 +30,9 @@
 		}
 	}
 
-	const baseClasses =
-		'text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 font-noto tracking-tight';
+	const baseClasses = 'font-noto tracking-tight';
 </script>
 
-<a href={`#${toKebabCase(course.name)}`} {onclick} class="{baseClasses} {className}">
+<Link href={`#${toKebabCase(course.name)}`} {onclick} class={[baseClasses, className]}>
 	{@render children()}
-</a>
+</Link>

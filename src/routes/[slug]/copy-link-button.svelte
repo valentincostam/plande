@@ -22,7 +22,7 @@
 
 <button
 	{onclick}
-	class="mx-auto flex items-center justify-center gap-2 rounded-md bg-transparent px-6 py-3 text-blue-700 transition select-none hover:bg-blue-50 active:scale-95"
+	class="mx-auto flex cursor-pointer items-center justify-center gap-2 rounded-md bg-transparent px-6 py-3 text-blue-800 transition-colors select-none hover:bg-blue-50 active:scale-95 dark:text-blue-600"
 >
 	{#if isCopied}
 		<CheckIcon class="w-4 shrink-0" />

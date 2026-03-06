@@ -5,6 +5,7 @@
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
 	import Ordinal from '$lib/ordinal.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
+	import Link from '$lib/link.svelte';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
@@ -41,16 +42,16 @@
 	{/if}
 
 	<span class="font-noto">
-		<a
+		<Link
 			href={`#${toKebabCase(requirement.requiredCourse.name)}`}
 			onclick={handleSmoothScroll}
-			class="text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+			class="font-noto"
 		>
 			{#if showCodes && requirement.requiredCourse.code}
 				<span class="opacity-60">{requirement.requiredCourse.code}.</span>
 			{/if}
 			{requirement.requiredCourse.name}
-		</a>
+		</Link>
 		{#if requirement.requiredCourse.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">

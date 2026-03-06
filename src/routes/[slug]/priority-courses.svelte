@@ -112,17 +112,25 @@
 	>
 		<div class="px-3">
 			<div class="mb-3 flex flex-wrap gap-x-6 gap-y-3">
-				<label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
-					<input type="checkbox" bind:checked={showPassedCourses} class="h-4 w-4 rounded" />
+				<label class="flex cursor-pointer items-center gap-2 text-gray-600">
+					<input
+						type="checkbox"
+						bind:checked={showPassedCourses}
+						class="h-5 w-5 rounded-sm ring-offset-gray-100 focus:ring-blue-500 dark:border-0 dark:bg-blue-300 dark:not-checked:bg-gray-300"
+					/>
 					Mostrar materias aprobadas
 				</label>
-				<label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
-					<input type="checkbox" bind:checked={showElectiveCourses} class="h-4 w-4 rounded" />
+				<label class="flex cursor-pointer items-center gap-2 text-gray-600">
+					<input
+						type="checkbox"
+						bind:checked={showElectiveCourses}
+						class="h-5 w-5 rounded-sm ring-offset-gray-100 focus:ring-blue-500 dark:border-0 dark:bg-blue-300 dark:not-checked:bg-gray-300"
+					/>
 					Mostrar materias {electiveLabel}
 				</label>
 			</div>
-			<table class="w-full text-left text-sm">
-				<thead class="border-b border-gray-200 text-xs text-gray-500 uppercase">
+			<table class="w-full">
+				<thead class="border-b border-gray-200 text-left text-xs text-gray-500 uppercase">
 					<tr>
 						<th scope="col" class="py-2 pr-2">#</th>
 						<th scope="col" class="py-2 pr-2">Materia</th>
@@ -131,7 +139,7 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="text-sm">
 					{#each visibleCourses as { course, dependentCount }, index (course.id)}
 						<tr class="border-b border-gray-100 last:border-b-0">
 							<td class="py-2 pr-2 align-top text-gray-400">{index + 1}</td>
@@ -144,13 +152,13 @@
 										{course.name}
 									</CourseLink>
 									{#if course.year !== undefined}
-										<span class="whitespace-nowrap">
+										<span class="whitespace-nowrap text-gray-500">
 											de <Ordinal number={course.year} noun="año" />
 										</span>
 									{/if}
 									{#if isElectiveOrOptative(course.type)}
 										<span
-											class="inline-block rounded-md border border-gray-200 px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700"
+											class="inline-block rounded-md bg-gray-100 px-2 py-1 text-xs leading-none whitespace-nowrap text-gray-700"
 										>
 											{courseTypeLabels[course.type]}
 										</span>

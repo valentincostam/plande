@@ -142,10 +142,10 @@
 	role="region"
 	aria-label="Diagrama de correlatividades"
 	class={[
-		'overflow-hidden bg-gray-50',
+		'overflow-hidden',
 		isFullscreen
 			? ''
-			: 'relative h-[50vh] min-h-[300px] w-full border-y border-gray-200 md:h-[60vh] md:rounded-md md:border'
+			: 'relative h-[50vh] min-h-75 w-full border-y border-gray-200 md:h-[60vh] md:rounded-md md:border'
 	]}
 	style={isFullscreen
 		? 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100dvh; z-index: 9999;'
@@ -167,7 +167,7 @@
 		{onnodeclick}
 		{onpaneclick}
 	>
-		<Background />
+		<Background bgColor="var(--diagram-bg-color)" patternColor="var(--diagram-grid-color)" />
 		<Controls position="bottom-right" showLock={false}>
 			<DownloadImageButton {slug} />
 			<FullscreenButton bind:isFullscreen />
@@ -179,13 +179,13 @@
 	{#if hasElectives || hasOptatives}
 		<div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
 			<div
-				class="flex flex-col gap-1.5 rounded-md bg-white/90 px-3 py-2 text-xs outline outline-black/10"
+				class="flex flex-col gap-1.5 rounded-md bg-white/90 px-3 py-2 text-xs outline outline-black/10 dark:bg-gray-200/90 dark:outline-white/10"
 			>
 				<label class="flex cursor-pointer items-center gap-2 select-none">
 					<input
 						type="checkbox"
 						bind:checked={showElectives}
-						class="h-3.5 w-3.5 rounded border-gray-300 text-blue-600"
+						class="h-3.5 w-3.5 rounded-sm ring-offset-gray-100 focus:ring-blue-500 dark:border-0 dark:bg-blue-300 dark:not-checked:bg-gray-300"
 					/>
 					<span class="text-gray-600">{electivesLabel}</span>
 				</label>
@@ -227,6 +227,28 @@
 
 	:global(.svelte-flow__controls button:hover) {
 		background: #f9fafb;
+	}
+
+	:global(.dark .svelte-flow__controls button) {
+		background: #27272a;
+		outline: 1px solid rgba(255, 255, 255, 0.1);
+		color: #e5e7eb;
+	}
+
+	:global(.dark .svelte-flow__controls button:hover) {
+		background: #3f3f46;
+	}
+
+	:global(.svelte-flow) {
+		--diagram-bg-color: #fff;
+		--diagram-grid-color: #e5e7eb;
+		--diagram-edge-color: #d1d5db;
+	}
+
+	:global(.dark .svelte-flow) {
+		--diagram-bg-color: #000;
+		--diagram-grid-color: #27272a;
+		--diagram-edge-color: #6b7280;
 	}
 
 	:global(.svelte-flow__controls button svg) {

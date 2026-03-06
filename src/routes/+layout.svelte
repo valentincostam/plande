@@ -22,7 +22,8 @@
 
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href={favicon} />
-	<meta name="theme-color" content="#ffffff" />
+	<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+	<meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
 </svelte:head>
 
 {@render children()}

@@ -35,6 +35,7 @@
 	import TransversalCourses from './transversal-courses.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
 	import ViewToggle from './view-toggle.svelte';
+	import Link from '$lib/link.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
 	import { page } from '$app/state';
@@ -352,11 +353,7 @@
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
-		<a
-			href={resolve('/')}
-			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>Plande</a
-		>
+		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
 		<p>
 			Plan de Estudios {data.studyPlan.year ?? ''} · {data.studyPlan.universitySlug}
 			{data.studyPlan.collegeSlug ?? ''}
@@ -389,12 +386,12 @@
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
-			<a
+			<Link
 				href={resolve(`/${data.slug}/simple${page.url.search}` as `/${string}`)}
-				class="mx-auto text-sm text-blue-700 hover:underline"
+				class="mx-auto text-sm"
 			>
 				Ver versión simple
-			</a>
+			</Link>
 		</section>
 
 		<AvailableCoursesSection
@@ -415,28 +412,30 @@
 		<PriorityCourses {courses} {showCodes} {viewMode} {onNavigateToDiagram} />
 
 		<Section id="datos" title="Datos del Plan de Estudios">
-			<ul class="grid list-disc gap-3 px-9">
+			<ul class="grid list-disc gap-3 px-9 text-gray-700 dark:text-gray-700">
 				<li>
-					<span class="font-bold">Carrera:</span>
+					<span class="font-bold text-gray-900 dark:text-gray-900">Carrera:</span>
 					{data.studyPlan.degreeName}
 				</li>
 				{#if data.studyPlan.collegeName}
 					<li>
-						<span class="font-bold">{data.studyPlan.collegeName.split(' ')[0]}:</span>
+						<span class="font-bold text-gray-900 dark:text-gray-900"
+							>{data.studyPlan.collegeName.split(' ')[0]}:</span
+						>
 						{data.studyPlan.collegeName} ({data.studyPlan.collegeSlug})
 					</li>
 				{/if}
 				<li>
-					<span class="font-bold">Universidad:</span>
+					<span class="font-bold text-gray-900 dark:text-gray-900">Universidad:</span>
 					{data.studyPlan.universityName} ({data.studyPlan.universitySlug})
 				</li>
 				<li>
-					<span class="font-bold">Duración:</span>
+					<span class="font-bold text-gray-900 dark:text-gray-900">Duración:</span>
 					{data.studyPlan.durationYears} años
 				</li>
 				{#if data.studyPlan.year}
 					<li>
-						<span class="font-bold">Año de aprobación:</span>
+						<span class="font-bold text-gray-900 dark:text-gray-900">Año de aprobación:</span>
 						{data.studyPlan.year}
 					</li>
 				{/if}
@@ -447,7 +446,7 @@
 			<Section id="notas" title="Notas">
 				<ol class="grid list-decimal gap-3 px-9">
 					{#each data.studyPlan.notes as note, noteIndex (`${noteIndex}-${note.text}`)}
-						<li class="note">
+						<li class="note text-gray-700 dark:text-gray-700">
 							<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 							{@html marked(note.text)}
 						</li>
@@ -462,19 +461,13 @@
 					{#each data.studyPlan.sources as source (source.url)}
 						<li>
 							{#if source.url.startsWith('/')}
-								<a
-									class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-									href={resolve(source.url as `/${string}`)}
-								>
+								<Link href={resolve(source.url as `/${string}`)}>
 									{source.label}
-								</a>
+								</Link>
 							{:else}
-								<a
-									class="text-blue-800 underline-offset-2 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-									href={`https://${source.url.replace(/^https?:\/\//, '')}`}
-								>
+								<Link href={`https://${source.url.replace(/^https?:\/\//, '')}`}>
 									{source.label}
-								</a>
+								</Link>
 							{/if}
 						</li>
 					{/each}
@@ -571,11 +564,27 @@
 
 	.note :global(a) {
 		color: var(--color-blue-800);
-		text-underline-offset: 2px;
+		text-underline-offset: 3px;
+		transition: color 150ms ease;
 
 		&:hover,
 		&:focus {
+			color: var(--color-blue-900);
 			text-decoration: underline;
 		}
+	}
+
+	:global(.dark) .note :global(a) {
+		color: #9ecbff;
+
+		&:hover,
+		&:focus {
+			color: #c7e2ff;
+		}
+	}
+
+	.note :global(strong) {
+		color: var(--color-gray-900);
+		font-weight: 700;
 	}
 </style>

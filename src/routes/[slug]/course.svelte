@@ -116,12 +116,14 @@
 					{course.name}
 				</span>
 				{#if isElectiveOrOptative(course.type) && !hideTypeBadge}
-					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
+					<span
+						class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
 						>{courseTypeLabels[course.type]}</span
 					>
 				{/if}
 				{#each course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
-					<span class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600"
+					<span
+						class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
 						>{courseAttributeLabels[attr]}</span
 					>
 				{/each}
@@ -138,7 +140,7 @@
 			{/if}
 			{#if !course.isEnabled}
 				<span
-					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 p-1 text-xs text-white select-none"
+					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 p-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
 				>
 					Bloqueada
 				</span>
@@ -161,7 +163,7 @@
 			class="px-3 pb-3"
 			transition:slide={{ duration: 200 }}
 		>
-			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm">
+			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
 				{#if course.hours}
 					<li>
 						<strong>Carga horaria:</strong>
@@ -180,7 +182,7 @@
 							{onblur}
 							class={[
 								'w-20 rounded-md border border-gray-300 px-2 py-1 transition-colors focus:outline-2 focus:outline-blue-500',
-								showGradeFeedback ? 'bg-red-100' : 'bg-white'
+								showGradeFeedback ? 'bg-red-100' : 'bg-white dark:bg-gray-200'
 							]}
 							placeholder="≥ 4"
 						/>

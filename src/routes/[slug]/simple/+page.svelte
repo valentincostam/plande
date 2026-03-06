@@ -14,6 +14,7 @@
 	import { decodeCoursesStates } from '$lib/course-state';
 	import ShareButton from '../share-button.svelte';
 	import CopyLinkButton from '../copy-link-button.svelte';
+	import Link from '$lib/link.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -98,11 +99,7 @@
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
-		<a
-			href={resolve('/')}
-			class="text-sm leading-loose text-blue-800 hover:underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
-			>Plande</a
-		>
+		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
 		<p>
 			Plan de Estudios {data.studyPlan.year ?? ''} · {data.studyPlan.universitySlug}
 			{data.studyPlan.collegeSlug ?? ''}
@@ -134,12 +131,9 @@
 	<section class="grid gap-3 px-3">
 		<ShareButton title={seo.title} />
 		<CopyLinkButton />
-		<a
-			href={resolve(`/${data.slug}${page.url.search}` as `/${string}`)}
-			class="mx-auto text-sm text-blue-800 hover:underline"
-		>
+		<Link href={resolve(`/${data.slug}${page.url.search}` as `/${string}`)} class="mx-auto text-sm">
 			Ver versión completa
-		</a>
+		</Link>
 	</section>
 
 	<Footer />

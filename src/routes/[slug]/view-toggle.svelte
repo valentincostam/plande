@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm"
+	class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm dark:bg-gray-100 dark:ring-1 dark:ring-white/10"
 	role="group"
 	aria-label="Modo de vista"
 >
@@ -19,7 +19,9 @@
 		aria-pressed={value === 'list'}
 		class={[
 			'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
-			value === 'list' ? 'bg-white text-gray-900' : 'text-gray-500 hover:text-gray-700'
+			value === 'list'
+				? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
+				: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
 		]}
 	>
 		<ListIcon class="h-4 w-4" />
@@ -30,7 +32,9 @@
 		aria-pressed={value === 'diagram'}
 		class={[
 			'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
-			value === 'diagram' ? 'bg-white text-gray-900' : 'text-gray-500 hover:text-gray-700'
+			value === 'diagram'
+				? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
+				: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
 		]}
 	>
 		<DiagramIcon class="h-4 w-4" />

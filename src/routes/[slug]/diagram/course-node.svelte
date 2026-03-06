@@ -41,7 +41,7 @@
 	<!-- Año -->
 	<span
 		class={[
-			'flex-none rounded bg-white/60 px-1.5 py-1 text-[10px] font-medium',
+			'flex-none rounded bg-white/60 px-1.5 py-1 text-[10px] font-medium dark:bg-gray-100/20',
 			courseNameColors[data.course.state]
 		]}
 	>
@@ -63,12 +63,16 @@
 			{data.course.name}
 		</span>
 		{#if isElectiveOrOptative(data.course.type)}
-			<span class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600">
+			<span
+				class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600 dark:bg-gray-100/20"
+			>
 				{courseTypeLabels[data.course.type]}
 			</span>
 		{/if}
 		{#each data.course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
-			<span class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600">
+			<span
+				class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600 dark:bg-gray-100/20"
+			>
 				{courseAttributeLabels[attr]}
 			</span>
 		{/each}
@@ -83,7 +87,11 @@
 			courseName={data.course.name}
 		/>
 	{:else}
-		<span class="flex-none rounded-md bg-gray-400 px-2 py-1 text-xs text-white"> Bloqueada </span>
+		<span
+			class="flex-none rounded-md bg-gray-400 px-2 py-1 text-xs text-white dark:bg-gray-500 dark:text-gray-100"
+		>
+			Bloqueada
+		</span>
 	{/if}
 
 	<!-- Handles -->

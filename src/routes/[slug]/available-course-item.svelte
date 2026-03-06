@@ -48,7 +48,7 @@
 		({courseAttributeLabels.transversal.toLowerCase()})
 	{/if}
 	{#if course.year !== undefined}
-		<span class="whitespace-nowrap">
+		<span class="whitespace-nowrap text-gray-500">
 			de <Ordinal number={course.year} noun="año" />
 		</span>
 	{/if}
