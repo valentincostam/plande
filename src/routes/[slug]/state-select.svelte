@@ -5,6 +5,8 @@
 		type CourseState,
 		masculineCourseStateLabels
 	} from '$lib/course-state';
+	import { prefersReducedMotion } from 'svelte/motion';
+	import { fly } from 'svelte/transition';
 
 	type Props = {
 		id: string;
@@ -61,6 +63,8 @@
 	const currentLabel = $derived(getStateLabel(value));
 	const nextState = $derived(getNextState(value));
 	const nextLabel = $derived(getStateLabel(nextState));
+	const labelSlideDistance = $derived(prefersReducedMotion.current ? 0 : 8);
+	const labelSlideDuration = $derived(prefersReducedMotion.current ? 0 : 140);
 
 	function onclick() {
 		if (!isEnabled) return;
@@ -83,12 +87,22 @@
 	class={[
 		stateButtonBackgroundColors[value],
 		!isEnabled && 'opacity-50',
-		'w-20 shrink-0 appearance-none rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors select-none dark:text-gray-100',
+		'w-20 shrink-0 appearance-none overflow-hidden rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
 		'cursor-pointer whitespace-nowrap focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 	]}
 	title={currentLabel}
 >
-	<span aria-hidden="true">{currentLabel}</span>
+	<span aria-hidden="true" class="relative block h-4">
+		{#key currentLabel}
+			<span
+				in:fly={{ x: labelSlideDistance, duration: labelSlideDuration }}
+				out:fly={{ x: -labelSlideDistance, duration: labelSlideDuration }}
+				class="absolute inset-0 flex items-center justify-center whitespace-nowrap"
+			>
+				{currentLabel}
+			</span>
+		{/key}
+	</span>
 </button>
 
 <span id={`${id}-next-state`} class="sr-only">Activar para cambiar a {nextLabel}.</span>

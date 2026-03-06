@@ -77,7 +77,7 @@
 	id={toKebabCase(course.name)}
 	class={[
 		courseBgColors[course.state],
-		'transition-color scroll-my-4 overflow-hidden md:first:rounded-t-md md:last:rounded-b-md',
+		'scroll-my-4 overflow-hidden transition-colors md:first:rounded-t-md md:last:rounded-b-md',
 		'focus-within:outline-2 focus-within:outline-blue-500'
 	]}
 >
