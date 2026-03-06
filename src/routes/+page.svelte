@@ -335,8 +335,8 @@
 			</p>
 		</section>
 
-		<section class="grid gap-6 px-6 md:px-0">
-			<header class="grid gap-1">
+		<section class="grid gap-6">
+			<header class="grid gap-1 px-6 md:px-0">
 				<h2 class="scroll-m-6 text-center text-2xl font-bold" id="carreras">
 					Tu carrera <span class="whitespace-nowrap">en un solo link 🔗</span>
 				</h2>
@@ -348,10 +348,10 @@
 			</header>
 
 			<div class="grid gap-4 pb-6">
-				<h2 class="text-lg font-bold">Carreras disponibles</h2>
+				<h2 class="px-6 text-lg font-bold md:px-0">Carreras disponibles</h2>
 				<div class="grid gap-1">
 					<label for="career-search" class="sr-only">Buscar carrera...</label>
-					<div class="relative">
+					<div class="relative px-6 md:px-0">
 						<input
 							id="career-search"
 							type="text"
@@ -364,7 +364,7 @@
 								type="button"
 								onclick={() => (searchQuery = '')}
 								aria-label="Limpiar búsqueda"
-								class="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none dark:text-gray-500 dark:hover:text-gray-700 dark:focus:text-gray-700"
+								class="absolute inset-y-0 right-6 flex items-center justify-center px-3 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:right-0 dark:text-gray-500 dark:hover:text-gray-700 dark:focus:text-gray-700"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -391,31 +391,52 @@
 					{/if}
 				</div>
 				<div class="grid gap-4">
-					{#each groupedPlans as university (university.universitySlug)}
-						<div class="relative grid gap-5 rounded-md border border-gray-300 p-5">
-							<img
-								src={`/${university.universitySlug.toLowerCase()}.png`}
-								alt={university.universityName}
-								class={[
-									'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale dark:grayscale dark:invert',
-									'md:absolute md:top-5 md:right-5 md:max-h-16 md:max-w-32 md:opacity-30'
-								]}
-							/>
-							<h3 class="text-center font-semibold text-gray-900 md:text-left">
-								<HighlightText text={university.universityName} query={searchQuery} />
-								<span class="text-gray-500">
-									(<HighlightText text={university.universitySlug} query={searchQuery} />)
-								</span>
-							</h3>
-							{#each university.colleges as college, collegeIndex (`${university.universitySlug}-${college.collegeSlug ?? college.collegeName ?? collegeIndex}`)}
-								{#if college.collegeName}
-									<div class="grid gap-2">
-										<h4 class="font-medium text-gray-700">
-											<HighlightText text={college.collegeName} query={searchQuery} />
-											<span class="text-gray-500">
-												(<HighlightText text={college.collegeSlug ?? ''} query={searchQuery} />)
-											</span>
-										</h4>
+					<div class="divide-y divide-gray-300">
+						{#each groupedPlans as university (university.universitySlug)}
+							<div class="relative grid gap-5 p-6 md:px-0">
+								<img
+									src={`/${university.universitySlug.toLowerCase()}.png`}
+									alt={university.universityName}
+									class={[
+										'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale dark:grayscale dark:invert',
+										'md:absolute md:top-5 md:right-5 md:max-h-16 md:max-w-32 md:opacity-30'
+									]}
+								/>
+								<h3 class="text-center font-semibold text-gray-900 md:text-left">
+									<HighlightText text={university.universityName} query={searchQuery} />
+									<span class="font-normal text-gray-500">
+										<HighlightText text={university.universitySlug} query={searchQuery} />
+									</span>
+								</h3>
+								{#each university.colleges as college, collegeIndex (`${university.universitySlug}-${college.collegeSlug ?? college.collegeName ?? collegeIndex}`)}
+									{#if college.collegeName}
+										<div class="grid gap-2">
+											<h4 class="font-medium text-gray-700">
+												<HighlightText text={college.collegeName} query={searchQuery} />
+												<span class="font-normal text-gray-500">
+													<HighlightText text={college.collegeSlug ?? ''} query={searchQuery} />
+												</span>
+											</h4>
+											<ul class="space-y-2 md:pl-4">
+												{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
+													<li>
+														<Link
+															href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
+														>
+															<HighlightText text={degree.degreeName} query={searchQuery} />
+															{#if degree.year}
+																<span
+																	class="inline-block text-xs whitespace-nowrap text-gray-500 uppercase"
+																>
+																	Plan {degree.year}</span
+																>
+															{/if}
+														</Link>
+													</li>
+												{/each}
+											</ul>
+										</div>
+									{:else}
 										<ul class="space-y-2 md:pl-4">
 											{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
 												<li>
@@ -424,36 +445,28 @@
 													>
 														<HighlightText text={degree.degreeName} query={searchQuery} />
 														{#if degree.year}
-															<span class="text-gray-500"> (Plan {degree.year})</span>
+															<span
+																class="inline-block text-xs whitespace-nowrap text-gray-500 uppercase"
+															>
+																Plan {degree.year}</span
+															>
 														{/if}
 													</Link>
 												</li>
 											{/each}
 										</ul>
-									</div>
-								{:else}
-									<ul class="space-y-2 md:pl-4">
-										{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
-											<li>
-												<Link
-													href={resolve(`/${getStudyPlanSlugWithYear(degree)}` as `/${string}`)}
-												>
-													<HighlightText text={degree.degreeName} query={searchQuery} />
-													{#if degree.year}
-														<span class="text-gray-500"> (Plan {degree.year})</span>
-													{/if}
-												</Link>
-											</li>
-										{/each}
-									</ul>
-								{/if}
-							{/each}
-						</div>
-					{/each}
+									{/if}
+								{/each}
+							</div>
+						{/each}
+					</div>
 
-					<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
-						<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-						<Link href="https://forms.gle/bCC6rCb44LLYERHu6" class="ml-1 text-sm">Pedila acá</Link>
+					<div class="px-6 md:px-0">
+						<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
+							<span class="text-sm text-gray-600">¿No está tu carrera?</span>
+							<Link href="https://forms.gle/bCC6rCb44LLYERHu6" class="ml-1 text-sm">Pedila acá</Link
+							>
+						</div>
 					</div>
 				</div>
 			</div>
