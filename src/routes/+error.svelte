@@ -8,7 +8,7 @@
 </svelte:head>
 
 <main
-	class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)] dark:bg-gray-50"
+	class="error-page relative flex min-h-dvh flex-col justify-center bg-[rgb(252_254_252)] dark:bg-black"
 >
 	<header class="absolute top-0 w-full p-9 text-center">
 		<Link href={resolve('/')} class="text-sm">Plande</Link>
@@ -24,7 +24,7 @@
 		</p>
 	</section>
 	<img
-		class="absolute bottom-0 left-1/2 max-h-[25dvh] -translate-x-1/2"
+		class="absolute bottom-0 left-1/2 max-h-[25dvh] -translate-x-1/2 dark:invert-100"
 		src="/travolta.gif"
 		alt="Travolta lost"
 	/>
