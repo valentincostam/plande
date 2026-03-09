@@ -117,13 +117,13 @@
 				</span>
 				{#if isElectiveOrOptative(course.type) && !hideTypeBadge}
 					<span
-						class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
+						class="rounded-md bg-white/75 px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
 						>{courseTypeLabels[course.type]}</span
 					>
 				{/if}
 				{#each course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
 					<span
-						class="rounded-md bg-white px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
+						class="rounded-md bg-white/75 px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
 						>{courseAttributeLabels[attr]}</span
 					>
 				{/each}
