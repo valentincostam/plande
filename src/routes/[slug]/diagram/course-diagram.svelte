@@ -128,8 +128,20 @@
 
 	const nodeTypes = { course: CourseNode };
 
-	function onnodeclick(event: { node: { id: string } }) {
+	function isStateSelectClick(event: MouseEvent | TouchEvent) {
+		return event
+			.composedPath()
+			.some((entry) => entry instanceof Element && entry.closest('[data-state-select]'));
+	}
+
+	function onnodeclick(event: { node: { id: string }; event: MouseEvent | TouchEvent }) {
 		const nodeId = event.node.id;
+
+		if (isStateSelectClick(event.event)) {
+			selectedNodeId = nodeId;
+			return;
+		}
+
 		selectedNodeId = selectedNodeId === nodeId ? null : nodeId;
 	}
 
@@ -164,6 +176,7 @@
 		zoomOnDoubleClick={false}
 		minZoom={0.1}
 		maxZoom={3}
+		elevateEdgesOnSelect={false}
 		nodesConnectable={false}
 		{onnodeclick}
 		{onpaneclick}

@@ -123,6 +123,11 @@ export const getListViewButton = (page: Page): Locator =>
 export const getDiagramRegion = (page: Page): Locator =>
 	page.getByRole('region', { name: 'Diagrama de correlatividades' });
 
+export const getDiagramCourseNode = (page: Page, courseName: string): Locator =>
+	getDiagramRegion(page).getByRole('group', {
+		name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`)
+	});
+
 export const getFullscreenButton = (page: Page): Locator =>
 	page.getByRole('button', { name: 'Pantalla completa' });
 

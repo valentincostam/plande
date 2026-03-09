@@ -31,6 +31,10 @@
 </script>
 
 <div
+	role="group"
+	aria-label={data.isSelected
+		? `${data.course.name}, seleccionada en el diagrama`
+		: data.course.name}
 	class={[
 		'flex max-w-70 min-w-60 items-center gap-2 rounded-md p-3 text-sm transition-all',
 		courseBgColors[data.course.state],

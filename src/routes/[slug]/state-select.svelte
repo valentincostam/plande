@@ -77,6 +77,7 @@
 
 <button
 	{id}
+	data-state-select
 	type="button"
 	{onclick}
 	{onkeydown}
