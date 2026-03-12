@@ -5,12 +5,6 @@ type StudyPlanFixture = {
 	studyPlan: {
 		goto: (slug?: string) => ReturnType<typeof helpers.goto>;
 		gotoWithState: (slug: string, stateParam: string) => ReturnType<typeof helpers.gotoWithState>;
-		gotoSimple: (slug?: string) => ReturnType<typeof helpers.gotoSimple>;
-		gotoSimpleWithState: (
-			slug: string,
-			stateParam: string,
-			gradeParam?: string
-		) => ReturnType<typeof helpers.gotoSimpleWithState>;
 		getCourseStateButton: (courseName: string) => Locator;
 		getCourseButton: (courseName: string) => Locator;
 		getCourseDetailsPanel: (courseName: string) => Promise<Locator>;
@@ -28,8 +22,6 @@ type StudyPlanFixture = {
 		getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => Locator;
 		getShareButton: () => Locator;
 		getCopyLinkButton: () => Locator;
-		getFullViewLink: () => Locator;
-		getSimpleViewLink: () => Locator;
 		getDiagramDownloadButton: () => Locator;
 		getDiagramViewButton: () => Locator;
 		getListViewButton: () => Locator;
@@ -49,9 +41,6 @@ export const test = base.extend<StudyPlanFixture>({
 			goto: (slug?: string) => helpers.goto(page, slug),
 			gotoWithState: (slug: string, stateParam: string) =>
 				helpers.gotoWithState(page, slug, stateParam),
-			gotoSimple: (slug?: string) => helpers.gotoSimple(page, slug),
-			gotoSimpleWithState: (slug: string, stateParam: string, gradeParam?: string) =>
-				helpers.gotoSimpleWithState(page, slug, stateParam, gradeParam),
 			getCourseStateButton: (name: string) => helpers.getCourseStateButton(page, name),
 			getCourseButton: (name: string) => helpers.getCourseButton(page, name),
 			getCourseDetailsPanel: (name: string) => helpers.getCourseDetailsPanel(page, name),
@@ -69,8 +58,6 @@ export const test = base.extend<StudyPlanFixture>({
 			getExportButton: (format: 'CSV' | 'JSON' | 'TOON') => helpers.getExportButton(page, format),
 			getShareButton: () => helpers.getShareButton(page),
 			getCopyLinkButton: () => helpers.getCopyLinkButton(page),
-			getFullViewLink: () => helpers.getFullViewLink(page),
-			getSimpleViewLink: () => helpers.getSimpleViewLink(page),
 			getDiagramDownloadButton: () => helpers.getDiagramDownloadButton(page),
 			getDiagramViewButton: () => helpers.getDiagramViewButton(page),
 			getListViewButton: () => helpers.getListViewButton(page),

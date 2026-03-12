@@ -244,7 +244,6 @@ Cada plan de estudio incluye:
 
 \`\`\`
 GET /{slug}                  # Página del plan de estudio (con negociación de contenido)
-GET /{slug}/simple           # Vista simplificada sin interactividad
 GET /{slug}/og.png           # Imagen OpenGraph dinámica con estadísticas
 GET /sitemap.xml             # Sitemap XML con todos los planes
 GET /llms.txt                # Este archivo

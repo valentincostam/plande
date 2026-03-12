@@ -386,12 +386,6 @@
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
 			<CopyLinkButton />
-			<Link
-				href={resolve(`/${data.slug}/simple${page.url.search}` as `/${string}`)}
-				class="mx-auto text-sm"
-			>
-				Ver versión simple
-			</Link>
 		</section>
 
 		<AvailableCoursesSection
