@@ -1,6 +1,6 @@
 import type { CourseAttribute } from './course-attribute';
 import type { CourseState } from './course-state';
-import { courseStates, femenineCourseStateLabels } from './course-state';
+import { courseStates, feminineCourseStateLabels } from './course-state';
 import type { CourseTerm } from './course-term';
 import type { CourseType } from './course-type';
 import type { CrossYearInfo } from './course.svelte';
@@ -170,16 +170,16 @@ export function findRedundantRequirements(courses: RawCourse[]): string[] {
 
 					// Verificar si el estado transitivo cubre el requerimiento directo
 					if (isStateGreaterOrEqual(transitiveData.state, requirement.requiredState)) {
-						const stateText = femenineCourseStateLabels[requirement.requiredState].toLowerCase();
+						const stateText = feminineCourseStateLabels[requirement.requiredState].toLowerCase();
 						const transitiveStateText =
-							femenineCourseStateLabels[transitiveData.state].toLowerCase();
+							feminineCourseStateLabels[transitiveData.state].toLowerCase();
 						const purposeText =
 							requirement.requiredFor === requiredFor.enroll ? 'CURSAR' : 'RENDIR';
 						// Redacción más precisa: acción guiada por el estado requerido del otro requerimiento
 						const transitiveActionTextUpper =
 							otherReq.requiredState === courseStates.passed ? 'APROBAR' : 'CURSAR';
 						const otherReqStateText =
-							femenineCourseStateLabels[otherReq.requiredState].toLowerCase();
+							feminineCourseStateLabels[otherReq.requiredState].toLowerCase();
 
 						// Crear la cadena de dependencias
 						const dependencyChain = transitiveData.path.reverse().join(' → ');

@@ -2,7 +2,7 @@
 	import {
 		courseBgColors,
 		courseStates,
-		femenineCourseStateLabels,
+		feminineCourseStateLabels,
 		masculineCourseStateLabels
 	} from '$lib/course-state';
 	import type { CourseState } from '$lib/course-state';
@@ -11,11 +11,11 @@
 	type Props = {
 		class?: ClassValue;
 		state: CourseState;
-		gender?: 'femenine' | 'masculine';
+		gender?: 'feminine' | 'masculine';
 		plural?: boolean;
 	};
 
-	let { state, class: className, gender = 'femenine', plural = false }: Props = $props();
+	let { state, class: className, gender = 'feminine', plural = false }: Props = $props();
 
 	const getPluralSuffix = (state: CourseState) => {
 		if (state === courseStates.inProgress) {
@@ -37,7 +37,7 @@
 		className
 	]}
 >
-	{gender === 'femenine'
-		? femenineCourseStateLabels[state]
+	{gender === 'feminine'
+		? feminineCourseStateLabels[state]
 		: masculineCourseStateLabels[state]}{plural ? getPluralSuffix(state) : ''}
 </span>

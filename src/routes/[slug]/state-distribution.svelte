@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Course } from '$lib/course.svelte';
-	import { courseStates, femenineCourseStateLabels } from '$lib/course-state';
+	import { courseStates, feminineCourseStateLabels } from '$lib/course-state';
 	import type { ClassValue } from 'svelte/elements';
 
 	type Props = {
@@ -47,22 +47,22 @@
 	</div>
 	<div class="grid grid-cols-2 gap-2 text-xs text-gray-600 sm:grid-cols-4">
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-gray-300"></span>{femenineCourseStateLabels[
+			<span class="h-2 w-2 rounded-sm bg-gray-300"></span>{feminineCourseStateLabels[
 				courseStates.notTaken
 			]} ({countNotTaken})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-blue-400"></span>{femenineCourseStateLabels[
+			<span class="h-2 w-2 rounded-sm bg-blue-400"></span>{feminineCourseStateLabels[
 				courseStates.inProgress
 			]} ({countInProgress})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-amber-400"></span>{femenineCourseStateLabels[
+			<span class="h-2 w-2 rounded-sm bg-amber-400"></span>{feminineCourseStateLabels[
 				courseStates.taken
 			]} ({countTaken})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-green-500"></span>{femenineCourseStateLabels[
+			<span class="h-2 w-2 rounded-sm bg-green-500"></span>{feminineCourseStateLabels[
 				courseStates.passed
 			]} ({countPassed})
 		</div>

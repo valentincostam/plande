@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		femenineCourseStateLabels,
+		feminineCourseStateLabels,
 		courseStates,
 		type CourseState,
 		masculineCourseStateLabels
@@ -15,7 +15,7 @@
 		canPass: boolean;
 		onchange?: (event: Event) => void;
 		onkeydown?: (event: KeyboardEvent) => void;
-		gender?: 'femenine' | 'masculine';
+		gender?: 'feminine' | 'masculine';
 		courseName: string;
 	};
 
@@ -25,7 +25,7 @@
 		value = $bindable(),
 		onchange,
 		onkeydown,
-		gender = 'femenine',
+		gender = 'feminine',
 		canPass,
 		courseName
 	}: Props = $props();
@@ -45,7 +45,7 @@
 	] as const;
 
 	const getStateLabel = (state: CourseState) =>
-		gender === 'femenine' ? femenineCourseStateLabels[state] : masculineCourseStateLabels[state];
+		gender === 'feminine' ? feminineCourseStateLabels[state] : masculineCourseStateLabels[state];
 
 	const getAvailableStates = () =>
 		stateOrder.filter((state) => state !== courseStates.passed || canPass);

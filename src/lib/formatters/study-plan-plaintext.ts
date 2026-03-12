@@ -2,7 +2,7 @@ import type { StudyPlan } from '../study-plan';
 import { courseTermLabels } from '../course-term';
 import { courseTypeLabels } from '../course-type';
 import { courseAttributeLabels } from '../course-attribute';
-import { femenineCourseStateLabels } from '../course-state';
+import { feminineCourseStateLabels } from '../course-state';
 import { requiredFor, requiredForLabels } from '../raw-course';
 
 /**
@@ -160,7 +160,7 @@ export function studyPlanToPlainText(studyPlan: StudyPlan): string {
 					sections.push(`    Para ${requiredForLabels[requiredFor.enroll]}:`);
 					for (const req of enrollRequirements) {
 						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = femenineCourseStateLabels[req.requiredState];
+						const stateLabel = feminineCourseStateLabels[req.requiredState];
 						if (reqCourse) {
 							sections.push(`      - ${reqCourse.name} (debe estar ${stateLabel})`);
 						}
@@ -171,7 +171,7 @@ export function studyPlanToPlainText(studyPlan: StudyPlan): string {
 					sections.push(`    Para ${requiredForLabels[requiredFor.complete]}:`);
 					for (const req of completeRequirements) {
 						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = femenineCourseStateLabels[req.requiredState];
+						const stateLabel = feminineCourseStateLabels[req.requiredState];
 						if (reqCourse) {
 							sections.push(`      - ${reqCourse.name} (debe estar ${stateLabel})`);
 						}

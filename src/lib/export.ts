@@ -1,6 +1,6 @@
 import { courseAttributeLabels, isTransversal } from './course-attribute';
 import type { Course } from './course.svelte';
-import { femenineCourseStateLabels } from './course-state';
+import { feminineCourseStateLabels } from './course-state';
 import { courseTermLabels } from './course-term';
 import { courseTypeLabels } from './course-type';
 
@@ -28,7 +28,7 @@ function courseToExportable(course: Course): ExportableCourse {
 		horas: course.hours ? course.hours.toString() : '',
 		tipo: courseTypeLabels[course.type],
 		atributos: course.attributes.map((attr) => courseAttributeLabels[attr]).join(', '),
-		estado: femenineCourseStateLabels[course.state],
+		estado: feminineCourseStateLabels[course.state],
 		nota: course.grade
 	};
 }

@@ -5,7 +5,7 @@
 
 	let { college = 'universidad' }: Props = $props();
 
-	const isFemenine = $derived(college.split(' ')[0].toLowerCase() === 'facultad');
+	const isFeminine = $derived(college.split(' ')[0].toLowerCase() === 'facultad');
 </script>
 
 <section>
@@ -13,7 +13,7 @@
 		<p>
 			<strong>Plande podría tener errores o información incompleta</strong>. No tomen decisiones
 			cruciales sobre sus estudios basándose únicamente en la información proporcionada aquí.
-			Recuerden consultar a sus asesores académicos o fuentes oficiales {isFemenine
+			Recuerden consultar a sus asesores académicos o fuentes oficiales {isFeminine
 				? 'de la'
 				: 'del'}
 			{college}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		courseStates,
-		pluralFemenineCourseStateLabels,
+		pluralFeminineCourseStateLabels,
 		type CourseState,
 		courseBgColors,
 		courseNameColors
@@ -58,7 +58,7 @@
 				value={state}
 				disabled={!canPass && state === courseStates.passed}
 				class={[courseBgColors[state], courseNameColors[state]]}
-				>{pluralFemenineCourseStateLabels[state]}</option
+				>{pluralFeminineCourseStateLabels[state]}</option
 			>
 		{/each}
 	</select>

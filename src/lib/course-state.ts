@@ -18,14 +18,14 @@ export const isCourseStateGreaterOrEqual = (state1: CourseState, state2: CourseS
 	return courseStateHierarchy[state1] >= courseStateHierarchy[state2];
 };
 
-export const femenineCourseStateLabels = {
+export const feminineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursada',
 	[courseStates.inProgress]: 'En curso',
 	[courseStates.taken]: 'Regular',
 	[courseStates.passed]: 'Aprobada'
 } as const;
 
-export const pluralFemenineCourseStateLabels = {
+export const pluralFeminineCourseStateLabels = {
 	[courseStates.notTaken]: 'No cursadas',
 	[courseStates.inProgress]: 'En curso',
 	[courseStates.taken]: 'Regulares',
@@ -40,10 +40,10 @@ export const masculineCourseStateLabels = {
 } as const;
 
 export const courseStateLabelsInitials = {
-	[courseStates.notTaken]: femenineCourseStateLabels[courseStates.notTaken].charAt(0),
-	[courseStates.inProgress]: femenineCourseStateLabels[courseStates.inProgress].charAt(0),
-	[courseStates.taken]: femenineCourseStateLabels[courseStates.taken].charAt(0),
-	[courseStates.passed]: femenineCourseStateLabels[courseStates.passed].charAt(0)
+	[courseStates.notTaken]: feminineCourseStateLabels[courseStates.notTaken].charAt(0),
+	[courseStates.inProgress]: feminineCourseStateLabels[courseStates.inProgress].charAt(0),
+	[courseStates.taken]: feminineCourseStateLabels[courseStates.taken].charAt(0),
+	[courseStates.passed]: feminineCourseStateLabels[courseStates.passed].charAt(0)
 } as const;
 
 export const courseStatesFromInitials = {
