@@ -54,10 +54,7 @@
 		<option value="" disabled>Cambiar materias a...</option>
 
 		{#each Object.values(courseStates) as state (state)}
-			<option
-				value={state}
-				disabled={!canPass && state === courseStates.passed}
-				class={[courseBgColors[state], courseNameColors[state]]}
+			<option value={state} disabled={!canPass && state === courseStates.passed}
 				>{pluralFeminineCourseStateLabels[state]}</option
 			>
 		{/each}
