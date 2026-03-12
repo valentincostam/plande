@@ -88,14 +88,15 @@ test('example', async ({ studyPlan }) => {
 | Method                        | Description              |
 | ----------------------------- | ------------------------ |
 | `goto(slug?)`                 | Navigate to degree page  |
-| `getCourseStateButton(name)`  | Get course state button  |
+| `getCourseStateControl(name)` | Get course state control |
 | `getCourseButton(name)`       | Get course expand button |
+| `getCycleStateButtonToggle()` | Get cycle mode toggle    |
 | `setCourseState(name, state)` | Set course state         |
 | `getYearSection(year)`        | Get year section locator |
 | `getYearBulkSelect(year)`     | Get year bulk select     |
 | `setYearState(year, state)`   | Set all courses in year  |
 
-Course state controls use `button`. Bulk state controls still use `combobox`.
+Course state controls use `combobox` by default and `button` when cycle mode is enabled. Bulk state controls still use `combobox`.
 
 ## Selectors
 

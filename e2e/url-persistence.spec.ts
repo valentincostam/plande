@@ -20,14 +20,14 @@ test.describe('URL state persistence', () => {
 		// URL with Algebra=Regular, AM1=Regular (encoded state)
 		await page.goto('/utn-frcu-isi?s=nrn3r', { waitUntil: 'networkidle' });
 
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		const am1StateButton = studyPlan.getCourseStateButton('Análisis Matemático I');
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		const am1StateControl = studyPlan.getCourseStateControl('Análisis Matemático I');
 
 		// Verify state was restored correctly
-		await expect(algebraStateButton).toHaveAccessibleName(
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: Regular'
 		);
-		await expect(am1StateButton).toHaveAccessibleName('Estado de Análisis Matemático I: Regular');
+		await expect(am1StateControl).toHaveAccessibleName('Estado de Análisis Matemático I: Regular');
 	});
 
 	test('sharing link preserves full state', async ({ page, context, studyPlan }) => {
@@ -42,19 +42,19 @@ test.describe('URL state persistence', () => {
 		await newPage.goto(sharedUrl, { waitUntil: 'networkidle' });
 
 		// Verify state was preserved
-		const algebraStateButtonNewPage = newPage.getByRole('button', {
+		const algebraStateControlNewPage = newPage.getByRole('combobox', {
 			name: 'Estado de Álgebra y Geometría Analítica: Aprobada',
 			exact: true
 		});
-		await expect(algebraStateButtonNewPage).toBeVisible();
+		await expect(algebraStateControlNewPage).toBeVisible();
 	});
 
 	test('page reload maintains state', async ({ page, studyPlan }) => {
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
 
 		// User changes state
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'En curso');
-		await expect(algebraStateButton).toHaveAccessibleName(
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: En curso'
 		);
 
@@ -62,10 +62,10 @@ test.describe('URL state persistence', () => {
 		await page.reload({ waitUntil: 'networkidle' });
 
 		// State is maintained
-		const algebraStateButtonAfterReload = studyPlan.getCourseStateButton(
+		const algebraStateControlAfterReload = studyPlan.getCourseStateControl(
 			'Álgebra y Geometría Analítica'
 		);
-		await expect(algebraStateButtonAfterReload).toHaveAccessibleName(
+		await expect(algebraStateControlAfterReload).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: En curso'
 		);
 	});

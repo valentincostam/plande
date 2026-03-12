@@ -49,10 +49,10 @@ test.describe('Bulk state select visibility - Terms', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		// Verify all courses in year 1, first semester are enabled (no requirements)
-		await expect(studyPlan.getCourseStateButton('Álgebra y Geometría Analítica')).toBeEnabled();
-		await expect(studyPlan.getCourseStateButton('Inglés I')).toBeEnabled();
-		await expect(studyPlan.getCourseStateButton('Ingeniería y Sociedad')).toBeEnabled();
-		await expect(studyPlan.getCourseStateButton('Lógica y Estructuras Discretas')).toBeEnabled();
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toBeEnabled();
+		await expect(studyPlan.getCourseStateControl('Inglés I')).toBeEnabled();
+		await expect(studyPlan.getCourseStateControl('Ingeniería y Sociedad')).toBeEnabled();
+		await expect(studyPlan.getCourseStateControl('Lógica y Estructuras Discretas')).toBeEnabled();
 
 		// Therefore, the term bulk select is visible
 		const year1Section = studyPlan.getYearSection(1);
@@ -95,8 +95,8 @@ test.describe('Bulk state select functionality', () => {
 		await studyPlan.setYearState(1, 'Aprobadas');
 
 		// Verify a course is in passed state
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		await expect(algebraStateButton).toHaveAccessibleName(
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: Aprobada'
 		);
 
@@ -104,7 +104,7 @@ test.describe('Bulk state select functionality', () => {
 		await studyPlan.setYearState(1, 'No cursadas');
 
 		// Verify the course changed
-		await expect(algebraStateButton).toHaveAccessibleName(
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: No cursada'
 		);
 	});
@@ -112,8 +112,8 @@ test.describe('Bulk state select functionality', () => {
 	test('selecting "En curso" changes all courses in year to in progress', async ({ studyPlan }) => {
 		await studyPlan.setYearState(1, 'En curso');
 
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		await expect(algebraStateButton).toHaveAccessibleName(
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: En curso'
 		);
 	});
@@ -121,8 +121,8 @@ test.describe('Bulk state select functionality', () => {
 	test('selecting "Regulares" changes all courses in year to taken', async ({ studyPlan }) => {
 		await studyPlan.setYearState(1, 'Regulares');
 
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		await expect(algebraStateButton).toHaveAccessibleName(
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: Regular'
 		);
 	});
@@ -130,8 +130,8 @@ test.describe('Bulk state select functionality', () => {
 	test('selecting "Aprobadas" changes all courses in year to passed', async ({ studyPlan }) => {
 		await studyPlan.setYearState(1, 'Aprobadas');
 
-		const algebraStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		await expect(algebraStateButton).toHaveAccessibleName(
+		const algebraStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		await expect(algebraStateControl).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: Aprobada'
 		);
 	});
@@ -184,22 +184,23 @@ test.describe('Bulk state select for year', () => {
 		// Set year 2 to "Regular" so courses are enrolled but not passed
 		// This enables Física II to be cursada (Física I is "Regular")
 		await studyPlan.setYearState(2, 'Regulares');
+		await studyPlan.getCycleStateButtonToggle().click();
 
 		// Verify Física II cannot pass individually (Física I is "Regular", not "Aprobada")
-		const fisica2StateButton = studyPlan.getCourseStateButton('Física II');
-		await expect(fisica2StateButton).toHaveAccessibleName('Estado de Física II: Regular');
+		const fisica2StateControl = studyPlan.getCourseStateControl('Física II');
+		await expect(fisica2StateControl).toHaveAccessibleName('Estado de Física II: Regular');
 
 		// A click skips the invalid passed state and wraps around instead
-		await fisica2StateButton.click();
-		await expect(fisica2StateButton).toHaveAccessibleName('Estado de Física II: No cursada');
+		await fisica2StateControl.click();
+		await expect(fisica2StateControl).toHaveAccessibleName('Estado de Física II: No cursada');
 
 		// Now bulk-pass year 2 - this should work because when approving sequentially,
 		// Física I gets approved before Física II, satisfying the dependency
 		await studyPlan.setYearState(2, 'Aprobadas');
 
 		// Verify both courses in year 2 are now passed
-		const fisica1StateButton = studyPlan.getCourseStateButton('Física I');
-		await expect(fisica1StateButton).toHaveAccessibleName('Estado de Física I: Aprobada');
-		await expect(fisica2StateButton).toHaveAccessibleName('Estado de Física II: Aprobada');
+		const fisica1StateControl = studyPlan.getCourseStateControl('Física I');
+		await expect(fisica1StateControl).toHaveAccessibleName('Estado de Física I: Aprobada');
+		await expect(fisica2StateControl).toHaveAccessibleName('Estado de Física II: Aprobada');
 	});
 });

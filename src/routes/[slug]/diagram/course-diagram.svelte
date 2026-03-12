@@ -15,9 +15,10 @@
 	type Props = {
 		courses: Course[];
 		slug: string;
+		useCycleButton?: boolean;
 	};
 
-	let { courses, slug }: Props = $props();
+	let { courses, slug, useCycleButton = false }: Props = $props();
 
 	// Filter toggle (checked = show, unchecked = hide)
 	let showElectives = $state(true);
@@ -114,6 +115,7 @@
 			...node,
 			data: {
 				...node.data,
+				useCycleButton,
 				isSelected: node.id === selectedNodeId,
 				isHighlighted: node.data.course.id === highlightedNodeId
 			},

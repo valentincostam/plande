@@ -85,6 +85,7 @@
 	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
 	let isStrictModeEnabled = $state(untrack(() => data.isStrictModeEnabled));
 	let showCodes = $state(untrack(() => data.showCodes));
+	let useCycleButton = $state(false);
 	let isInitializing = $state(true);
 
 	const courses = untrack(() =>
@@ -123,20 +124,21 @@
 			clearIsApplyingHistory();
 		}
 
+		const storageData = {
+			coursesStates: encodedStates,
+			isStrictModeEnabled,
+			showCodes,
+			useCycleButton,
+			grades: coursesGrades
+		};
+
+		localStorage.setItem(storageKey, JSON.stringify(storageData));
+
 		tick().then(() => {
 			const hash = window.location.hash;
 			const query = urlSearchParams.toString();
 
 			replaceState(resolve(`/${data.slug}${query ? `?${query}` : ''}${hash}` as `/${string}`), {});
-
-			const storageData = {
-				coursesStates: encodedStates,
-				isStrictModeEnabled,
-				showCodes,
-				grades: coursesGrades
-			};
-
-			localStorage.setItem(storageKey, JSON.stringify(storageData));
 		});
 	});
 
@@ -157,6 +159,10 @@
 
 		try {
 			const parsed = JSON.parse(savedData);
+
+			if (parsed.useCycleButton !== undefined) {
+				useCycleButton = parsed.useCycleButton;
+			}
 
 			// Load grades from localStorage only if not in URL
 			if (data.coursesGrades.length === 0 && parsed.grades) {
@@ -204,6 +210,7 @@
 		});
 		isStrictModeEnabled = true;
 		showCodes = false;
+		useCycleButton = false;
 		localStorage.removeItem(storageKey);
 		resetHistory();
 	}
@@ -367,19 +374,20 @@
 	<main class="grid gap-9">
 		{#if viewMode === 'diagram'}
 			<div id="diagram-container">
-				<CourseDiagram {courses} slug={data.slug} bind:this={diagramRef} />
+				<CourseDiagram {courses} slug={data.slug} {useCycleButton} bind:this={diagramRef} />
 			</div>
 		{:else}
 			{#each years as year, index (year.year)}
 				<Year
 					{year}
 					{showCodes}
+					{useCycleButton}
 					showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
 				/>
 			{/each}
 
 			{#if transversalCourses.length > 0}
-				<TransversalCourses courses={transversalCourses} {showCodes} />
+				<TransversalCourses courses={transversalCourses} {showCodes} {useCycleButton} />
 			{/if}
 		{/if}
 
@@ -536,6 +544,12 @@
 						description="Los códigos de las materias se muestran junto a sus nombres"
 					/>
 				{/if}
+				<SettingToggle
+					id="cycle-state-button"
+					bind:value={useCycleButton}
+					label="Botón cíclico para estados"
+					description="Reemplaza el desplegable por un botón que rota entre estados"
+				/>
 				<ResetButton onclick={resetAllState} />
 			</div>
 		</Section>

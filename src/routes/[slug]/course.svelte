@@ -21,9 +21,15 @@
 		course: Course;
 		showCodes?: boolean;
 		hideTypeBadge?: boolean;
+		useCycleButton?: boolean;
 	};
 
-	let { course, showCodes = false, hideTypeBadge = false }: Props = $props();
+	let {
+		course,
+		showCodes = false,
+		hideTypeBadge = false,
+		useCycleButton = false
+	}: Props = $props();
 
 	let isExpanded = $state(false);
 	let showGradeFeedback = $state(false);
@@ -140,7 +146,7 @@
 			{/if}
 			{#if !course.isEnabled}
 				<span
-					class="flex w-20 flex-none justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
+					class="flex w-22 flex-none justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
 				>
 					Bloqueada
 				</span>
@@ -152,6 +158,7 @@
 				bind:value={course.state}
 				canPass={course.canPass}
 				courseName={course.name}
+				{useCycleButton}
 				{onkeydown}
 			/>
 		{/if}

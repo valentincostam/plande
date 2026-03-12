@@ -131,17 +131,17 @@ test.describe('URL State in Shared Links', () => {
 		const newPage = await newContext.newPage();
 		await newPage.goto(clipboardText, { waitUntil: 'networkidle' });
 
-		const algebraStateButton = newPage.getByRole('button', {
+		const algebraStateControl = newPage.getByRole('combobox', {
 			name: 'Estado de Álgebra y Geometría Analítica: Aprobada',
 			exact: true
 		});
-		const analisisStateButton = newPage.getByRole('button', {
+		const analisisStateControl = newPage.getByRole('combobox', {
 			name: 'Estado de Análisis Matemático I: Regular',
 			exact: true
 		});
 
-		await expect(algebraStateButton).toBeVisible();
-		await expect(analisisStateButton).toBeVisible();
+		await expect(algebraStateControl).toBeVisible();
+		await expect(analisisStateControl).toBeVisible();
 
 		await newContext.close();
 	});

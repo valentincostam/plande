@@ -115,12 +115,12 @@ test.describe('Section Anchor Links', () => {
 		const newPage = await newContext.newPage();
 		await newPage.goto(clipboardText, { waitUntil: 'networkidle' });
 
-		const algebraStateButton = newPage.getByRole('button', {
+		const algebraStateControl = newPage.getByRole('combobox', {
 			name: 'Estado de Álgebra y Geometría Analítica: Aprobada',
 			exact: true
 		});
 
-		await expect(algebraStateButton).toBeVisible();
+		await expect(algebraStateControl).toBeVisible();
 
 		await newContext.close();
 	});

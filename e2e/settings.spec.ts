@@ -7,16 +7,16 @@ test.describe('Settings - Strict Mode', () => {
 		const courseButton = studyPlan.getCourseButton('Análisis Matemático II');
 		await expect(courseButton).toContainText('Bloqueada');
 
-		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
-		await expect(courseStateButton).not.toBeVisible();
+		const courseStateControl = studyPlan.getCourseStateControl('Análisis Matemático II');
+		await expect(courseStateControl).not.toBeVisible();
 	});
 
 	test('courses without requirements are enabled by default', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
-		const courseStateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
-		await expect(courseStateButton).toBeVisible();
-		await expect(courseStateButton).toBeEnabled();
+		const courseStateControl = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
+		await expect(courseStateControl).toBeVisible();
+		await expect(courseStateControl).toBeEnabled();
 
 		const courseButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');
 		await expect(courseButton).not.toContainText('Bloqueada');
@@ -35,9 +35,9 @@ test.describe('Settings - Strict Mode', () => {
 
 		await expect(blockedCourse).not.toContainText('Bloqueada');
 
-		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
-		await expect(courseStateButton).toBeVisible();
-		await expect(courseStateButton).toBeEnabled();
+		const courseStateControl = studyPlan.getCourseStateControl('Análisis Matemático II');
+		await expect(courseStateControl).toBeVisible();
+		await expect(courseStateControl).toBeEnabled();
 	});
 
 	test('meeting requirements unblocks course', async ({ studyPlan }) => {
@@ -51,8 +51,8 @@ test.describe('Settings - Strict Mode', () => {
 
 		await expect(blockedCourse).not.toContainText('Bloqueada');
 
-		const courseStateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
-		await expect(courseStateButton).toBeVisible();
+		const courseStateControl = studyPlan.getCourseStateControl('Análisis Matemático II');
+		await expect(courseStateControl).toBeVisible();
 	});
 });
 
@@ -100,6 +100,52 @@ test.describe('Settings - Show Identifiers', () => {
 
 		const detailsPanel = await studyPlan.getCourseDetailsPanel('Análisis Matemático II');
 		await expect(detailsPanel).toContainText('1. Álgebra');
+	});
+});
+
+test.describe('Settings - State control mode', () => {
+	test('course state control defaults to select in list and diagram views', async ({
+		studyPlan
+	}) => {
+		await studyPlan.goto('utn-frcu-isi-2023');
+
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'combobox'
+		);
+
+		await studyPlan.getDiagramViewButton().click();
+
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'combobox'
+		);
+	});
+
+	test('enabling cycle mode switches controls to buttons in list and diagram and persists after reload', async ({
+		page,
+		studyPlan
+	}) => {
+		await studyPlan.goto('utn-frcu-isi-2023');
+
+		const cycleStateButtonToggle = studyPlan.getCycleStateButtonToggle();
+		await expect(cycleStateButtonToggle).not.toBeChecked();
+		await cycleStateButtonToggle.click();
+		await expect(cycleStateButtonToggle).toBeChecked();
+
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'button'
+		);
+
+		await studyPlan.getDiagramViewButton().click();
+
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'button'
+		);
+
+		await page.reload({ waitUntil: 'networkidle' });
+		await expect(cycleStateButtonToggle).toBeChecked();
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'button'
+		);
 	});
 });
 
@@ -170,6 +216,28 @@ test.describe('Settings - Reset Progress', () => {
 		await expect(showCodesToggle).not.toBeChecked();
 		await expect(studyPlan.getCourseButton('Álgebra y Geometría Analítica')).not.toContainText(
 			'1. Álgebra'
+		);
+	});
+
+	test('reset button resets state control mode to default (select)', async ({
+		studyPlan,
+		page
+	}) => {
+		await studyPlan.goto('utn-frcu-isi-2023');
+
+		const cycleStateButtonToggle = studyPlan.getCycleStateButtonToggle();
+		await cycleStateButtonToggle.click();
+		await expect(cycleStateButtonToggle).toBeChecked();
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'button'
+		);
+
+		page.on('dialog', (dialog) => dialog.accept());
+		await studyPlan.getResetProgressButton().click();
+
+		await expect(cycleStateButtonToggle).not.toBeChecked();
+		await expect(studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')).toHaveRole(
+			'combobox'
 		);
 	});
 

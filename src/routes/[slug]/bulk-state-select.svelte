@@ -2,9 +2,7 @@
 	import {
 		courseStates,
 		pluralFeminineCourseStateLabels,
-		type CourseState,
-		courseBgColors,
-		courseNameColors
+		type CourseState
 	} from '$lib/course-state';
 	import MoreIcon from './more-icon.svelte';
 

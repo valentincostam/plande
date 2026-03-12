@@ -1,4 +1,10 @@
 import type { Page, Locator } from '@playwright/test';
+import {
+	courseStateLabelsInitials,
+	courseStates,
+	type CourseState,
+	feminineCourseStateLabels
+} from '../../src/lib/course-state';
 
 const getOrdinalWord = (year: number): string => {
 	const ordinals: Record<number, string> = {
@@ -21,11 +27,18 @@ export const goto = (page: Page, slug = 'utn-frcu-isi') =>
 
 const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-const getCourseStateLabel = async (button: Locator) => {
-	const ariaLabel = await button.getAttribute('aria-label');
+const stateKeyByLabel = Object.fromEntries(
+	(Object.values(courseStates) as CourseState[]).map((state) => [
+		feminineCourseStateLabels[state],
+		courseStateLabelsInitials[state]
+	])
+);
+
+const getCourseStateLabel = async (control: Locator) => {
+	const ariaLabel = await control.getAttribute('aria-label');
 
 	if (!ariaLabel) {
-		throw new Error('Course state button is missing aria-label');
+		throw new Error('Course state control is missing aria-label');
 	}
 
 	const parts = ariaLabel.split(': ');
@@ -37,8 +50,11 @@ const getCourseStateLabel = async (button: Locator) => {
 	return parts.slice(1).join(': ');
 };
 
-export const getCourseStateButton = (page: Page, courseName: string): Locator =>
-	page.getByRole('button', { name: new RegExp(`^Estado de ${escapeRegex(courseName)}: `) });
+export const getCourseStateControl = (page: Page, courseName: string): Locator => {
+	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
+
+	return page.getByRole('combobox', { name }).or(page.getByRole('button', { name }));
+};
 
 export const getCourseButton = (page: Page, courseName: string): Locator =>
 	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) });
@@ -52,6 +68,9 @@ export const getStrictModeToggle = (page: Page): Locator =>
 export const getShowCodesToggle = (page: Page): Locator =>
 	page.getByRole('checkbox', { name: /mostrar identificadores/i });
 
+export const getCycleStateButtonToggle = (page: Page): Locator =>
+	page.getByRole('checkbox', { name: /botón cíclico para estados/i });
+
 export const getResetProgressButton = (page: Page): Locator =>
 	page.getByRole('button', { name: /reiniciar progreso/i });
 
@@ -63,17 +82,22 @@ export const getCourseDetailsPanel = async (page: Page, courseName: string): Pro
 };
 
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
-	const button = getCourseStateButton(page, courseName);
+	const control = getCourseStateControl(page, courseName);
+	const key = stateKeyByLabel[state];
 
-	for (let attempt = 0; attempt < 4; attempt++) {
-		if ((await getCourseStateLabel(button)) === state) {
-			return;
-		}
-
-		await button.click();
+	if (!key) {
+		throw new Error(`Unsupported course state label: ${state}`);
 	}
 
-	throw new Error(`Could not set "${courseName}" to "${state}" by cycling its state button`);
+	if ((await getCourseStateLabel(control)) === state) {
+		return;
+	}
+
+	await control.press(key);
+
+	if ((await getCourseStateLabel(control)) !== state) {
+		throw new Error(`Could not set "${courseName}" to "${state}" with keyboard shortcuts`);
+	}
 };
 
 export const getYearSection = (page: Page, year: number): Locator =>

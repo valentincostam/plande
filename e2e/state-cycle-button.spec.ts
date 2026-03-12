@@ -1,10 +1,11 @@
 import { test, expect } from './fixtures';
 
-test.describe('Course state button', () => {
+test.describe('Course state cycle button', () => {
 	test('clicking cycles through all states and wraps back to the start', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.getCycleStateButtonToggle().click();
 
-		const stateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		const stateButton = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
 
 		await expect(stateButton).toHaveAccessibleName(
 			'Estado de Álgebra y Geometría Analítica: No cursada'
@@ -36,8 +37,9 @@ test.describe('Course state button', () => {
 		studyPlan
 	}) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.getCycleStateButtonToggle().click();
 
-		const stateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		const stateButton = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
 
 		await stateButton.focus();
 		await page.keyboard.press('R');
@@ -53,8 +55,9 @@ test.describe('Course state button', () => {
 
 	test('keeps a fixed width across all state changes', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.getCycleStateButtonToggle().click();
 
-		const stateButton = studyPlan.getCourseStateButton('Álgebra y Geometría Analítica');
+		const stateButton = studyPlan.getCourseStateControl('Álgebra y Geometría Analítica');
 		const initialBox = await stateButton.boundingBox();
 
 		expect(initialBox).not.toBeNull();
@@ -74,6 +77,7 @@ test.describe('Course state button', () => {
 
 	test('blocked badge uses the same width as the enabled state button', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.getCycleStateButtonToggle().click();
 
 		const blockedBadge = studyPlan.getCourseButton('Análisis Matemático II').getByText('Bloqueada');
 		const blockedBox = await blockedBadge.boundingBox();
@@ -83,7 +87,7 @@ test.describe('Course state button', () => {
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Regular');
 		await studyPlan.setCourseState('Análisis Matemático I', 'Regular');
 
-		const stateButton = studyPlan.getCourseStateButton('Análisis Matemático II');
+		const stateButton = studyPlan.getCourseStateControl('Análisis Matemático II');
 		const stateBox = await stateButton.boundingBox();
 
 		expect(stateBox).not.toBeNull();
@@ -92,11 +96,12 @@ test.describe('Course state button', () => {
 
 	test('skips passed when the course cannot be approved yet', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frba-iq-1995');
+		await studyPlan.getCycleStateButtonToggle().click();
 
 		await studyPlan.setYearState(1, 'Aprobadas');
 		await studyPlan.setYearState(2, 'Regulares');
 
-		const fisica2StateButton = studyPlan.getCourseStateButton('Física II');
+		const fisica2StateButton = studyPlan.getCourseStateControl('Física II');
 		await expect(fisica2StateButton).toHaveAccessibleName('Estado de Física II: Regular');
 
 		await fisica2StateButton.click();

@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures';
 
 test.describe('Diagram node selection', () => {
-	test('keeps the node selected while its state button is clicked repeatedly', async ({
+	test('keeps the node selected while its state control is used repeatedly', async ({
 		studyPlan
 	}) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
@@ -9,18 +9,21 @@ test.describe('Diagram node selection', () => {
 
 		const courseName = 'Álgebra y Geometría Analítica';
 		const diagramNode = studyPlan.getDiagramCourseNode(courseName);
-		const stateButton = studyPlan.getCourseStateButton(courseName);
+		const stateControl = studyPlan.getCourseStateControl(courseName);
 
-		await stateButton.click();
-		await expect(stateButton).toHaveAccessibleName(`Estado de ${courseName}: En curso`);
+		await stateControl.click();
 		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
 
-		await stateButton.click();
-		await expect(stateButton).toHaveAccessibleName(`Estado de ${courseName}: Regular`);
+		await stateControl.selectOption({ label: 'En curso' });
+		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: En curso`);
+		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
+
+		await stateControl.selectOption({ label: 'Regular' });
+		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: Regular`);
 		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
 	});
 
-	test('toggles selection off when clicking the node outside the state button', async ({
+	test('toggles selection off when clicking the node outside the state control', async ({
 		page,
 		studyPlan
 	}) => {
@@ -29,9 +32,9 @@ test.describe('Diagram node selection', () => {
 
 		const courseName = 'Álgebra y Geometría Analítica';
 		const diagramNode = studyPlan.getDiagramCourseNode(courseName);
-		const stateButton = studyPlan.getCourseStateButton(courseName);
+		const stateControl = studyPlan.getCourseStateControl(courseName);
 
-		await stateButton.click();
+		await stateControl.click();
 		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
 
 		const nodeBox = await diagramNode.boundingBox();

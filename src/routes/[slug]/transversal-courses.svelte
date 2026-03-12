@@ -11,9 +11,10 @@
 		courses: CourseType[];
 		showCodes?: boolean;
 		title?: string;
+		useCycleButton?: boolean;
 	};
 
-	let { courses, showCodes = false, title }: Props = $props();
+	let { courses, showCodes = false, title, useCycleButton = false }: Props = $props();
 
 	const allCoursesAreElective = $derived(
 		courses.length > 0 && courses.every((course) => course.type === 'elective')
@@ -59,7 +60,7 @@
 			courses={annualOrSemestralCourses}
 		>
 			{#each annualOrSemestralCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}
@@ -67,7 +68,7 @@
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses}>
 			{#each annualCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}
@@ -75,7 +76,7 @@
 	{#if firstSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.firstSemester]} courses={firstSemesterCourses}>
 			{#each firstSemesterCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}
@@ -83,7 +84,7 @@
 	{#if secondSemesterCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.secondSemester]} courses={secondSemesterCourses}>
 			{#each secondSemesterCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}
@@ -91,7 +92,7 @@
 	{#if semestralCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.semestral]} courses={semestralCourses}>
 			{#each semestralCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}
@@ -99,7 +100,7 @@
 	{#if unknownCourses.length > 0}
 		<Term courses={unknownCourses}>
 			{#each unknownCourses as course (course.id)}
-				<Course {course} {showCodes} hideTypeBadge={allCoursesAreElective} />
+				<Course {course} {showCodes} {useCycleButton} hideTypeBadge={allCoursesAreElective} />
 			{/each}
 		</Term>
 	{/if}

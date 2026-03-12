@@ -1,13 +1,18 @@
 <script lang="ts">
 	import { Position, type NodeProps, type Node, Handle } from '@xyflow/svelte';
-	import { type Course } from '$lib/course.svelte';
 	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
 	import { courseBgColors, courseNameColors, courseStates } from '$lib/course-state';
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
+	import type { CourseNodeData } from './diagram-utils';
 	import StateSelect from '../state-select.svelte';
 
-	let { data }: NodeProps<Node<{ course: Course; isSelected?: boolean; isHighlighted?: boolean }>> =
-		$props();
+	type DiagramCourseNodeData = CourseNodeData & {
+		useCycleButton: boolean;
+		isSelected?: boolean;
+		isHighlighted?: boolean;
+	};
+
+	let { data }: NodeProps<Node<DiagramCourseNodeData>> = $props();
 
 	// Year ordinal suffix
 	const yearSuffix = ['', '°', '°', '°', '°', '°', '°'];
@@ -89,6 +94,7 @@
 			bind:value={data.course.state}
 			canPass={data.course.canPass}
 			courseName={data.course.name}
+			useCycleButton={data.useCycleButton}
 		/>
 	{:else}
 		<span

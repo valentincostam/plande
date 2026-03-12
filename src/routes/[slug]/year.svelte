@@ -14,9 +14,10 @@
 		year: Year;
 		showCodes?: boolean;
 		showBulkSelect?: boolean;
+		useCycleButton?: boolean;
 	};
 
-	let { year, showCodes = false, showBulkSelect = false }: Props = $props();
+	let { year, showCodes = false, showBulkSelect = false, useCycleButton = false }: Props = $props();
 
 	let selectValue = $state<CourseState | ''>('');
 
@@ -110,7 +111,7 @@
 			year={year.year}
 		>
 			{#each annualOrSemestralCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
@@ -118,7 +119,7 @@
 	{#if annualCourses.length > 0}
 		<Term title={courseTermLabels[courseTerms.annual]} courses={annualCourses} year={year.year}>
 			{#each annualCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
@@ -130,7 +131,7 @@
 			year={year.year}
 		>
 			{#each firstSemesterCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
@@ -142,7 +143,7 @@
 			year={year.year}
 		>
 			{#each secondSemesterCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
@@ -154,7 +155,7 @@
 			year={year.year}
 		>
 			{#each semestralCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
@@ -162,7 +163,7 @@
 	{#if unknownCourses.length > 0}
 		<Term courses={unknownCourses} year={year.year}>
 			{#each unknownCourses as course (course.id)}
-				<Course {course} {showCodes} />
+				<Course {course} {showCodes} {useCycleButton} />
 			{/each}
 		</Term>
 	{/if}
