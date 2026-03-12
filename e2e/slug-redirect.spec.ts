@@ -31,12 +31,16 @@ test.describe('Slug redirect to canonical URL with year', () => {
 	test('home page links include year in slug', async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 
-		// Scope to FRBA section to avoid matching other ISI plans
-		const frbaSection = page.getByText('Facultad Regional Buenos Aires (FRBA)').locator('..');
-
-		// Find ISI links within FRBA
-		const isiLink2008 = frbaSection.getByRole('link', { name: /Plan 2008/ });
-		const isiLink2023 = frbaSection.getByRole('link', { name: /Plan 2023/ });
+		const isiLink2008 = page.getByRole('link', {
+			name: 'Ingeniería en Sistemas de Información Plan 2008',
+			exact: true
+		});
+		const isiLink2023 = page
+			.getByRole('link', {
+				name: 'Ingeniería en Sistemas de Información Plan 2023',
+				exact: true
+			})
+			.and(page.locator('a[href="/utn-frba-isi-2023"]'));
 
 		await expect(isiLink2008).toHaveAttribute('href', '/utn-frba-isi-2008');
 		await expect(isiLink2023).toHaveAttribute('href', '/utn-frba-isi-2023');
