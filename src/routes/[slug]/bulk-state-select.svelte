@@ -46,7 +46,7 @@
 		onchange={handleChange}
 		{id}
 		aria-label={label || 'Cambiar estado de todas las materias'}
-		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-0 opacity-0"
+		class="absolute inset-0 h-full w-full cursor-pointer appearance-none border-0 p-2 opacity-0 dark:bg-gray-100 dark:text-white"
 		title="Cambiar estado de todas las materias"
 	>
 		<option value="" disabled>Cambiar materias a...</option>
