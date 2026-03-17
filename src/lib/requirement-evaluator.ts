@@ -62,6 +62,8 @@ export const meetsRequirementState = (
 	const state = currentState as (typeof courseStates)[keyof typeof courseStates];
 
 	switch (requiredState) {
+		case 'inProgress':
+			return isCourseStateGreaterOrEqual(state, courseStates.inProgress);
 		case 'taken':
 			return isCourseStateGreaterOrEqual(state, courseStates.taken);
 		case 'passed':

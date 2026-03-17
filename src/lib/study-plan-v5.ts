@@ -47,6 +47,7 @@ export type CourseItemState = CourseState;
 export type ItemState = CourseItemState | MilestoneState;
 
 export const requirementStates = {
+	inProgress: 'inProgress',
 	taken: 'taken',
 	passed: 'passed',
 	completed: 'completed'
