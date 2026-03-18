@@ -373,13 +373,13 @@ const courses: RawCourse[] = [
 		code: '17',
 		name: 'Derecho Comercial - Análisis Económico del Derecho',
 		hours: 5,
-		term: courseTerms.secondSemester,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 21,
+				requiredCourseId: 7,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
@@ -421,7 +421,7 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 21,
+				requiredCourseId: 7,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			}
@@ -491,7 +491,7 @@ const courses: RawCourse[] = [
 		code: '19',
 		name: 'Personas Jurídicas Civiles y Comerciales',
 		hours: 6,
-		term: courseTerms.firstSemester,
+		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
 		year: 3,
 		requirements: [
@@ -952,12 +952,18 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 17,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1017,12 +1023,18 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 25,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1082,12 +1094,18 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 16,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1141,6 +1159,12 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 7,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
 				requiredCourseId: 14,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -1200,18 +1224,24 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 16,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
 			{
-				id: 10,
+				id: 11,
 				requiredCourseId: 26,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1271,12 +1301,18 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 24,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1336,12 +1372,18 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 8,
-				requiredCourseId: 14,
+				requiredCourseId: 13,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 9,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 10,
 				requiredCourseId: 16,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -1395,6 +1437,12 @@ const courses: RawCourse[] = [
 			},
 			{
 				id: 7,
+				requiredCourseId: 13,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 8,
 				requiredCourseId: 14,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.enroll
@@ -2320,6 +2368,11 @@ export const uccuyoFdcsAb2018: StudyPlan = {
 			id: 3,
 			label: 'Resolución N° 0526-CS-2018',
 			url: 'https://derecho.uccuyosl.edu.ar/wp-content/uploads/2026/02/RESOLUCION_N0526.pdf'
+		},
+		{
+			id: 4,
+			label: 'Resolución N° 65-C.D/F.D.yCs.Soc./2022',
+			url: 'https://drive.google.com/file/d/1OSqNLVcivaKDojSvOG7e_kXFnOFTas1Y/view?usp=sharing'
 		}
 	],
 	notes: []
