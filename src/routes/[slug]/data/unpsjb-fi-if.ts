@@ -405,18 +405,6 @@ const courses: RawCourse[] = [
 				requiredCourseId: 9,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			}
 		]
 	},
