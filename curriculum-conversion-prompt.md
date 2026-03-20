@@ -85,6 +85,15 @@ Each course object:
 
 </requirement_structure>
 
+<requirements_style>
+
+Write `requirements` inline and explicitly inside each course object.
+
+- Do not create helpers like `toRequirements`, `buildRequirements`, maps, or intermediate abstractions
+- Match Plande's existing style: plain arrays of requirement objects per course
+
+</requirements_style>
+
 <default_prerequisite_rule>
 
 When the curriculum lists prerequisites WITHOUT specifying requirement types (e.g., just "Correlativas: Matemática I, Física I"), apply the standard Argentine university pattern by creating BOTH requirements for each prerequisite:
@@ -361,7 +370,8 @@ Process: Split by commas first, then by dashes within each segment. Create a req
 2. **Create prerequisite mapping table**: Before writing any code, map each course code to its prerequisites from all columns
 3. **Process row-by-row**: Go through every course sequentially, verify each placement
 4. **Validate counts**: Extracted codes must equal requirement objects created
-5. **Cross-validate**: Final course count and distribution must match source
+5. **Keep requirements explicit**: No helper functions or generated requirement builders
+6. **Cross-validate**: Final course count and distribution must match source
 
 </processing_workflow>
 
@@ -408,6 +418,7 @@ Before submitting:
 - [ ] Spot-check: Verified 5-10 courses character-by-character against source
 - [ ] Correct imports: `courseTypes` from `'$lib/course-type'`, `courseAttributes` from `'$lib/course-attribute'`
 - [ ] Required fields: degreeName, degreeSlug, universityName, universitySlug, durationYears, progress, sources
+- [ ] Requirements are inline arrays, not helper-generated
 
 </validation_checklist>
 

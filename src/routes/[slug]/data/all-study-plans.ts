@@ -41,6 +41,7 @@ import { unsDcsLe2017 } from './uns-dcs-le-2017';
 import { unlpFpLp } from './unlp-fp-lp';
 import { unlpFahcePm2003 } from './unlp-fahce-pm-2003';
 import { uccuyoFdcsAb2018 } from './uccuyo-fdcs-ab-2018';
+import { umEsenLrp2023 } from './um-esen-lrp-2023';
 import { unpsjbFiIf } from './unpsjb-fi-if';
 import type { StudyPlan } from '$lib/study-plan';
 
@@ -88,5 +89,6 @@ export const allStudyPlans: StudyPlan[] = [
 	unsDcsLe2017,
 	unlpFpLp,
 	uccuyoFdcsAb2018,
+	umEsenLrp2023,
 	unpsjbFiIf
 ];
