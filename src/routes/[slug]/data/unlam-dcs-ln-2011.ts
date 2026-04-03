@@ -3014,7 +3014,11 @@ export const unlamDcsLn2011: StudyPlan = {
 		type: 'mandatory-only'
 	},
 	sources: [
-		{ id: 1, label: 'Oferta académica', url: 'https://www.unlam.edu.ar/academicas/nutricion/' },
+		{
+			id: 1,
+			label: 'Sitio web de la carrera',
+			url: 'https://www.unlam.edu.ar/academicas/nutricion/'
+		},
 		{
 			id: 2,
 			label: 'Plan de Estudios (PDF)',
