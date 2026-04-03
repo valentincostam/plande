@@ -15,6 +15,7 @@ import { unrFapydLdg } from './unr-fapyd-ldg';
 import { unerFcecoCP2020 } from './uner-fceco-cp-2020';
 import { uaiFceCp2022 } from './uai-fce-cp-2022';
 import { unlamDcsKf2011 } from './unlam-dcs-kf-2011';
+import { unlamDcsLn2011 } from './unlam-dcs-ln-2011';
 import { unlamDdcpAb2018 } from './unlam-ddcp-ab-2018';
 import { unlamDiitII2023 } from './unlam-diit-ii-2023';
 import { unlamDceLci } from './unlam-dce-lci';
@@ -64,6 +65,7 @@ export const allStudyPlans: StudyPlan[] = [
 	unerFcecoCP2020,
 	uaiFceCp2022,
 	unlamDcsKf2011,
+	unlamDcsLn2011,
 	unlamDdcpAb2018,
 	unlamDiitII2023,
 	unlamDceLci,
