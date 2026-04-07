@@ -3,6 +3,7 @@ import { error, json } from '@sveltejs/kit';
 import { studyPlanSlugMap, studyPlanSlugWithYearMap } from './study-plan-maps';
 import { studyPlanToMarkdown } from '$lib/formatters/study-plan-markdown';
 import { studyPlanToPlainText } from '$lib/formatters/study-plan-plaintext';
+import { studyPlanDataToCatalogEntry, studyPlanDataToStudyPlan } from '$lib/study-plan-catalog';
 
 export const prerender = true;
 
@@ -47,12 +48,13 @@ function generateOGResponse(
 	slug: string,
 	url: URL
 ): Response {
-	const collegeAbbr = studyPlan.collegeSlug ? studyPlan.collegeSlug.toUpperCase() : '';
-	const universityAbbr = studyPlan.universitySlug.toUpperCase();
+	const studyPlanEntry = studyPlanDataToCatalogEntry(studyPlan);
+	const collegeAbbr = studyPlanEntry.collegeSlug ? studyPlanEntry.collegeSlug.toUpperCase() : '';
+	const universityAbbr = studyPlanEntry.universitySlug.toUpperCase();
 	const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
 
-	const title = `${studyPlan.degreeName} ・ ${institution} ・ Plande`;
-	const description = `Plan de Estudios de ${studyPlan.degreeName} en ${studyPlan.universityName}${studyPlan.collegeName ? ` · ${studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
+	const title = `${studyPlanEntry.degreeName} ・ ${institution} ・ Plande`;
+	const description = `Plan de Estudios de ${studyPlanEntry.degreeName} en ${studyPlanEntry.universityName}${studyPlanEntry.collegeName ? ` · ${studyPlanEntry.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 
 	// Build query params for OG URLs
 	const ogParams = new URLSearchParams();
@@ -91,7 +93,7 @@ function generateOGResponse(
 	<meta name="twitter:image" content="${ogImageUrl}">
 </head>
 <body>
-	<h1>${studyPlan.degreeName}</h1>
+	<h1>${studyPlanEntry.degreeName}</h1>
 	<p>${description}</p>
 </body>
 </html>`;
@@ -198,7 +200,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 
 	switch (contentType) {
 		case 'text/markdown': {
-			const markdown = studyPlanToMarkdown(studyPlan);
+			const markdown = studyPlanToMarkdown(studyPlanDataToStudyPlan(studyPlan));
 			return new Response(markdown, {
 				headers: {
 					...headers,
@@ -208,7 +210,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 		}
 
 		case 'text/plain': {
-			const plaintext = studyPlanToPlainText(studyPlan);
+			const plaintext = studyPlanToPlainText(studyPlanDataToStudyPlan(studyPlan));
 			return new Response(plaintext, {
 				headers: {
 					...headers,
@@ -219,7 +221,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 
 		case 'application/json':
 		default: {
-			return json(studyPlan, {
+			return json(studyPlanDataToStudyPlan(studyPlan), {
 				headers
 			});
 		}

@@ -1,10 +1,31 @@
-# Plan maestro v5.1 - Nuevo modelo de datos y arquitectura reactiva para Plande
+# Plan Maestro del Nuevo Modelo de Datos y Arquitectura Reactiva para Plande
 
 ## Estado y objetivo
 
 - Este trabajo se realiza en una rama nueva, **nunca en `main`**.
-- Rama de trabajo actual recomendada: `study-plan-v5-spec`
+- Rama de trabajo usada: una rama dedicada de migracion, separada de `main`.
 - Objetivo: soportar la gran mayoria de los planes heterogeneos observados sin romper los planes actuales, la UX actual ni las URLs compartidas.
+- Estado actual: **completado**.
+- Fuente de verdad actual: `StudyPlanData` nativo en `src/routes/[slug]/data`.
+- El adapter del modelo anterior, los previews transicionales y el catalogo anterior fueron eliminados.
+
+## Definition of Done
+
+La migracion se considera cerrada cuando se cumplen todos estos puntos:
+
+1. todos los planes viven en `src/routes/[slug]/data` como `StudyPlanData` nativo;
+2. la app, homepage, sitemap, `llms.txt`, `GET /[slug]` y `og.png` leen desde catalogo nativo;
+3. no existe fallback runtime a datos del modelo anterior ni adapter del modelo anterior;
+4. no existen previews/transicionales separados;
+5. `bun run check`, Vitest y Playwright completo estan verdes.
+
+## Nota de Cierre
+
+Este documento conserva el plan original y el estado final del proyecto.
+
+El resultado funcional si quedo completado, pero algunos artefactos intermedios del plan original
+(por ejemplo, script de conversion, harness de compatibilidad y snapshots) fueron utiles durante la
+migracion y no necesariamente quedaron retenidos en el repo final.
 
 ## Problema
 
@@ -177,7 +198,7 @@ Congelar el comportamiento observable actual antes de tocar el modelo.
    - al menos un plan con `crossYear`;
    - al menos un plan con electivas por horas;
    - al menos un plan con optativas/electivas mezcladas.
-3. Crear harness de equivalencia legacy vs nuevo motor.
+3. Crear harness de equivalencia entre el modelo anterior y el nuevo motor.
 4. Generar golden snapshots por plan para escenarios representativos.
 
 ### Entregables
@@ -217,7 +238,7 @@ Introducir el nuevo schema sin romper todavia la UI.
 
 ### Entregables
 
-- modulo de tipos v5.1
+- modulo de tipos del nuevo modelo
 - modulo de helpers de authoring
 
 ### Criterio de salida
@@ -346,7 +367,7 @@ Separar completamente dominio y presentacion sin cambiar innecesariamente la UX.
 
 Los planes actuales se siguen viendo igual para el usuario final.
 
-## Fase 6 - Migracion de datos legacy -> v5.1
+## Fase 6 - Migracion de datos del modelo anterior al nuevo modelo
 
 ### Objetivo
 
@@ -394,7 +415,7 @@ Garantizar que el cambio no rompa trayectoria academica, UX ni URLs.
 
 ### Compatibility tests obligatorios
 
-Comparar legacy vs nuevo motor, por plan y por escenario:
+Comparar modelo anterior vs nuevo motor, por plan y por escenario:
 
 - `isEnabled`
 - `canPass`
@@ -403,6 +424,12 @@ Comparar legacy vs nuevo motor, por plan y por escenario:
 - ranking de prioridad equivalente
 - progreso actual equivalente donde aplique
 - serializacion/deserializacion de URL
+
+Ademas, para cada plan migrado a definicion nativa final:
+
+- comparar conversion automatica del modelo anterior vs definicion nativa final en estructura;
+- comparar comportamiento browser previo vs comportamiento browser final sobre el mismo escenario;
+- ver `docs/study-plan-native-migration-equivalence.md`.
 
 ### E2E obligatorios
 
@@ -435,7 +462,7 @@ Se deben cumplir ambas cosas:
 
 ### Criterio de salida
 
-No se reemplaza el motor legacy hasta que:
+No se reemplaza el motor anterior hasta que:
 
 - unit tests verdes
 - compatibility tests verdes
@@ -475,14 +502,14 @@ Actualizar el flujo de carga de planes para el nuevo modelo.
 
 ### Criterio de salida
 
-El prompt nuevo permite cargar planes directamente al modelo v5.1 sin depender del schema viejo.
+El prompt nuevo permite cargar planes directamente al nuevo modelo sin depender del schema viejo.
 
 ## Entregables finales del proyecto
 
-1. Nuevo modelo de datos v5.1 implementado
+1. Nuevo modelo de datos implementado
 2. Nueva arquitectura reactiva implementada
 3. Script de migracion determinista
-4. Harness de equivalencia legacy vs nuevo motor
+4. Harness de equivalencia entre el modelo anterior y el nuevo motor
 5. Tests unitarios
 6. Tests E2E nuevos
 7. E2E existentes pasando

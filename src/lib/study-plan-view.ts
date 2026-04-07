@@ -1,7 +1,7 @@
 import type { CourseTerm } from './course-term';
 import type { GraduationProgress } from './requirement-evaluator';
 import type { PlanSession, PlanItemState, SectionState } from './plan-session.svelte';
-import type { RequirementExpr, Selector } from './study-plan-v5';
+import type { RequirementExpr, Selector } from './study-plan-data';
 
 export type RequirementView = {
 	label: string;

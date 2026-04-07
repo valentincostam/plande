@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { courseTerms } from './course-term';
 import { courseTypes } from './course-type';
 import { preparePlan } from './prepare-plan';
-import { place, req } from './study-plan-v5-helpers';
-import type { StudyPlanData } from './study-plan-v5';
+import { place, req } from './study-plan-helpers';
+import type { StudyPlanData } from './study-plan-data';
 
 const createBasePlan = (): StudyPlanData => ({
 	info: {
@@ -98,6 +98,6 @@ describe('preparePlan', () => {
 			preparePlan(plan, {
 				previousSeqIds: { a: 1, b: 2 }
 			})
-		).toThrow(/append-only/i);
+		).toThrow(/Duplicate seqId/i);
 	});
 });

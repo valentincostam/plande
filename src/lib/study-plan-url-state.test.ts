@@ -5,10 +5,10 @@ import {
 	decodeMilestoneStates,
 	encodeCourseItemStates,
 	encodeMilestoneStates
-} from './study-plan-v5-url-state';
-import { milestoneStates } from './study-plan-v5';
+} from './study-plan-url-state';
+import { milestoneStates } from './study-plan-data';
 
-describe('study-plan-v5-url-state', () => {
+describe('study-plan-url-state', () => {
 	it('encodes and decodes course item states', () => {
 		const encoded = encodeCourseItemStates([
 			courseStates.taken,

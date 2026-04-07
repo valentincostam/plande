@@ -1,1129 +1,1411 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	{
-		id: 1,
-		code: '1.1',
-		name: 'Salud Individual',
-		hours: 23,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 2,
-		code: '1.2',
-		name: 'Salud Colectiva',
-		hours: 7,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 3,
-		code: '2.1',
-		name: 'Crecimiento y Desarrollo',
-		hours: 22,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 4,
-		code: '2.2',
-		name: 'Nutrición',
-		hours: 22,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 5,
-		code: '2.3',
-		name: 'Sexualidad Género y Reproducción',
-		hours: 22,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 6,
-		code: '2.4',
-		name: 'Trabajo y Tiempo Libre',
-		hours: 26,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 7,
-		code: '2.5',
-		name: 'El Ser Humano y su Medio',
-		hours: 26,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 8,
-		code: '3.2',
-		name: 'Inglés I',
-		hours: 7,
-		term: courseTerms.semestral,
-		year: 3,
-		requirements: [],
-		type: courseTypes.elective
-	},
-	{
-		id: 9,
-		code: '3.4',
-		name: 'Informática I',
-		hours: 7,
-		term: courseTerms.semestral,
-		year: 3,
-		requirements: [],
-		type: courseTypes.elective
-	},
-	{
-		id: 10,
-		code: '3.1',
-		name: 'Injuria',
-		hours: 22,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 11,
-		code: '3.3',
-		name: 'Defensa',
-		hours: 22,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 12,
-		code: '2.6',
-		name: 'Metodología de la Investigación Científica I',
-		hours: 7,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 13,
-		code: '3.5',
-		name: 'Electivas',
-		hours: 15,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 14,
-		code: '4.1',
-		name: 'Salud Integral del Niño y del Adolescente',
-		hours: 10,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 15,
-		code: '4.2',
-		name: 'Salud Integral del Adulto Joven',
-		hours: 17,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 16,
-		code: '4.3',
-		name: 'Informática II',
-		hours: 14,
-		term: courseTerms.semestral,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		],
-		type: courseTypes.elective
-	},
-	{
-		id: 17,
-		code: '4.4',
-		name: 'Inglés II',
-		hours: 14,
-		term: courseTerms.semestral,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		],
-		type: courseTypes.elective
-	},
-	{
-		id: 18,
-		code: '4.5',
-		name: 'Electivas',
-		hours: 15,
-		term: courseTerms.annual,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 8,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		],
-		type: courseTypes.elective
-	},
-	{
-		id: 19,
-		code: '4.6',
-		name: 'Salud Integral del Adulto Mayor',
-		hours: 17,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20,
-		code: '4.8',
-		name: 'Salud Integral de la Mujer',
-		hours: 10,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 21,
-		code: '4.9',
-		name: 'Introducción a las Especialidades Clínico-Quirúrgicas',
-		hours: 10,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 23,
-		code: '4.7',
-		name: 'Metodología de la Investigación Científica II',
-		hours: 14,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 24,
-		code: '5.1',
-		name: 'Clínica Pediátrica',
-		hours: 8,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 25,
-		code: '5.2',
-		name: 'Gineco-Obstetricia',
-		hours: 8,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 26,
-		code: '5.3',
-		name: 'Clínica Quirúrgica',
-		hours: 4,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 27,
-		code: '5.4',
-		name: 'Clínica Médica',
-		hours: 10,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 28,
-		code: '5.5',
-		name: 'Medicina Familiar y General',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 29,
-		code: '5.6',
-		name: 'Emergentología',
-		hours: 6,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 30,
-		code: '5.7',
-		name: 'Escuela de Salud (ESP)',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 11,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 31,
-		code: '5.8',
-		name: 'Prácticas Integradas (CISS)',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 24,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 27,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 28,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 29,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 24,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 8,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 9,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 10,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 11,
-				requiredCourseId: 28,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 12,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	}
-];
-
-export const unerFcsMed2022: StudyPlan = {
-	courses,
-	degreeName: 'Medicina',
-	degreeSlug: 'MED',
-	durationYears: 5,
-	universityName: 'Universidad Nacional de Entre Ríos',
-	universitySlug: 'UNER',
-	collegeName: 'Facultad de Ciencias de la Salud',
-	collegeSlug: 'FCS',
-	year: 2022,
-	progress: {
-		type: 'mandatory-only'
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios 2022 - Resolución Consejo Directivo FCSA Nº 739/2024',
-			url: 'http://www.fcs.uner.edu.ar/web/fcs/normativas/RESOLUCION-CD-N-739-2024-FLEXIBILIDAD-MEDICINA.pdf'
-		},
-		{
-			id: 2,
-			label: 'Resolución Ministerial Nº 1371/17',
-			url: 'http://www.fcs.uner.edu.ar/web/fcs/normativas/MEDICINA2016_REC_VAL_RM_1371_17.pdf'
-		}
-	]
+export const unerFcsMed2022: StudyPlanData = {
+  "info": {
+    "degreeName": "Medicina",
+    "degreeSlug": "MED",
+    "universityName": "Universidad Nacional de Entre Ríos",
+    "universitySlug": "UNER",
+    "collegeName": "Facultad de Ciencias de la Salud",
+    "collegeSlug": "FCS",
+    "year": 2022,
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios 2022 - Resolución Consejo Directivo FCSA Nº 739/2024",
+        "url": "http://www.fcs.uner.edu.ar/web/fcs/normativas/RESOLUCION-CD-N-739-2024-FLEXIBILIDAD-MEDICINA.pdf"
+      },
+      {
+        "id": 2,
+        "label": "Resolución Ministerial Nº 1371/17",
+        "url": "http://www.fcs.uner.edu.ar/web/fcs/normativas/MEDICINA2016_REC_VAL_RM_1371_17.pdf"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Salud Individual",
+      "code": "1.1",
+      "type": "mandatory",
+      "hours": 23,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "2",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Salud Colectiva",
+      "code": "1.2",
+      "type": "mandatory",
+      "hours": 7,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "3",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Crecimiento y Desarrollo",
+      "code": "2.1",
+      "type": "mandatory",
+      "hours": 22,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Nutrición",
+      "code": "2.2",
+      "type": "mandatory",
+      "hours": 22,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Sexualidad Género y Reproducción",
+      "code": "2.3",
+      "type": "mandatory",
+      "hours": 22,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Trabajo y Tiempo Libre",
+      "code": "2.4",
+      "type": "mandatory",
+      "hours": 26,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "7",
+      "seqId": 7,
+      "kind": "course",
+      "name": "El Ser Humano y su Medio",
+      "code": "2.5",
+      "type": "mandatory",
+      "hours": 26,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "8",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Inglés I",
+      "code": "3.2",
+      "type": "elective",
+      "hours": 7,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "9",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Informática I",
+      "code": "3.4",
+      "type": "elective",
+      "hours": 7,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "10",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Injuria",
+      "code": "3.1",
+      "type": "mandatory",
+      "hours": 22,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "11",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Defensa",
+      "code": "3.3",
+      "type": "mandatory",
+      "hours": 22,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "10",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "10",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Metodología de la Investigación Científica I",
+      "code": "2.6",
+      "type": "mandatory",
+      "hours": 7,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "13",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Electivas",
+      "code": "3.5",
+      "type": "mandatory",
+      "hours": 15,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "14",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Salud Integral del Niño y del Adolescente",
+      "code": "4.1",
+      "type": "mandatory",
+      "hours": 10,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "15",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Salud Integral del Adulto Joven",
+      "code": "4.2",
+      "type": "mandatory",
+      "hours": 17,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "16",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Informática II",
+      "code": "4.3",
+      "type": "elective",
+      "hours": 14,
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "9",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "17",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Inglés II",
+      "code": "4.4",
+      "type": "elective",
+      "hours": 14,
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "8",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "18",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Electivas",
+      "code": "4.5",
+      "type": "elective",
+      "hours": 15,
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "19",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Salud Integral del Adulto Mayor",
+      "code": "4.6",
+      "type": "mandatory",
+      "hours": 17,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "15",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Salud Integral de la Mujer",
+      "code": "4.8",
+      "type": "mandatory",
+      "hours": 10,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "21",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Introducción a las Especialidades Clínico-Quirúrgicas",
+      "code": "4.9",
+      "type": "mandatory",
+      "hours": 10,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "23",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Metodología de la Investigación Científica II",
+      "code": "4.7",
+      "type": "mandatory",
+      "hours": 14,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "24",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Clínica Pediátrica",
+      "code": "5.1",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "25",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Gineco-Obstetricia",
+      "code": "5.2",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "26",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Clínica Quirúrgica",
+      "code": "5.3",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "27",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Clínica Médica",
+      "code": "5.4",
+      "type": "mandatory",
+      "hours": 10,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "28",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Medicina Familiar y General",
+      "code": "5.5",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "29",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Emergentología",
+      "code": "5.6",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "30",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Escuela de Salud (ESP)",
+      "code": "5.7",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "31",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Prácticas Integradas (CISS)",
+      "code": "5.8",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "24",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "26",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "24",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "26",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      }
+    ]
+  }
 };

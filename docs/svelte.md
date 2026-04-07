@@ -2,7 +2,7 @@
 
 ## Runes (Svelte 5)
 
-Use runes, not legacy stores:
+Use runes, not old store-based patterns:
 
 - `$state` — reactive state
 - `$derived` — computed values

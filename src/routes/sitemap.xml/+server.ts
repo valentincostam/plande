@@ -1,7 +1,10 @@
-import { allStudyPlans } from '../[slug]/data/all-study-plans';
+import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
+import { allStudyPlans as studyPlanDataCatalog } from '../[slug]/data/all-study-plans';
 
 export const prerender = true;
+
+const allStudyPlans = studyPlanDataCatalog.map(studyPlanDataToCatalogEntry);
 
 export async function GET() {
 	// Genera slugs únicos para todas las carreras (con y sin año)

@@ -1,1149 +1,1493 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	// ═══════════════════════════════════════════════════════════════════════════
-	// PRIMER AÑO
-	// ═══════════════════════════════════════════════════════════════════════════
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 1
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 1,
-		code: 'N1',
-		name: 'Análisis I',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 102,
-		code: 'CB02',
-		name: 'Ciencia, Tecnología y Sociedad',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 103,
-		code: 'CB03',
-		name: 'Química General',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 104,
-		code: 'CB04',
-		name: 'Biología I',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 2
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 2,
-		code: 'N2',
-		name: 'Introducción a la Biotecnología',
-		hours: 5,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 104,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 104,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 102,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 102,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 106,
-		code: 'CB06',
-		name: 'Álgebra y Geometría Analítica',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 107,
-		code: 'CB07',
-		name: 'Biología II',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 103,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 103,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 104,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 104,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 108,
-		code: 'CB08',
-		name: 'Química Inorgánica',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 103,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 103,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ═══════════════════════════════════════════════════════════════════════════
-	// SEGUNDO AÑO
-	// ═══════════════════════════════════════════════════════════════════════════
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 3
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 112,
-		code: 'CB12',
-		name: 'Química Orgánica',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 108,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 108,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 10,
-		code: 'N10',
-		name: 'Análisis II',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 110,
-		code: 'CB10',
-		name: 'Física I',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 4
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 3,
-		code: 'N3',
-		name: 'Física II',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 110,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 110,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 111,
-		code: 'CB11',
-		name: 'Biología III',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 107,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 107,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 114,
-		code: 'CB14',
-		name: 'Estadística Aplicada',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 4,
-		code: 'N4',
-		name: 'Química Biológica I',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 107,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 107,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 112,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 112,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ═══════════════════════════════════════════════════════════════════════════
-	// TERCER AÑO
-	// ═══════════════════════════════════════════════════════════════════════════
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 5
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 116,
-		code: 'CB16',
-		name: 'Fisicoquímica',
-		hours: 6,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 108,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 108,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 117,
-		code: 'CB17',
-		name: 'Genética General',
-		hours: 6,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 107,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 107,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 114,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 114,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 4,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 5,
-		code: 'N5',
-		name: 'Química Biológica II',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 119,
-		code: 'CB19',
-		name: 'Biología IV',
-		hours: 5,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 107,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 107,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 112,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 112,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 6
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 11,
-		code: 'N11',
-		name: 'Microbiología',
-		hours: 12,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 117,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 117,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 122,
-		code: 'CB22',
-		name: 'Biología Celular',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 111,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 111,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 7,
-		code: 'N7',
-		name: 'Introducción a la Bioinformática',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 114,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 114,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 107,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 107,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ═══════════════════════════════════════════════════════════════════════════
-	// CUARTO AÑO
-	// ═══════════════════════════════════════════════════════════════════════════
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 7
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 123,
-		code: 'CB23',
-		name: 'Inmunología Básica',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 117,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 117,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 12,
-		code: 'N12',
-		name: 'Genética Molecular',
-		hours: 14,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 117,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 117,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 11,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 122,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 122,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 6,
-		code: 'N6',
-		name: 'Química Analítica',
-		hours: 6.5,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 112,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 112,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 114,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 114,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 116,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 116,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 8
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 157,
-		code: '00157',
-		name: 'Inmunología Molecular',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 123,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 123,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 162,
-		code: '00162',
-		name: 'Biotecnología Animal',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 155,
-		code: '00155',
-		name: 'Bioquímica de Proteínas',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 116,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 116,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ═══════════════════════════════════════════════════════════════════════════
-	// QUINTO AÑO
-	// ═══════════════════════════════════════════════════════════════════════════
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 9
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 159,
-		code: '00159',
-		name: 'Biotecnología Vegetal',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 119,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 119,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 8,
-		code: 'N8',
-		name: 'Bioprocesos',
-		hours: 9,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 11,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 116,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 116,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 13,
-		code: 'N13',
-		name: 'Métodos de Análisis de Biomoléculas',
-		hours: 6,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 157,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 157,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// ─────────────────────────────────────────────────────────────────────────────
-	// Cuatrimestre 10
-	// ─────────────────────────────────────────────────────────────────────────────
-	{
-		id: 9,
-		code: 'N9',
-		name: 'Proyectos Biotecnológicos',
-		hours: 6,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 8,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 159,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 159,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 162,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 162,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 9,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	}
-];
-
-export const unsamEbynLb: StudyPlan = {
-	courses,
-	degreeName: 'Licenciatura en Biotecnología',
-	degreeSlug: 'LB',
-	universityName: 'Universidad Nacional de San Martín',
-	universitySlug: 'UNSAM',
-	collegeName: 'Escuela de Bio y Nanotecnologías',
-	collegeSlug: 'EByN',
-	durationYears: 5,
-	progress: {
-		type: 'mandatory-only'
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios (Web)',
-			url: 'https://www.unsam.edu.ar/escuelas/ebyn/233/ebyn/biotecnologia'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'Para cursar asignaturas del **7° cuatrimestre o posteriores** (4<sup>to</sup> año en adelante), se debe haber aprobado un examen de suficiencia de idioma **inglés escrito**, consistente en la lectura y comprensión de textos científicos.'
-		}
-	]
+export const unsamEbynLb: StudyPlanData = {
+  "info": {
+    "degreeName": "Licenciatura en Biotecnología",
+    "degreeSlug": "LB",
+    "universityName": "Universidad Nacional de San Martín",
+    "universitySlug": "UNSAM",
+    "collegeName": "Escuela de Bio y Nanotecnologías",
+    "collegeSlug": "EByN",
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios (Web)",
+        "url": "https://www.unsam.edu.ar/escuelas/ebyn/233/ebyn/biotecnologia"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "text": "Para cursar asignaturas del **7° cuatrimestre o posteriores** (4<sup>to</sup> año en adelante), se debe haber aprobado un examen de suficiencia de idioma **inglés escrito**, consistente en la lectura y comprensión de textos científicos."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Análisis I",
+      "code": "N1",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "102",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Ciencia, Tecnología y Sociedad",
+      "code": "CB02",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "103",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Química General",
+      "code": "CB03",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "104",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Biología I",
+      "code": "CB04",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "2",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Introducción a la Biotecnología",
+      "code": "N2",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "104",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "102",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "104",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "102",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "106",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Álgebra y Geometría Analítica",
+      "code": "CB06",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "107",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Biología II",
+      "code": "CB07",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "103",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "104",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "103",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "104",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "108",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Química Inorgánica",
+      "code": "CB08",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "103",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "103",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "112",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Química Orgánica",
+      "code": "CB12",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "108",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "108",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Análisis II",
+      "code": "N10",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "110",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Física I",
+      "code": "CB10",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "3",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Física II",
+      "code": "N3",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "110",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "110",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "111",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Biología III",
+      "code": "CB11",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "107",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "107",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "114",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Estadística Aplicada",
+      "code": "CB14",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Química Biológica I",
+      "code": "N4",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "116",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Fisicoquímica",
+      "code": "CB16",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "108",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "108",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "117",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Genética General",
+      "code": "CB17",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Química Biológica II",
+      "code": "N5",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "4",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "4",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "119",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Biología IV",
+      "code": "CB19",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "11",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Microbiología",
+      "code": "N11",
+      "type": "mandatory",
+      "hours": 12,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "122",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Biología Celular",
+      "code": "CB22",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "111",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "111",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Introducción a la Bioinformática",
+      "code": "N7",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "107",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "123",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Inmunología Básica",
+      "code": "CB23",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "12",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Genética Molecular",
+      "code": "N12",
+      "type": "mandatory",
+      "hours": 14,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "122",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "117",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "122",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "6",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Química Analítica",
+      "code": "N6",
+      "type": "mandatory",
+      "hours": 6.5,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "112",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "114",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "157",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Inmunología Molecular",
+      "code": "00157",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "123",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "123",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "162",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Biotecnología Animal",
+      "code": "00162",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "12",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "12",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "155",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Bioquímica de Proteínas",
+      "code": "00155",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "159",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Biotecnología Vegetal",
+      "code": "00159",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "119",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "119",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Bioprocesos",
+      "code": "N8",
+      "type": "mandatory",
+      "hours": 9,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "116",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "13",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Métodos de Análisis de Biomoléculas",
+      "code": "N13",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "157",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "157",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "9",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Proyectos Biotecnológicos",
+      "code": "N9",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "159",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "162",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "159",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "162",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      }
+    ]
+  }
 };

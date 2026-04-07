@@ -1,1256 +1,1671 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseAttributes } from '$lib/course-attribute';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	// First Year - First Semester
-	{
-		id: 200,
-		code: 'H0200',
-		name: 'Psicología General I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 2,
-		code: 'H0002',
-		name: 'Bases Biológicas y Neurológicas del Comportamiento',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 3,
-		code: 'H0003',
-		name: 'Historia de la Psicología',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 202,
-		code: 'H0202',
-		name: 'Epistemología y Lógica',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 203,
-		code: 'H0203',
-		name: 'Filosofía',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 9,
-		code: 'H0009',
-		name: 'Fundamentos de Sociología',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 254,
-		code: 'H0254',
-		name: 'Inglés I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-
-	// First Year - Second Semester
-	{
-		id: 201,
-		code: 'H0201',
-		name: 'Psicología General II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 12,
-		code: 'H0012',
-		name: 'Neuropsicología',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 4,
-		code: 'H0004',
-		name: 'Teorías Psicológicas Contemporáneas',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 204,
-		code: 'H0204',
-		name: 'Metodología de las Ciencias',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 205,
-		code: 'H0205',
-		name: 'Antropología',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 13,
-		code: 'H0013',
-		name: 'Psicología de la Personalidad',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 200,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Second Year - First Semester
-	{
-		id: 235,
-		code: 'H0235',
-		name: 'Fundamentos del Psicoanálisis I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 206,
-		code: 'H0206',
-		name: 'Psicología del Desarrollo I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 208,
-		code: 'H0208',
-		name: 'Cultura y Subjetividad',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 203,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 209,
-		code: 'H0209',
-		name: 'Lenguaje y Comunicación',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 10,
-		code: 'H0010',
-		name: 'Psicología Social',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 237,
-		code: 'H0237',
-		name: 'Psicopatología I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 255,
-		code: 'H0255',
-		name: 'Inglés II',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 254,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 239,
-		code: 'H0239',
-		name: 'Psicoanálisis: Escuela Francesa',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 209,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Second Year - Second Semester
-	{
-		id: 238,
-		code: 'H0238',
-		name: 'Psicopatología II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 237,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 207,
-		code: 'H0207',
-		name: 'Psicología del Desarrollo II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 236,
-		code: 'H0236',
-		name: 'Fundamentos del Psicoanálisis II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 235,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 20,
-		code: 'H0020',
-		name: 'Dinámica de Grupos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 15,
-		code: 'H0015',
-		name: 'Evaluación y Técnicas Psicológicas I',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 21,
-		code: 'H0021',
-		name: 'Psicosociología Educacional',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Third Year - First Semester
-	{
-		id: 18,
-		code: 'H0018',
-		name: 'Evaluación y Técnicas Psicológicas II',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 236,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 241,
-		code: 'H0241',
-		name: 'Abordajes Actuales en Psicopatología',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 14,
-		code: 'H0014',
-		name: 'Técnicas de Abordaje e Intervención en Crisis',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 243,
-		code: 'H0243',
-		name: 'Observación y Práctica Profesional: Abordaje Socio-educacional',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 207,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 23,
-		code: 'H0023',
-		name: 'Psicología Organizacional',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 91,
-		name: 'Materia Electiva I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		year: 3,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 255,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 238,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 207,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Third Year - Second Semester
-	{
-		id: 240,
-		code: 'H0240',
-		name: 'Intervenciones en Psicoanálisis',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 239,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 242,
-		code: 'H0242',
-		name: 'Modelos y Estrategias de Intervención en Psicopatología',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 241,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 244,
-		code: 'H0244',
-		name: 'Observación y Práctica Profesional II: Abordaje Socio-comunitario',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 243,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 19,
-		code: 'H0019',
-		name: 'Evaluación y Técnicas Psicológicas III',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 22,
-		code: 'H0022',
-		name: 'Psicología Jurídica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 205,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 210,
-		code: 'H0210',
-		name: 'Ética y Deontología Profesional',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 208,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Fourth Year - First Semester
-	{
-		id: 211,
-		code: 'H0211',
-		name: 'Métodos y Técnicas Psicoterapéuticas I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 29,
-		code: 'H0029',
-		name: 'Psicología Clínica de Niños y Adolescentes',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 213,
-		code: 'H0213',
-		name: 'Psicología Preventiva y Salud Comunitaria I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 256,
-		code: 'H0256',
-		name: 'Computación',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 35,
-		code: 'H0035',
-		name: 'Psicoterapia Familiar',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 242,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 245,
-		code: 'H0245',
-		name: 'Observación y Práctica Profesional III: Clínica',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 244,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Fourth Year - Second Semester
-	{
-		id: 246,
-		code: 'H0246',
-		name: 'Observación y Práctica Profesional IV: Institucional y Jurídica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 245,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 232,
-		code: 'H0232',
-		name: 'Práctica Profesional Supervisada I',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 240,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 210,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 211,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 213,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 256,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 35,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 245,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 33,
-		code: 'H0033',
-		name: 'Orientación Vocacional y Ocupacional',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 214,
-		code: 'H0214',
-		name: 'Psicología Preventiva y Salud Comunitaria II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 213,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 30,
-		code: 'H0030',
-		name: 'Psicología Clínica de Adultos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 212,
-		code: 'H0212',
-		name: 'Métodos y Técnicas Psicoterapéuticas II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 211,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-
-	// Fifth Year
-	{
-		id: 257,
-		code: 'H0257',
-		name: 'Trabajo Integrador Final',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 246,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 232,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 33,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 214,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 212,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 233,
-		code: 'H0233',
-		name: 'Práctica Profesional Supervisada II',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.mandatoryFinalExam],
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 232,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 92,
-		name: 'Materia Electiva II',
-		hours: undefined,
-		term: courseTerms.annual,
-		year: 5,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 240,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 244,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 210,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	}
-];
-
-export const udemmLp: StudyPlan = {
-	courses,
-	degreeName: 'Licenciatura en Psicología',
-	degreeSlug: 'LP',
-	durationYears: 5,
-	universityName: 'Universidad de la Marina Mercante',
-	universitySlug: 'UdeMM',
-	progress: {
-		type: 'mandatory-plus-elective-count',
-		requiredElectiveCount: 2
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios',
-			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/'
-		},
-		{
-			id: 2,
-			label: 'Correlatividades',
-			url: 'https://udemm.edu.ar/carreras/licenciatura-en-psicologia/correlatividades-licenciatura-en-psicologia/'
-		},
-		{
-			id: 3,
-			label: 'Plan de Estudios (PDF)',
-			url: 'https://drive.google.com/file/d/1-KeqTTU5E1pyPxeHh5D4a8KPYEXFbjyZ/view?usp=sharing'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'Para rendir el examen final de **Trabajo Integrador Final** (5<sup>to</sup> año) se debe estar aprobada todas las asignaturas curriculares, extracurriculares y las electivas correspondientes del plan de estudios.'
-		},
-		{
-			id: 2,
-			text: `Las opciones de materias electivas de 3<sup>er</sup> año son:
-        \n - H0043. **Psicopedagogía en Educación Especial I**
-        \n - H0220. **Investigación de Mercados**
-        \n - H0222. **Psicología de la Tercera Edad**
-        \n - H0218. **Comunicación**
-        \n - H0258. **Género, Sexualidad y Subjetividad**
-      `
-		},
-		{
-			id: 3,
-			text: `Las opciones de materias electivas de 5<sup>to</sup> año son:
-        \n - H0219. **Publicidad y Promoción**
-        \n - H0259. **Psicología de las Nuevas Tecnologías**
-        \n - H0225. **Introducción a la Psicología del Deporte**
-        \n - H0221. **Comportamiento del Consumidor**
-      `
-		},
-		{
-			id: 4,
-			text: 'Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como *"Todo 1º A 2º año"*.'
-		},
-
-		{
-			id: 5,
-			text: 'La carrera otorga el título intermedio de **Acompañante Terapéutico**.'
-		}
-	]
+export const udemmLp: StudyPlanData = {
+  "info": {
+    "degreeName": "Licenciatura en Psicología",
+    "degreeSlug": "LP",
+    "universityName": "Universidad de la Marina Mercante",
+    "universitySlug": "UdeMM",
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios",
+        "url": "https://udemm.edu.ar/carreras/licenciatura-en-psicologia/"
+      },
+      {
+        "id": 2,
+        "label": "Correlatividades",
+        "url": "https://udemm.edu.ar/carreras/licenciatura-en-psicologia/correlatividades-licenciatura-en-psicologia/"
+      },
+      {
+        "id": 3,
+        "label": "Plan de Estudios (PDF)",
+        "url": "https://drive.google.com/file/d/1-KeqTTU5E1pyPxeHh5D4a8KPYEXFbjyZ/view?usp=sharing"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "text": "Para rendir el examen final de **Trabajo Integrador Final** (5<sup>to</sup> año) se debe estar aprobada todas las asignaturas curriculares, extracurriculares y las electivas correspondientes del plan de estudios."
+      },
+      {
+        "id": 2,
+        "text": "Las opciones de materias electivas de 3<sup>er</sup> año son:\n        \n - H0043. **Psicopedagogía en Educación Especial I**\n        \n - H0220. **Investigación de Mercados**\n        \n - H0222. **Psicología de la Tercera Edad**\n        \n - H0218. **Comunicación**\n        \n - H0258. **Género, Sexualidad y Subjetividad**\n      "
+      },
+      {
+        "id": 3,
+        "text": "Las opciones de materias electivas de 5<sup>to</sup> año son:\n        \n - H0219. **Publicidad y Promoción**\n        \n - H0259. **Psicología de las Nuevas Tecnologías**\n        \n - H0225. **Introducción a la Psicología del Deporte**\n        \n - H0221. **Comportamiento del Consumidor**\n      "
+      },
+      {
+        "id": 4,
+        "text": "Se simplificaron las correlatividades eliminando requisitos redundantes para facilitar la lectura del plan, especialmente en materias con requisitos como *\"Todo 1º A 2º año\"*."
+      },
+      {
+        "id": 5,
+        "text": "La carrera otorga el título intermedio de **Acompañante Terapéutico**."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    }
+  ],
+  "items": [
+    {
+      "id": "200",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Psicología General I",
+      "code": "H0200",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "2",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Bases Biológicas y Neurológicas del Comportamiento",
+      "code": "H0002",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "3",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Historia de la Psicología",
+      "code": "H0003",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "202",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Epistemología y Lógica",
+      "code": "H0202",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "203",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Filosofía",
+      "code": "H0203",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "9",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Fundamentos de Sociología",
+      "code": "H0009",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "254",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Inglés I",
+      "code": "H0254",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "201",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Psicología General II",
+      "code": "H0201",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "200",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Neuropsicología",
+      "code": "H0012",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "2",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "4",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Teorías Psicológicas Contemporáneas",
+      "code": "H0004",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "204",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Metodología de las Ciencias",
+      "code": "H0204",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "202",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "205",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Antropología",
+      "code": "H0205",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "13",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Psicología de la Personalidad",
+      "code": "H0013",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "200",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "235",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Fundamentos del Psicoanálisis I",
+      "code": "H0235",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "201",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "206",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Psicología del Desarrollo I",
+      "code": "H0206",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "201",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "208",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Cultura y Subjetividad",
+      "code": "H0208",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "203",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "209",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Lenguaje y Comunicación",
+      "code": "H0209",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "201",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Psicología Social",
+      "code": "H0010",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "9",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "237",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Psicopatología I",
+      "code": "H0237",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "201",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "255",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Inglés II",
+      "code": "H0255",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "254",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "239",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Psicoanálisis: Escuela Francesa",
+      "code": "H0239",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "236",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "209",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "238",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Psicopatología II",
+      "code": "H0238",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "237",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "207",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Psicología del Desarrollo II",
+      "code": "H0207",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "206",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "236",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Fundamentos del Psicoanálisis II",
+      "code": "H0236",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "235",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Dinámica de Grupos",
+      "code": "H0020",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "9",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "15",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Evaluación y Técnicas Psicológicas I",
+      "code": "H0015",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "206",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "21",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Psicosociología Educacional",
+      "code": "H0021",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "9",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "18",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Evaluación y Técnicas Psicológicas II",
+      "code": "H0018",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "236",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "241",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Abordajes Actuales en Psicopatología",
+      "code": "H0241",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "238",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "14",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Técnicas de Abordaje e Intervención en Crisis",
+      "code": "H0014",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "238",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "243",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Observación y Práctica Profesional: Abordaje Socio-educacional",
+      "code": "H0243",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "204",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "205",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "208",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "255",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "238",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "207",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "23",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Psicología Organizacional",
+      "code": "H0023",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "91",
+      "seqId": 33,
+      "kind": "course",
+      "name": "Materia Electiva I",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "204",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "205",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "208",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "255",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "238",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "207",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "240",
+      "seqId": 34,
+      "kind": "course",
+      "name": "Intervenciones en Psicoanálisis",
+      "code": "H0240",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "239",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "242",
+      "seqId": 35,
+      "kind": "course",
+      "name": "Modelos y Estrategias de Intervención en Psicopatología",
+      "code": "H0242",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "241",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "244",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Observación y Práctica Profesional II: Abordaje Socio-comunitario",
+      "code": "H0244",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "243",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "19",
+      "seqId": 37,
+      "kind": "course",
+      "name": "Evaluación y Técnicas Psicológicas III",
+      "code": "H0019",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "18",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "22",
+      "seqId": 38,
+      "kind": "course",
+      "name": "Psicología Jurídica",
+      "code": "H0022",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "205",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "210",
+      "seqId": 39,
+      "kind": "course",
+      "name": "Ética y Deontología Profesional",
+      "code": "H0210",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "208",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "211",
+      "seqId": 40,
+      "kind": "course",
+      "name": "Métodos y Técnicas Psicoterapéuticas I",
+      "code": "H0211",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "242",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "29",
+      "seqId": 41,
+      "kind": "course",
+      "name": "Psicología Clínica de Niños y Adolescentes",
+      "code": "H0029",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "206",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "242",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "213",
+      "seqId": 42,
+      "kind": "course",
+      "name": "Psicología Preventiva y Salud Comunitaria I",
+      "code": "H0213",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "242",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "256",
+      "seqId": 43,
+      "kind": "course",
+      "name": "Computación",
+      "code": "H0256",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "35",
+      "seqId": 44,
+      "kind": "course",
+      "name": "Psicoterapia Familiar",
+      "code": "H0035",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "242",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "245",
+      "seqId": 45,
+      "kind": "course",
+      "name": "Observación y Práctica Profesional III: Clínica",
+      "code": "H0245",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "244",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "246",
+      "seqId": 46,
+      "kind": "course",
+      "name": "Observación y Práctica Profesional IV: Institucional y Jurídica",
+      "code": "H0246",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "245",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "232",
+      "seqId": 47,
+      "kind": "course",
+      "name": "Práctica Profesional Supervisada I",
+      "code": "H0232",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "240",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "22",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "210",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "211",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "213",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "256",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "35",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "245",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "33",
+      "seqId": 48,
+      "kind": "course",
+      "name": "Orientación Vocacional y Ocupacional",
+      "code": "H0033",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "18",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "214",
+      "seqId": 49,
+      "kind": "course",
+      "name": "Psicología Preventiva y Salud Comunitaria II",
+      "code": "H0214",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "213",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "30",
+      "seqId": 50,
+      "kind": "course",
+      "name": "Psicología Clínica de Adultos",
+      "code": "H0030",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "29",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "212",
+      "seqId": 51,
+      "kind": "course",
+      "name": "Métodos y Técnicas Psicoterapéuticas II",
+      "code": "H0212",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "211",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "257",
+      "seqId": 52,
+      "kind": "course",
+      "name": "Trabajo Integrador Final",
+      "code": "H0257",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "246",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "232",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "33",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "214",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "212",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "233",
+      "seqId": 53,
+      "kind": "course",
+      "name": "Práctica Profesional Supervisada II",
+      "code": "H0233",
+      "type": "mandatory",
+      "attributes": [
+        "mandatoryFinalExam"
+      ],
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "232",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "92",
+      "seqId": 54,
+      "kind": "course",
+      "name": "Materia Electiva II",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "240",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "244",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "22",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "210",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      },
+      {
+        "id": "elective-count",
+        "label": "Materias electivas requeridas",
+        "type": "count",
+        "selector": {
+          "type": "tag",
+          "tag": "progress-elective"
+        },
+        "min": 2,
+        "state": "passed"
+      }
+    ]
+  }
 };

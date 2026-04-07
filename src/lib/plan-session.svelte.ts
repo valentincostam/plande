@@ -5,13 +5,13 @@ import {
 	encodeCourseItemStates,
 	encodeMilestoneStates,
 	sortItemsBySeqId
-} from './study-plan-v5-url-state';
+} from './study-plan-url-state';
 import type { PreparedPlan } from './prepare-plan';
-import type { DependentEdge, Section } from './study-plan-v5';
+import type { DependentEdge, Section } from './study-plan-data';
 import type { GraduationProgress, RequirementContext } from './requirement-evaluator';
 import { evaluateGraduation, evaluateRequirement } from './requirement-evaluator';
 import { normalizeItemState } from './normalize-item-state';
-import { milestoneStates, type ItemState, type PlanItem } from './study-plan-v5';
+import { milestoneStates, type ItemState, type PlanItem } from './study-plan-data';
 
 export type PlanSessionOptions = {
 	strictMode?: boolean;

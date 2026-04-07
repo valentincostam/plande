@@ -6,6 +6,7 @@ import { decodeCoursesStates, courseStates } from '$lib/course-state';
 import { decodeGrades } from '$lib/grade-encoding';
 import { calculateDegreeProgress } from '$lib/degree-progress';
 import type { Course } from '$lib/course.svelte';
+import { studyPlanDataToStudyPlan } from '$lib/study-plan-catalog';
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
@@ -17,6 +18,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		error(404, { message: 'Study plan not found' });
 	}
 
+	const exportStudyPlan = studyPlanDataToStudyPlan(studyPlan);
+
 	// Decode states from query params
 	const stateLetters = url.searchParams.get('s') || url.searchParams.get('estado');
 	const gradeLetters = url.searchParams.get('n') || url.searchParams.get('notas');
@@ -25,7 +28,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const coursesGrades = gradeLetters ? decodeGrades(gradeLetters) : [];
 
 	// Apply states to courses
-	const coursesWithState = studyPlan.courses.map((course, index) => ({
+	const coursesWithState = exportStudyPlan.courses.map((course, index) => ({
 		...course,
 		attributes: course.attributes ?? [],
 		state: coursesStates[index] ?? courseStates.notTaken,
@@ -35,7 +38,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	// Calculate progress
 	const progress = calculateDegreeProgress(
 		coursesWithState.map((c) => ({ ...c, isEnabled: true, canPass: true })) as unknown as Course[],
-		studyPlan.progress
+		exportStudyPlan.progress
 	);
 
 	// Calculate state distribution
@@ -59,7 +62,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	}
 
 	let passedYears = 0;
-	for (let year = 1; year <= studyPlan.durationYears; year++) {
+	for (let year = 1; year <= exportStudyPlan.durationYears; year++) {
 		const yearCourses = coursesByYear.get(year) || [];
 		if (yearCourses.length > 0 && yearCourses.every((c) => c.state === courseStates.passed)) {
 			passedYears++;
@@ -76,16 +79,21 @@ export const GET: RequestHandler = async ({ params, url }) => {
 			: undefined;
 
 	// Build institution string
-	const institution = studyPlan.collegeSlug
-		? `${studyPlan.universitySlug.toUpperCase()} ${studyPlan.collegeSlug.toUpperCase()}`
-		: studyPlan.universitySlug.toUpperCase();
+	const institution = exportStudyPlan.collegeSlug
+		? `${exportStudyPlan.universitySlug.toUpperCase()} ${exportStudyPlan.collegeSlug.toUpperCase()}`
+		: exportStudyPlan.universitySlug.toUpperCase();
 
-	const planText = studyPlan.year ? `Plan de Estudios ${studyPlan.year}` : 'Plan de Estudios';
+	const planText = exportStudyPlan.year
+		? `Plan de Estudios ${exportStudyPlan.year}`
+		: 'Plan de Estudios';
 
 	// Load logo as base64 from public URL
 	let logoBase64 = '';
 	try {
-		const logoUrl = new URL(`/og-logos/${studyPlan.universitySlug.toLowerCase()}.png`, url.origin);
+		const logoUrl = new URL(
+			`/og-logos/${exportStudyPlan.universitySlug.toLowerCase()}.png`,
+			url.origin
+		);
 		const response = await fetch(logoUrl);
 		if (response.ok) {
 			const arrayBuffer = await response.arrayBuffer();
@@ -118,7 +126,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		<div style="display: flex; flex-direction: column">
 			<span style="font-size: 30px; color: #1e40af">plande.app</span>
 			<span style="font-size: 36px; color: #6b7280; margin-top: 12px">${institution} · ${planText}</span>
-			<span style="font-size: 56px; font-weight: 700; color: #111827; margin-top: 8px; max-width: 850px">${studyPlan.degreeName}</span>
+			<span style="font-size: 56px; font-weight: 700; color: #111827; margin-top: 8px; max-width: 850px">${exportStudyPlan.degreeName}</span>
 		</div>
 		
 		<div style="display: flex; align-items: flex-end; gap: 62px; margin-top: auto; padding: 32px 0">
@@ -133,7 +141,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 			</div>
 			<div style="display: flex; width: 5px; height: 100px; background-color: #e5e7eb"></div>
 			<div style="display: flex; flex-direction: column; align-items: center">
-				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedYears}</span><span style="color: #9ca3af">/${studyPlan.durationYears}</span></span>
+				<span style="font-size: 62px; font-weight: 700"><span style="color: #111827">${passedYears}</span><span style="color: #9ca3af">/${exportStudyPlan.durationYears}</span></span>
 				<span style="font-size: 21px; color: #6b7280">Años aprobados</span>
 			</div>
 			${averageSection}

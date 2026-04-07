@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { isTransversal } from '$lib/course-attribute';
 	import { isElectiveOrOptative } from '$lib/course-type';
-	import { createCourses } from '$lib/course.svelte';
+	import {
+		createCompatCoursesFromNativePlanSession,
+		type CompatCourse
+	} from '$lib/course-plan-compat.svelte';
+	import { getDurationYearsFromPlanData } from '$lib/study-plan-catalog';
 	import type { PageProps } from './$types';
 	import Year from './year.svelte';
 	import { createYears, isYearPassed } from '$lib/year.svelte';
@@ -40,6 +44,8 @@
 	import PriorityCourses from './priority-courses.svelte';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
+	import { preparePlan } from '$lib/prepare-plan';
+	import { PlanSession } from '$lib/plan-session.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -87,14 +93,27 @@
 	let showCodes = $state(untrack(() => data.showCodes));
 	let useCycleButton = $state(false);
 	let isInitializing = $state(true);
+	const initialStudyPlan = untrack(() => data.studyPlan);
+	const initialNativeStudyPlan = untrack(() => data.nativeStudyPlan);
+	const initialCoursesStates = untrack(() => data.coursesStates);
+	const initialCoursesGrades = untrack(() => data.coursesGrades);
+	const initialStrictMode = untrack(() => data.isStrictModeEnabled);
 
-	const courses = untrack(() =>
-		createCourses(
-			data.studyPlan.courses,
-			data.coursesStates,
-			() => isStrictModeEnabled,
-			data.coursesGrades
-		)
+	const v5Session = untrack(
+		() =>
+			new PlanSession(preparePlan(initialNativeStudyPlan), {
+				initialCourseStates: initialCoursesStates,
+				initialGrades: initialCoursesGrades,
+				strictMode: initialStrictMode
+			})
+	);
+
+	$effect(() => {
+		v5Session.strictMode = isStrictModeEnabled;
+	});
+
+	const courses: CompatCourse[] = untrack(() =>
+		createCompatCoursesFromNativePlanSession(initialNativeStudyPlan, v5Session)
 	);
 
 	let isRouterReady = $state(false);
@@ -259,7 +278,9 @@
 		}
 	}
 
-	const years = $derived(createYears(data.studyPlan.durationYears, courses));
+	const years = $derived(
+		createYears(getDurationYearsFromPlanData(initialNativeStudyPlan), courses)
+	);
 
 	const transversalCourses = $derived(
 		courses.filter(

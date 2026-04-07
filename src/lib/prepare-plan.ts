@@ -7,8 +7,8 @@ import type {
 	Selector,
 	Section,
 	StudyPlanData
-} from './study-plan-v5';
-import { isMilestonePlanItem } from './study-plan-v5';
+} from './study-plan-data';
+import { isMilestonePlanItem } from './study-plan-data';
 
 export type SeqIdRegistry = Record<string, number>;
 

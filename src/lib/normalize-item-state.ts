@@ -1,6 +1,6 @@
 import { courseStates, type CourseState } from './course-state';
-import type { ItemState, PlanItem } from './study-plan-v5';
-import { milestoneStates } from './study-plan-v5';
+import type { ItemState, PlanItem } from './study-plan-data';
+import { milestoneStates } from './study-plan-data';
 
 export type ItemFacts = {
 	isEnabled?: boolean;

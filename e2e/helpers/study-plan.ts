@@ -53,11 +53,11 @@ const getCourseStateLabel = async (control: Locator) => {
 export const getCourseStateControl = (page: Page, courseName: string): Locator => {
 	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
 
-	return page.getByRole('combobox', { name }).or(page.getByRole('button', { name }));
+	return page.getByRole('combobox', { name }).or(page.getByRole('button', { name })).first();
 };
 
 export const getCourseButton = (page: Page, courseName: string): Locator =>
-	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) });
+	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) }).first();
 
 export const getAvailableCoursesSection = (page: Page): Locator =>
 	page.locator('section', { has: page.getByRole('heading', { name: 'Qué podés cursar' }) });

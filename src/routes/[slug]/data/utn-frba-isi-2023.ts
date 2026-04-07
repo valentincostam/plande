@@ -1,1476 +1,2122 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseAttributes } from '$lib/course-attribute';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	// Año 1
-	{
-		id: 1,
-		code: '1',
-		name: 'Análisis Matemático I',
-		hours: 5,
-		term: courseTerms.annualOrSemestral,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 2,
-		code: '2',
-		name: 'Álgebra y Geometría Analítica',
-		hours: 5,
-		term: courseTerms.annualOrSemestral,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 3,
-		code: '3',
-		name: 'Física I',
-		hours: 5,
-		term: courseTerms.annualOrSemestral,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 5,
-		code: '5',
-		name: 'Lógica y Estructuras Discretas',
-		hours: 3,
-		term: courseTerms.annual,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 6,
-		code: '6',
-		name: 'Algoritmos y Estructuras de Datos',
-		hours: 5,
-		term: courseTerms.annual,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 7,
-		code: '7',
-		name: 'Arquitectura de Computadoras',
-		hours: 4,
-		term: courseTerms.annual,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 8,
-		code: '8',
-		name: 'Sistemas y Procesos de Negocio',
-		hours: 3,
-		term: courseTerms.annual,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 11,
-		code: '11',
-		name: 'Ingeniería y Sociedad',
-		hours: 2,
-		term: courseTerms.semestral,
-		year: 1,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	// Año 2
-	{
-		id: 9,
-		code: '9',
-		name: 'Análisis Matemático II',
-		hours: 5,
-		term: courseTerms.annualOrSemestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 10,
-		code: '10',
-		name: 'Física II',
-		hours: 5,
-		term: courseTerms.annualOrSemestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 4,
-		code: '4',
-		name: 'Inglés I',
-		hours: 2,
-		term: courseTerms.semestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: []
-	},
-	{
-		id: 13,
-		code: '13',
-		name: 'Sintaxis y Semántica de los Lenguajes',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 14,
-		code: '14',
-		name: 'Paradigmas de Programación',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 15,
-		code: '15',
-		name: 'Sistemas Operativos',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 16,
-		code: '16',
-		name: 'Análisis de Sistemas de Información',
-		hours: 6,
-		term: courseTerms.annual,
-		year: 2,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.integrative],
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 8,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 17,
-		code: '17',
-		name: 'Probabilidad y Estadística',
-		hours: 3,
-		term: courseTerms.annualOrSemestral,
-		year: 2,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	// Año 3
-	{
-		id: 12,
-		code: '12',
-		name: 'Inglés II',
-		hours: 2,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 18,
-		code: '18',
-		name: 'Economía',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 19,
-		code: '19',
-		name: 'Bases de Datos',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 20,
-		code: '20',
-		name: 'Desarrollo de Software',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 21,
-		code: '21',
-		name: 'Comunicación de Datos',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 26,
-		code: '26',
-		name: 'Redes de Datos',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 21,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 22,
-		code: '22',
-		name: 'Análisis Numérico',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 3,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 23,
-		code: '23',
-		name: 'Diseño de Sistemas de Información',
-		hours: 6,
-		term: courseTerms.annual,
-		year: 3,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.integrative],
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 4,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	// Año 4
-	{
-		id: 24,
-		code: '24',
-		name: 'Legislación',
-		hours: 2,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 11,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 25,
-		code: '25',
-		name: 'Ingeniería y Calidad de Software',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 19,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 23,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 27,
-		code: '27',
-		name: 'Investigación Operativa',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 22,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 28,
-		code: '28',
-		name: 'Simulación',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 29,
-		code: '29',
-		name: 'Tecnologías para la Automatización',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 22,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 32,
-		code: '32',
-		name: 'Ciencia de Datos',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 4,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 28,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 30,
-		code: '30',
-		name: 'Administración de Sistemas de Información',
-		hours: 6,
-		term: courseTerms.annual,
-		year: 4,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.integrative],
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 18,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 23,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	// Año 5
-	{
-		id: 31,
-		code: '31',
-		name: 'Inteligencia Artificial',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 28,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 22,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 33,
-		code: '33',
-		name: 'Sistemas de Gestión',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 18,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 27,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 34,
-		code: '34',
-		name: 'Gestión Gerencial',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 24,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 35,
-		code: '35',
-		name: 'Seguridad en los Sistemas de Información',
-		hours: 3,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 21,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 36,
-		code: '36',
-		name: 'Proyecto Final',
-		hours: 6,
-		term: courseTerms.annual,
-		year: 5,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.integrative],
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 99,
-		code: '99',
-		name: 'Práctica Profesional Supervisada',
-		hours: 6,
-		term: courseTerms.annual,
-		year: 5,
-		type: courseTypes.mandatory,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 23,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	// Electivas
-	{
-		id: 100,
-		code: 'E1',
-		name: 'Administración Estratégica del Capital Humano',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 101,
-		code: 'E2',
-		name: 'Ciberseguridad',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 102,
-		code: 'E3',
-		name: 'Comunicación Gráfica y Visual',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 103,
-		code: 'E4',
-		name: 'Creatividad e Innovación',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 104,
-		code: 'E5',
-		name: 'Criptografía',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 105,
-		code: 'E6',
-		name: 'Experiencia de Usuario y Accesibilidad',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 106,
-		code: 'E7',
-		name: 'Gerenciamiento de Proyectos de Sistemas de Información',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 107,
-		code: 'E8',
-		name: 'Gestión del Talento Humano',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 108,
-		code: 'E9',
-		name: 'Ingeniería de Requisitos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 109,
-		code: 'E10',
-		name: 'Metodología de Investigación Científico-Tecnológica',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 110,
-		code: 'E11',
-		name: 'Metodología de la Conducción de Equipos de Trabajo',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 111,
-		code: 'E12',
-		name: 'Patrones Algorítmicos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 112,
-		code: 'E13',
-		name: 'Procesamiento del Lenguaje Natural',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 113,
-		code: 'E14',
-		name: 'Química Ambiental',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 114,
-		code: 'E15',
-		name: 'Técnicas Avanzadas de Programación',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 115,
-		code: 'E16',
-		name: 'Técnicas de Gráficos por Computadora',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 116,
-		code: 'E17',
-		name: 'Tecnologías Avanzadas en la Construcción de Software',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 117,
-		code: 'E18',
-		name: 'Tendencias y Escenarios Tecnológicos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	},
-	{
-		id: 118,
-		code: 'E19',
-		name: 'Transformación Digital',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.elective,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			}
-		]
-	}
-];
-
-export const utnFrbaIsi2023: StudyPlan = {
-	courses,
-	degreeName: 'Ingeniería en Sistemas de Información',
-	degreeSlug: 'ISI',
-	universityName: 'Universidad Tecnológica Nacional',
-	universitySlug: 'UTN',
-	collegeName: 'Facultad Regional Buenos Aires',
-	collegeSlug: 'FRBA',
-	durationYears: 5,
-	year: 2023,
-	progress: {
-		type: 'mandatory-plus-elective-hours',
-		requiredElectiveHours: 40
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios 2023',
-			url: 'https://frba.utn.edu.ar/sistemas/plan-de-estudios-2023/'
-		},
-		{
-			id: 2,
-			label: 'Ordenanza N° 1877',
-			url: 'https://frba.utn.edu.ar/wp-content/uploads/2022/12/Ordenanza-1877-Plan-ISI2023.pdf'
-		},
-		{
-			id: 3,
-			label: 'Correlatividades',
-			url: 'https://frba.utn.edu.ar/wp-content/uploads/2023/11/Correlativas-plan-2023.pdf'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios.'
-		},
-		{
-			id: 2,
-			text: 'Para iniciar y acreditar la **Práctica Profesional Supervisada**, es necesario cumplir con los requisitos para cursar **Proyecto Final**.'
-		},
-		{
-			id: 3,
-			text: '**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas entre ~32 semanas.'
-		}
-	]
+export const utnFrbaIsi2023: StudyPlanData = {
+  "info": {
+    "degreeName": "Ingeniería en Sistemas de Información",
+    "degreeSlug": "ISI",
+    "universityName": "Universidad Tecnológica Nacional",
+    "universitySlug": "UTN",
+    "collegeName": "Facultad Regional Buenos Aires",
+    "collegeSlug": "FRBA",
+    "year": 2023,
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios 2023",
+        "url": "https://frba.utn.edu.ar/sistemas/plan-de-estudios-2023/"
+      },
+      {
+        "id": 2,
+        "label": "Ordenanza N° 1877",
+        "url": "https://frba.utn.edu.ar/wp-content/uploads/2022/12/Ordenanza-1877-Plan-ISI2023.pdf"
+      },
+      {
+        "id": 3,
+        "label": "Correlatividades",
+        "url": "https://frba.utn.edu.ar/wp-content/uploads/2023/11/Correlativas-plan-2023.pdf"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "text": "Para rendir **Proyecto Final**, es necesario aprobar todas las asignaturas del Plan de Estudios."
+      },
+      {
+        "id": 2,
+        "text": "Para iniciar y acreditar la **Práctica Profesional Supervisada**, es necesario cumplir con los requisitos para cursar **Proyecto Final**."
+      },
+      {
+        "id": 3,
+        "text": "**Práctica Profesional Supervisada** no es una materia pero fue agregada como tal porque es requisito para egresarse. Tiene una carga horaria de 6 horas semanales, obtenido de dividir las 200 horas totales exigidas entre ~32 semanas."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    },
+    {
+      "id": "electivas",
+      "label": "Materias Electivas"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Análisis Matemático I",
+      "code": "1",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "2",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Álgebra y Geometría Analítica",
+      "code": "2",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "3",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Física I",
+      "code": "3",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "5",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Lógica y Estructuras Discretas",
+      "code": "5",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "6",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Algoritmos y Estructuras de Datos",
+      "code": "6",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "7",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Arquitectura de Computadoras",
+      "code": "7",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "8",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Sistemas y Procesos de Negocio",
+      "code": "8",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "11",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Ingeniería y Sociedad",
+      "code": "11",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "9",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Análisis Matemático II",
+      "code": "9",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Física II",
+      "code": "10",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Inglés I",
+      "code": "4",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "13",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Sintaxis y Semántica de los Lenguajes",
+      "code": "13",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "14",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Paradigmas de Programación",
+      "code": "14",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "15",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Sistemas Operativos",
+      "code": "15",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "7",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "16",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Análisis de Sistemas de Información",
+      "code": "16",
+      "type": "mandatory",
+      "hours": 6,
+      "attributes": [
+        "integrative"
+      ],
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "17",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Probabilidad y Estadística",
+      "code": "17",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "annualOrSemestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "12",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Inglés II",
+      "code": "12",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "4",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "18",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Economía",
+      "code": "18",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "19",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Bases de Datos",
+      "code": "19",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Desarrollo de Software",
+      "code": "20",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "21",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Comunicación de Datos",
+      "code": "21",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "26",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Redes de Datos",
+      "code": "26",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "15",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "22",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Análisis Numérico",
+      "code": "22",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "23",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Diseño de Sistemas de Información",
+      "code": "23",
+      "type": "mandatory",
+      "hours": 6,
+      "attributes": [
+        "integrative"
+      ],
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "24",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Legislación",
+      "code": "24",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "11",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "25",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Ingeniería y Calidad de Software",
+      "code": "25",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "27",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Investigación Operativa",
+      "code": "27",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "22",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "28",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Simulación",
+      "code": "28",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "29",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Tecnologías para la Automatización",
+      "code": "29",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "22",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "32",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Ciencia de Datos",
+      "code": "32",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "30",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Administración de Sistemas de Información",
+      "code": "30",
+      "type": "mandatory",
+      "hours": 6,
+      "attributes": [
+        "integrative"
+      ],
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "31",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Inteligencia Artificial",
+      "code": "31",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "22",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "33",
+      "seqId": 33,
+      "kind": "course",
+      "name": "Sistemas de Gestión",
+      "code": "33",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "34",
+      "seqId": 34,
+      "kind": "course",
+      "name": "Gestión Gerencial",
+      "code": "34",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "24",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "18",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "35",
+      "seqId": 35,
+      "kind": "course",
+      "name": "Seguridad en los Sistemas de Información",
+      "code": "35",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "26",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "21",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "36",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Proyecto Final",
+      "code": "36",
+      "type": "mandatory",
+      "hours": 6,
+      "attributes": [
+        "integrative"
+      ],
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "26",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "99",
+      "seqId": 37,
+      "kind": "course",
+      "name": "Práctica Profesional Supervisada",
+      "code": "99",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "26",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "100",
+      "seqId": 38,
+      "kind": "course",
+      "name": "Administración Estratégica del Capital Humano",
+      "code": "E1",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "101",
+      "seqId": 39,
+      "kind": "course",
+      "name": "Ciberseguridad",
+      "code": "E2",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "102",
+      "seqId": 40,
+      "kind": "course",
+      "name": "Comunicación Gráfica y Visual",
+      "code": "E3",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "103",
+      "seqId": 41,
+      "kind": "course",
+      "name": "Creatividad e Innovación",
+      "code": "E4",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "104",
+      "seqId": 42,
+      "kind": "course",
+      "name": "Criptografía",
+      "code": "E5",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "105",
+      "seqId": 43,
+      "kind": "course",
+      "name": "Experiencia de Usuario y Accesibilidad",
+      "code": "E6",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "106",
+      "seqId": 44,
+      "kind": "course",
+      "name": "Gerenciamiento de Proyectos de Sistemas de Información",
+      "code": "E7",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "107",
+      "seqId": 45,
+      "kind": "course",
+      "name": "Gestión del Talento Humano",
+      "code": "E8",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "108",
+      "seqId": 46,
+      "kind": "course",
+      "name": "Ingeniería de Requisitos",
+      "code": "E9",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "109",
+      "seqId": 47,
+      "kind": "course",
+      "name": "Metodología de Investigación Científico-Tecnológica",
+      "code": "E10",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "110",
+      "seqId": 48,
+      "kind": "course",
+      "name": "Metodología de la Conducción de Equipos de Trabajo",
+      "code": "E11",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "111",
+      "seqId": 49,
+      "kind": "course",
+      "name": "Patrones Algorítmicos",
+      "code": "E12",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "112",
+      "seqId": 50,
+      "kind": "course",
+      "name": "Procesamiento del Lenguaje Natural",
+      "code": "E13",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "113",
+      "seqId": 51,
+      "kind": "course",
+      "name": "Química Ambiental",
+      "code": "E14",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "114",
+      "seqId": 52,
+      "kind": "course",
+      "name": "Técnicas Avanzadas de Programación",
+      "code": "E15",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "115",
+      "seqId": 53,
+      "kind": "course",
+      "name": "Técnicas de Gráficos por Computadora",
+      "code": "E16",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "116",
+      "seqId": 54,
+      "kind": "course",
+      "name": "Tecnologías Avanzadas en la Construcción de Software",
+      "code": "E17",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "117",
+      "seqId": 55,
+      "kind": "course",
+      "name": "Tendencias y Escenarios Tecnológicos",
+      "code": "E18",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "118",
+      "seqId": 56,
+      "kind": "course",
+      "name": "Transformación Digital",
+      "code": "E19",
+      "type": "elective",
+      "hours": 6,
+      "tags": [
+        "progress-elective"
+      ],
+      "placements": [
+        {
+          "sectionId": "electivas",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      },
+      {
+        "id": "elective-hours",
+        "label": "Horas electivas requeridas",
+        "type": "sum",
+        "selector": {
+          "type": "tag",
+          "tag": "progress-elective"
+        },
+        "metric": "hours",
+        "min": 40,
+        "state": "passed",
+        "weight": 10
+      }
+    ]
+  }
 };

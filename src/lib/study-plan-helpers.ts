@@ -4,8 +4,8 @@ import type {
 	RequirementExpr,
 	RequirementState,
 	Selector
-} from './study-plan-v5';
-import { getSectionIdForYear } from './study-plan-v5';
+} from './study-plan-data';
+import { getSectionIdForYear } from './study-plan-data';
 import type { CourseTerm } from './course-term';
 
 export const place = {

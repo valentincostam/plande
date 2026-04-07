@@ -1,1399 +1,1740 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	// PRIMER AÑO - ANUAL
-	{
-		id: 20084,
-		code: '20084',
-		name: 'Enfermería en Salud Colectiva y Familiar I',
-		hours: 6, // 192hs totales / 32 semanas
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 1093,
-		code: '1093',
-		name: 'Estructura y Función del Cuerpo Humano',
-		hours: 4, // 128hs totales / 32 semanas
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	// PRIMER AÑO - SEMANAL (cuatrimestral sin especificar)
-	{
-		id: 20083,
-		code: '20083',
-		name: 'Fundamentos del Cuidado',
-		hours: 5.25, // 84hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 20085,
-		code: '20085',
-		name: 'Fundamentos del Cuidado Enfermero',
-		hours: 11, // 176hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20083,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20083,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// PRIMER AÑO - PRIMER CUATRIMESTRE
-	{
-		id: 4511,
-		code: '4511',
-		name: 'Antropología y Salud',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	// PRIMER AÑO - SEGUNDO CUATRIMESTRE
-	{
-		id: 4843,
-		code: '4843',
-		name: 'Psicología Social y Comunitaria',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4511,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4511,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// SEGUNDO AÑO - ANUAL
-	{
-		id: 20086,
-		code: '20086',
-		name: 'Enfermería en Salud Colectiva y Familiar II',
-		hours: 10, // 320hs totales / 32 semanas
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1093,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20083,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20084,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20085,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 4511,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 20083,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 8,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 9,
-				requiredCourseId: 20085,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 10,
-				requiredCourseId: 4511,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// SEGUNDO AÑO - PRIMER CUATRIMESTRE
-	{
-		id: 4526,
-		code: '4526',
-		name: 'Bioética E',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20083,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20083,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1293,
-		code: '1293',
-		name: 'Microbiología y Parasitología',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1093,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1362,
-		code: '1362',
-		name: 'Principios de Farmacología',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1093,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 4842,
-		code: '4842',
-		name: 'Psicología del Desarrollo',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 4511,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4843,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 4511,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// SEGUNDO AÑO - SEGUNDO CUATRIMESTRE
-	{
-		id: 20087,
-		code: '20087',
-		name: 'Enfermería en Salud Mental',
-		hours: 6.375, // 102hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 4842,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 4842,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 6,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1129,
-		code: '1129',
-		name: 'Farmacología y Toxicología',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1362,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 1362,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20021,
-		code: '20021',
-		name: 'Nutrición',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1093,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// TERCER AÑO - SEMANAL
-	{
-		id: 20088,
-		code: '20088',
-		name: 'Enfermería en Salud Colectiva y Familiar III',
-		hours: 22.75, // 364hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1129,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1293,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 1362,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20021,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20085,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20086,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 4842,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 1129,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 9,
-				requiredCourseId: 1293,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 10,
-				requiredCourseId: 1362,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 11,
-				requiredCourseId: 20021,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 12,
-				requiredCourseId: 20085,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 13,
-				requiredCourseId: 20086,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 14,
-				requiredCourseId: 4842,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20095,
-		code: '20095',
-		name: 'Práctica Integrada I',
-		hours: 12, // 192hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1129,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1293,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 1362,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20021,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20028,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20086,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 20087,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20088,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 20089,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 2155,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 11,
-				requiredCourseId: 4526,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 12,
-				requiredCourseId: 4842,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 13,
-				requiredCourseId: 1129,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 14,
-				requiredCourseId: 1293,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 15,
-				requiredCourseId: 1362,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 16,
-				requiredCourseId: 20021,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 17,
-				requiredCourseId: 20028,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 18,
-				requiredCourseId: 20086,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 19,
-				requiredCourseId: 20087,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 20,
-				requiredCourseId: 20088,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 21,
-				requiredCourseId: 20089,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 22,
-				requiredCourseId: 2155,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 23,
-				requiredCourseId: 4526,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 24,
-				requiredCourseId: 4842,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// TERCER AÑO - PRIMER CUATRIMESTRE
-	{
-		id: 20089,
-		code: '20089',
-		name: 'Epidemiología en Relación al Proceso Atención-Cuidado',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20087,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 20087,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 6,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 2155,
-		code: '2155',
-		name: 'Gestión y Administración de Servicios Hospitalarios y Comunitarios',
-		hours: 3.1875, // 51hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20085,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20086,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 6,
-				requiredCourseId: 20085,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 20086,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 8,
-				requiredCourseId: 4843,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20028,
-		code: '20028',
-		name: 'Metodología de la Investigación en Salud',
-		hours: 3.1875, // 51hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20086,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 20086,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// TERCER AÑO - SEGUNDO CUATRIMESTRE (Electivas - se requieren 2 de 4)
-	{
-		id: 20100,
-		code: '20100',
-		name: 'Trabajo Transdisciplinario en el Campo de la Salud Mental',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20087,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20087,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20101,
-		code: '20101',
-		name: 'Abordaje Cualitativo de la Investigación en Salud',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20028,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20028,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 2158,
-		code: '2158',
-		name: 'Gestión en Servicios de Salud',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2155,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2155,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 7677,
-		code: '7677',
-		name: 'Herramientas Informáticas E',
-		hours: 3, // 48hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20084,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-
-	// CUARTO AÑO - ANUAL
-	{
-		id: 20090,
-		code: '20090',
-		name: 'Enfermería Familiar en Cuidados Críticos',
-		hours: 8, // 256hs totales / 32 semanas
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// CUARTO AÑO - PRIMER CUATRIMESTRE
-	{
-		id: 20099,
-		code: '20099',
-		name: 'Enfermería en Salud Colectiva y Familiar IV',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20091,
-		code: '20091',
-		name: 'Problemáticas Ético Legales en Enfermería',
-		hours: 5.625, // 90hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 2366,
-		code: '2366',
-		name: 'Sociología S',
-		hours: 5, // 80hs totales / 16 semanas
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// CUARTO AÑO - SEGUNDO CUATRIMESTRE
-	{
-		id: 5914,
-		code: '5914',
-		name: 'Bioestadística E',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20028,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20089,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20028,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 20089,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20098,
-		code: '20098',
-		name: 'Conocimiento Enfermero',
-		hours: 4, // 64hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 4546,
-		code: '4546',
-		name: 'Epistemología y Metodología de la Investigación',
-		hours: 7, // 112hs totales / 16 semanas
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20095,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 20099,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 4586,
-		code: '4586',
-		name: 'Examen de Suficiencia de Inglés E',
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: []
-	},
-
-	// QUINTO AÑO - SEMANAL
-	{
-		id: 20093,
-		code: '20093',
-		name: 'Educación en el Cuidado de la Salud',
-		hours: 5, // 80hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20098,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20098,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 4586,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20094,
-		code: '20094',
-		name: 'Gestión y Organización de los Servicios de Enfermería Hospitalarios y Comunitarios',
-		hours: 12.9375, // 207hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20090,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20091,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20090,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 4,
-				requiredCourseId: 20091,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 4586,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20031,
-		code: '20031',
-		name: 'Salud Mental',
-		hours: 3.75, // 60hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 4586,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20092,
-		code: '20092',
-		name: 'Taller de Investigación en Enfermería',
-		hours: 11.5, // 184hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20090,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20099,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 4546,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20090,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 20099,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 6,
-				requiredCourseId: 4546,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 4586,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20096,
-		code: '20096',
-		name: 'Práctica Integrada II',
-		hours: 8.125, // 130hs totales / 16 semanas
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20031,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20090,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 3,
-				requiredCourseId: 20091,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 20092,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 5,
-				requiredCourseId: 20093,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20094,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 7,
-				requiredCourseId: 20098,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 20099,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 9,
-				requiredCourseId: 4546,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 10,
-				requiredCourseId: 20031,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 11,
-				requiredCourseId: 20090,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 12,
-				requiredCourseId: 20091,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 13,
-				requiredCourseId: 20092,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 14,
-				requiredCourseId: 20093,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 15,
-				requiredCourseId: 20094,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 16,
-				requiredCourseId: 20098,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 17,
-				requiredCourseId: 20099,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 18,
-				requiredCourseId: 4546,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 19,
-				requiredCourseId: 4586,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	}
-];
-
-export const unsDcsLe2017: StudyPlan = {
-	courses,
-	degreeName: 'Licenciatura en Enfermería',
-	degreeSlug: 'LE',
-	universityName: 'Universidad Nacional del Sur',
-	universitySlug: 'UNS',
-	collegeName: 'Departamento de Ciencias de la Salud',
-	collegeSlug: 'DCS',
-	durationYears: 5,
-	year: 2017,
-	progress: {
-		type: 'mandatory-plus-elective-count',
-		requiredElectiveCount: 2
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudio Lic. en Enfermería 2017 - Versión 3',
-			url: 'https://cienciasdelasalud.uns.edu.ar/docs/repositorio/Plan%20de%20Estudio%20Lic%20en%20Enfermer%c3%ada%202017%20-%20Versi%c3%b3n%203.pdf'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'El plan otorga el **título intermedio de Enfermero** al completar los requisitos correspondientes.'
-		},
-		{
-			id: 2,
-			text: 'Existe un **Curso de Nivelación** para carreras que articulan, con las materias Enfermería en Salud Colectiva y Familiar A (20097) y Fundamentos de los Procesos Biológicos (1183).'
-		},
-		{
-			id: 3,
-			text: 'Se deben aprobar **2 de las 4 materias electivas** del segundo cuatrimestre de tercer año para completar la carrera.'
-		},
-		{
-			id: 4,
-			text: 'El **Examen de Suficiencia de Inglés E** (4586) es requisito para varias materias de 5to año.'
-		}
-	]
+export const unsDcsLe2017: StudyPlanData = {
+  "info": {
+    "degreeName": "Licenciatura en Enfermería",
+    "degreeSlug": "LE",
+    "universityName": "Universidad Nacional del Sur",
+    "universitySlug": "UNS",
+    "collegeName": "Departamento de Ciencias de la Salud",
+    "collegeSlug": "DCS",
+    "year": 2017,
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudio Lic. en Enfermería 2017 - Versión 3",
+        "url": "https://cienciasdelasalud.uns.edu.ar/docs/repositorio/Plan%20de%20Estudio%20Lic%20en%20Enfermer%c3%ada%202017%20-%20Versi%c3%b3n%203.pdf"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "text": "El plan otorga el **título intermedio de Enfermero** al completar los requisitos correspondientes."
+      },
+      {
+        "id": 2,
+        "text": "Existe un **Curso de Nivelación** para carreras que articulan, con las materias Enfermería en Salud Colectiva y Familiar A (20097) y Fundamentos de los Procesos Biológicos (1183)."
+      },
+      {
+        "id": 3,
+        "text": "Se deben aprobar **2 de las 4 materias electivas** del segundo cuatrimestre de tercer año para completar la carrera."
+      },
+      {
+        "id": 4,
+        "text": "El **Examen de Suficiencia de Inglés E** (4586) es requisito para varias materias de 5to año."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    }
+  ],
+  "items": [
+    {
+      "id": "20084",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Enfermería en Salud Colectiva y Familiar I",
+      "code": "20084",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1093",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Estructura y Función del Cuerpo Humano",
+      "code": "1093",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "annual"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "20083",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Fundamentos del Cuidado",
+      "code": "20083",
+      "type": "mandatory",
+      "hours": 5.25,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "20085",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Fundamentos del Cuidado Enfermero",
+      "code": "20085",
+      "type": "mandatory",
+      "hours": 11,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20083",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20083",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "4511",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Antropología y Salud",
+      "code": "4511",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "4843",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Psicología Social y Comunitaria",
+      "code": "4843",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "4511",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "4511",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20086",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Enfermería en Salud Colectiva y Familiar II",
+      "code": "20086",
+      "type": "mandatory",
+      "hours": 10,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1093",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20083",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4511",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1093",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20083",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4511",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4526",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Bioética E",
+      "code": "4526",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20083",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20083",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1293",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Microbiología y Parasitología",
+      "code": "1293",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1362",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Principios de Farmacología",
+      "code": "1362",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "4842",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Psicología del Desarrollo",
+      "code": "4842",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "4511",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "4511",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20087",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Enfermería en Salud Mental",
+      "code": "20087",
+      "type": "mandatory",
+      "hours": 6.375,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1129",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Farmacología y Toxicología",
+      "code": "1129",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1093",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1093",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20021",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Nutrición",
+      "code": "20021",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1093",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20088",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Enfermería en Salud Colectiva y Familiar III",
+      "code": "20088",
+      "type": "mandatory",
+      "hours": 22.75,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1129",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1293",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20021",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1129",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1293",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20021",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20095",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Práctica Integrada I",
+      "code": "20095",
+      "type": "mandatory",
+      "hours": 12,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1129",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1293",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20021",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20028",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20087",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20088",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20089",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2155",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4526",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1129",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1293",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1362",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20021",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20028",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20087",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20088",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20089",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2155",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4526",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4842",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20089",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Epidemiología en Relación al Proceso Atención-Cuidado",
+      "code": "20089",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20087",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20087",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "2155",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Gestión y Administración de Servicios Hospitalarios y Comunitarios",
+      "code": "2155",
+      "type": "mandatory",
+      "hours": 3.1875,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20085",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4843",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20028",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Metodología de la Investigación en Salud",
+      "code": "20028",
+      "type": "mandatory",
+      "hours": 3.1875,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20084",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20086",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20100",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Trabajo Transdisciplinario en el Campo de la Salud Mental",
+      "code": "20100",
+      "type": "elective",
+      "hours": 3,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20087",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20087",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "20101",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Abordaje Cualitativo de la Investigación en Salud",
+      "code": "20101",
+      "type": "elective",
+      "hours": 3,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20028",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20028",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "2158",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Gestión en Servicios de Salud",
+      "code": "2158",
+      "type": "elective",
+      "hours": 3,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "2155",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "2155",
+          "state": "taken"
+        }
+      }
+    },
+    {
+      "id": "7677",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Herramientas Informáticas E",
+      "code": "7677",
+      "type": "elective",
+      "hours": 3,
+      "tags": [
+        "progress-elective",
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20084",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20084",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20090",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Enfermería Familiar en Cuidados Críticos",
+      "code": "20090",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20099",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Enfermería en Salud Colectiva y Familiar IV",
+      "code": "20099",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20091",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Problemáticas Ético Legales en Enfermería",
+      "code": "20091",
+      "type": "mandatory",
+      "hours": 5.625,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "2366",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Sociología S",
+      "code": "2366",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "5914",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Bioestadística E",
+      "code": "5914",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20028",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20089",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20028",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20089",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20098",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Conocimiento Enfermero",
+      "code": "20098",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20095",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "4546",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Epistemología y Metodología de la Investigación",
+      "code": "4546",
+      "type": "mandatory",
+      "hours": 7,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20095",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20095",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4586",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Examen de Suficiencia de Inglés E",
+      "code": "4586",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "20093",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Educación en el Cuidado de la Salud",
+      "code": "20093",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20098",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20098",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4586",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20094",
+      "seqId": 33,
+      "kind": "course",
+      "name": "Gestión y Organización de los Servicios de Enfermería Hospitalarios y Comunitarios",
+      "code": "20094",
+      "type": "mandatory",
+      "hours": 12.9375,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20091",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20091",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4586",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20031",
+      "seqId": 34,
+      "kind": "course",
+      "name": "Salud Mental",
+      "code": "20031",
+      "type": "mandatory",
+      "hours": 3.75,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20099",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4586",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20092",
+      "seqId": 35,
+      "kind": "course",
+      "name": "Taller de Investigación en Enfermería",
+      "code": "20092",
+      "type": "mandatory",
+      "hours": 11.5,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "4546",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4546",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4586",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20096",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Práctica Integrada II",
+      "code": "20096",
+      "type": "mandatory",
+      "hours": 8.125,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20031",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20091",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20092",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20093",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20094",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20098",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4546",
+              "state": "passed"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20031",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20090",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20091",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20092",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20093",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20094",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20098",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20099",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4546",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "4586",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      },
+      {
+        "id": "elective-count",
+        "label": "Materias electivas requeridas",
+        "type": "count",
+        "selector": {
+          "type": "tag",
+          "tag": "progress-elective"
+        },
+        "min": 2,
+        "state": "passed"
+      }
+    ]
+  }
 };

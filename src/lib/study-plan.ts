@@ -1,25 +1,36 @@
 import type { RawCourse } from './raw-course';
 import type { DegreeProgressConfig } from './degree-progress';
 
-type StudyPlanSource = {
+export type StudyPlanSource = {
 	id: number;
 	label: string;
 	url: string;
 };
 
-type StudyPlanNote = {
+export type StudyPlanNote = {
 	id: number;
 	text: string;
 };
 
-export type StudyPlan = {
-	courses: RawCourse[];
+export type StudyPlanMetadata = {
 	degreeName: string;
 	degreeSlug: string;
 	universityName: string;
 	universitySlug: string;
 	collegeName?: string;
 	collegeSlug?: string;
+	year?: number;
+};
+
+export type StudyPlanCatalogEntry = StudyPlanMetadata & {
+	durationYears: number;
+	sources: StudyPlanSource[];
+	notes?: StudyPlanNote[];
+	progress: DegreeProgressConfig;
+};
+
+export type StudyPlan = StudyPlanCatalogEntry & {
+	courses: RawCourse[];
 	durationYears: number;
 	year?: number;
 	sources: StudyPlanSource[];
@@ -27,7 +38,11 @@ export type StudyPlan = {
 	progress: DegreeProgressConfig;
 };
 
-export const getStudyPlanSlug = ({ universitySlug, collegeSlug, degreeSlug }: StudyPlan) => {
+export const getStudyPlanSlug = ({
+	universitySlug,
+	collegeSlug,
+	degreeSlug
+}: StudyPlanMetadata) => {
 	return [universitySlug, collegeSlug, degreeSlug].filter(Boolean).join('-').toLowerCase();
 };
 
@@ -36,7 +51,7 @@ export const getStudyPlanSlugWithYear = ({
 	collegeSlug,
 	degreeSlug,
 	year
-}: StudyPlan) => {
+}: StudyPlanMetadata) => {
 	return [universitySlug, collegeSlug, degreeSlug, year].filter(Boolean).join('-').toLowerCase();
 };
 
@@ -45,7 +60,7 @@ export const getFullCollegeName = ({
 	collegeSlug,
 	universityName,
 	universitySlug
-}: StudyPlan) => {
+}: StudyPlanMetadata) => {
 	if (collegeName) {
 		return `${collegeName} (${collegeSlug}) de la ${universityName} (${universitySlug})`;
 	}
@@ -53,20 +68,20 @@ export const getFullCollegeName = ({
 	return `${universityName} (${universitySlug})`;
 };
 
-export type GroupedStudyPlans = {
+export type GroupedStudyPlans<T extends StudyPlanMetadata = StudyPlanMetadata> = {
 	universityName: string;
 	universitySlug: string;
 	colleges: {
 		collegeName?: string;
 		collegeSlug?: string;
-		degrees: StudyPlan[];
+		degrees: T[];
 	}[];
 }[];
 
-export const groupStudyPlansByUniversityAndCollege = (
-	studyPlans: StudyPlan[]
-): GroupedStudyPlans => {
-	const universityMap = new Map<string, Map<string, StudyPlan[]>>();
+export const groupStudyPlansByUniversityAndCollege = <T extends StudyPlanMetadata>(
+	studyPlans: T[]
+): GroupedStudyPlans<T> => {
+	const universityMap = new Map<string, Map<string, T[]>>();
 
 	for (const studyPlan of studyPlans) {
 		const universityKey = `${studyPlan.universityName}|${studyPlan.universitySlug}`;
@@ -87,11 +102,11 @@ export const groupStudyPlansByUniversityAndCollege = (
 		collegeMap.get(collegeKey)!.push(studyPlan);
 	}
 
-	const result: GroupedStudyPlans = [];
+	const result: GroupedStudyPlans<T> = [];
 
 	for (const [universityKey, collegeMap] of universityMap.entries()) {
 		const [universityName, universitySlug] = universityKey.split('|');
-		const colleges: GroupedStudyPlans[number]['colleges'] = [];
+		const colleges: GroupedStudyPlans<T>[number]['colleges'] = [];
 
 		for (const [collegeKey, degrees] of collegeMap.entries()) {
 			colleges.push({

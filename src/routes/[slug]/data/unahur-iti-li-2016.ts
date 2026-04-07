@@ -1,1249 +1,1693 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	// Primer año
-	{
-		id: 1,
-		code: '1',
-		name: 'Matemática I',
-		hours: 8,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 2,
-		code: '2',
-		name: 'Introducción a la Programación',
-		hours: 8,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 3,
-		code: '3',
-		name: 'Organización de Computadoras',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 4,
-		code: '4',
-		name: 'Nuevos Entornos y Lenguajes',
-		hours: 2,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 5,
-		code: '5',
-		name: 'Estructuras de Datos',
-		hours: 8,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 6,
-		code: '6',
-		name: 'Programación con Objetos I',
-		hours: 8,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 7,
-		code: '7',
-		name: 'Bases de Datos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 8,
-		code: '8',
-		name: 'Inglés I',
-		hours: 2,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	// Segundo Año
-	{
-		id: 9,
-		code: '9',
-		name: 'Matemática II',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 10,
-		code: '10',
-		name: 'Programación con Objetos II',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 6,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 6,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 11,
-		code: '11',
-		name: 'Redes de Computadoras',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 12,
-		code: '12',
-		name: 'Sistemas Operativos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 13,
-		code: '13',
-		name: 'Programación Funcional',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 14,
-		code: '14',
-		name: 'Construcción de Interfaces de Usuario',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 15,
-		code: '15',
-		name: 'Algoritmos',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 16,
-		code: '16',
-		name: 'Estrategias de Persistencia',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 17,
-		code: '17',
-		name: 'Laboratorio de Sistemas Operativos y Redes',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 11,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 11,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// Tercer Año
-	{
-		id: 18,
-		code: '18',
-		name: 'Análisis Matemático',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 9,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 9,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 19,
-		code: '19',
-		name: 'Lógica y Programación',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 2,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 2,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20,
-		code: '20',
-		name: 'Elementos de Ingeniería de Software',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 21,
-		code: '21',
-		name: 'Seguridad de la Información',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 22,
-		code: '22',
-		name: 'Materia UNAHUR I',
-		hours: 2,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: []
-	},
-	{
-		id: 23,
-		code: '23',
-		name: 'Inglés II',
-		hours: 2,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 8,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 24,
-		code: '24',
-		name: 'Matemática III',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 18,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 18,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 25,
-		code: '25',
-		name: 'Programación Concurrente',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 5,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 5,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 26,
-		code: '26',
-		name: 'Ingeniería de Requerimientos',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 27,
-		code: '27',
-		name: 'Desarrollo de Aplicaciones',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 16,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 16,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// Cuarto Año
-	{
-		id: 28,
-		code: '28',
-		name: 'Probabilidad y Estadística',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 24,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 24,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 29,
-		code: '29',
-		name: 'Gestión de Proyectos de Desarrollo de Software',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 26,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 26,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 30,
-		code: '30',
-		name: 'Lenguajes Formales y Autómatas',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 19,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 31,
-		code: '31',
-		name: 'Programación con Objetos III',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 32,
-		code: '32',
-		name: 'Materia UNAHUR II',
-		hours: 2,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 33,
-		code: '33',
-		name: 'Práctica Profesional Supervisada',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 13,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 13,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 27,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 34,
-		code: '34',
-		name: 'Teoría de la Computación',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 35,
-		code: '35',
-		name: 'Arquitectura de Software I',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 27,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 27,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 29,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 36,
-		code: '36',
-		name: 'Sistemas Distribuidos y Tiempo Real',
-		hours: 6,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	// Quinto Año
-	{
-		id: 37,
-		code: '37',
-		name: 'Tesina de Licenciatura',
-		hours: 5,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 29,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 29,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 31,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 38,
-		code: '38',
-		name: 'Materia Optativa I',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.optative,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 39,
-		code: '39',
-		name: 'Características de Lenguajes de Programación',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 19,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 40,
-		code: '40',
-		name: 'Arquitectura de Software II',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 35,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 35,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 36,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 36,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 41,
-		code: '41',
-		name: 'Arquitectura de Computadoras',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 17,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 17,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 42,
-		code: '42',
-		name: 'Materia Optativa II',
-		hours: 4,
-		term: courseTerms.semestral,
-		year: 5,
-		type: courseTypes.optative,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 7,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 7,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 7,
-				requiredCourseId: 25,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 8,
-				requiredCourseId: 25,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 43,
-		code: '43',
-		name: 'Parseo y generación de código',
-		hours: 4,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 30,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 30,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 39,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 39,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 44,
-		code: '44',
-		name: 'Ejercicio Profesional',
-		hours: 3,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: []
-	},
-	{
-		id: 45,
-		code: '45',
-		name: 'Tecnología y Sociedad',
-		hours: 3,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 44,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 44,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	}
-];
-
-export const unahurItiLi2016: StudyPlan = {
-	courses,
-	degreeName: 'Licenciatura en Informática',
-	degreeSlug: 'LI',
-	universityName: 'Universidad Nacional de Hurlingham',
-	universitySlug: 'UNAHUR',
-	collegeName: 'Instituto de Tecnología e Ingeniería',
-	collegeSlug: 'ITI',
-	durationYears: 5,
-	year: 2016,
-	progress: {
-		type: 'mandatory-plus-elective-count',
-		requiredElectiveCount: 2
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios',
-			url: 'https://unahur.edu.ar/wp-content/uploads/2023/04/Licenciatura-en-Informatica-1.pdf'
-		},
-		{
-			id: 2,
-			label:
-				'RCS N°88/16 - Creación de la carrera y aprobación del plan de estudios Licenciatura en Informática',
-			url: 'http://restore.unahur.edu.ar/es/node/1696'
-		}
-	]
+export const unahurItiLi2016: StudyPlanData = {
+  "info": {
+    "degreeName": "Licenciatura en Informática",
+    "degreeSlug": "LI",
+    "universityName": "Universidad Nacional de Hurlingham",
+    "universitySlug": "UNAHUR",
+    "collegeName": "Instituto de Tecnología e Ingeniería",
+    "collegeSlug": "ITI",
+    "year": 2016,
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios",
+        "url": "https://unahur.edu.ar/wp-content/uploads/2023/04/Licenciatura-en-Informatica-1.pdf"
+      },
+      {
+        "id": 2,
+        "label": "RCS N°88/16 - Creación de la carrera y aprobación del plan de estudios Licenciatura en Informática",
+        "url": "http://restore.unahur.edu.ar/es/node/1696"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Matemática I",
+      "code": "1",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "2",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Introducción a la Programación",
+      "code": "2",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "3",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Organización de Computadoras",
+      "code": "3",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "4",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Nuevos Entornos y Lenguajes",
+      "code": "4",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "5",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Estructuras de Datos",
+      "code": "5",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "2",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "2",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Programación con Objetos I",
+      "code": "6",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "2",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "2",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "7",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Bases de Datos",
+      "code": "7",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "8",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Inglés I",
+      "code": "8",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "9",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Matemática II",
+      "code": "9",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Programación con Objetos II",
+      "code": "10",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "6",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "6",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "11",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Redes de Computadoras",
+      "code": "11",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "3",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Sistemas Operativos",
+      "code": "12",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "3",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "13",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Programación Funcional",
+      "code": "13",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "5",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "5",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "14",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Construcción de Interfaces de Usuario",
+      "code": "14",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "10",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "10",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "15",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Algoritmos",
+      "code": "15",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "13",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "13",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "16",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Estrategias de Persistencia",
+      "code": "16",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "17",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Laboratorio de Sistemas Operativos y Redes",
+      "code": "17",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "11",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "18",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Análisis Matemático",
+      "code": "18",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "9",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "9",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "19",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Lógica y Programación",
+      "code": "19",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "2",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "20",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Elementos de Ingeniería de Software",
+      "code": "20",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "10",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "10",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "21",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Seguridad de la Información",
+      "code": "21",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "17",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "17",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "22",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Materia UNAHUR I",
+      "code": "22",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "23",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Inglés II",
+      "code": "23",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "8",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "8",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "24",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Matemática III",
+      "code": "24",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "18",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "18",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "25",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Programación Concurrente",
+      "code": "25",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "5",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "5",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "26",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Ingeniería de Requerimientos",
+      "code": "26",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "20",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "20",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "27",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Desarrollo de Aplicaciones",
+      "code": "27",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "16",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "28",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Probabilidad y Estadística",
+      "code": "28",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "24",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "24",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "29",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Gestión de Proyectos de Desarrollo de Software",
+      "code": "29",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "26",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "26",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "30",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Lenguajes Formales y Autómatas",
+      "code": "30",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "19",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "19",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "31",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Programación con Objetos III",
+      "code": "31",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "10",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "10",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "32",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Materia UNAHUR II",
+      "code": "32",
+      "type": "mandatory",
+      "hours": 2,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "33",
+      "seqId": 33,
+      "kind": "course",
+      "name": "Práctica Profesional Supervisada",
+      "code": "33",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "13",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "34",
+      "seqId": 34,
+      "kind": "course",
+      "name": "Teoría de la Computación",
+      "code": "34",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "30",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "30",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "35",
+      "seqId": 35,
+      "kind": "course",
+      "name": "Arquitectura de Software I",
+      "code": "35",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "27",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "36",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Sistemas Distribuidos y Tiempo Real",
+      "code": "36",
+      "type": "mandatory",
+      "hours": 6,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37",
+      "seqId": 37,
+      "kind": "course",
+      "name": "Tesina de Licenciatura",
+      "code": "37",
+      "type": "mandatory",
+      "hours": 5,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "31",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "29",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "31",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "38",
+      "seqId": 38,
+      "kind": "course",
+      "name": "Materia Optativa I",
+      "code": "38",
+      "type": "optative",
+      "hours": 4,
+      "tags": [
+        "progress-elective",
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "39",
+      "seqId": 39,
+      "kind": "course",
+      "name": "Características de Lenguajes de Programación",
+      "code": "39",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "19",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "19",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "40",
+      "seqId": 40,
+      "kind": "course",
+      "name": "Arquitectura de Software II",
+      "code": "40",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "35",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "36",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "35",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "36",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "41",
+      "seqId": 41,
+      "kind": "course",
+      "name": "Arquitectura de Computadoras",
+      "code": "41",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "17",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "17",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "42",
+      "seqId": 42,
+      "kind": "course",
+      "name": "Materia Optativa II",
+      "code": "42",
+      "type": "optative",
+      "hours": 4,
+      "tags": [
+        "progress-elective",
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "7",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "10",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "25",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "43",
+      "seqId": 43,
+      "kind": "course",
+      "name": "Parseo y generación de código",
+      "code": "43",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "39",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "39",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "44",
+      "seqId": 44,
+      "kind": "course",
+      "name": "Ejercicio Profesional",
+      "code": "44",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "45",
+      "seqId": 45,
+      "kind": "course",
+      "name": "Tecnología y Sociedad",
+      "code": "45",
+      "type": "mandatory",
+      "hours": 3,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "44",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "44",
+          "state": "passed"
+        }
+      }
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      },
+      {
+        "id": "elective-count",
+        "label": "Materias electivas requeridas",
+        "type": "count",
+        "selector": {
+          "type": "tag",
+          "tag": "progress-elective"
+        },
+        "min": 2,
+        "state": "passed"
+      }
+    ]
+  }
 };

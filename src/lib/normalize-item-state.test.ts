@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { courseStates } from './course-state';
 import { normalizeItemState } from './normalize-item-state';
-import { milestoneStates, type PlanItem } from './study-plan-v5';
+import { milestoneStates, type PlanItem } from './study-plan-data';
 
 const courseItem: PlanItem = {
 	id: 'algebra',

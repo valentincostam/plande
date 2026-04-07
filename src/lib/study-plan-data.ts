@@ -156,6 +156,20 @@ export type StudyPlanData = {
 	};
 };
 
+export const getStudyPlanDataSlug = ({ info }: StudyPlanData) => {
+	return [info.universitySlug, info.collegeSlug, info.degreeSlug]
+		.filter(Boolean)
+		.join('-')
+		.toLowerCase();
+};
+
+export const getStudyPlanDataSlugWithYear = ({ info }: StudyPlanData) => {
+	return [info.universitySlug, info.collegeSlug, info.degreeSlug, info.year]
+		.filter(Boolean)
+		.join('-')
+		.toLowerCase();
+};
+
 export const getSectionIdForYear = (year: number) => `year-${year}`;
 
 export const isCoursePlanItem = (item: PlanItem): item is CoursePlanItem => item.kind === 'course';

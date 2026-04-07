@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { StudyPlanData } from '$lib/study-plan-data';
+	import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 	import { utnFrcuIsi2023 } from '../../[slug]/data/utn-frcu-isi-2023';
 	import Footer from '../../footer.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
 	import Link from '$lib/link.svelte';
+
+	const studyPlan = studyPlanDataToCatalogEntry(utnFrcuIsi2023 as unknown as StudyPlanData);
 </script>
 
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
-		<p>{utnFrcuIsi2023.collegeName} · {utnFrcuIsi2023.degreeName}</p>
-		<h1 class="text-2xl font-bold">{utnFrcuIsi2023.degreeName}</h1>
+		<p>{studyPlan.collegeName} · {studyPlan.degreeName}</p>
+		<h1 class="text-2xl font-bold">{studyPlan.degreeName}</h1>
 	</header>
 
 	<main class="grid gap-6 px-6 md:px-0">
@@ -18,7 +22,7 @@
 			¿Por qué debo aprobar 40 horas de materias electivas para egresarme?
 		</h2>
 		<p>
-			La <Link href={`https://${utnFrcuIsi2023.sources[1].url.replace(/^https?:\/\//, '')}`}
+			La <Link href={`https://${studyPlan.sources[1].url.replace(/^https?:\/\//, '')}`}
 				>Ordenanza N° 1877</Link
 			>
 			define el plan de estudios de la carrera de Ingeniería en Sistemas de Información de la UTN. En

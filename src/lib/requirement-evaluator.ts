@@ -7,8 +7,8 @@ import type {
 	RequirementExpr,
 	RequirementState,
 	Selector
-} from './study-plan-v5';
-import { isCoursePlanItem, milestoneStates, type CoursePlanItem } from './study-plan-v5';
+} from './study-plan-data';
+import { isCoursePlanItem, milestoneStates, type CoursePlanItem } from './study-plan-data';
 
 export type RequirementContextItem = {
 	item: PlanItem;

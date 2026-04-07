@@ -3,14 +3,19 @@
 	import FaqItem from './faq-item.svelte';
 	import Footer from './footer.svelte';
 	import HighlightText from './highlight-text.svelte';
-	import { allStudyPlans } from './[slug]/data/all-study-plans';
+	import type { StudyPlanData } from '$lib/study-plan-data';
+	import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
 	import Link from '$lib/link.svelte';
 	import { resolve } from '$app/paths';
+	import { allStudyPlans as studyPlanDataCatalog } from './[slug]/data/all-study-plans';
 
 	let searchQuery = $state('');
+	const allStudyPlans = (studyPlanDataCatalog as unknown as StudyPlanData[]).map(
+		studyPlanDataToCatalogEntry
+	);
 
 	function getStudyPlanSearchText(plan: (typeof allStudyPlans)[number]): string {
 		return [

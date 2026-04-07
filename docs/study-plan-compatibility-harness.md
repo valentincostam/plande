@@ -1,8 +1,10 @@
-# Study Plan v5 Compatibility Harness
+# Study Plan Compatibility Harness
 
 ## Goal
 
-Verify that a legacy plan converted to v5 behaves the same for all previously supported cases before replacing the current engine.
+Verify that a plan converted to `StudyPlanData` behaves the same for all previously supported cases before replacing the old runtime.
+
+Status: this harness served as the migration gate. The replacement is complete and native `StudyPlanData` is now the only runtime path.
 
 ## Comparison principle
 
@@ -10,8 +12,8 @@ Do not trust only the conversion script.
 
 Compare observable behavior between:
 
-- legacy engine
-- v5 engine
+- previous runtime
+- final runtime
 
 for the same plan and the same user state scenarios.
 
@@ -28,7 +30,7 @@ For each plan/scenario, capture:
 - progress percentage
 - encoded URL state
 
-See `src/lib/study-plan-v5-compatibility.ts`.
+This was implemented with comparison snapshots during migration and is kept here as process documentation.
 
 ## Minimum scenario matrix per plan
 
@@ -66,11 +68,11 @@ At minimum include:
 
 ## Pass criteria
 
-The migration is safe only if:
+The migration was considered safe only if:
 
-- no diffs in legacy-supported behavior
+- no diffs in previously supported behavior
 - all existing E2E tests remain green
-- new v5 E2E tests are green
+- new migration E2E tests are green
 - URL state remains stable for existing plans
 
 ## Suggested test layering
@@ -86,9 +88,17 @@ The migration is safe only if:
 
 ### Compatibility
 
-- legacy vs v5 snapshot comparison
+- previous runtime vs final runtime snapshot comparison
+- if these tests need real Svelte reactive runtime, run them in a browser-aware harness instead of forcing them into server-side Vitest
 
 ### E2E
 
 - keep all existing Playwright specs passing
 - add new specs for OR, count, percent, sum, milestones, cycles, multi-placement
+
+## Final outcome
+
+- native catalog only
+- old adapter removed
+- old plan files removed
+- full Playwright suite green at cutover

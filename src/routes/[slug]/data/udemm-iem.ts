@@ -1,1333 +1,1865 @@
-import { courseStates } from '$lib/course-state';
-import { courseTypes } from '$lib/course-type';
-import { courseAttributes } from '$lib/course-attribute';
-import { courseTerms } from '$lib/course-term';
-import { requiredFor, type RawCourse } from '$lib/raw-course';
-import type { StudyPlan } from '$lib/study-plan';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
-const courses: RawCourse[] = [
-	{
-		id: 1101,
-		code: 'I1101',
-		name: 'Análisis Matemático I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 1102,
-		code: 'I1102',
-		name: 'Fundamentos de Programación',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 1104,
-		code: 'I1104',
-		name: 'Sistemas de Representación',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 1106,
-		code: 'I1106',
-		name: 'Metrología',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 1103,
-		code: 'I1103',
-		name: 'Organización de Empresas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
-	{
-		id: 100,
-		code: 'I0100',
-		name: 'Álgebra y Geometría Analítica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1101,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1101,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 106,
-		code: 'I0106',
-		name: 'Física I',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1101,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1101,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1113,
-		code: 'I1113',
-		name: 'Diseño Digital',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1104,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1104,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1112,
-		code: 'I1112',
-		name: 'Química General',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1101,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1101,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1201,
-		code: 'I1201',
-		name: 'Análisis Matemático II A',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1101,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1101,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 100,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 100,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1202,
-		code: 'I1202',
-		name: 'Física II A',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1203,
-		code: 'I1203',
-		name: 'Fundamentos de Economía',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: []
-	},
-	{
-		id: 1204,
-		code: 'I1204',
-		name: 'Estabilidad I',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 100,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 100,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1211,
-		code: 'I1211',
-		name: 'Análisis Matemático II B',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1201,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1212,
-		code: 'I1212',
-		name: 'Física II B',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 401,
-		code: 'I0401',
-		name: 'Seguridad, Higiene y Medio Ambiente',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: []
-	},
-	{
-		id: 346,
-		code: 'I0346',
-		name: 'Resistencia de Materiales',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1204,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1204,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 1201,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 1201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1214,
-		code: 'I1214',
-		name: 'Ingeniería de Materiales I',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1112,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1112,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 484,
-		code: 'I0484',
-		name: 'Tecnología Mecánica',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 345,
-		code: 'I0345',
-		name: 'Termodinámica',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1212,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1212,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 328,
-		code: 'I0328',
-		name: 'Mediciones Eléctricas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1202,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 206,
-		code: 'I0206',
-		name: 'Electrotecnia',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1202,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1305,
-		code: 'I1305',
-		name: 'Ingeniería de Materiales II',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1214,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1214,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 304,
-		code: 'I0304',
-		name: 'Probabilidad y Estadística',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 100,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 100,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 472,
-		code: 'I0472',
-		name: 'Mecánica de los Fluidos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 1201,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 1201,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 350,
-		code: 'I0350',
-		name: 'Máquinas Eléctricas',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 206,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 442,
-		code: 'I0442',
-		name: 'Mecánica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 106,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 106,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 1211,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 1211,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1321,
-		code: 'I1321',
-		name: 'Fundamentos de Electrónica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1202,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1202,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1404,
-		code: 'I1404',
-		name: 'Turbomáquinas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 472,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 472,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1401,
-		code: 'I1401',
-		name: 'Metodología de la Investigación',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 304,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 304,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1408,
-		code: 'I1408',
-		name: 'Máquinas Eléctricas II',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 350,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 350,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1402,
-		code: 'I1402',
-		name: 'Gestión de la Calidad',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 304,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 304,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1403,
-		code: 'I1403',
-		name: 'Control Industrial',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1321,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1321,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 443,
-		code: 'I0443',
-		name: 'Elementos de Máquinas y Mecanismos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1305,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1305,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 346,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 346,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 442,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 442,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 520,
-		code: 'I0520',
-		name: 'Máquinas Térmicas',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 345,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 345,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1422,
-		code: 'I1422',
-		name: 'Mecanismos Hidráulicos y Neumáticos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 472,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 472,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1415,
-		code: 'I1415',
-		name: 'Gestión y Evaluación de Proyectos',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 4,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1103,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1103,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1522,
-		code: 'I1522',
-		name: 'Proyecto Electromecánico Integrador',
-		hours: undefined,
-		term: courseTerms.annual,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1404,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1404,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 520,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 520,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 1422,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 1422,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1501,
-		code: 'I1501',
-		name: 'Energías Alternativas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1408,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1408,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1502,
-		code: 'I1502',
-		name: 'Sistemas de Elevación y Transporte',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 443,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 443,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 1408,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 1408,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1503,
-		code: 'I1503',
-		name: 'Instalaciones Termomecánicas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 472,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 472,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 345,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 345,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1507,
-		code: 'I1507',
-		name: 'Instalaciones Eléctricas',
-		hours: undefined,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 206,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 206,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1514,
-		code: 'I1514',
-		name: 'Gestión del Mantenimiento',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1402,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1402,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 538,
-		code: 'I0538',
-		name: 'Instalaciones Industriales',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1422,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1422,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 520,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 520,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 484,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 484,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 500,
-		code: 'I0500',
-		name: 'Legislación y Ejercicio Profesional',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: []
-	},
-	{
-		id: 1518,
-		code: 'I1518',
-		name: 'Redes de Distribución Eléctrica',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1507,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1507,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 555,
-		code: 'I0555',
-		name: 'Práctica Profesional Supervisada',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 1403,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 1403,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 1415,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 1415,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 1408,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 1408,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 1130,
-		code: 'I1130',
-		name: 'Emprendedorismo I',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1131,
-		code: 'I1131',
-		name: 'Emprendedorismo II',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 303,
-		code: 'I0303',
-		name: 'Inglés I',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 446,
-		code: 'I0446',
-		name: 'Inglés II',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1230,
-		code: 'I1230',
-		name: 'Comunicación Efectiva I',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1231,
-		code: 'I1231',
-		name: 'Comunicación Efectiva II',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1330,
-		code: 'I1330',
-		name: 'Trabajo Colaborativo I',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1332,
-		code: 'I1332',
-		name: 'Trabajo Colaborativo II',
-		hours: undefined,
-		term: courseTerms.semestral,
-		type: courseTypes.mandatory,
-		attributes: [courseAttributes.transversal, courseAttributes.workshop],
-		requirements: []
-	},
-	{
-		id: 1356,
-		code: 'I1356',
-		name: 'Estabilidad II',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 1409,
-		code: 'I1409',
-		name: 'Tecnología del Calor',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 501,
-		code: 'I0501',
-		name: 'Planificación y Control de la Producción',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 536,
-		code: 'I0536',
-		name: 'Comercialización',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 1218,
-		code: 'I1218',
-		name: 'Contabilidad y Costos Industriales',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	},
-	{
-		id: 1326,
-		code: 'I1326',
-		name: 'Logística Industrial',
-		hours: undefined,
-		term: courseTerms.secondSemester,
-		type: courseTypes.elective,
-		year: 4,
-		requirements: []
-	}
-];
-
-export const udemmIem: StudyPlan = {
-	courses,
-	degreeName: 'Ingeniería Electromecánica',
-	degreeSlug: 'IEM',
-	durationYears: 5,
-	universityName: 'Universidad de la Marina Mercante',
-	universitySlug: 'UdeMM',
-	progress: {
-		type: 'mandatory-plus-elective-count',
-		requiredElectiveCount: 1
-	},
-	sources: [
-		{
-			id: 1,
-			label: 'Plan de Estudios',
-			url: 'https://udemm.edu.ar/carreras/ingenieria-electromecanica/#plandeestudios'
-		},
-		{
-			id: 2,
-			label: 'Correlatividades',
-			url: 'https://udemm.edu.ar/carreras/ingenieria-electromecanica/correlatividades-ingenieria-electromecanica/'
-		}
-	],
-	notes: [
-		{
-			id: 1,
-			text: 'La carrera otorga el título intermedio de **Técnico Universitario en Electromecánica**.'
-		},
-		{
-			id: 2,
-			text: 'Se normalizó la correlativa de **Proyecto Electromecánico Integrador** de `I1421` a `I1422` por consistencia con el plan y la tabla de materias.'
-		},
-		{
-			id: 3,
-			text: 'Para completar la carrera se requiere aprobar **1 materia electiva** del bloque de electivas de 4<sup>to</sup> año.'
-		}
-	]
+export const udemmIem: StudyPlanData = {
+  "info": {
+    "degreeName": "Ingeniería Electromecánica",
+    "degreeSlug": "IEM",
+    "universityName": "Universidad de la Marina Mercante",
+    "universitySlug": "UdeMM",
+    "sources": [
+      {
+        "id": 1,
+        "label": "Plan de Estudios",
+        "url": "https://udemm.edu.ar/carreras/ingenieria-electromecanica/#plandeestudios"
+      },
+      {
+        "id": 2,
+        "label": "Correlatividades",
+        "url": "https://udemm.edu.ar/carreras/ingenieria-electromecanica/correlatividades-ingenieria-electromecanica/"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "text": "La carrera otorga el título intermedio de **Técnico Universitario en Electromecánica**."
+      },
+      {
+        "id": 2,
+        "text": "Se normalizó la correlativa de **Proyecto Electromecánico Integrador** de `I1421` a `I1422` por consistencia con el plan y la tabla de materias."
+      },
+      {
+        "id": 3,
+        "text": "Para completar la carrera se requiere aprobar **1 materia electiva** del bloque de electivas de 4<sup>to</sup> año."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "year-1",
+      "label": "1er Año"
+    },
+    {
+      "id": "year-2",
+      "label": "2do Año"
+    },
+    {
+      "id": "year-3",
+      "label": "3er Año"
+    },
+    {
+      "id": "year-4",
+      "label": "4to Año"
+    },
+    {
+      "id": "year-5",
+      "label": "5to Año"
+    },
+    {
+      "id": "transversales",
+      "label": "Materias Transversales"
+    }
+  ],
+  "items": [
+    {
+      "id": "1101",
+      "seqId": 1,
+      "kind": "course",
+      "name": "Análisis Matemático I",
+      "code": "I1101",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1102",
+      "seqId": 2,
+      "kind": "course",
+      "name": "Fundamentos de Programación",
+      "code": "I1102",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1104",
+      "seqId": 3,
+      "kind": "course",
+      "name": "Sistemas de Representación",
+      "code": "I1104",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1106",
+      "seqId": 4,
+      "kind": "course",
+      "name": "Metrología",
+      "code": "I1106",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1103",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Organización de Empresas",
+      "code": "I1103",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "100",
+      "seqId": 6,
+      "kind": "course",
+      "name": "Álgebra y Geometría Analítica",
+      "code": "I0100",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "106",
+      "seqId": 7,
+      "kind": "course",
+      "name": "Física I",
+      "code": "I0106",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1113",
+      "seqId": 8,
+      "kind": "course",
+      "name": "Diseño Digital",
+      "code": "I1113",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1104",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1104",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1112",
+      "seqId": 9,
+      "kind": "course",
+      "name": "Química General",
+      "code": "I1112",
+      "type": "mandatory",
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1101",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1201",
+      "seqId": 10,
+      "kind": "course",
+      "name": "Análisis Matemático II A",
+      "code": "I1201",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1101",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "100",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1101",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "100",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1202",
+      "seqId": 11,
+      "kind": "course",
+      "name": "Física II A",
+      "code": "I1202",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "106",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "106",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1203",
+      "seqId": 12,
+      "kind": "course",
+      "name": "Fundamentos de Economía",
+      "code": "I1203",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1204",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Estabilidad I",
+      "code": "I1204",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "100",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "100",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1211",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Análisis Matemático II B",
+      "code": "I1211",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1201",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1201",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1212",
+      "seqId": 15,
+      "kind": "course",
+      "name": "Física II B",
+      "code": "I1212",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "106",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "106",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "401",
+      "seqId": 16,
+      "kind": "course",
+      "name": "Seguridad, Higiene y Medio Ambiente",
+      "code": "I0401",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "346",
+      "seqId": 17,
+      "kind": "course",
+      "name": "Resistencia de Materiales",
+      "code": "I0346",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1204",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1201",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1204",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1201",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1214",
+      "seqId": 18,
+      "kind": "course",
+      "name": "Ingeniería de Materiales I",
+      "code": "I1214",
+      "type": "mandatory",
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1112",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1112",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "484",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Tecnología Mecánica",
+      "code": "I0484",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "106",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "106",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "345",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Termodinámica",
+      "code": "I0345",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1212",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1212",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "328",
+      "seqId": 21,
+      "kind": "course",
+      "name": "Mediciones Eléctricas",
+      "code": "I0328",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "206",
+      "seqId": 22,
+      "kind": "course",
+      "name": "Electrotecnia",
+      "code": "I0206",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1305",
+      "seqId": 23,
+      "kind": "course",
+      "name": "Ingeniería de Materiales II",
+      "code": "I1305",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1214",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1214",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "304",
+      "seqId": 24,
+      "kind": "course",
+      "name": "Probabilidad y Estadística",
+      "code": "I0304",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "100",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "100",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "472",
+      "seqId": 25,
+      "kind": "course",
+      "name": "Mecánica de los Fluidos",
+      "code": "I0472",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1201",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1201",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "350",
+      "seqId": 26,
+      "kind": "course",
+      "name": "Máquinas Eléctricas",
+      "code": "I0350",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "206",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "206",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "442",
+      "seqId": 27,
+      "kind": "course",
+      "name": "Mecánica",
+      "code": "I0442",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1211",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "106",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1211",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1321",
+      "seqId": 28,
+      "kind": "course",
+      "name": "Fundamentos de Electrónica",
+      "code": "I1321",
+      "type": "mandatory",
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1202",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1404",
+      "seqId": 29,
+      "kind": "course",
+      "name": "Turbomáquinas",
+      "code": "I1404",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "472",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "472",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1401",
+      "seqId": 30,
+      "kind": "course",
+      "name": "Metodología de la Investigación",
+      "code": "I1401",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "304",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "304",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1408",
+      "seqId": 31,
+      "kind": "course",
+      "name": "Máquinas Eléctricas II",
+      "code": "I1408",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "350",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "350",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1402",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Gestión de la Calidad",
+      "code": "I1402",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "304",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "304",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1403",
+      "seqId": 33,
+      "kind": "course",
+      "name": "Control Industrial",
+      "code": "I1403",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1321",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1321",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "443",
+      "seqId": 34,
+      "kind": "course",
+      "name": "Elementos de Máquinas y Mecanismos",
+      "code": "I0443",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1305",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "346",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "442",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1305",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "346",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "442",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "520",
+      "seqId": 35,
+      "kind": "course",
+      "name": "Máquinas Térmicas",
+      "code": "I0520",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "345",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "345",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1422",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Mecanismos Hidráulicos y Neumáticos",
+      "code": "I1422",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "472",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "472",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1415",
+      "seqId": 37,
+      "kind": "course",
+      "name": "Gestión y Evaluación de Proyectos",
+      "code": "I1415",
+      "type": "mandatory",
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1103",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1103",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1522",
+      "seqId": 38,
+      "kind": "course",
+      "name": "Proyecto Electromecánico Integrador",
+      "code": "I1522",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "annual"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1404",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "520",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1422",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1404",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "520",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1422",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1501",
+      "seqId": 39,
+      "kind": "course",
+      "name": "Energías Alternativas",
+      "code": "I1501",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1408",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1408",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1502",
+      "seqId": 40,
+      "kind": "course",
+      "name": "Sistemas de Elevación y Transporte",
+      "code": "I1502",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "443",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1408",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "443",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1408",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1503",
+      "seqId": 41,
+      "kind": "course",
+      "name": "Instalaciones Termomecánicas",
+      "code": "I1503",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "472",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "345",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "472",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "345",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1507",
+      "seqId": 42,
+      "kind": "course",
+      "name": "Instalaciones Eléctricas",
+      "code": "I1507",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "206",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "206",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "1514",
+      "seqId": 43,
+      "kind": "course",
+      "name": "Gestión del Mantenimiento",
+      "code": "I1514",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1402",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1402",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "538",
+      "seqId": 44,
+      "kind": "course",
+      "name": "Instalaciones Industriales",
+      "code": "I0538",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1422",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "520",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "484",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1422",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "520",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "484",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "500",
+      "seqId": 45,
+      "kind": "course",
+      "name": "Legislación y Ejercicio Profesional",
+      "code": "I0500",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1518",
+      "seqId": 46,
+      "kind": "course",
+      "name": "Redes de Distribución Eléctrica",
+      "code": "I1518",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "1507",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "1507",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "555",
+      "seqId": 47,
+      "kind": "course",
+      "name": "Práctica Profesional Supervisada",
+      "code": "I0555",
+      "type": "mandatory",
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1403",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1415",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "1408",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "1403",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1415",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "1408",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1130",
+      "seqId": 48,
+      "kind": "course",
+      "name": "Emprendedorismo I",
+      "code": "I1130",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1131",
+      "seqId": 49,
+      "kind": "course",
+      "name": "Emprendedorismo II",
+      "code": "I1131",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "303",
+      "seqId": 50,
+      "kind": "course",
+      "name": "Inglés I",
+      "code": "I0303",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "446",
+      "seqId": 51,
+      "kind": "course",
+      "name": "Inglés II",
+      "code": "I0446",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1230",
+      "seqId": 52,
+      "kind": "course",
+      "name": "Comunicación Efectiva I",
+      "code": "I1230",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1231",
+      "seqId": 53,
+      "kind": "course",
+      "name": "Comunicación Efectiva II",
+      "code": "I1231",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1330",
+      "seqId": 54,
+      "kind": "course",
+      "name": "Trabajo Colaborativo I",
+      "code": "I1330",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1332",
+      "seqId": 55,
+      "kind": "course",
+      "name": "Trabajo Colaborativo II",
+      "code": "I1332",
+      "type": "mandatory",
+      "attributes": [
+        "transversal",
+        "workshop"
+      ],
+      "placements": [
+        {
+          "sectionId": "transversales",
+          "term": "semestral"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1356",
+      "seqId": 56,
+      "kind": "course",
+      "name": "Estabilidad II",
+      "code": "I1356",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1409",
+      "seqId": 57,
+      "kind": "course",
+      "name": "Tecnología del Calor",
+      "code": "I1409",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "501",
+      "seqId": 58,
+      "kind": "course",
+      "name": "Planificación y Control de la Producción",
+      "code": "I0501",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "536",
+      "seqId": 59,
+      "kind": "course",
+      "name": "Comercialización",
+      "code": "I0536",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1218",
+      "seqId": 60,
+      "kind": "course",
+      "name": "Contabilidad y Costos Industriales",
+      "code": "I1218",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    },
+    {
+      "id": "1326",
+      "seqId": 61,
+      "kind": "course",
+      "name": "Logística Industrial",
+      "code": "I1326",
+      "type": "elective",
+      "tags": [
+        "progress-elective",
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
+    }
+  ],
+  "requirements": {
+    "graduation": [
+      {
+        "id": "mandatory",
+        "label": "Materias obligatorias",
+        "type": "allMandatory"
+      },
+      {
+        "id": "elective-count",
+        "label": "Materias electivas requeridas",
+        "type": "count",
+        "selector": {
+          "type": "tag",
+          "tag": "progress-elective"
+        },
+        "min": 1,
+        "state": "passed"
+      }
+    ]
+  }
 };

@@ -7,8 +7,8 @@ import {
 	evaluateRequirement,
 	type RequirementContext
 } from './requirement-evaluator';
-import { grad, place, req } from './study-plan-v5-helpers';
-import { milestoneStates, type ItemState, type PlanItem } from './study-plan-v5';
+import { grad, place, req } from './study-plan-helpers';
+import { milestoneStates, type ItemState, type PlanItem } from './study-plan-data';
 
 type MockState = {
 	item: PlanItem;

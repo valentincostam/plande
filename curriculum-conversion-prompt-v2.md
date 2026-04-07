@@ -1,6 +1,6 @@
 # Prompt v2: University Curriculum to StudyPlanData Conversion
 
-Extract and structure data from a university curriculum into the new `StudyPlanData` model used by Plande v5.1.
+Extract and structure data from a university curriculum into the current `StudyPlanData` model used by Plande.
 
 ## Goal
 
@@ -18,9 +18,9 @@ The output must support both classic plans (`year + term`) and heterogeneous pla
 ## Output structure
 
 ```ts
-import { req, place } from '$lib/study-plan-v5-helpers';
+import { req, place } from '$lib/study-plan-helpers';
 import { courseTerms } from '$lib/course-term';
-import type { StudyPlanData } from '$lib/study-plan-v5';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
 export const variableName: StudyPlanData = {
 	info: {
@@ -321,9 +321,9 @@ Before submitting a converted plan:
 - [ ] Graduation requirements match the source document
 - [ ] The number of visible academic items matches the source document
 
-## Legacy mapping guidance
+## Previous Schema Mapping Guidance
 
-When converting a legacy plan:
+When converting a plan from the previous schema:
 
 - old `course` -> new `PlanItem(kind: 'course')`
 - old `year` -> `sections` + `placements`

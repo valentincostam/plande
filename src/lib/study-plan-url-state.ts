@@ -1,5 +1,5 @@
 import { decodeCoursesStates, encodeCoursesStates, type CourseState } from './course-state';
-import { milestoneStates, type MilestoneState, type PlanItem } from './study-plan-v5';
+import { milestoneStates, type MilestoneState, type PlanItem } from './study-plan-data';
 
 const milestoneLetters = {
 	[milestoneStates.pending]: 'p',

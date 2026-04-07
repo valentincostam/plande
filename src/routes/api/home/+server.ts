@@ -1,8 +1,11 @@
 import type { RequestHandler } from './$types';
-import { allStudyPlans } from '../../[slug]/data/all-study-plans';
+import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlug } from '$lib/study-plan';
+import { allStudyPlans as studyPlanDataCatalog } from '../../[slug]/data/all-study-plans';
 
 export const prerender = true;
+
+const allStudyPlans = studyPlanDataCatalog.map(studyPlanDataToCatalogEntry);
 
 /**
  * Generate markdown representation of the homepage
