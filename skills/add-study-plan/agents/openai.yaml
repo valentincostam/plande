@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Add Study Plan'
+  short_description: 'Convert curricula into app-ready study plans'
+  default_prompt: 'Use $add-study-plan to convert these curriculum documents into a new Plande study plan and add it to the app.'

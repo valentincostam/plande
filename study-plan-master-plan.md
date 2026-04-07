@@ -477,8 +477,8 @@ Actualizar el flujo de carga de planes para el nuevo modelo.
 
 ### Tareas
 
-1. Crear un nuevo archivo, separado del actual:
-   - `curriculum-conversion-prompt-v2.md`
+1. Crear un prompt nuevo, separado del historico:
+   - `curriculum-conversion-prompt-study-plan-data.md`
 2. Hacer que el prompt produzca:
    - `StudyPlanData`
    - `sections`
@@ -498,7 +498,7 @@ Actualizar el flujo de carga de planes para el nuevo modelo.
 
 ### Entregables
 
-- `curriculum-conversion-prompt-v2.md`
+- `curriculum-conversion-prompt-study-plan-data.md`
 
 ### Criterio de salida
 
@@ -513,7 +513,7 @@ El prompt nuevo permite cargar planes directamente al nuevo modelo sin depender 
 5. Tests unitarios
 6. Tests E2E nuevos
 7. E2E existentes pasando
-8. `curriculum-conversion-prompt-v2.md`
+8. `curriculum-conversion-prompt-study-plan-data.md`
 9. Documentacion final del modelo y migracion
 
 ## Criterio final de exito
