@@ -21,8 +21,11 @@ test.describe('native native data cross-year pilot plan', () => {
 			year6Section.getByRole('button', { name: /^Proyecto Final(?:,|$)/ })
 		).toBeVisible();
 
-		await studyPlan.getCourseButton('Proyecto Final').click();
-		const details = await studyPlan.getCourseDetailsPanel('Proyecto Final');
+		const projectButton = year6Section.getByRole('button', { name: /^Proyecto Final(?:,|$)/ });
+		await projectButton.click();
+		const panelId = await projectButton.getAttribute('aria-controls');
+		expect(panelId).toBeTruthy();
+		const details = page.locator(`#${panelId}`);
 		await expect(details).toContainText(
 			'Instalaciones Sanitarias y de Gas de 4to año debe estar al menos Regular'
 		);
