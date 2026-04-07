@@ -119,7 +119,7 @@ Suggested courses:
 
 Check:
 
-- `Materias Electivas` section exists and matches production
+- transversal optative section exists and matches production
 - passing `Francés` increments elective count
 - passing `Complementos de Análisis` also increments elective count
 - both section-local and year-local elective/optative items contribute correctly
@@ -155,6 +155,60 @@ These catch subtle regressions that are easy to miss.
 5. `unlp-fahce-pm-2003`
 6. `unlam-diit-ii-2023`
 7. extended matrix only if you want more confidence
+
+## Latest Manual Run
+
+The following local-vs-production checks were run manually in browser and passed without visible differences:
+
+- `utn-frcu-ic-2023`
+  - empty state
+  - verified duplicated `Proyecto Final` in 5th and 6th year
+- `issd-tscdia`
+  - empty state
+  - stateful URL check with `?s=nan2a`
+- `unca-fca-tupazsa`
+  - strict mode off
+  - `Electiva` approved
+  - stateful URL check with `?s=n16a&r=no`
+- `utn-frcu-isi-2023`
+  - strict mode off
+  - `Metodología de la Investigación` approved
+  - `Proyecto Final` details inspected
+  - stateful URL check with `?s=n22a&r=no`
+- `unlam-diit-ii-2023`
+  - empty state
+  - transversal section checked
+- `unlp-fahce-pm-2003`
+  - empty state
+  - transversal optative language section checked
+- `ucu-fau-arq-2007`
+  - empty state
+
+No visible local-vs-production differences were found in that run.
+
+## Smoke Test URLs
+
+Use these to repeat a quick local-vs-production check without rebuilding scenarios by hand.
+
+| Plan                    | Local                                                 | Production                                         | What it covers                                           |
+| ----------------------- | ----------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------- |
+| ISSD base/intermediate  | `http://localhost:5173/issd-tscdia?s=nan2a`           | `https://plande.app/issd-tscdia?s=nan2a`           | baseline mandatory-only, URL restore, available courses  |
+| UNCA elective count     | `http://localhost:5173/unca-fca-tupazsa?s=n16a&r=no`  | `https://plande.app/unca-fca-tupazsa?s=n16a&r=no`  | elective count, strict mode off, URL restore             |
+| UTN ISI intermediate    | `http://localhost:5173/utn-frcu-isi-2023?s=n22a&r=no` | `https://plande.app/utn-frcu-isi-2023?s=n22a&r=no` | elective hours, `Proyecto Final`, URL restore            |
+| UTN ISI near graduation | `http://localhost:5173/utn-frcu-isi-2023?s=a34`       | `https://plande.app/utn-frcu-isi-2023?s=a34`       | late-stage stats, available courses, final-year behavior |
+| UTN IC empty            | `http://localhost:5173/utn-frcu-ic-2023`              | `https://plande.app/utn-frcu-ic-2023`              | cross-year / duplicated `Proyecto Final`                 |
+| UTN IC near graduation  | `http://localhost:5173/utn-frcu-ic-2023?s=a33`        | `https://plande.app/utn-frcu-ic-2023?s=a33`        | late-stage stats, elective hours, final-year behavior    |
+| UNLP PM empty           | `http://localhost:5173/unlp-fahce-pm-2003`            | `https://plande.app/unlp-fahce-pm-2003`            | transversals, optative languages, special sections       |
+| UNLP PM near graduation | `http://localhost:5173/unlp-fahce-pm-2003?s=a19n3a8`  | `https://plande.app/unlp-fahce-pm-2003?s=a19n3a8`  | elective count, near-graduation optatives                |
+| UNLaM DIIT empty        | `http://localhost:5173/unlam-diit-ii-2023`            | `https://plande.app/unlam-diit-ii-2023`            | transversal section, mixed course types                  |
+| UCU Arq empty           | `http://localhost:5173/ucu-fau-arq-2007`              | `https://plande.app/ucu-fau-arq-2007`              | optative/count-based progress baseline                   |
+
+Suggested quick pass:
+
+1. open the same row in local and production
+2. compare `Qué podés cursar`, `Estadísticas`, and one course details panel
+3. reload both pages
+4. confirm the state remains identical
 
 ## Pass Criteria
 
