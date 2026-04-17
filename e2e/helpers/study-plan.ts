@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import { expect, type Page, type Locator } from '@playwright/test';
 import {
 	courseStateLabelsInitials,
 	courseStates,
@@ -22,8 +22,10 @@ const getOrdinalWord = (year: number): string => {
 	return ordinals[year] ?? `${year}°`;
 };
 
-export const goto = (page: Page, slug = 'utn-frcu-isi') =>
-	page.goto(`/${slug}`, { waitUntil: 'networkidle' });
+export const goto = async (page: Page, slug = 'utn-frcu-isi') => {
+	await page.goto(`/${slug}`, { waitUntil: 'load' });
+	await page.waitForTimeout(2000);
+};
 
 const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -52,8 +54,9 @@ const getCourseStateLabel = async (control: Locator) => {
 
 export const getCourseStateControl = (page: Page, courseName: string): Locator => {
 	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
-
-	return page.getByRole('combobox', { name }).or(page.getByRole('button', { name })).first();
+	const combobox = page.getByRole('combobox', { name });
+	const button = page.getByRole('button', { name });
+	return combobox.or(button).first();
 };
 
 export const getCourseButton = (page: Page, courseName: string): Locator =>
@@ -78,11 +81,14 @@ export const getCourseDetailsPanel = async (page: Page, courseName: string): Pro
 	const button = getCourseButton(page, courseName);
 	const panelId = await button.getAttribute('aria-controls');
 	if (!panelId) throw new Error(`Course button for "${courseName}" has no aria-controls`);
-	return page.locator(`#${panelId}`);
+	return page.locator(`[id="${panelId}"]`);
 };
 
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
-	const control = getCourseStateControl(page, courseName);
+	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
+	const combobox = page.getByRole('combobox', { name });
+	const button = page.getByRole('button', { name });
+	const control = (await combobox.count()) > 0 ? combobox.first() : button.first();
 	const key = stateKeyByLabel[state];
 
 	if (!key) {
@@ -93,7 +99,12 @@ export const setCourseState = async (page: Page, courseName: string, state: stri
 		return;
 	}
 
-	await control.press(key);
+	const tagName = await control.evaluate((element) => element.tagName.toLowerCase());
+	if (tagName === 'select') {
+		await control.selectOption({ label: state });
+	} else {
+		await control.press(key);
+	}
 
 	if ((await getCourseStateLabel(control)) !== state) {
 		throw new Error(`Could not set "${courseName}" to "${state}" with keyboard shortcuts`);
@@ -113,7 +124,9 @@ export const setYearState = async (page: Page, year: number, state: string) => {
 };
 
 export const gotoWithState = (page: Page, slug: string, stateParam: string) =>
-	page.goto(`/${slug}?s=${stateParam}`, { waitUntil: 'networkidle' });
+	page.goto(`/${slug}?s=${stateParam}`, { waitUntil: 'load' }).then(async () => {
+		await page.waitForTimeout(2000);
+	});
 
 export const getDegreeProgressBar = (page: Page): Locator => page.getByRole('progressbar');
 
@@ -121,7 +134,8 @@ export const getStatByLabel = (page: Page, labelPattern: string | RegExp): Locat
 	page.getByRole('listitem').filter({ hasText: labelPattern });
 
 export const setGrade = async (page: Page, grade: number) => {
-	const gradeInput = page.getByRole('spinbutton');
+	const gradeInput = page.locator('input[type="number"]:visible').last();
+	await expect(gradeInput).toBeVisible({ timeout: 20000 });
 	await gradeInput.fill(grade.toString());
 	await gradeInput.blur();
 };

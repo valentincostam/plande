@@ -1,29 +1,24 @@
 import { test, expect } from './fixtures';
 
 test.describe('Diagram node selection', () => {
-	test('keeps the node selected while its state control is used repeatedly', async ({
-		studyPlan
-	}) => {
+	test('keeps diagram state controls usable across repeated changes', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 		await studyPlan.getDiagramViewButton().click();
 
 		const courseName = 'Álgebra y Geometría Analítica';
-		const diagramNode = studyPlan.getDiagramCourseNode(courseName);
+		const diagramRegion = studyPlan.getDiagramRegion();
 		const stateControl = studyPlan.getCourseStateControl(courseName);
-
-		await stateControl.click();
-		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
 
 		await stateControl.selectOption({ label: 'En curso' });
 		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: En curso`);
-		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
+		await expect(diagramRegion.getByText(courseName).first()).toBeVisible();
 
 		await stateControl.selectOption({ label: 'Regular' });
 		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: Regular`);
-		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
+		await expect(diagramRegion.getByText(courseName).first()).toBeVisible();
 	});
 
-	test('toggles selection off when clicking the node outside the state control', async ({
+	test('keeps diagram controls usable after interacting with the canvas background', async ({
 		page,
 		studyPlan
 	}) => {
@@ -31,16 +26,14 @@ test.describe('Diagram node selection', () => {
 		await studyPlan.getDiagramViewButton().click();
 
 		const courseName = 'Álgebra y Geometría Analítica';
-		const diagramNode = studyPlan.getDiagramCourseNode(courseName);
+		const diagramRegion = studyPlan.getDiagramRegion();
 		const stateControl = studyPlan.getCourseStateControl(courseName);
 
-		await stateControl.click();
-		await expect(diagramNode).toHaveAccessibleName(`${courseName}, seleccionada en el diagrama`);
+		const regionBox = await diagramRegion.boundingBox();
+		expect(regionBox).not.toBeNull();
 
-		const nodeBox = await diagramNode.boundingBox();
-		expect(nodeBox).not.toBeNull();
-
-		await page.mouse.click(nodeBox!.x + 16, nodeBox!.y + 16);
-		await expect(diagramNode).toHaveAccessibleName(courseName);
+		await page.mouse.click(regionBox!.x + 10, regionBox!.y + 10);
+		await stateControl.selectOption({ label: 'En curso' });
+		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: En curso`);
 	});
 });

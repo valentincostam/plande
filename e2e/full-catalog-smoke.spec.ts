@@ -20,7 +20,7 @@ test.describe('full catalog smoke', () => {
 				}
 			});
 
-			await page.goto(`/${slug}`, { waitUntil: 'networkidle' });
+			await page.goto(`/${slug}`, { waitUntil: 'load' });
 
 			await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 			await expect(page.getByRole('button', { name: 'Lista' })).toBeVisible();

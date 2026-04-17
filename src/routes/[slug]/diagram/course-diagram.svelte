@@ -4,7 +4,7 @@
 	import DownloadImageButton from './download-image-button.svelte';
 	import DiagramNavigator from './diagram-navigator.svelte';
 	import '@xyflow/svelte/dist/style.css';
-	import type { Course } from '$lib/course.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
 	import CourseNode from './course-node.svelte';
 	import { createDagreLayout, getEdgeStyle } from './diagram-utils';
@@ -13,20 +13,22 @@
 	import { SvelteSet } from 'svelte/reactivity';
 
 	type Props = {
-		courses: Course[];
+		items: StudyPlanViewItem[];
 		slug: string;
 		useCycleButton?: boolean;
 	};
 
-	let { courses, slug, useCycleButton = false }: Props = $props();
+	let { items, slug, useCycleButton = false }: Props = $props();
 
 	// Filter toggle (checked = show, unchecked = hide)
 	let showElectives = $state(true);
 
 	// Detect which course types exist
-	const hasElectives = $derived(courses.some((c) => c.type === courseTypes.elective));
-	const hasOptatives = $derived(courses.some((c) => c.type === courseTypes.optative));
-	const electiveCount = $derived(courses.filter((c) => isElectiveOrOptative(c.type)).length);
+	const hasElectives = $derived(items.some((item) => item.item.def.type === courseTypes.elective));
+	const hasOptatives = $derived(items.some((item) => item.item.def.type === courseTypes.optative));
+	const electiveCount = $derived(
+		items.filter((item) => isElectiveOrOptative(item.item.def.type)).length
+	);
 
 	// Dynamic label for electives checkbox
 	const electivesLabel = $derived(
@@ -37,28 +39,28 @@
 				: `Mostrar optativas (${electiveCount})`
 	);
 
-	const displayedCourses = $derived(
-		courses.filter((c) => showElectives || !isElectiveOrOptative(c.type))
+	const displayedItems = $derived(
+		items.filter((item) => showElectives || !isElectiveOrOptative(item.item.def.type))
 	);
 
 	// Layout derived from displayed courses - recalculates when filters change
-	const layout = $derived(createDagreLayout(displayedCourses));
+	const layout = $derived(createDagreLayout(displayedItems));
 
 	// Use $state.raw to prevent Svelte from wrapping in proxies - SvelteFlow manages its own state
 	let nodes = $state.raw<Node<CourseNodeData>[]>([]);
 	let edges = $state.raw<Edge<CourseEdgeData>[]>([]);
 
 	let selectedNodeId = $state<string | null>(null);
-	let highlightedNodeId = $state<number | null>(null);
+	let highlightedNodeId = $state<string | null>(null);
 	let isFullscreen = $state(false);
 	let navigatorRef: DiagramNavigator | undefined;
 
 	// Expose focusOnCourse to parent component
-	export function focusOnCourse(courseId: number) {
+	export function focusOnCourse(courseId: string) {
 		navigatorRef?.focusOnCourse(courseId);
 	}
 
-	function onFocus(courseId: number) {
+	function onFocus(courseId: string) {
 		highlightedNodeId = courseId;
 		// Clear highlight after animation completes (3s)
 		setTimeout(() => {
@@ -117,7 +119,7 @@
 				...node.data,
 				useCycleButton,
 				isSelected: node.id === selectedNodeId,
-				isHighlighted: node.data.course.id === highlightedNodeId
+				isHighlighted: node.data.item.item.def.id === highlightedNodeId
 			},
 			class: selectedNodeId && !connectedIds.has(node.id) ? 'opacity-20' : ''
 		}));
@@ -213,6 +215,14 @@
 <style>
 	:global(.svelte-flow__node) {
 		transition: opacity 0.2s ease;
+		pointer-events: all;
+	}
+
+	:global(.svelte-flow__node select),
+	:global(.svelte-flow__node button[data-state-select]) {
+		pointer-events: all;
+		position: relative;
+		z-index: 2;
 	}
 
 	:global(.svelte-flow__edge) {

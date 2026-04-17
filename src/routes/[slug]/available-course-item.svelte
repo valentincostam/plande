@@ -1,31 +1,30 @@
 <script lang="ts">
 	import { courseAttributeLabels, isTransversal } from '$lib/course-attribute';
-	import type { Course } from '$lib/course.svelte';
-	import { countAllDependents } from '$lib/course.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import Ordinal from '$lib/ordinal.svelte';
-	import CourseLink from './course-link.svelte';
+	import NativeCourseLink from './native-course-link.svelte';
 	import UnlockIcon from './unlock-icon.svelte';
 
 	type Props = {
-		course: Course;
+		item: StudyPlanViewItem;
 		showCodes?: boolean;
 		hideTypeForTransversal?: boolean;
 		viewMode?: 'list' | 'diagram';
-		onNavigateToDiagram?: (courseId: number) => void;
+		onNavigateToDiagram?: (courseId: string) => void;
 	};
 
 	let {
-		course,
+		item,
 		showCodes = false,
 		hideTypeForTransversal = false,
 		viewMode = 'list',
 		onNavigateToDiagram
 	}: Props = $props();
 
-	const totalDependents = $derived(countAllDependents(course));
-	const courseIsTransversal = $derived(isTransversal(course.attributes));
-	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(course.type));
+	const totalDependents = $derived(item.totalDependentCount);
+	const courseIsTransversal = $derived(isTransversal(item.item.def.attributes ?? []));
+	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(item.item.def.type));
 
 	const showTypeLabel = $derived(
 		courseIsElectiveOrOptative && !(courseIsTransversal && hideTypeForTransversal)
@@ -35,21 +34,21 @@
 </script>
 
 <li>
-	<CourseLink {course} {viewMode} {onNavigateToDiagram}>
-		{#if showCodes && course.code}
-			<span class="opacity-60">{course.code}.</span>
+	<NativeCourseLink {item} {viewMode} {onNavigateToDiagram}>
+		{#if showCodes && item.item.def.code}
+			<span class="opacity-60">{item.item.def.code}.</span>
 		{/if}
-		{course.name}
-	</CourseLink>
+		{item.item.def.name}
+	</NativeCourseLink>
 	{#if showTypeLabel}
-		({courseTypeLabels[course.type].toLowerCase()})
+		({courseTypeLabels[item.item.def.type].toLowerCase()})
 	{/if}
 	{#if showTransversalLabel}
 		({courseAttributeLabels.transversal.toLowerCase()})
 	{/if}
-	{#if course.year !== undefined}
+	{#if item.year !== undefined}
 		<span class="whitespace-nowrap text-gray-500">
-			de <Ordinal number={course.year} noun="año" />
+			de <Ordinal number={item.year} noun="año" />
 		</span>
 	{/if}
 	{#if totalDependents > 0}

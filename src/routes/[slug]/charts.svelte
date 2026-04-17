@@ -1,21 +1,18 @@
 <script lang="ts">
-	import type { Course } from '$lib/course.svelte';
-	import type { Year } from '$lib/year.svelte';
 	import type { DegreeProgressConfig } from '$lib/degree-progress';
-	import { calculateDegreeProgress } from '$lib/degree-progress';
+	import type { StudyPlanViewItem, StudyPlanViewSection } from '$lib/study-plan-view';
 	import Donut from './donut.svelte';
 	import StateDistribution from './state-distribution.svelte';
 	import YearlyCourseProgress from './yearly-course-progress.svelte';
 
 	type Props = {
-		courses: Course[];
-		years: Year[];
+		items: StudyPlanViewItem[];
+		sections: StudyPlanViewSection[];
 		progress: DegreeProgressConfig;
+		percentage: number;
 	};
 
-	let { courses, years, progress }: Props = $props();
-
-	const degreeProgress = $derived(() => calculateDegreeProgress(courses, progress));
+	let { items, sections, percentage, progress }: Props = $props();
 </script>
 
 <div class="grid gap-3 px-3 md:grid-cols-[1fr_3fr] md:px-0">
@@ -24,11 +21,11 @@
 	>
 		<span class="text-gray-700 md:text-center">Avance de carrera</span>
 		<div class="w-18 shrink-0 md:w-24">
-			<Donut progress={degreeProgress().percentage} strokeWidth={12} />
+			<Donut progress={percentage} strokeWidth={12} />
 		</div>
 	</div>
 
-	<StateDistribution {courses} class="md:col-span-2" />
+	<StateDistribution {items} class="md:col-span-2" />
 
-	<YearlyCourseProgress {years} class="md:col-start-2 md:row-start-1" />
+	<YearlyCourseProgress {sections} class="md:col-start-2 md:row-start-1" />
 </div>

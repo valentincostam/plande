@@ -1,55 +1,60 @@
 <script lang="ts">
 	import { courseStates } from '$lib/course-state';
 	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
-	import type { Course } from '$lib/course.svelte';
-	import type { Year } from '$lib/year.svelte';
 	import type { DegreeProgressConfig } from '$lib/degree-progress';
+	import type { StudyPlanViewItem, StudyPlanViewSection } from '$lib/study-plan-view';
 	import Stat from './stat.svelte';
 
 	type Props = {
-		courses: Course[];
-		years: Year[];
+		items: StudyPlanViewItem[];
+		sections: StudyPlanViewSection[];
 		progress: DegreeProgressConfig;
 	};
 
-	let { courses, years, progress }: Props = $props();
+	let { items, sections, progress }: Props = $props();
 
-	const someCourseHasHours = $derived(courses.some((course) => course.hours));
+	const someCourseHasHours = $derived(items.some((item) => item.item.def.hours));
 
 	const hasOptativeCourses = $derived(
-		courses.some((course) => course.type === courseTypes.optative)
+		items.some((item) => item.item.def.type === courseTypes.optative)
 	);
 
 	const hasElectiveCourses = $derived(
-		courses.some((course) => course.type === courseTypes.elective)
+		items.some((item) => item.item.def.type === courseTypes.elective)
 	);
 
-	const passedCourses = $derived(courses.filter((course) => course.state === courseStates.passed));
+	const passedCourses = $derived(items.filter((item) => item.item.state === courseStates.passed));
 
-	const passedYears = $derived(years.filter((year) => year.state === courseStates.passed));
+	const passedYears = $derived(
+		sections.filter(
+			(section) => section.year !== undefined && section.section.state === courseStates.passed
+		)
+	);
 
 	const inProgressCourseHours = $derived(
-		courses
-			.filter((course) => course.state === courseStates.inProgress)
-			.reduce((acc, course) => acc + (course.hours ?? 0), 0)
+		items
+			.filter((item) => item.item.state === courseStates.inProgress)
+			.reduce((acc, item) => acc + (item.item.def.hours ?? 0), 0)
 	);
 
-	const electiveCourses = $derived(courses.filter((course) => isElectiveOrOptative(course.type)));
+	const electiveCourses = $derived(
+		items.filter((item) => isElectiveOrOptative(item.item.def.type))
+	);
 
 	const passedElectiveCourses = $derived(
-		electiveCourses.filter((course) => course.state === courseStates.passed)
+		electiveCourses.filter((item) => item.item.state === courseStates.passed)
 	);
 
 	const mandatoryCourses = $derived(
-		courses.filter((course) => course.type === courseTypes.mandatory)
+		items.filter((item) => item.item.def.type === courseTypes.mandatory)
 	);
 
 	const passedMandatoryCourses = $derived(
-		mandatoryCourses.filter((course) => course.state === courseStates.passed)
+		mandatoryCourses.filter((item) => item.item.state === courseStates.passed)
 	);
 
 	const passedElectiveHours = $derived(
-		passedElectiveCourses.reduce((acc, course) => acc + (course.hours ?? 0), 0)
+		passedElectiveCourses.reduce((acc, item) => acc + (item.item.def.hours ?? 0), 0)
 	);
 
 	const requiredElectiveCount = $derived(
@@ -61,24 +66,19 @@
 	);
 
 	const passedCoursesWithGrade = $derived(
-		passedCourses.filter((course) => course.grade !== undefined && course.grade !== null)
+		passedCourses.filter((item) => item.item.grade !== undefined && item.item.grade !== null)
 	);
 
 	const average = $derived(
 		passedCoursesWithGrade.length > 0
-			? passedCoursesWithGrade.reduce((acc, course) => acc + (course.grade ?? 0), 0) /
+			? passedCoursesWithGrade.reduce((acc, item) => acc + (item.item.grade ?? 0), 0) /
 					passedCoursesWithGrade.length
 			: 0
 	);
 </script>
 
 <ul class="grid gap-2 px-3 md:px-0">
-	<Stat
-		label="Materias aprobadas"
-		value={passedCourses.length}
-		total={courses.length}
-		unit="mat."
-	/>
+	<Stat label="Materias aprobadas" value={passedCourses.length} total={items.length} unit="mat." />
 	<Stat
 		label="Materias obligatorias aprobadas"
 		value={passedMandatoryCourses.length}
@@ -107,7 +107,12 @@
 			/>
 		{/if}
 	{/if}
-	<Stat label="Años aprobados" value={passedYears.length} total={years.length} unit="años" />
+	<Stat
+		label="Años aprobados"
+		value={passedYears.length}
+		total={sections.filter((section) => section.year !== undefined).length}
+		unit="años"
+	/>
 	{#if progress.type === 'mandatory-plus-elective-hours'}
 		<Stat
 			label="Horas cátedra de materias electivas aprobadas"

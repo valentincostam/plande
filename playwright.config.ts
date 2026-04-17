@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const serverUrl = process.env.BASE_URL || 'http://127.0.0.1:5173';
+
 export default defineConfig({
 	testDir: './e2e',
 	fullyParallel: true,
@@ -8,13 +10,13 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	reporter: 'html',
 	use: {
-		baseURL: process.env.BASE_URL || 'http://localhost:5173',
+		baseURL: serverUrl,
 		trace: 'on-first-retry'
 	},
 	projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 	webServer: {
-		command: 'bun run dev',
-		url: process.env.BASE_URL || 'http://localhost:5173',
+		command: 'bun run dev -- --host 127.0.0.1',
+		url: serverUrl,
 		reuseExistingServer: true
 	}
 });

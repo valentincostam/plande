@@ -15,6 +15,7 @@
 	aria-label="Modo de vista"
 >
 	<button
+		type="button"
 		onclick={() => (value = 'list')}
 		aria-pressed={value === 'list'}
 		class={[
@@ -28,6 +29,7 @@
 		Lista
 	</button>
 	<button
+		type="button"
 		onclick={() => (value = 'diagram')}
 		aria-pressed={value === 'diagram'}
 		class={[

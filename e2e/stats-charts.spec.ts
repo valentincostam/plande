@@ -120,7 +120,11 @@ test.describe('Stats and Charts - Average grade', () => {
 		await studyPlan.getCourseButton('Sistemas y Procesos de Negocios').click();
 
 		await studyPlan.getCourseButton('Álgebra y Geometría Analítica').click();
-		await studyPlan.setGrade(10);
+		const panel = await studyPlan.getCourseDetailsPanel('Álgebra y Geometría Analítica');
+		const gradeInput = panel.locator('input[type="number"]');
+		await expect(gradeInput).toBeVisible();
+		await gradeInput.fill('10');
+		await gradeInput.blur();
 
 		const averageStat = studyPlan.getStatByLabel(/^Promedio sin aplazos/);
 		await expect(averageStat).toContainText('9');

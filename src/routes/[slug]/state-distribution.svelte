@@ -1,22 +1,28 @@
 <script lang="ts">
-	import type { Course } from '$lib/course.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import { courseStates, feminineCourseStateLabels } from '$lib/course-state';
 	import type { ClassValue } from 'svelte/elements';
 
 	type Props = {
-		courses: Course[];
+		items: StudyPlanViewItem[];
 		class?: ClassValue;
 	};
 
-	let { courses, class: className }: Props = $props();
+	let { items, class: className }: Props = $props();
 
-	const totalCourses = $derived(courses.length);
-	const countNotTaken = $derived(courses.filter((c) => c.state === courseStates.notTaken).length);
-	const countInProgress = $derived(
-		courses.filter((c) => c.state === courseStates.inProgress).length
+	const totalCourses = $derived(items.length);
+	const countNotTaken = $derived(
+		items.filter((item) => item.item.state === courseStates.notTaken).length
 	);
-	const countTaken = $derived(courses.filter((c) => c.state === courseStates.taken).length);
-	const countPassed = $derived(courses.filter((c) => c.state === courseStates.passed).length);
+	const countInProgress = $derived(
+		items.filter((item) => item.item.state === courseStates.inProgress).length
+	);
+	const countTaken = $derived(
+		items.filter((item) => item.item.state === courseStates.taken).length
+	);
+	const countPassed = $derived(
+		items.filter((item) => item.item.state === courseStates.passed).length
+	);
 
 	const pct = (value: number, total: number) => (total === 0 ? 0 : (value / total) * 100);
 

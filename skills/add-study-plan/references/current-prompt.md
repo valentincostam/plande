@@ -15,12 +15,14 @@ Core rules:
 
 - `id` is a stable string
 - `seqId` is unique and append-only
+- alphanumeric `id` values are valid
 - use `place.year(...)` for classic yearly plans
 - use multiple placements for multi-placement items
 - use `req.item`, `req.all`, `req.any`, `req.count`, `req.percent`, `req.sum`
 - use `grad.allMandatory`, `grad.countTag`, `grad.sumTag`
 - use weekly hours
 - use semantic tags only when they matter for rules or graduation
+- verify the local app renders headings, sections, and view toggle correctly
 
 Prerequisite mapping:
 

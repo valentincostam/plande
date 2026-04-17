@@ -1,6 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import type { Node, Edge } from '@xyflow/svelte';
-import type { Course } from '$lib/course.svelte';
+import type { StudyPlanViewItem } from '$lib/study-plan-view';
 
 export const NODE_WIDTH = 280;
 export const NODE_HEIGHT = 76;
@@ -8,14 +8,14 @@ export const NODE_HEIGHT = 76;
 export type EdgeType = 'enroll' | 'complete';
 
 export type CourseNodeData = {
-	course: Course;
+	item: StudyPlanViewItem;
 };
 
 export type CourseEdgeData = {
 	type: EdgeType;
 };
 
-export function createDagreLayout(courses: Course[]): {
+export function createDagreLayout(items: StudyPlanViewItem[]): {
 	nodes: Node<CourseNodeData>[];
 	edges: Edge<CourseEdgeData>[];
 } {
@@ -32,41 +32,41 @@ export function createDagreLayout(courses: Course[]): {
 	g.setDefaultEdgeLabel(() => ({}));
 
 	// Add nodes
-	courses.forEach((course) => {
-		g.setNode(String(course.id), { width: NODE_WIDTH, height: NODE_HEIGHT });
+	items.forEach((item) => {
+		g.setNode(item.item.def.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
 	});
 
 	// Generate edges for both requirement types
 	const edges: Edge<CourseEdgeData>[] = [];
 	const addedEdges = new Set<string>();
 
-	courses.forEach((course) => {
+	items.forEach((item) => {
 		// For enrollment - solid blue line
-		course.requirementsForEnrollment.forEach((req) => {
-			const edgeId = `e-${req.requiredCourse.id}-${course.id}`;
+		item.requirementsForEnrollment.forEach((req) => {
+			const edgeId = `e-${req.item.item.def.id}-${item.item.def.id}`;
 			if (addedEdges.has(edgeId)) return;
 			addedEdges.add(edgeId);
 
-			g.setEdge(String(req.requiredCourse.id), String(course.id));
+			g.setEdge(req.item.item.def.id, item.item.def.id);
 			edges.push({
 				id: edgeId,
-				source: String(req.requiredCourse.id),
-				target: String(course.id),
+				source: req.item.item.def.id,
+				target: item.item.def.id,
 				data: { type: 'enroll' }
 			});
 		});
 
 		// For completion - dashed amber line
-		course.requirementsForCompletion.forEach((req) => {
-			const edgeId = `c-${req.requiredCourse.id}-${course.id}`;
+		item.requirementsForCompletion.forEach((req) => {
+			const edgeId = `c-${req.item.item.def.id}-${item.item.def.id}`;
 			if (addedEdges.has(edgeId)) return;
 			addedEdges.add(edgeId);
 
-			g.setEdge(String(req.requiredCourse.id), String(course.id));
+			g.setEdge(req.item.item.def.id, item.item.def.id);
 			edges.push({
 				id: edgeId,
-				source: String(req.requiredCourse.id),
-				target: String(course.id),
+				source: req.item.item.def.id,
+				target: item.item.def.id,
 				data: { type: 'complete' }
 			});
 		});
@@ -76,13 +76,13 @@ export function createDagreLayout(courses: Course[]): {
 	dagre.layout(g);
 
 	// Extract positions
-	const nodes: Node<CourseNodeData>[] = courses.map((course) => {
-		const pos = g.node(String(course.id));
+	const nodes: Node<CourseNodeData>[] = items.map((item) => {
+		const pos = g.node(item.item.def.id);
 		return {
-			id: String(course.id),
+			id: item.item.def.id,
 			type: 'course',
 			position: { x: pos.x - NODE_WIDTH / 2, y: pos.y - NODE_HEIGHT / 2 },
-			data: { course },
+			data: { item },
 			draggable: false
 		};
 	});

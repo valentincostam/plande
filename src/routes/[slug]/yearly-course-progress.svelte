@@ -1,23 +1,26 @@
 <script lang="ts">
-	import type { Year } from '$lib/year.svelte';
+	import type { StudyPlanViewSection } from '$lib/study-plan-view';
 	import Ordinal from '$lib/ordinal.svelte';
 	import { courseStates } from '$lib/course-state';
 	import type { ClassValue } from 'svelte/elements';
 
 	type Props = {
-		years: Year[];
+		sections: StudyPlanViewSection[];
 		class?: ClassValue;
 	};
 
-	let { years, class: className }: Props = $props();
+	let { sections, class: className }: Props = $props();
 
 	const rows = $derived(
-		years.map((y) => {
-			const total = y.courses.length;
-			const passed = y.courses.filter((c) => c.state === courseStates.passed).length;
-			const courseIndexes = Array.from({ length: total }, (_, i) => i);
-			return { year: y.year, total, passed, courseIndexes };
-		})
+		sections
+			.filter((section) => section.year !== undefined)
+			.map((section) => {
+				const items = section.terms.flatMap((term) => term.items);
+				const total = items.length;
+				const passed = items.filter((item) => item.item.state === courseStates.passed).length;
+				const courseIndexes = Array.from({ length: total }, (_, i) => i);
+				return { year: section.year!, total, passed, courseIndexes };
+			})
 	);
 </script>
 

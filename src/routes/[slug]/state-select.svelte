@@ -93,7 +93,7 @@
 			stateButtonBackgroundColors[value],
 			!isEnabled && 'opacity-50',
 			'w-22 shrink-0 appearance-none overflow-hidden rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
-			'cursor-pointer touch-manipulation whitespace-nowrap focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
+			'nodrag nowheel nopan pointer-events-auto cursor-pointer touch-manipulation whitespace-nowrap focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 		]}
 		title={currentLabel}
 	>
@@ -128,7 +128,7 @@
 			stateButtonBackgroundColors[value],
 			!isEnabled && 'opacity-50',
 			'w-22 shrink-0 rounded-md border-none px-2 py-1 text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
-			'cursor-pointer touch-manipulation focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
+			'nodrag nowheel nopan pointer-events-auto cursor-pointer touch-manipulation focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
 		]}
 		title={currentLabel}
 	>

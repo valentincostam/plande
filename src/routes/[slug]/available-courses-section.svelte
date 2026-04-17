@@ -1,66 +1,53 @@
 <script lang="ts">
-	import type { Course } from '$lib/course.svelte';
 	import { courseStates } from '$lib/course-state';
 	import { courseTerms, courseTermLabels } from '$lib/course-term';
-	import { getCourseEffectiveTerm } from '$lib/year.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import Section from './section.svelte';
 	import AvailableCoursesTerm from './available-courses-term.svelte';
 
 	type Props = {
-		courses: Course[];
+		items: StudyPlanViewItem[];
 		isStrictModeEnabled: boolean;
 		showCodes: boolean;
 		viewMode: 'list' | 'diagram';
-		onNavigateToDiagram: (courseId: number) => void;
+		onNavigateToDiagram: (courseId: string) => void;
 	};
 
-	let { courses, isStrictModeEnabled, showCodes, viewMode, onNavigateToDiagram }: Props = $props();
+	let { items, isStrictModeEnabled, showCodes, viewMode, onNavigateToDiagram }: Props = $props();
 
 	const notTakenCourses = $derived(
-		courses.filter((course) => course.state === courseStates.notTaken)
+		items.filter((item) => item.item.state === courseStates.notTaken)
 	);
 
-	const availableCourses = $derived(notTakenCourses.filter((course) => course.isEnabled));
+	const availableCourses = $derived(notTakenCourses.filter((item) => item.item.isEnabled));
 
 	const areAllCoursesAvailable = $derived(
-		(availableCourses.length > 0 && availableCourses.length === courses.length) ||
+		(availableCourses.length > 0 && availableCourses.length === items.length) ||
 			!isStrictModeEnabled
 	);
 
 	const annualAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annual
-		)
+		availableCourses.filter((item) => item.term === courseTerms.annual)
 	);
 
 	const firstSemesterAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.firstSemester
-		)
+		availableCourses.filter((item) => item.term === courseTerms.firstSemester)
 	);
 
 	const secondSemesterAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.secondSemester
-		)
+		availableCourses.filter((item) => item.term === courseTerms.secondSemester)
 	);
 
 	const semestralAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.semestral
-		)
+		availableCourses.filter((item) => item.term === courseTerms.semestral)
 	);
 
 	const annualOrSemestralAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.annualOrSemestral
-		)
+		availableCourses.filter((item) => item.term === courseTerms.annualOrSemestral)
 	);
 
 	const unknownAvailableCourses = $derived(
-		availableCourses.filter(
-			(course) => getCourseEffectiveTerm(course, course.year) === courseTerms.unknown
-		)
+		availableCourses.filter((item) => item.term === undefined || item.term === courseTerms.unknown)
 	);
 </script>
 

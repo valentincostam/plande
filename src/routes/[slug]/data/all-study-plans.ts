@@ -23,6 +23,7 @@ import { unlamDcsKf2011 } from './unlam-dcs-kf-2011';
 import { unlamDdcpAb2018 } from './unlam-ddcp-ab-2018';
 import { unlamDiitIi2023 } from './unlam-diit-ii-2023';
 import { unlpFahcePm2003 } from './unlp-fahce-pm-2003';
+import { unlpFiIem2018 } from './unlp-fi-iem-2018';
 import { unlpFpLp2012 } from './unlp-fp-lp-2012';
 import { unmdpFhLcp } from './unmdp-fh-lcp';
 import { unpaUargIrnr } from './unpa-uarg-irnr';
@@ -68,6 +69,7 @@ export const allStudyPlans: StudyPlanData[] = [
 	unlamDdcpAb2018,
 	unlamDiitIi2023,
 	unlpFpLp2012,
+	unlpFiIem2018,
 	unmdpFhLcp,
 	unpaUargIrnr,
 	unpaUargTurnrpf2007,

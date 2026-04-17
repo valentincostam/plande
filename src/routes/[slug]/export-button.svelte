@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Course } from '$lib/course.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import {
 		exportToCSV,
 		exportToJSON,
@@ -12,7 +12,7 @@
 
 	type Props = {
 		format: 'csv' | 'json' | 'toon';
-		courses: Course[];
+		items: StudyPlanViewItem[];
 		degreeName: string;
 		universitySlug: string;
 		collegeSlug: string | null;
@@ -40,13 +40,13 @@
 		let content: string;
 		switch (props.format) {
 			case 'csv':
-				content = exportToCSV(props.courses);
+				content = exportToCSV(props.items);
 				break;
 			case 'json':
-				content = exportToJSON(props.courses);
+				content = exportToJSON(props.items);
 				break;
 			case 'toon':
-				content = exportToTOON(props.courses);
+				content = exportToTOON(props.items);
 				break;
 		}
 

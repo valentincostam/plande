@@ -141,6 +141,23 @@ test.describe('Course dependents (courses that this unlocks)', () => {
 		await expect(panel.getByText(/Análisis Matemático II.*necesita esta materia/)).toBeVisible();
 	});
 
+	test('linked dependent course gets temporary target highlight', async ({ page, studyPlan }) => {
+		const courseButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');
+		await courseButton.click();
+
+		const panel = await studyPlan.getCourseDetailsPanel('Álgebra y Geometría Analítica');
+		const dependentLink = panel.getByRole('link', { name: 'Análisis Matemático II' });
+		const href = await dependentLink.getAttribute('href');
+
+		if (!href?.startsWith('#')) {
+			throw new Error(`Expected in-page anchor href, got: ${href}`);
+		}
+
+		await dependentLink.click();
+
+		await expect(page.locator(`[id="${href.slice(1)}"]`)).toHaveClass(/is-targeted/);
+	});
+
 	test('dependent shows required state label', async ({ studyPlan }) => {
 		// Álgebra in "No cursada" state can't unlock AM II (which needs it "Regular")
 		const courseButton = studyPlan.getCourseButton('Álgebra y Geometría Analítica');

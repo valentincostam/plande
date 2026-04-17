@@ -29,6 +29,9 @@ Prefer background browser tooling when possible so the session does not interrup
 
 ### 2. Structure
 
+- top-level title and subtitle
+- `Plande` link / header controls
+- list/diagram toggle
 - correct sections
 - correct section order
 - correct term grouping inside each section

@@ -1,14 +1,6 @@
 <script lang="ts">
-	import { isTransversal } from '$lib/course-attribute';
-	import { isElectiveOrOptative } from '$lib/course-type';
-	import {
-		createCompatCoursesFromNativePlanSession,
-		type CompatCourse
-	} from '$lib/course-plan-compat.svelte';
-	import { getDurationYearsFromPlanData } from '$lib/study-plan-catalog';
+	import { buildStudyPlanView, type StudyPlanViewItem } from '$lib/study-plan-view';
 	import type { PageProps } from './$types';
-	import Year from './year.svelte';
-	import { createYears, isYearPassed } from '$lib/year.svelte';
 	import SettingToggle from './setting-toggle.svelte';
 	import ResetButton from './reset-button.svelte';
 	import AvailableCoursesSection from './available-courses-section.svelte';
@@ -36,9 +28,7 @@
 	import { onMount, tick, untrack } from 'svelte';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
-	import TransversalCourses from './transversal-courses.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
-	import ViewToggle from './view-toggle.svelte';
 	import Link from '$lib/link.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
@@ -46,12 +36,13 @@
 	import { resolve } from '$app/paths';
 	import { preparePlan } from '$lib/prepare-plan';
 	import { PlanSession } from '$lib/plan-session.svelte';
+	import NativeStudyPlanSection from './native-study-plan-section.svelte';
 
 	let { data }: PageProps = $props();
 
 	let viewMode = $state<'list' | 'diagram'>('list');
 	let diagramRef = $state<CourseDiagram | undefined>();
-	let pendingFocusCourseId: number | null = $state(null);
+	let pendingFocusCourseId: string | null = $state(null);
 
 	// Handle deferred navigation when diagram mounts
 	$effect(() => {
@@ -72,7 +63,7 @@
 		}
 	});
 
-	function onNavigateToDiagram(courseId: number) {
+	function onNavigateToDiagram(courseId: string) {
 		if (viewMode === 'diagram' && diagramRef) {
 			// Already in diagram view - scroll to diagram then focus
 			const diagramContainer = document.getElementById('diagram-container');
@@ -88,12 +79,15 @@
 		}
 	}
 
+	function setViewMode(mode: 'list' | 'diagram') {
+		viewMode = mode;
+	}
+
 	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
 	let isStrictModeEnabled = $state(untrack(() => data.isStrictModeEnabled));
 	let showCodes = $state(untrack(() => data.showCodes));
 	let useCycleButton = $state(false);
 	let isInitializing = $state(true);
-	const initialStudyPlan = untrack(() => data.studyPlan);
 	const initialNativeStudyPlan = untrack(() => data.nativeStudyPlan);
 	const initialCoursesStates = untrack(() => data.coursesStates);
 	const initialCoursesGrades = untrack(() => data.coursesGrades);
@@ -112,8 +106,18 @@
 		v5Session.strictMode = isStrictModeEnabled;
 	});
 
-	const courses: CompatCourse[] = untrack(() =>
-		createCompatCoursesFromNativePlanSession(initialNativeStudyPlan, v5Session)
+	const studyPlanView = $derived(buildStudyPlanView(v5Session));
+	const courseItems = $derived(
+		studyPlanView.sections.flatMap((section) => section.terms.flatMap((term) => term.items))
+	);
+	const courseItemsById = $derived(
+		new Map<string, StudyPlanViewItem>(courseItems.map((item) => [item.item.def.id, item]))
+	);
+	const orderedCourseItems = $derived(
+		v5Session
+			.getCourseItems()
+			.map((item) => courseItemsById.get(item.def.id))
+			.filter(Boolean) as StudyPlanViewItem[]
 	);
 
 	let isRouterReady = $state(false);
@@ -123,8 +127,8 @@
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
 
-		const coursesStates = courses.map((course) => course.state);
-		const coursesGrades = courses.map((course) => course.grade);
+		const coursesStates = orderedCourseItems.map((item) => item.item.state);
+		const coursesGrades = orderedCourseItems.map((item) => item.item.grade);
 		const urlSearchParams = createUrlSearchParams(
 			coursesStates,
 			isStrictModeEnabled,
@@ -185,9 +189,9 @@
 
 			// Load grades from localStorage only if not in URL
 			if (data.coursesGrades.length === 0 && parsed.grades) {
-				courses.forEach((course, index) => {
+				orderedCourseItems.forEach((item, index) => {
 					if (index < parsed.grades.length) {
-						course.grade = parsed.grades[index] ?? undefined;
+						item.item.grade = parsed.grades[index] ?? undefined;
 					}
 				});
 			}
@@ -196,9 +200,9 @@
 			if (data.coursesStates.length === 0) {
 				const decodedStates = decodeCoursesStates(parsed.coursesStates);
 
-				courses.forEach((course, index) => {
+				orderedCourseItems.forEach((item, index) => {
 					if (decodedStates[index]) {
-						course.state = decodedStates[index];
+						item.item.state = decodedStates[index];
 					}
 				});
 
@@ -223,23 +227,26 @@
 		);
 		if (!confirmed) return;
 
-		courses.forEach((course) => {
-			course.state = courseStates.notTaken;
-			course.grade = undefined;
+		orderedCourseItems.forEach((item) => {
+			item.item.state = courseStates.notTaken;
+			item.item.grade = undefined;
 		});
 		isStrictModeEnabled = true;
 		showCodes = false;
 		useCycleButton = false;
 		localStorage.removeItem(storageKey);
 		resetHistory();
+		tick().then(() => {
+			window.location.replace(resolve(`/${data.slug}` as `/${string}`));
+		});
 	}
 
 	function applyHistoryState(encoded: string) {
 		const decodedStates = decodeCoursesStates(encoded);
-		courses.forEach((course, index) => {
+		orderedCourseItems.forEach((item, index) => {
 			const newState = decodedStates[index] ?? courseStates.notTaken;
-			if (course.state !== newState) {
-				course.state = newState;
+			if (item.item.state !== newState) {
+				item.item.state = newState;
 			}
 		});
 	}
@@ -278,18 +285,7 @@
 		}
 	}
 
-	const years = $derived(
-		createYears(getDurationYearsFromPlanData(initialNativeStudyPlan), courses)
-	);
-
-	const transversalCourses = $derived(
-		courses.filter(
-			(course) =>
-				isTransversal(course.attributes) || (isElectiveOrOptative(course.type) && !course.year)
-		)
-	);
-
-	const hasCodes = $derived(courses.some((course) => course.code));
+	const hasCodes = $derived(orderedCourseItems.some((item) => item.item.def.code));
 
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
@@ -388,29 +384,59 @@
 		</p>
 		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
 		<div class="mt-4 flex justify-center">
-			<ViewToggle bind:value={viewMode} />
+			<div
+				class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm dark:bg-gray-100 dark:ring-1 dark:ring-white/10"
+				role="group"
+				aria-label="Modo de vista"
+			>
+				<button
+					type="button"
+					onclick={() => setViewMode('list')}
+					aria-pressed={viewMode === 'list'}
+					class={[
+						'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
+						viewMode === 'list'
+							? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
+							: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
+					]}
+				>
+					Lista
+				</button>
+				<button
+					type="button"
+					onclick={() => setViewMode('diagram')}
+					aria-pressed={viewMode === 'diagram'}
+					class={[
+						'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
+						viewMode === 'diagram'
+							? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
+							: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
+					]}
+				>
+					Diagrama
+				</button>
+			</div>
 		</div>
 	</header>
 
 	<main class="grid gap-9">
-		{#if viewMode === 'diagram'}
-			<div id="diagram-container">
-				<CourseDiagram {courses} slug={data.slug} {useCycleButton} bind:this={diagramRef} />
-			</div>
-		{:else}
-			{#each years as year, index (year.year)}
-				<Year
-					{year}
+		<div class:hidden={viewMode !== 'diagram'} id="diagram-container">
+			<CourseDiagram items={courseItems} slug={data.slug} {useCycleButton} bind:this={diagramRef} />
+		</div>
+
+		<div class:hidden={viewMode !== 'list'}>
+			{#each studyPlanView.sections as section, index (section.id)}
+				<NativeStudyPlanSection
+					{section}
 					{showCodes}
 					{useCycleButton}
-					showBulkSelect={isYearPassed(years[index - 1]) || !isStrictModeEnabled}
+					showBulkSelect={section.year === undefined || !isStrictModeEnabled
+						? true
+						: index === 0 ||
+							studyPlanView.sections[index - 1]?.section.state === courseStates.passed}
 				/>
 			{/each}
-
-			{#if transversalCourses.length > 0}
-				<TransversalCourses courses={transversalCourses} {showCodes} {useCycleButton} />
-			{/if}
-		{/if}
+		</div>
 
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
@@ -418,7 +444,7 @@
 		</section>
 
 		<AvailableCoursesSection
-			{courses}
+			items={courseItems}
 			{isStrictModeEnabled}
 			{showCodes}
 			{viewMode}
@@ -427,12 +453,21 @@
 
 		<Section id="estadisticas" title="Estadísticas">
 			<div class="grid gap-3">
-				<Charts {courses} {years} progress={data.studyPlan.progress} />
-				<Stats {courses} {years} progress={data.studyPlan.progress} />
+				<Charts
+					items={courseItems}
+					sections={studyPlanView.sections}
+					progress={data.studyPlan.progress}
+					percentage={studyPlanView.graduation.percentage}
+				/>
+				<Stats
+					items={courseItems}
+					sections={studyPlanView.sections}
+					progress={data.studyPlan.progress}
+				/>
 			</div>
 		</Section>
 
-		<PriorityCourses {courses} {showCodes} {viewMode} {onNavigateToDiagram} />
+		<PriorityCourses items={courseItems} {showCodes} {viewMode} {onNavigateToDiagram} />
 
 		<Section id="datos" title="Datos del Plan de Estudios">
 			<ul class="grid list-disc gap-3 px-9 text-gray-700 dark:text-gray-700">
@@ -527,21 +562,21 @@
 			<div class="flex flex-wrap gap-3 p-3">
 				<ExportButton
 					format="csv"
-					{courses}
+					items={orderedCourseItems}
 					degreeName={data.studyPlan.degreeName}
 					universitySlug={data.studyPlan.universitySlug}
 					collegeSlug={data.studyPlan.collegeSlug ?? null}
 				/>
 				<ExportButton
 					format="json"
-					{courses}
+					items={orderedCourseItems}
 					degreeName={data.studyPlan.degreeName}
 					universitySlug={data.studyPlan.universitySlug}
 					collegeSlug={data.studyPlan.collegeSlug ?? null}
 				/>
 				<ExportButton
 					format="toon"
-					{courses}
+					items={orderedCourseItems}
 					degreeName={data.studyPlan.degreeName}
 					universitySlug={data.studyPlan.universitySlug}
 					collegeSlug={data.studyPlan.collegeSlug ?? null}

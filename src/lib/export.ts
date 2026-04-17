@@ -1,8 +1,8 @@
 import { courseAttributeLabels, isTransversal } from './course-attribute';
-import type { Course } from './course.svelte';
 import { feminineCourseStateLabels } from './course-state';
 import { courseTermLabels } from './course-term';
 import { courseTypeLabels } from './course-type';
+import type { StudyPlanViewItem } from './study-plan-view';
 
 export type ExportableCourse = {
 	codigo: string;
@@ -17,26 +17,29 @@ export type ExportableCourse = {
 };
 
 /**
- * Convierte un curso a formato exportable con labels en español
+ * Convierte un item visible a formato exportable con labels en español
  */
-function courseToExportable(course: Course): ExportableCourse {
+function itemToExportable(item: StudyPlanViewItem): ExportableCourse {
 	return {
-		codigo: course.code ?? '',
-		materia: course.name,
-		año: course.year?.toString() ?? (isTransversal(course.attributes) ? 'Transversal' : ''),
-		periodo: courseTermLabels[course.term],
-		horas: course.hours ? course.hours.toString() : '',
-		tipo: courseTypeLabels[course.type],
-		atributos: course.attributes.map((attr) => courseAttributeLabels[attr]).join(', '),
-		estado: feminineCourseStateLabels[course.state],
-		nota: course.grade
+		codigo: item.item.def.code ?? '',
+		materia: item.item.def.name,
+		año:
+			item.year?.toString() ?? (isTransversal(item.item.def.attributes ?? []) ? 'Transversal' : ''),
+		periodo: item.term ? courseTermLabels[item.term] : '',
+		horas: item.item.def.hours ? item.item.def.hours.toString() : '',
+		tipo: courseTypeLabels[item.item.def.type],
+		atributos: (item.item.def.attributes ?? [])
+			.map((attr) => courseAttributeLabels[attr])
+			.join(', '),
+		estado: feminineCourseStateLabels[item.item.state],
+		nota: item.item.grade
 	};
 }
 
 /**
  * Exporta cursos a formato CSV
  */
-export function exportToCSV(courses: Course[]): string {
+export function exportToCSV(items: StudyPlanViewItem[]): string {
 	const headers = [
 		'Código',
 		'Materia',
@@ -48,8 +51,8 @@ export function exportToCSV(courses: Course[]): string {
 		'Estado',
 		'Nota'
 	];
-	const rows = courses.map((course) => {
-		const exp = courseToExportable(course);
+	const rows = items.map((item) => {
+		const exp = itemToExportable(item);
 		return [
 			escapeCsvValue(exp.codigo),
 			escapeCsvValue(exp.materia),
@@ -83,16 +86,16 @@ function escapeCsvValue(value: string): string {
 /**
  * Exporta cursos a formato JSON
  */
-export function exportToJSON(courses: Course[]): string {
-	const exportable = courses.map(courseToExportable);
+export function exportToJSON(items: StudyPlanViewItem[]): string {
+	const exportable = items.map(itemToExportable);
 	return JSON.stringify(exportable, null, 2);
 }
 
 /**
  * Exporta cursos a formato TOON
  */
-export function exportToTOON(courses: Course[]): string {
-	const exportable = courses.map(courseToExportable);
+export function exportToTOON(items: StudyPlanViewItem[]): string {
+	const exportable = items.map(itemToExportable);
 	const count = exportable.length;
 
 	// Header con declaración de campos

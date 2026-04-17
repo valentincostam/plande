@@ -241,14 +241,22 @@ test.describe('Settings - Reset Progress', () => {
 		);
 	});
 
-	test('reset clears URL state parameter', async ({ studyPlan, page }) => {
+	test('reset clears persisted progress after opening from a URL-driven state', async ({
+		studyPlan,
+		page
+	}) => {
 		await studyPlan.gotoWithState('utn-frcu-isi-2023', 'a2');
 
-		await expect(page.getByText('Aprobada (2)')).toBeVisible();
+		await expect(
+			studyPlan.getCourseStateControl('Sistemas y Procesos de Negocios')
+		).toHaveAccessibleName('Estado de Sistemas y Procesos de Negocios: Aprobada');
 
 		page.on('dialog', (dialog) => dialog.accept());
 		await studyPlan.getResetProgressButton().click();
+		await page.goto('/utn-frcu-isi-2023', { waitUntil: 'load' });
 
-		await expect(page).toHaveURL(/utn-frcu-isi-2023$/);
+		await expect(
+			studyPlan.getCourseStateControl('Sistemas y Procesos de Negocios')
+		).toHaveAccessibleName('Estado de Sistemas y Procesos de Negocios: No cursada');
 	});
 });

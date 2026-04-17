@@ -80,6 +80,8 @@ export const variableName: StudyPlanData = {
 - For a brand new plan, assign `seqId` sequentially in visual order.
 - If editing an existing plan, never renumber existing `seqId`s; only append.
 - If the official code is numeric, use that code as `id` string too: `code: '14'` -> `id: '14'`.
+- If the official code is alphanumeric, it is valid to use that exact code as `id` when it is stable: `code: 'M0001'` -> `id: 'M0001'`.
+- Do not assume `id` must be numeric. `code` and `id` may match, but they do not have to.
 
 ### 2. Sections and placements
 
@@ -276,6 +278,7 @@ Only include `year` if the official documentation identifies the plan by year/ve
 7. Register it in `all-study-plans.ts`.
 8. If needed, add university logos.
 9. Run `bun run check`.
+10. Open the local app and verify the generated plan renders correctly.
 
 ## Validation Checklist
 
@@ -291,6 +294,7 @@ Only include `year` if the official documentation identifies the plan by year/ve
 - [ ] names are cleaned and accented
 - [ ] file is registered in `all-study-plans.ts`
 - [ ] `bun run check` passes
+- [ ] the local app shows the correct title, section headings, term headings, and view toggle
 
 ## Common Mistakes
 

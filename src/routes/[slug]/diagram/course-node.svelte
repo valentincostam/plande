@@ -27,9 +27,9 @@
 
 	// Left handle: gray if blocked, green if canPass, amber if can enroll
 	const leftHandleColor = $derived(
-		!data.course.isEnabled
+		!data.item.item.isEnabled
 			? 'bg-gray-300!'
-			: data.course.canPass
+			: data.item.item.canPass
 				? 'bg-green-500!'
 				: 'bg-amber-500!'
 	);
@@ -38,11 +38,11 @@
 <div
 	role="group"
 	aria-label={data.isSelected
-		? `${data.course.name}, seleccionada en el diagrama`
-		: data.course.name}
+		? `${data.item.item.def.name}, seleccionada en el diagrama`
+		: data.item.item.def.name}
 	class={[
-		'flex max-w-70 min-w-60 items-center gap-2 rounded-md p-3 text-sm transition-all',
-		courseBgColors[data.course.state],
+		'nodrag nopan pointer-events-auto relative z-10 flex max-w-70 min-w-60 items-center gap-2 rounded-md p-3 text-sm transition-all',
+		courseBgColors[data.item.item.state],
 		data.isSelected && 'ring-2 ring-blue-500 ring-offset-1 ring-offset-gray-50',
 		data.isHighlighted && 'is-highlighted'
 	]}
@@ -51,13 +51,13 @@
 	<span
 		class={[
 			'flex-none rounded bg-white/60 px-1.5 py-1 text-[10px] font-medium dark:bg-gray-100/20',
-			courseNameColors[data.course.state]
+			courseNameColors[data.item.item.state]
 		]}
 	>
-		{#if data.course.year === undefined || isTransversal(data.course.attributes)}
+		{#if data.item.year === undefined || isTransversal(data.item.item.def.attributes ?? [])}
 			—
 		{:else}
-			{data.course.year}{yearSuffix[data.course.year] || '°'}
+			{data.item.year}{yearSuffix[data.item.year] || '°'}
 		{/if}
 	</span>
 
@@ -66,19 +66,19 @@
 		<span
 			class={[
 				'font-noto leading-tight tracking-tight',
-				data.course.isEnabled ? courseNameColors[data.course.state] : 'text-gray-500'
+				data.item.item.isEnabled ? courseNameColors[data.item.item.state] : 'text-gray-500'
 			]}
 		>
-			{data.course.name}
+			{data.item.item.def.name}
 		</span>
-		{#if isElectiveOrOptative(data.course.type)}
+		{#if isElectiveOrOptative(data.item.item.def.type)}
 			<span
 				class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600 dark:bg-gray-100/20"
 			>
-				{courseTypeLabels[data.course.type]}
+				{courseTypeLabels[data.item.item.def.type]}
 			</span>
 		{/if}
-		{#each data.course.attributes.filter((attr) => attr !== 'transversal') as attr (attr)}
+		{#each (data.item.item.def.attributes ?? []).filter((attr) => attr !== 'transversal') as attr (attr)}
 			<span
 				class="rounded bg-white/80 px-1.5 py-0.5 text-[10px] leading-none text-gray-600 dark:bg-gray-100/20"
 			>
@@ -88,14 +88,16 @@
 	</span>
 
 	<!-- Estado -->
-	{#if data.course.isEnabled}
-		<StateSelect
-			id={`diagram-${data.course.id}-state`}
-			bind:value={data.course.state}
-			canPass={data.course.canPass}
-			courseName={data.course.name}
-			useCycleButton={data.useCycleButton}
-		/>
+	{#if data.item.item.isEnabled}
+		<div class="nodrag nopan pointer-events-auto relative z-2">
+			<StateSelect
+				id={`diagram-${data.item.item.def.id}-state`}
+				bind:value={data.item.item.state}
+				canPass={data.item.item.canPass}
+				courseName={data.item.item.def.name}
+				useCycleButton={data.useCycleButton}
+			/>
+		</div>
 	{:else}
 		<span
 			class="w-22 flex-none rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
@@ -105,18 +107,18 @@
 	{/if}
 
 	<!-- Handles -->
-	{#if data.course.requirementsForEnrollment.length > 0 || data.course.requirementsForCompletion.length > 0}
+	{#if data.item.requirementsForEnrollment.length > 0 || data.item.requirementsForCompletion.length > 0}
 		<Handle
 			type="target"
 			position={Position.Left}
 			class={['h-2.5! w-2.5! border-2! border-white!', leftHandleColor]}
 		/>
 	{/if}
-	{#if data.course.dependents.length > 0}
+	{#if data.item.dependents.length > 0}
 		<Handle
 			type="source"
 			position={Position.Right}
-			class={['h-2.5! w-2.5! border-2! border-white!', handleColors[data.course.state]]}
+			class={['h-2.5! w-2.5! border-2! border-white!', handleColors[data.item.item.state]]}
 		/>
 	{/if}
 </div>

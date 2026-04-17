@@ -1,10 +1,10 @@
 import type { DegreeProgressConfig } from './degree-progress';
 import { PlanSession } from './plan-session.svelte';
 import { preparePlan } from './prepare-plan';
-import { createCompatCoursesFromNativePlanSession } from './course-plan-compat.svelte';
 import type { GraduationRequirement } from './study-plan-data';
 import type { RawCourseRequirement, RawCourse } from './raw-course';
 import type { StudyPlan, StudyPlanCatalogEntry } from './study-plan';
+import { buildStudyPlanView } from './study-plan-view';
 import {
 	getStudyPlanDataSlug,
 	getStudyPlanDataSlugWithYear,
@@ -58,31 +58,73 @@ export const studyPlanDataToCatalogEntry = (plan: StudyPlanData): StudyPlanCatal
 
 export const studyPlanDataToStudyPlan = (plan: StudyPlanData): StudyPlan => {
 	const session = new PlanSession(preparePlan(plan));
-	const compatCourses = createCompatCoursesFromNativePlanSession(plan, session);
+	const view = buildStudyPlanView(session);
+	const orderedItems = session
+		.getCourseItems()
+		.map((item) =>
+			view.sections
+				.flatMap((section) => section.terms.flatMap((term) => term.items))
+				.find((entry) => entry.item.def.id === item.def.id)
+		)
+		.filter(
+			(
+				entry
+			): entry is NonNullable<(typeof view.sections)[number]['terms'][number]['items'][number]> =>
+				entry !== undefined
+		);
 	let nextRequirementId = 1;
+	const getExportId = (itemId: string) => {
+		const numericId = Number(itemId);
+		if (Number.isFinite(numericId)) return numericId;
+		const item = session.itemsById.get(itemId);
+		if (!item) throw new Error(`Missing export item for ${itemId}`);
+		return item.def.seqId;
+	};
 
-	const courses: RawCourse[] = compatCourses.map((course) => {
+	const courses: RawCourse[] = orderedItems.map((entry) => {
 		const requirements: RawCourseRequirement[] = [
-			...course.requirementsForEnrollment,
-			...course.requirementsForCompletion
+			...entry.requirementsForEnrollment.map((requirement) => ({
+				requiredCourseId: getExportId(requirement.item.item.def.id),
+				requiredState:
+					requirement.requiredState === 'completed' ? 'passed' : requirement.requiredState,
+				requiredFor: 'enroll' as const
+			})),
+			...entry.requirementsForCompletion.map((requirement) => ({
+				requiredCourseId: getExportId(requirement.item.item.def.id),
+				requiredState:
+					requirement.requiredState === 'completed' ? 'passed' : requirement.requiredState,
+				requiredFor: 'complete' as const
+			}))
 		].map((requirement) => ({
 			id: nextRequirementId++,
-			requiredCourseId: requirement.requiredCourse.id,
+			requiredCourseId: requirement.requiredCourseId,
 			requiredState: requirement.requiredState,
 			requiredFor: requirement.requiredFor
 		}));
 
 		return {
-			id: course.id,
-			code: course.code,
-			name: course.name,
-			year: course.year,
-			hours: course.hours,
-			term: course.term,
+			id: getExportId(entry.item.def.id),
+			code: entry.item.def.code,
+			name: entry.item.def.name,
+			year: entry.year,
+			hours: entry.item.def.hours,
+			term: entry.term ?? 'unknown',
 			requirements,
-			type: course.type,
-			attributes: course.attributes,
-			crossYear: course.crossYear
+			type: entry.item.def.type,
+			attributes: entry.item.def.attributes,
+			crossYear:
+				entry.item.def.placements.length > 1 && entry.year !== undefined
+					? (() => {
+							const nextPlacement = entry.item.def.placements[1];
+							const match = nextPlacement ? /^year-(\d+)$/.exec(nextPlacement.sectionId) : null;
+							return match
+								? {
+										spansToYear: Number(match[1]),
+										endsInTerm: nextPlacement.term ?? entry.term ?? 'unknown'
+									}
+								: undefined;
+						})()
+					: undefined
 		};
 	});
 

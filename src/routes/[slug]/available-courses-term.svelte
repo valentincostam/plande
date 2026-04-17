@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Course } from '$lib/course.svelte';
+	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 	import AvailableCourseItem from './available-course-item.svelte';
 
 	type Props = {
 		title?: string;
-		courses: Course[];
+		courses: StudyPlanViewItem[];
 		showCodes?: boolean;
 		hideTypeForTransversal?: boolean;
 		viewMode?: 'list' | 'diagram';
-		onNavigateToDiagram?: (courseId: number) => void;
+		onNavigateToDiagram?: (courseId: string) => void;
 	};
 
 	let {
@@ -31,9 +31,9 @@
 			</h4>
 		{/if}
 		<ul class="grid list-disc gap-2 px-9">
-			{#each courses as course (course.id)}
+			{#each courses as item (item.item.def.id)}
 				<AvailableCourseItem
-					{course}
+					{item}
 					{showCodes}
 					{hideTypeForTransversal}
 					{viewMode}

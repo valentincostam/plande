@@ -35,6 +35,7 @@ It is the current and only prompt that should drive authoring for the live model
 - Use multiple placements instead of duplicated items.
 - Use semantic requirements when the source is group-based.
 - Use weekly hours, not total hours.
+- Allow stable alphanumeric item IDs when the official code is alphanumeric.
 - Keep names, codes, accents, and official terminology faithful to the source.
 - Ask the user only when the missing data would make the plan wrong.
 
@@ -51,6 +52,7 @@ Always check:
 - the plan is registered in `all-study-plans.ts`
 - `bun run check` passes
 - local app output matches the official source for a representative manual pass
+- the local app shows the expected title, section headings, term headings, and view toggle
 
 ## Source Verification
 
