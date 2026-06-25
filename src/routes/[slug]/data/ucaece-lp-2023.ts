@@ -17,9 +17,9 @@ const courses: RawCourse[] = [
 		requirements: []
 	},
 	{
-		id: 2,
-		code: '2118/11Z',
-		name: 'Historia de la Psicología',
+		id: 4,
+		code: '2015/05P',
+		name: 'Sociología',
 		hours: 4,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -37,9 +37,9 @@ const courses: RawCourse[] = [
 		requirements: []
 	},
 	{
-		id: 4,
-		code: '2015/05P',
-		name: 'Sociología',
+		id: 2,
+		code: '2118/11Z',
+		name: 'Historia de la Psicología',
 		hours: 4,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -47,16 +47,6 @@ const courses: RawCourse[] = [
 		requirements: []
 	},
 	// 1° Año - 2° Cuatrimestre
-	{
-		id: 5,
-		code: '1852/11P',
-		name: 'Historia Contemporánea',
-		hours: 4,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 1,
-		requirements: []
-	},
 	{
 		id: 6,
 		code: '1775/05P',
@@ -79,6 +69,16 @@ const courses: RawCourse[] = [
 				requiredFor: requiredFor.complete
 			}
 		]
+	},
+	{
+		id: 5,
+		code: '1852/11P',
+		name: 'Historia Contemporánea',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 1,
+		requirements: []
 	},
 	{
 		id: 7,
@@ -118,7 +118,7 @@ const courses: RawCourse[] = [
 	{
 		id: 8,
 		code: '2116/11Z',
-		name: 'Teoría y Práctica Psicoanalítica I',
+		name: 'Teoría y Práctica en Psicoanálisis I',
 		hours: 8,
 		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
@@ -162,16 +162,6 @@ const courses: RawCourse[] = [
 		requirements: []
 	},
 	{
-		id: 10,
-		code: '4844/05P',
-		name: 'Filosofía',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: []
-	},
-	{
 		id: 11,
 		code: '2004/11P',
 		name: 'Lingüística',
@@ -204,53 +194,17 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
-	// 2° Año - 2° Cuatrimestre
 	{
-		id: 13,
-		code: '5502/11P',
-		name: 'Filosofía Contemporánea',
+		id: 10,
+		code: '4844/05P',
+		name: 'Filosofía',
 		hours: 4,
-		term: courseTerms.secondSemester,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
 		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 10,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 10,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
+		requirements: []
 	},
-	{
-		id: 14,
-		code: '2119/11Z',
-		name: 'Psicología del Desarrollo II',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 2,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 12,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 12,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
+	// 2° Año - 2° Cuatrimestre
 	{
 		id: 15,
 		code: '1803/11Z',
@@ -287,9 +241,32 @@ const courses: RawCourse[] = [
 		]
 	},
 	{
+		id: 14,
+		code: '2119/11Z',
+		name: 'Psicología del Desarrollo II',
+		hours: 8,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 2,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 12,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 12,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
 		id: 16,
 		code: '2120/11Z',
-		name: 'Teoría y Práctica Psicoanalítica II',
+		name: 'Teoría y Práctica en Psicoanálisis II',
 		hours: 4,
 		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
@@ -321,7 +298,76 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
+	{
+		id: 13,
+		code: '5502/11P',
+		name: 'Filosofía Contemporánea',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 2,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 10,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 10,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
 	// 3° Año - 1° Cuatrimestre
+	{
+		id: 19,
+		code: '2121/11P',
+		name: 'Estadística Aplicada a la Psicología e Investigación',
+		hours: 8,
+		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
+		year: 3,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 3,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 3,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 20,
+		code: '2122/11Z',
+		name: 'Psicoterapias Cognitivas',
+		hours: 4,
+		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
+		year: 3,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 15,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 15,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
 	{
 		id: 17,
 		code: '2123/11Z',
@@ -416,53 +462,53 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
-	{
-		id: 19,
-		code: '2121/11P',
-		name: 'Estadística Aplicada a la Investigación Psicológica',
-		hours: 8,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 3,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 3,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 20,
-		code: '2122/11Z',
-		name: 'Psicoterapias Cognitivas',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 15,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
 	// 3° Año - 2° Cuatrimestre
+	{
+		id: 22,
+		code: '2046/11Z',
+		name: 'Psicología de la Educación',
+		hours: 8,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 3,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 14,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 14,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
+		id: 23,
+		code: '2136/11P',
+		name: 'Teorías y Técnicas de la Exploración y Evaluación Psicológica I',
+		hours: 8,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 3,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 19,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 19,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
 	{
 		id: 21,
 		code: '2191/11P',
@@ -498,58 +544,12 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
-	{
-		id: 22,
-		code: '2046/11Z',
-		name: 'Psicología de la Educación',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 14,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 14,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 23,
-		code: '2136/11P',
-		name: 'Teoría y Técnicas de Evaluación Psicológica I',
-		hours: 8,
-		term: courseTerms.secondSemester,
-		type: courseTypes.mandatory,
-		year: 3,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 19,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 19,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
 	// 3° Año - 3° Cuatrimestre
 	{
 		id: 25,
 		code: '1001/91',
 		name: 'Inglés Técnico',
-		hours: undefined,
+		hours: 0,
 		term: courseTerms.semestral,
 		type: courseTypes.mandatory,
 		year: 3,
@@ -559,7 +559,7 @@ const courses: RawCourse[] = [
 	{
 		id: 26,
 		code: '1780/11Z',
-		name: 'Psicología Institucional y Organizacional',
+		name: 'Psicología de las Instituciones y Organizaciones',
 		hours: 4,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -611,25 +611,13 @@ const courses: RawCourse[] = [
 				requiredCourseId: 17,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 15,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 15,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
 			}
 		]
 	},
 	{
 		id: 28,
 		code: '2127/11Z',
-		name: 'Teoría y Técnica Clínica Sistémica',
+		name: 'Teoría y Técnica de la Clínica Sistémica',
 		hours: 4,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -637,25 +625,13 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 8,
+				requiredCourseId: 15,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 8,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 23,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 23,
+				requiredCourseId: 15,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			}
@@ -664,7 +640,7 @@ const courses: RawCourse[] = [
 	{
 		id: 29,
 		code: '2137/11Z',
-		name: 'Teoría y Técnicas de Evaluación Psicológica II',
+		name: 'Teorías y Técnicas de la Exploración y Evaluación Psicológica II',
 		hours: 8,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -672,13 +648,25 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 17,
+				requiredCourseId: 8,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 17,
+				requiredCourseId: 8,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
+				requiredCourseId: 23,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 23,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			}
@@ -696,24 +684,35 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 9,
+				requiredCourseId: 17,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 9,
+				requiredCourseId: 17,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
-			},
+			}
+		]
+	},
+	{
+		id: 33,
+		code: '1794/11Z',
+		name: 'Psicología del Trabajo',
+		hours: 4,
+		term: courseTerms.secondSemester,
+		type: courseTypes.mandatory,
+		year: 4,
+		requirements: [
 			{
-				id: 3,
+				id: 1,
 				requiredCourseId: 26,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
-				id: 4,
+				id: 2,
 				requiredCourseId: 26,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
@@ -731,13 +730,13 @@ const courses: RawCourse[] = [
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 13,
+				requiredCourseId: 9,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 13,
+				requiredCourseId: 9,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			},
@@ -778,30 +777,30 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
+	// 5° Año - 1° Cuatrimestre
 	{
-		id: 33,
-		code: '1794/11Z',
-		name: 'Psicología del Trabajo',
+		id: 36,
+		code: '1799/11Z',
+		name: 'Psicología Forense y Jurisprudencia',
 		hours: 4,
-		term: courseTerms.secondSemester,
+		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
-		year: 4,
+		year: 5,
 		requirements: [
 			{
 				id: 1,
-				requiredCourseId: 26,
+				requiredCourseId: 31,
 				requiredState: courseStates.taken,
 				requiredFor: requiredFor.enroll
 			},
 			{
 				id: 2,
-				requiredCourseId: 26,
+				requiredCourseId: 31,
 				requiredState: courseStates.passed,
 				requiredFor: requiredFor.complete
 			}
 		]
 	},
-	// 5° Año - 1° Cuatrimestre
 	{
 		id: 34,
 		code: '2130/11Z',
@@ -838,9 +837,56 @@ const courses: RawCourse[] = [
 		]
 	},
 	{
+		id: 37,
+		code: '2131/11Z',
+		name: 'Salud Mental y Comunitaria',
+		hours: 4,
+		term: courseTerms.firstSemester,
+		type: courseTypes.mandatory,
+		year: 5,
+		requirements: [
+			{
+				id: 1,
+				requiredCourseId: 20,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 2,
+				requiredCourseId: 20,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 3,
+				requiredCourseId: 28,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 4,
+				requiredCourseId: 28,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			},
+			{
+				id: 5,
+				requiredCourseId: 31,
+				requiredState: courseStates.taken,
+				requiredFor: requiredFor.enroll
+			},
+			{
+				id: 6,
+				requiredCourseId: 31,
+				requiredState: courseStates.passed,
+				requiredFor: requiredFor.complete
+			}
+		]
+	},
+	{
 		id: 35,
 		code: '2132/11Z',
-		name: 'Práctica Profesional Supervisada I',
+		name: 'Prácticas Profesionales Supervisadas I',
 		hours: 8,
 		term: courseTerms.firstSemester,
 		type: courseTypes.mandatory,
@@ -896,76 +942,6 @@ const courses: RawCourse[] = [
 			}
 		]
 	},
-	{
-		id: 36,
-		code: '1799/11Z',
-		name: 'Psicología Forense y Jurisprudencia',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 31,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
-	{
-		id: 37,
-		code: '2131/11Z',
-		name: 'Salud Mental Comunitaria',
-		hours: 4,
-		term: courseTerms.firstSemester,
-		type: courseTypes.mandatory,
-		year: 5,
-		requirements: [
-			{
-				id: 1,
-				requiredCourseId: 20,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 2,
-				requiredCourseId: 20,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 3,
-				requiredCourseId: 28,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 4,
-				requiredCourseId: 28,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			},
-			{
-				id: 5,
-				requiredCourseId: 31,
-				requiredState: courseStates.taken,
-				requiredFor: requiredFor.enroll
-			},
-			{
-				id: 6,
-				requiredCourseId: 31,
-				requiredState: courseStates.passed,
-				requiredFor: requiredFor.complete
-			}
-		]
-	},
 	// 5° Año - 2° Cuatrimestre
 	{
 		id: 38,
@@ -993,7 +969,7 @@ const courses: RawCourse[] = [
 	{
 		id: 39,
 		code: '2133/11Z',
-		name: 'Práctica Profesional Supervisada II',
+		name: 'Prácticas Profesionales Supervisadas II',
 		hours: 8,
 		term: courseTerms.secondSemester,
 		type: courseTypes.mandatory,
@@ -1124,12 +1100,12 @@ export const ucaeceLp2023: StudyPlan = {
 		{
 			id: 1,
 			label: 'Plan de Estudios (Web)',
-			url: 'https://www.ucaece.edu.ar/es/carrera/licenciatura-en-psicologia'
+			url: 'https://www.ucaece.edu.ar/carrera/lic-en-psicologia-presencial?caece___carrera___curso_de_interes=P049'
 		},
 		{
 			id: 2,
 			label: 'Plan de Estudios (PDF)',
-			url: 'https://drive.google.com/file/d/1hDTjA0Okf-Hi4SZG3hY5sY-fBIyk2ff5/view?usp=drive_link'
+			url: 'https://drive.google.com/file/d/1prxPQVlINUmrdGGmT-fFTkOA8vQkkxe4/view?usp=sharing'
 		}
 	]
 };
