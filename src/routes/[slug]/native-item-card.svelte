@@ -9,10 +9,12 @@
 	} from '$lib/course-state';
 	import { courseAttributeLabels } from '$lib/course-attribute';
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
+	import { getVisibleItemTagLabels } from '$lib/visible-item-tags';
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import StateSelect from './state-select.svelte';
 	import NativeRequirement from './native-requirement.svelte';
+	import NativeRequirementSummary from './native-requirement-summary.svelte';
 	import NativeDependent from './native-dependent.svelte';
 	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 
@@ -65,6 +67,7 @@
 		item.requirementsForCompletion.length > 0 || item.requirementSummariesForCompletion.length > 0
 	);
 	const indirectDependentsCount = $derived(item.totalDependentCount - item.dependents.length);
+	const visibleTagLabels = $derived(getVisibleItemTagLabels(item.item.def.tags));
 </script>
 
 <li
@@ -110,12 +113,18 @@
 					{/if}
 					{item.item.def.name}
 				</span>
-				{#if isElectiveOrOptative(item.item.def.type) && !hideTypeBadge}
+				{#if isElectiveOrOptative(item.item.def.type) && !hideTypeBadge && visibleTagLabels.length === 0}
 					<span
 						class="rounded-md bg-white/75 px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
 						>{courseTypeLabels[item.item.def.type]}</span
 					>
 				{/if}
+				{#each visibleTagLabels as label (label)}
+					<span
+						class="rounded-md bg-white/75 px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
+						>{label}</span
+					>
+				{/each}
 				{#each (item.item.def.attributes ?? []).filter((attr) => attr !== 'transversal') as attr (attr)}
 					<span
 						class="rounded-md bg-white/75 px-2 py-1 text-xs leading-none text-gray-600 dark:bg-black/25 dark:text-gray-900"
@@ -191,7 +200,7 @@
 						{:else}
 							<ul class="grid gap-2">
 								{#each item.requirementSummariesForEnrollment as summary (`${summary.kind}-${summary.label}`)}
-									<li>{summary.label}</li>
+									<NativeRequirementSummary requirement={summary} />
 								{/each}
 							</ul>
 						{/if}
@@ -214,7 +223,7 @@
 						{:else if item.requirementSummariesForCompletion.length > 0}
 							<ul class="grid gap-2">
 								{#each item.requirementSummariesForCompletion as summary (`${summary.kind}-${summary.label}`)}
-									<li>{summary.label}</li>
+									<NativeRequirementSummary requirement={summary} />
 								{/each}
 							</ul>
 						{:else}

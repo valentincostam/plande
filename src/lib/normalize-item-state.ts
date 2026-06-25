@@ -4,19 +4,20 @@ import { milestoneStates } from './study-plan-data';
 
 export type ItemFacts = {
 	isEnabled?: boolean;
+	allowInvalidPassedState?: boolean;
 	canPass?: boolean;
 	canComplete?: boolean;
 };
 
 const normalizeCourseState = (
 	current: CourseState,
-	{ isEnabled = true, canPass = true }: ItemFacts
+	{ isEnabled = true, allowInvalidPassedState = false, canPass = true }: ItemFacts
 ): CourseState => {
 	if (!isEnabled && current !== courseStates.notTaken) {
 		return courseStates.notTaken;
 	}
 
-	if (!canPass && current === courseStates.passed) {
+	if (!allowInvalidPassedState && !canPass && current === courseStates.passed) {
 		return courseStates.notTaken;
 	}
 

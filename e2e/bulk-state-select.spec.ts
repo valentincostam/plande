@@ -45,6 +45,18 @@ test.describe('Bulk state select visibility - Years', () => {
 });
 
 test.describe('Bulk state select visibility - Terms', () => {
+	test('terms keep production order in unlp-fahce-pm-2003 year 2', async ({ studyPlan }) => {
+		await studyPlan.goto('unlp-fahce-pm-2003');
+
+		const year2Section = studyPlan.getYearSection(2);
+		await expect(year2Section.getByRole('heading', { level: 3 })).toHaveText([
+			'Anual',
+			'Primer cuatrimestre',
+			'Segundo cuatrimestre',
+			'Cuatrimestral'
+		]);
+	});
+
 	test('term shows bulk select when all its courses are enabled', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
@@ -202,5 +214,25 @@ test.describe('Bulk state select for year', () => {
 		const fisica1StateControl = studyPlan.getCourseStateControl('Física I');
 		await expect(fisica1StateControl).toHaveAccessibleName('Estado de Física I: Aprobada');
 		await expect(fisica2StateControl).toHaveAccessibleName('Estado de Física II: Aprobada');
+	});
+
+	test('bulk pass stays enabled for a year with intra-year dependencies in unlp-fahce-pm-2003', async ({
+		studyPlan
+	}) => {
+		await studyPlan.goto('unlp-fahce-pm-2003');
+		await studyPlan.setYearState(1, 'Aprobadas');
+
+		const year2BulkSelect = studyPlan.getYearBulkSelect(2);
+		await expect(year2BulkSelect).toBeVisible();
+		await expect(year2BulkSelect.getByRole('option', { name: 'Aprobadas' })).toBeEnabled();
+
+		await studyPlan.setYearState(2, 'Aprobadas');
+
+		await expect(studyPlan.getCourseStateControl('Álgebra Lineal')).toHaveAccessibleName(
+			'Estado de Álgebra Lineal: Aprobada'
+		);
+		await expect(
+			studyPlan.getCourseStateControl('Psicología y Cultura en el Proceso Educativo')
+		).toHaveAccessibleName('Estado de Psicología y Cultura en el Proceso Educativo: Aprobada');
 	});
 });

@@ -2,6 +2,7 @@
 	import { isTransversal } from '$lib/course-attribute';
 	import { courseStates } from '$lib/course-state';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
+	import { milestoneStates } from '$lib/study-plan-data';
 	import Ordinal from '$lib/ordinal.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import Link from '$lib/link.svelte';
@@ -18,10 +19,17 @@
 	let { requirement, showCodes = false }: Props = $props();
 
 	const isRequirementMet = $derived(isViewRequirementMet(requirement));
-	const courseIsTransversal = $derived(isTransversal(requirement.item.item.def.attributes ?? []));
-	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(requirement.item.item.def.type));
+	const requirementIsMilestone = $derived(requirement.item.item.def.kind === 'milestone');
+	const courseIsTransversal = $derived(
+		requirement.item.item.def.kind === 'course' &&
+			isTransversal(requirement.item.item.def.attributes ?? [])
+	);
+	const courseIsElectiveOrOptative = $derived(
+		requirement.item.item.def.kind === 'course' &&
+			isElectiveOrOptative(requirement.item.item.def.type)
+	);
 	const courseLabel = $derived(
-		courseIsElectiveOrOptative
+		courseIsElectiveOrOptative && requirement.item.item.def.kind === 'course'
 			? courseTypeLabels[requirement.item.item.def.type].toLowerCase()
 			: 'transversal'
 	);
@@ -41,7 +49,7 @@
 			{/if}
 			{requirement.item.item.def.name}
 		</Link>
-		{#if requirement.item.year !== undefined && !courseIsTransversal}
+		{#if requirementIsMilestone}{:else if requirement.item.year !== undefined && !courseIsTransversal}
 			de
 			<span class="whitespace-nowrap">
 				<Ordinal number={requirement.item.year} noun="año" />
@@ -49,17 +57,31 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		debe estar {#if requirement.requiredState !== courseStates.passed}al menos
+		{#if requirementIsMilestone}
+			debe estar completado
+		{:else}
+			debe estar {#if requirement.requiredState !== courseStates.passed}al menos
+			{/if}
+			<StatePill
+				state={requirement.requiredState === 'completed'
+					? courseStates.passed
+					: requirement.requiredState}
+			/>
 		{/if}
-		<StatePill
-			state={requirement.requiredState === 'completed'
-				? courseStates.passed
-				: requirement.requiredState}
-		/>
 
 		{#if !isRequirementMet}
 			pero está
-			<StatePill state={requirement.item.item.state} />
+			{#if requirementIsMilestone}
+				<span
+					class="inline-block rounded-md bg-gray-600 px-2 py-1 leading-none whitespace-nowrap text-white dark:text-gray-100"
+				>
+					{requirement.item.item.state === milestoneStates.completed ? 'Completado' : 'Pendiente'}
+				</span>
+			{:else}
+				<StatePill
+					state={requirement.item.item.state as (typeof courseStates)[keyof typeof courseStates]}
+				/>
+			{/if}
 		{/if}
 	</span>
 </li>

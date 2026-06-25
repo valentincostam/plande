@@ -52,6 +52,17 @@ const getCourseStateLabel = async (control: Locator) => {
 	return parts.slice(1).join(': ');
 };
 
+const getExistingCourseStateControl = async (page: Page, courseName: string) => {
+	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
+	const combobox = page.getByRole('combobox', { name });
+	if ((await combobox.count()) > 0) return combobox.first();
+
+	const button = page.getByRole('button', { name });
+	if ((await button.count()) > 0) return button.first();
+
+	throw new Error(`Could not find course state control for "${courseName}"`);
+};
+
 export const getCourseStateControl = (page: Page, courseName: string): Locator => {
 	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
 	const combobox = page.getByRole('combobox', { name });
@@ -85,10 +96,7 @@ export const getCourseDetailsPanel = async (page: Page, courseName: string): Pro
 };
 
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
-	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
-	const combobox = page.getByRole('combobox', { name });
-	const button = page.getByRole('button', { name });
-	const control = (await combobox.count()) > 0 ? combobox.first() : button.first();
+	const control = await getExistingCourseStateControl(page, courseName);
 	const key = stateKeyByLabel[state];
 
 	if (!key) {

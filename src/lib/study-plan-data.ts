@@ -62,16 +62,29 @@ export type Selector =
 
 export type RequirementExpr =
 	| { type: 'item'; itemId: string; state: RequirementState }
-	| { type: 'all'; rules: RequirementExpr[] }
-	| { type: 'any'; rules: RequirementExpr[] }
-	| { type: 'count'; selector: Selector; min: number; state: RequirementState }
-	| { type: 'percent'; selector: Selector; minPercent: number; state: RequirementState }
+	| { type: 'all'; rules: RequirementExpr[]; label?: string }
+	| { type: 'any'; rules: RequirementExpr[]; label?: string }
+	| {
+			type: 'count';
+			selector: Selector;
+			min: number;
+			state: RequirementState;
+			label?: string;
+	  }
+	| {
+			type: 'percent';
+			selector: Selector;
+			minPercent: number;
+			state: RequirementState;
+			label?: string;
+	  }
 	| {
 			type: 'sum';
 			selector: Selector;
 			metric: 'hours' | 'credits';
 			min: number;
 			state: RequirementState;
+			label?: string;
 	  };
 
 export type GraduationRequirement =

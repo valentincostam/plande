@@ -3,6 +3,7 @@
 
 	type Props = {
 		class?: ClassValue;
+		details?: Array<{ label: string; value?: number; total?: number; summary?: string }>;
 		label: string;
 		showPercentage?: boolean;
 		total?: number;
@@ -18,7 +19,8 @@
 		class: className,
 		showPercentage = false,
 		unit,
-		description
+		description,
+		details = []
 	}: Props = $props();
 
 	const numberFormatter = new Intl.NumberFormat('es-AR', {
@@ -53,6 +55,17 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if details.length > 0}
+		<ul class="grid gap-2 border-t border-gray-300 px-6 py-3 text-xs text-gray-500">
+			{#each details as detail (detail.label)}
+				<li class="flex items-center justify-between gap-3">
+					<span>{detail.label}</span>
+					<span>{detail.summary ?? `${detail.value} de ${detail.total}`}</span>
+				</li>
+			{/each}
+		</ul>
+	{/if}
 
 	{#if progress}
 		<div class="h-1 w-full bg-gray-300">

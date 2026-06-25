@@ -25,10 +25,15 @@
 			dependent.requiredState === 'completed' ? courseStates.passed : dependent.requiredState
 		)
 	);
-	const courseIsTransversal = $derived(isTransversal(dependent.item.item.def.attributes ?? []));
-	const courseIsElectiveOrOptative = $derived(isElectiveOrOptative(dependent.item.item.def.type));
+	const courseIsTransversal = $derived(
+		dependent.item.item.def.kind === 'course' &&
+			isTransversal(dependent.item.item.def.attributes ?? [])
+	);
+	const courseIsElectiveOrOptative = $derived(
+		dependent.item.item.def.kind === 'course' && isElectiveOrOptative(dependent.item.item.def.type)
+	);
 	const courseLabel = $derived(
-		courseIsElectiveOrOptative
+		courseIsElectiveOrOptative && dependent.item.item.def.kind === 'course'
 			? courseTypeLabels[dependent.item.item.def.type].toLowerCase()
 			: 'transversal'
 	);

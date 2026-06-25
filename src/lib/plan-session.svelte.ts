@@ -71,6 +71,7 @@ export class PlanItemState {
 	def: PlanItem;
 	session: PlanSession;
 	state = $state<ItemState>(courseStates.notTaken);
+	allowInvalidPassedState = $state(false);
 	grade = $state<number | undefined>();
 	dependents: DependentEdge[];
 	isEnabled = $derived.by(() => {
@@ -105,6 +106,7 @@ export class PlanItemState {
 
 			const corrected = normalizeItemState(this.def, this.state, {
 				isEnabled: this.isEnabled,
+				allowInvalidPassedState: this.allowInvalidPassedState,
 				canPass: this.canPass,
 				canComplete: this.canComplete
 			});
@@ -113,6 +115,11 @@ export class PlanItemState {
 				this.state = corrected;
 			}
 		});
+	}
+
+	setState(state: ItemState, options?: { allowInvalidPassedState?: boolean }) {
+		this.allowInvalidPassedState = options?.allowInvalidPassedState ?? false;
+		this.state = state;
 	}
 }
 

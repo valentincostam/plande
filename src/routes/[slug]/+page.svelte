@@ -30,8 +30,10 @@
 	import Disclaimer from '../disclaimer.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
 	import Link from '$lib/link.svelte';
+	import ViewToggle from './view-toggle.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
+	import NativeMilestoneCard from './native-milestone-card.svelte';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import { preparePlan } from '$lib/prepare-plan';
@@ -77,10 +79,6 @@
 			pendingFocusCourseId = courseId;
 			viewMode = 'diagram';
 		}
-	}
-
-	function setViewMode(mode: 'list' | 'diagram') {
-		viewMode = mode;
 	}
 
 	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
@@ -384,59 +382,44 @@
 		</p>
 		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
 		<div class="mt-4 flex justify-center">
-			<div
-				class="inline-flex gap-0.5 rounded-md bg-gray-100 p-1 text-sm dark:bg-gray-100 dark:ring-1 dark:ring-white/10"
-				role="group"
-				aria-label="Modo de vista"
-			>
-				<button
-					type="button"
-					onclick={() => setViewMode('list')}
-					aria-pressed={viewMode === 'list'}
-					class={[
-						'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
-						viewMode === 'list'
-							? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
-							: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
-					]}
-				>
-					Lista
-				</button>
-				<button
-					type="button"
-					onclick={() => setViewMode('diagram')}
-					aria-pressed={viewMode === 'diagram'}
-					class={[
-						'flex cursor-pointer items-center gap-1.5 rounded px-3 py-1.5 transition-all',
-						viewMode === 'diagram'
-							? 'bg-white text-gray-900 dark:bg-gray-200 dark:text-gray-900'
-							: 'text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-900'
-					]}
-				>
-					Diagrama
-				</button>
-			</div>
+			<ViewToggle bind:value={viewMode} />
 		</div>
 	</header>
 
 	<main class="grid gap-9">
-		<div class:hidden={viewMode !== 'diagram'} id="diagram-container">
-			<CourseDiagram items={courseItems} slug={data.slug} {useCycleButton} bind:this={diagramRef} />
-		</div>
-
-		<div class:hidden={viewMode !== 'list'}>
-			{#each studyPlanView.sections as section, index (section.id)}
-				<NativeStudyPlanSection
-					{section}
-					{showCodes}
+		{#if viewMode === 'diagram'}
+			<div id="diagram-container">
+				<CourseDiagram
+					items={courseItems}
+					slug={data.slug}
 					{useCycleButton}
-					showBulkSelect={section.year === undefined || !isStrictModeEnabled
-						? true
-						: index === 0 ||
-							studyPlanView.sections[index - 1]?.section.state === courseStates.passed}
+					bind:this={diagramRef}
 				/>
-			{/each}
-		</div>
+			</div>
+		{:else}
+			<div class="grid gap-9">
+				{#each studyPlanView.sections as section, index (section.id)}
+					<NativeStudyPlanSection
+						{section}
+						{showCodes}
+						{useCycleButton}
+						showBulkSelect={section.year === undefined || !isStrictModeEnabled
+							? true
+							: index === 0 ||
+								studyPlanView.sections[index - 1]?.section.state === courseStates.passed}
+					/>
+				{/each}
+				{#if studyPlanView.additionalRequirements.length > 0}
+					<Section id="hitos" title="Hitos y requisitos adicionales">
+						<ul class="grid gap-1">
+							{#each studyPlanView.additionalRequirements as item (item.item.def.id)}
+								<NativeMilestoneCard {item} />
+							{/each}
+						</ul>
+					</Section>
+				{/if}
+			</div>
+		{/if}
 
 		<section class="grid gap-3 px-3">
 			<ShareButton title={seo.title} />
@@ -463,6 +446,8 @@
 					items={courseItems}
 					sections={studyPlanView.sections}
 					progress={data.studyPlan.progress}
+					graduationRequirements={data.nativeStudyPlan.requirements?.graduation ?? []}
+					graduationBlocks={studyPlanView.graduation.blocks}
 				/>
 			</div>
 		</Section>

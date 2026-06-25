@@ -39,6 +39,20 @@ It is the current and only prompt that should drive authoring for the live model
 - Keep names, codes, accents, and official terminology faithful to the source.
 - Ask the user only when the missing data would make the plan wrong.
 
+### Grouped Optatives And Electives
+
+- When the source defines distinct graduation buckets like `Optativa I`, `Optativa II`, `idioma latino`, `idioma germánico`, orientation groups, areas, or named optional tracks, model each bucket as its own `graduation` requirement block.
+- Prefer `graduation: [{ type: 'count', ... }]` with one block per bucket over a single pooled elective count when the source requires `N from bucket A` and `M from bucket B`.
+- Prefer `selector: { type: 'tag', tag: '...' }` for these grouped rules. Use `selector.items` only when the source defines a one-off explicit set with no reusable semantic group.
+- Tag each eligible course with a specific semantic tag for its bucket, such as `optativa-i`, `optativa-ii`, `idioma-latino`, or `idioma-germanico`.
+- Keep bucket tag IDs stable, kebab-case, and singular. They are model identifiers, not user-facing copy.
+- Treat user-facing copy separately from model tags: the tag ID can be semantic and stable, while `graduation.label` and visible UI labels must follow the official plan wording.
+- If the same course belongs to the general optional pool and also to a specific graduation bucket, keep both: the course `type` should stay `optative` or `elective`, and the item should also carry the specific bucket tag.
+- If the source exposes optional courses in their own list or catalog instead of a numbered year, create a dedicated section for them rather than forcing them into a year section.
+- Preserve official bucket names in `graduation.label` because the UI will surface those labels directly.
+- When the source says a grouped rule is capped, like `approve 1 Latin language`, do not model it as a pooled count that could over-credit multiple passes from the same bucket.
+- If a course truly satisfies multiple official buckets, encode all supported memberships explicitly. If the source is ambiguous about bucket membership, stop and verify before authoring.
+
 ## Validation
 
 Always check:
@@ -53,6 +67,10 @@ Always check:
 - `bun run check` passes
 - local app output matches the official source for a representative manual pass
 - the local app shows the expected title, section headings, term headings, and view toggle
+- grouped graduation requirements are represented by separate requirement blocks when the source distinguishes named buckets
+- optional-course buckets use stable semantic tags and those tags match the intended requirement selectors
+- plans with grouped optatives/electives do not over-count progress when multiple passed courses belong to the same capped bucket
+- special optional-course catalogs show the expected section, badges, and grouped stat labels in local UI
 
 ## Source Verification
 
@@ -72,6 +90,8 @@ Then verify, at minimum:
 - prerequisite text and blocked/unblocked behavior for representative courses
 - graduation rule text and progress semantics
 - special cases from the source: transversal sections, optatives, electives, multi-placement, milestones, or grouped rules
+- when grouped optional buckets exist, verify one representative course from each bucket appears in the right section and carries the right semantic grouping
+- when grouped optional buckets exist, verify the stats UI reflects each bucket separately and caps progress correctly per bucket
 
 Use the browser-based checklist in `references/source-verification.md`.
 

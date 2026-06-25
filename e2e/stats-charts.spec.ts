@@ -170,4 +170,52 @@ test.describe('Stats and Charts - Elective courses', () => {
 
 		await expect(electivesStat).toContainText('1 de 1');
 	});
+
+	test('sums grouped elective requirements for plans with multiple count blocks', async ({
+		studyPlan
+	}) => {
+		await studyPlan.goto('unlp-fahce-pm-2003');
+
+		const electivesStat = studyPlan.getStatByLabel(/^Materias optativas requeridas aprobadas/);
+		await expect(electivesStat).toContainText('0 de 4');
+		await expect(electivesStat).toContainText('13 optativas disponibles en el plan');
+		await expect(electivesStat).toContainText('Optativas I requeridas');
+		await expect(electivesStat).toContainText('Optativas II requeridas');
+		await expect(electivesStat).toContainText('Idioma latino requerido');
+		await expect(electivesStat).toContainText('Idioma germánico requerido');
+	});
+
+	test('shows grouped optative badges on courses in unlp-fahce-pm-2003', async ({
+		page,
+		studyPlan
+	}) => {
+		await studyPlan.goto('unlp-fahce-pm-2003');
+
+		const optativaCourse = page
+			.getByRole('listitem')
+			.filter({ has: page.getByText('Complementos de Análisis', { exact: true }) });
+		await expect(optativaCourse.getByText('Optativa I', { exact: true })).toBeVisible();
+		await expect(optativaCourse.getByText('Optativa', { exact: true })).not.toBeVisible();
+
+		const latinLanguageCourse = page
+			.getByRole('listitem')
+			.filter({ has: page.getByText('Francés', { exact: true }) });
+		await expect(latinLanguageCourse.getByText('Idioma latino', { exact: true })).toBeVisible();
+		await expect(latinLanguageCourse.getByText('Optativa', { exact: true })).not.toBeVisible();
+	});
+
+	test('caps grouped elective progress when several approved courses belong to the same bucket', async ({
+		studyPlan
+	}) => {
+		await studyPlan.goto('unlp-fahce-pm-2003');
+
+		await studyPlan.setCourseState('Francés', 'Aprobada');
+		await studyPlan.setCourseState('Italiano', 'Aprobada');
+		await studyPlan.setCourseState('Portugués', 'Aprobada');
+
+		const electivesStat = studyPlan.getStatByLabel(/^Materias optativas requeridas aprobadas/);
+		await expect(electivesStat).toContainText('1 de 4');
+		await expect(electivesStat).toContainText('Idioma latino requerido');
+		await expect(electivesStat).toContainText('3 de 1 mat.');
+	});
 });

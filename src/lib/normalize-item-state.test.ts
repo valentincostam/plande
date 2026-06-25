@@ -33,6 +33,16 @@ describe('normalizeItemState', () => {
 		).toBe(courseStates.notTaken);
 	});
 
+	it('keeps a passed course when invalid passed state is explicitly allowed', () => {
+		expect(
+			normalizeItemState(courseItem, courseStates.passed, {
+				isEnabled: true,
+				allowInvalidPassedState: true,
+				canPass: false
+			})
+		).toBe(courseStates.passed);
+	});
+
 	it('keeps a valid course state unchanged', () => {
 		expect(
 			normalizeItemState(courseItem, courseStates.taken, { isEnabled: true, canPass: true })

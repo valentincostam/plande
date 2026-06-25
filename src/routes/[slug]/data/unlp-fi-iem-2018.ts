@@ -80,7 +80,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			},
 			{
 				id: 2,
-				text: '**Inglés** representa la prueba de suficiencia indicada en la documentación oficial. Se recomienda aprobarla antes del 6° semestre y la propia nota oficial exige tenerla aprobada antes de comenzar el 9° semestre.'
+				text: 'La **Prueba de Suficiencia de Inglés** se modela como un **hito** independiente. Se recomienda completarla antes del 6° semestre y la documentación oficial exige tenerla completada antes de comenzar el 9° semestre.'
 			},
 			{
 				id: 3,
@@ -514,7 +514,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 6,
 			tags: yearTag(5),
 			placements: [place.year(5, 'firstSemester', 1)],
-			requirements: { complete: complete('E1236', 'M0001') }
+			requirements: {
+				complete: req.all(req.item('E1236', 'passed'), req.item('M0001', 'completed'))
+			}
 		},
 		{
 			id: 'E1285',
@@ -526,7 +528,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 6,
 			tags: yearTag(5),
 			placements: [place.year(5, 'firstSemester', 2)],
-			requirements: { complete: complete('E1236', 'M0001') }
+			requirements: {
+				complete: req.all(req.item('E1236', 'passed'), req.item('M0001', 'completed'))
+			}
 		},
 		{
 			id: 'M1632',
@@ -538,7 +542,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 5,
 			tags: yearTag(5),
 			placements: [place.year(5, 'annual', 3)],
-			requirements: { complete: complete('E1236', 'M0001', 'M1621') }
+			requirements: {
+				complete: req.all(
+					req.item('E1236', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1621', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1643',
@@ -550,7 +560,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 4,
 			tags: yearTag(5),
 			placements: [place.year(5, 'firstSemester', 4)],
-			requirements: { complete: complete('E1236', 'M0001', 'M1614') }
+			requirements: {
+				complete: req.all(
+					req.item('E1236', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1614', 'passed')
+				)
+			}
 		},
 		{
 			id: 'P1759',
@@ -563,7 +579,10 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: yearTag(5),
 			placements: [place.year(5, 'firstSemester', 5)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('P1759', 30))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('P1759', 30)
+				)
 			}
 		},
 		{
@@ -576,7 +595,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 5,
 			tags: yearTag(5),
 			placements: [place.year(5, 'secondSemester', 1)],
-			requirements: { complete: complete('E1286', 'M0001', 'P1752') }
+			requirements: {
+				complete: req.all(
+					req.item('E1286', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('P1752', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1636',
@@ -588,7 +613,14 @@ export const unlpFiIem2018: StudyPlanData = {
 			hours: 4,
 			tags: yearTag(5),
 			placements: [place.year(5, 'secondSemester', 2)],
-			requirements: { complete: complete('A1053', 'E1286', 'M0001', 'M1613') }
+			requirements: {
+				complete: req.all(
+					req.item('A1053', 'passed'),
+					req.item('E1286', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1613', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1662',
@@ -601,19 +633,20 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: yearTag(5),
 			placements: [place.year(5, 'secondSemester', 3)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('M1662', 34))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('M1662', 34)
+				)
 			}
 		},
 
 		{
 			id: 'M0001',
 			seqId: 42,
-			kind: 'course',
+			kind: 'milestone',
 			code: 'M0001',
-			name: 'Inglés',
-			type: 'mandatory',
-			tags: ['idioma'],
-			placements: [place.section('idioma', undefined, 1)],
+			name: 'Prueba de Suficiencia de Inglés',
+			placements: [],
 			requirements: {}
 		},
 		{
@@ -658,7 +691,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			type: 'mandatory',
 			tags: ['afc'],
 			placements: [place.section('afc', undefined, 4)],
-			requirements: { complete: complete('M0001', 'AFC3') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('AFC3', 'passed'))
+			}
 		},
 		{
 			id: 'AFC5',
@@ -669,7 +704,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			type: 'mandatory',
 			tags: ['afc'],
 			placements: [place.section('afc', undefined, 5)],
-			requirements: { complete: complete('M0001', 'AFC4') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('AFC4', 'passed'))
+			}
 		},
 
 		{
@@ -817,7 +854,10 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 1)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('D1102', 30))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('D1102', 30)
+				)
 			}
 		},
 		{
@@ -831,7 +871,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 192,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 2)],
-			requirements: { complete: complete('M0001', 'M1621') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1621', 'passed'))
+			}
 		},
 		{
 			id: 'M1687',
@@ -844,7 +886,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 3)],
-			requirements: { complete: complete('M0001', 'M1621') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1621', 'passed'))
+			}
 		},
 		{
 			id: 'A1008',
@@ -857,7 +901,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 4)],
-			requirements: { complete: complete('C1153', 'M0001') }
+			requirements: {
+				complete: req.all(req.item('C1153', 'passed'), req.item('M0001', 'completed'))
+			}
 		},
 		{
 			id: 'A1012',
@@ -870,7 +916,15 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 5)],
-			requirements: { complete: complete('A1008', 'A1009', 'F1305', 'F1315', 'M0001') }
+			requirements: {
+				complete: req.all(
+					req.item('A1008', 'passed'),
+					req.item('A1009', 'passed'),
+					req.item('F1305', 'passed'),
+					req.item('F1315', 'passed'),
+					req.item('M0001', 'completed')
+				)
+			}
 		},
 		{
 			id: 'A1108',
@@ -883,7 +937,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 6)],
-			requirements: { complete: complete('A1052', 'F1301', 'M0001') }
+			requirements: {
+				complete: req.all(
+					req.item('A1052', 'passed'),
+					req.item('F1301', 'passed'),
+					req.item('M0001', 'completed')
+				)
+			}
 		},
 		{
 			id: 'A1109',
@@ -899,7 +959,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			requirements: {
 				complete: req.all(
 					req.item('A1008', 'passed'),
-					req.item('M0001', 'passed'),
+					req.item('M0001', 'completed'),
 					approvedOtherCurriculumCourses('A1109', 30)
 				)
 			}
@@ -916,7 +976,10 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 8)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('D2003', 30))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('D2003', 30)
+				)
 			}
 		},
 		{
@@ -931,7 +994,10 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 9)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('D2004', 30))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('D2004', 30)
+				)
 			}
 		},
 		{
@@ -945,7 +1011,14 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 10)],
-			requirements: { complete: complete('E1236', 'E1286', 'M0001', 'M1604') }
+			requirements: {
+				complete: req.all(
+					req.item('E1236', 'passed'),
+					req.item('E1286', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1604', 'passed')
+				)
+			}
 		},
 		{
 			id: 'E1243',
@@ -958,7 +1031,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 11)],
-			requirements: { complete: complete('E1240', 'M0001') }
+			requirements: {
+				complete: req.all(req.item('E1240', 'passed'), req.item('M0001', 'completed'))
+			}
 		},
 		{
 			id: 'H1510',
@@ -971,7 +1046,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 32,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 12)],
-			requirements: { complete: complete('A1052', 'M0001') }
+			requirements: {
+				complete: req.all(req.item('A1052', 'passed'), req.item('M0001', 'completed'))
+			}
 		},
 		{
 			id: 'M1626',
@@ -984,7 +1061,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 13)],
-			requirements: { complete: complete('M0001', 'M1603') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1603', 'passed'))
+			}
 		},
 		{
 			id: 'M1627',
@@ -997,7 +1076,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 14)],
-			requirements: { complete: complete('F1316', 'M0001', 'M1621') }
+			requirements: {
+				complete: req.all(
+					req.item('F1316', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1621', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1637',
@@ -1010,7 +1095,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 15)],
-			requirements: { complete: complete('M0001', 'M1636') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1636', 'passed'))
+			}
 		},
 		{
 			id: 'M1640',
@@ -1036,7 +1123,15 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 48,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 17)],
-			requirements: { complete: complete('A1050', 'E1286', 'M0001', 'M1604', 'P1752') }
+			requirements: {
+				complete: req.all(
+					req.item('A1050', 'passed'),
+					req.item('E1286', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1604', 'passed'),
+					req.item('P1752', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1642',
@@ -1049,7 +1144,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 18)],
-			requirements: { complete: complete('M0001', 'M1622') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1622', 'passed'))
+			}
 		},
 		{
 			id: 'M1646',
@@ -1062,7 +1159,9 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 19)],
-			requirements: { complete: complete('M0001', 'M1627') }
+			requirements: {
+				complete: req.all(req.item('M0001', 'completed'), req.item('M1627', 'passed'))
+			}
 		},
 		{
 			id: 'M1647',
@@ -1075,7 +1174,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 20)],
-			requirements: { complete: complete('M0001', 'M1632', 'M1681') }
+			requirements: {
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					req.item('M1632', 'passed'),
+					req.item('M1681', 'passed')
+				)
+			}
 		},
 		{
 			id: 'M1661',
@@ -1089,7 +1194,10 @@ export const unlpFiIem2018: StudyPlanData = {
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 21)],
 			requirements: {
-				complete: req.all(req.item('M0001', 'passed'), approvedOtherCurriculumCourses('M1661', 30))
+				complete: req.all(
+					req.item('M0001', 'completed'),
+					approvedOtherCurriculumCourses('M1661', 30)
+				)
 			}
 		},
 		{
@@ -1103,7 +1211,13 @@ export const unlpFiIem2018: StudyPlanData = {
 			credits: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 22)],
-			requirements: { complete: complete('E1286', 'M0001', 'M1604') }
+			requirements: {
+				complete: req.all(
+					req.item('E1286', 'passed'),
+					req.item('M0001', 'completed'),
+					req.item('M1604', 'passed')
+				)
+			}
 		}
 	],
 	requirements: {

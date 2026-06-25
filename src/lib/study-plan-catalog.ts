@@ -23,7 +23,7 @@ const inferProgressConfig = (
 	graduation: GraduationRequirement[] | undefined
 ): DegreeProgressConfig => {
 	const sumRequirement = graduation?.find((requirement) => requirement.type === 'sum');
-	const countRequirement = graduation?.find((requirement) => requirement.type === 'count');
+	const countRequirements = graduation?.filter((requirement) => requirement.type === 'count') ?? [];
 
 	if (sumRequirement?.type === 'sum') {
 		return {
@@ -32,10 +32,13 @@ const inferProgressConfig = (
 		};
 	}
 
-	if (countRequirement?.type === 'count') {
+	if (countRequirements.length > 0) {
 		return {
 			type: 'mandatory-plus-elective-count',
-			requiredElectiveCount: countRequirement.min
+			requiredElectiveCount: countRequirements.reduce(
+				(total, requirement) => total + requirement.min,
+				0
+			)
 		};
 	}
 

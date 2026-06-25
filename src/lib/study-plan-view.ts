@@ -1,27 +1,64 @@
 import { courseTermLabels, type CourseTerm } from './course-term';
 import { courseStates, isCourseStateGreaterOrEqual, type CourseState } from './course-state';
 import type { GraduationProgress } from './requirement-evaluator';
+import {
+	evaluateRequirement,
+	meetsRequirementState,
+	resolveSelector
+} from './requirement-evaluator';
 import type { PlanSession, PlanItemState, SectionState } from './plan-session.svelte';
-import type { PlanItem, RequirementExpr, RequirementState, Selector } from './study-plan-data';
+import {
+	milestoneStates,
+	type PlanItem,
+	type RequirementExpr,
+	type RequirementState,
+	type Selector
+} from './study-plan-data';
 
 const toKebabCase = (name: string) => name.replace(/\s+/g, '-');
+
+const termSortOrder: Record<string, number> = {
+	annualOrSemestral: 0,
+	annual: 1,
+	firstSemester: 2,
+	secondSemester: 3,
+	semestral: 4,
+	'no-term': 5
+};
 
 type CoursePlanItem = Extract<PlanItem, { kind: 'course' }>;
 export type CoursePlanItemState = Omit<PlanItemState, 'def' | 'state'> & {
 	def: CoursePlanItem;
 	state: CourseState;
+	setState: PlanItemState['setState'];
 };
+
+export type StudyPlanViewMilestone = {
+	item: PlanItemState;
+	anchorId: string;
+	diagramNodeId: number;
+	year?: number;
+	term?: CourseTerm;
+	requirementsForEnrollment: ViewAtomicRequirement[];
+	requirementsForCompletion: ViewAtomicRequirement[];
+	requirementSummariesForEnrollment: RequirementView[];
+	requirementSummariesForCompletion: RequirementView[];
+	dependents: ViewDependent[];
+	totalDependentCount: number;
+};
+
+export type LinkedStudyPlanViewItem = StudyPlanViewItem | StudyPlanViewMilestone;
 
 export type ViewAtomicRequirement = {
 	id: string;
-	item: StudyPlanViewItem;
+	item: LinkedStudyPlanViewItem;
 	requiredState: RequirementState;
 	kind: 'enroll' | 'complete';
 };
 
 export type ViewDependent = {
 	id: string;
-	item: StudyPlanViewItem;
+	item: LinkedStudyPlanViewItem;
 	requiredState: RequirementState;
 	kind: 'enroll' | 'complete';
 };
@@ -29,6 +66,8 @@ export type ViewDependent = {
 export type RequirementView = {
 	label: string;
 	kind: 'enroll' | 'complete' | 'graduation';
+	isMet: boolean;
+	description?: string;
 };
 
 export type StudyPlanViewItem = {
@@ -62,7 +101,7 @@ export type StudyPlanViewSection = {
 export type StudyPlanView = {
 	info: PlanSession['prepared']['plan']['info'];
 	sections: StudyPlanViewSection[];
-	additionalRequirements: PlanItemState[];
+	additionalRequirements: StudyPlanViewMilestone[];
 	graduation: GraduationProgress;
 };
 
@@ -71,14 +110,19 @@ const describeSelector = (expr: RequirementExpr): string => {
 		case 'item':
 			return `Item ${expr.itemId} ${expr.state}`;
 		case 'all':
+			if (expr.label) return expr.label;
 			return expr.rules.map(describeSelector).join(' y ');
 		case 'any':
+			if (expr.label) return expr.label;
 			return expr.rules.map(describeSelector).join(' o ');
 		case 'count':
+			if (expr.label) return expr.label;
 			return `${expr.min} items de ${describeSelectorSource(expr.selector)}`;
 		case 'percent':
+			if (expr.label) return expr.label;
 			return `${expr.minPercent}% de ${describeSelectorSource(expr.selector)}`;
 		case 'sum':
+			if (expr.label) return expr.label;
 			return `${expr.min} ${expr.metric} de ${describeSelectorSource(expr.selector)}`;
 	}
 };
@@ -89,18 +133,59 @@ const describeSelectorSource = (selector: Selector) => {
 	return `section ${selector.sectionId}`;
 };
 
+const formatPercentRequirementDescription = (
+	expr: Extract<RequirementExpr, { type: 'percent' }>,
+	session: PlanSession
+) => {
+	const items = resolveSelector(expr.selector, session.context);
+	const total = items.length;
+	if (total === 0) return undefined;
+
+	const metCount = items.filter((item) =>
+		meetsRequirementState(item.item, item.state, expr.state)
+	).length;
+	const requiredCount = Math.ceil((expr.minPercent / 100) * total);
+	const currentPercent = Math.floor((metCount / total) * 100);
+
+	if (metCount >= requiredCount) {
+		return `${expr.minPercent}% de las materias (${requiredCount} de ${total}) deben estar aprobadas y ${currentPercent}% lo está (${metCount} de ${total})`;
+	}
+
+	return `${expr.minPercent}% de las materias (${requiredCount} de ${total}) deben estar aprobadas pero solo el ${currentPercent}% lo está (${metCount} de ${total})`;
+};
+
+const describeRequirementView = (expr: RequirementExpr, session: PlanSession) => {
+	if (expr.type === 'percent') {
+		return {
+			label: expr.label ?? `${expr.minPercent}% de ${describeSelectorSource(expr.selector)}`,
+			description: formatPercentRequirementDescription(expr, session)
+		};
+	}
+
+	return { label: describeSelector(expr) };
+};
+
 export const buildRequirementViews = (
 	expr: RequirementExpr | undefined,
-	kind: RequirementView['kind']
+	kind: RequirementView['kind'],
+	session: PlanSession
 ) => {
 	if (!expr) return [];
-	return [{ label: describeSelector(expr), kind }];
+	const description = describeRequirementView(expr, session);
+	return [
+		{
+			label: description.label,
+			kind,
+			isMet: evaluateRequirement(expr, session.context),
+			description: description.description
+		}
+	];
 };
 
 const extractAtomicRequirements = (
 	expr: RequirementExpr | undefined,
 	kind: 'enroll' | 'complete',
-	itemsById: Map<string, StudyPlanViewItem>,
+	itemsById: Map<string, LinkedStudyPlanViewItem>,
 	ownerId: string,
 	prefix: string
 ): ViewAtomicRequirement[] => {
@@ -132,8 +217,8 @@ const extractAtomicRequirements = (
 };
 
 const buildDependents = (
-	owner: StudyPlanViewItem,
-	allItems: StudyPlanViewItem[]
+	owner: LinkedStudyPlanViewItem,
+	allItems: LinkedStudyPlanViewItem[]
 ): ViewDependent[] => {
 	return allItems.flatMap((candidate) => [
 		...candidate.requirementsForEnrollment
@@ -156,11 +241,11 @@ const buildDependents = (
 };
 
 export const countAllViewDependents = (
-	item: StudyPlanViewItem,
-	itemsById: Map<string, StudyPlanViewItem>
+	item: LinkedStudyPlanViewItem,
+	itemsById: Map<string, LinkedStudyPlanViewItem>
 ) => {
 	const visited = new Set<string>();
-	const queue: StudyPlanViewItem[] = [item];
+	const queue: LinkedStudyPlanViewItem[] = [item];
 
 	while (queue.length > 0) {
 		const current = queue.shift()!;
@@ -176,10 +261,13 @@ export const countAllViewDependents = (
 };
 
 export const isViewRequirementMet = (requirement: ViewAtomicRequirement) =>
-	isCourseStateGreaterOrEqual(
-		requirement.item.item.state,
-		requirement.requiredState === 'completed' ? courseStates.passed : requirement.requiredState
-	);
+	requirement.item.item.def.kind === 'milestone'
+		? requirement.requiredState === 'completed' &&
+			requirement.item.item.state === milestoneStates.completed
+		: isCourseStateGreaterOrEqual(
+				requirement.item.item.state as CourseState,
+				requirement.requiredState === 'completed' ? courseStates.passed : requirement.requiredState
+			);
 
 const sortSectionItems = (items: PlanItemState[], sectionId: string) => {
 	return [...items].sort((a, b) => {
@@ -200,8 +288,8 @@ const sortSectionItems = (items: PlanItemState[], sectionId: string) => {
 };
 
 export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
-	const itemViews = session.getCourseItems().map<StudyPlanViewItem>((item) => ({
-		item: item as CoursePlanItemState,
+	const linkedItemViews = session.items.map<LinkedStudyPlanViewItem>((item) => ({
+		item: item.def.kind === 'course' ? (item as CoursePlanItemState) : item,
 		anchorId: toKebabCase(item.def.name),
 		diagramNodeId: Number.isFinite(Number(item.def.id)) ? Number(item.def.id) : item.def.seqId,
 		year: (() => {
@@ -214,18 +302,23 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 		requirementsForCompletion: [],
 		requirementSummariesForEnrollment: buildRequirementViews(
 			item.def.requirements?.enroll,
-			'enroll'
+			'enroll',
+			session
 		),
 		requirementSummariesForCompletion: buildRequirementViews(
 			item.def.requirements?.complete,
-			'complete'
+			'complete',
+			session
 		),
 		dependents: [],
 		totalDependentCount: 0
 	}));
+	const itemViews = linkedItemViews.filter(
+		(item): item is StudyPlanViewItem => item.item.def.kind === 'course'
+	);
 
-	const itemViewsById = new Map(itemViews.map((item) => [item.item.def.id, item]));
-	for (const itemView of itemViews) {
+	const itemViewsById = new Map(linkedItemViews.map((item) => [item.item.def.id, item]));
+	for (const itemView of linkedItemViews) {
 		itemView.requirementsForEnrollment = extractAtomicRequirements(
 			itemView.item.def.requirements?.enroll,
 			'enroll',
@@ -241,44 +334,49 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 			'complete'
 		);
 	}
-	for (const itemView of itemViews) {
-		itemView.dependents = buildDependents(itemView, itemViews);
+	for (const itemView of linkedItemViews) {
+		itemView.dependents = buildDependents(itemView, linkedItemViews);
 	}
-	for (const itemView of itemViews) {
+	for (const itemView of linkedItemViews) {
 		itemView.totalDependentCount = countAllViewDependents(itemView, itemViewsById);
 	}
 
-	const sections = session.sections.map<StudyPlanViewSection>((sectionState) => {
-		const terms = new Map<string, StudyPlanViewTerm>();
-		const yearMatch = /^year-(\d+)$/.exec(sectionState.def.id);
+	const sections = session.sections
+		.map<StudyPlanViewSection>((sectionState) => {
+			const terms = new Map<string, StudyPlanViewTerm>();
+			const yearMatch = /^year-(\d+)$/.exec(sectionState.def.id);
 
-		for (const item of sortSectionItems(sectionState.items, sectionState.def.id)) {
-			if (item.def.kind !== 'course') continue;
-			const placement = item.def.placements.find(
-				(entry) => entry.sectionId === sectionState.def.id
-			);
-			const key = placement?.term ?? 'no-term';
-			if (!terms.has(key)) {
-				terms.set(key, {
-					term: placement?.term,
-					title: placement?.term ? courseTermLabels[placement.term] : undefined,
-					items: []
-				});
+			for (const item of sortSectionItems(sectionState.items, sectionState.def.id)) {
+				const placement = item.def.placements.find(
+					(entry) => entry.sectionId === sectionState.def.id
+				);
+				const key = placement?.term ?? 'no-term';
+				if (!terms.has(key)) {
+					terms.set(key, {
+						term: placement?.term,
+						title: placement?.term ? courseTermLabels[placement.term] : undefined,
+						items: []
+					});
+				}
+				const itemView = itemViewsById.get(item.def.id);
+				if (itemView && itemView.item.def.kind === 'course') {
+					terms.get(key)!.items.push(itemView as StudyPlanViewItem);
+				}
 			}
-			const itemView = itemViewsById.get(item.def.id);
-			if (itemView) {
-				terms.get(key)!.items.push(itemView);
-			}
-		}
 
-		return {
-			id: sectionState.def.id,
-			title: sectionState.def.label,
-			year: yearMatch ? Number(yearMatch[1]) : undefined,
-			section: sectionState,
-			terms: [...terms.values()]
-		};
-	});
+			return {
+				id: sectionState.def.id,
+				title: sectionState.def.label,
+				year: yearMatch ? Number(yearMatch[1]) : undefined,
+				section: sectionState,
+				terms: [...terms.values()].sort((a, b) => {
+					const aKey = a.term ?? 'no-term';
+					const bKey = b.term ?? 'no-term';
+					return (termSortOrder[aKey] ?? 999) - (termSortOrder[bKey] ?? 999);
+				})
+			};
+		})
+		.filter((section) => section.terms.length > 0);
 
 	const additionalRequirements = session
 		.getMilestoneItems()
@@ -287,7 +385,9 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 	return {
 		info: session.prepared.plan.info,
 		sections,
-		additionalRequirements,
+		additionalRequirements: additionalRequirements
+			.map((item) => itemViewsById.get(item.def.id))
+			.filter((item): item is StudyPlanViewMilestone => item !== undefined),
 		graduation: session.graduation
 	};
 };

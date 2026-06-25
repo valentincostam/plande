@@ -2,16 +2,26 @@
 	import { courseStates } from '$lib/course-state';
 	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
 	import type { DegreeProgressConfig } from '$lib/degree-progress';
+	import type { GraduationRequirement } from '$lib/study-plan-data';
+	import type { GraduationRequirementResult } from '$lib/requirement-evaluator';
 	import type { StudyPlanViewItem, StudyPlanViewSection } from '$lib/study-plan-view';
 	import Stat from './stat.svelte';
 
 	type Props = {
+		graduationBlocks?: GraduationRequirementResult[];
+		graduationRequirements?: GraduationRequirement[];
 		items: StudyPlanViewItem[];
 		sections: StudyPlanViewSection[];
 		progress: DegreeProgressConfig;
 	};
 
-	let { items, sections, progress }: Props = $props();
+	let {
+		items,
+		sections,
+		progress,
+		graduationRequirements = [],
+		graduationBlocks = []
+	}: Props = $props();
 
 	const someCourseHasHours = $derived(items.some((item) => item.item.def.hours));
 
@@ -57,12 +67,59 @@
 		passedElectiveCourses.reduce((acc, item) => acc + (item.item.def.hours ?? 0), 0)
 	);
 
+	const requiredGroupedCoursesLabel = $derived.by(() => {
+		if (hasElectiveCourses && hasOptativeCourses)
+			return 'Materias electivas y optativas requeridas aprobadas';
+		if (hasOptativeCourses) return 'Materias optativas requeridas aprobadas';
+		return 'Materias electivas requeridas aprobadas';
+	});
+
+	const availableGroupedCoursesDescription = $derived.by(() => {
+		if (hasElectiveCourses && hasOptativeCourses) {
+			return `${electiveCourses.length} electivas y optativas disponibles en el plan`;
+		}
+		if (hasOptativeCourses) return `${electiveCourses.length} optativas disponibles en el plan`;
+		return `${electiveCourses.length} electivas disponibles en el plan`;
+	});
+
 	const requiredElectiveCount = $derived(
 		progress.type === 'mandatory-plus-elective-count' ? (progress.requiredElectiveCount ?? 1) : 0
 	);
 
+	const countRequirementDetails = $derived(
+		graduationRequirements
+			.filter((requirement) => requirement.type === 'count')
+			.map((requirement) => {
+				const selector = requirement.selector;
+				const matchingItems = items.filter((item) => {
+					switch (selector.type) {
+						case 'items':
+							return selector.itemIds.includes(item.item.def.id);
+						case 'tag':
+							return item.item.def.tags?.includes(selector.tag) ?? false;
+						case 'section':
+							return item.item.def.placements.some(
+								(placement) => placement.sectionId === selector.sectionId
+							);
+					}
+				});
+				const rawPassedCount = matchingItems.filter(
+					(item) => item.item.state === courseStates.passed
+				).length;
+				const block = graduationBlocks.find((candidate) => candidate.id === requirement.id);
+				return {
+					label: requirement.label,
+					value: block?.completedUnits ?? 0,
+					total: requirement.min,
+					summary: `${rawPassedCount} de ${requirement.min} mat.`
+				};
+			})
+	);
+
 	const passedRequiredElectiveCount = $derived(
-		Math.min(passedElectiveCourses.length, requiredElectiveCount)
+		countRequirementDetails.length > 0
+			? countRequirementDetails.reduce((total, detail) => total + (detail.value ?? 0), 0)
+			: Math.min(passedElectiveCourses.length, requiredElectiveCount)
 	);
 
 	const passedCoursesWithGrade = $derived(
@@ -88,8 +145,9 @@
 	{#if hasElectiveCourses || hasOptativeCourses}
 		{#if progress.type === 'mandatory-plus-elective-count'}
 			<Stat
-				label="Materias electivas requeridas aprobadas"
-				description={`${electiveCourses.length} electivas disponibles en el plan`}
+				label={requiredGroupedCoursesLabel}
+				description={availableGroupedCoursesDescription}
+				details={countRequirementDetails.length > 1 ? countRequirementDetails : []}
 				value={passedRequiredElectiveCount}
 				total={requiredElectiveCount}
 				unit="mat."

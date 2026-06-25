@@ -1,0 +1,896 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "Plande" [ref=e5] [cursor=pointer]:
+      - /url: ./
+    - paragraph [ref=e6]: Plan de Estudios 2005 · UNSa FCE
+    - heading "Licenciatura en Física" [level=1] [ref=e7]
+    - group "Modo de vista" [ref=e9]:
+      - button "Lista" [pressed] [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+        - text: Lista
+      - button "Diagrama" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+        - text: Diagrama
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - region "primer Año Copiar enlace a 1er año" [ref=e18]:
+        - generic [ref=e19]:
+          - heading "primer Año Copiar enlace a 1er año" [level=2] [ref=e21]:
+            - generic "primer Año" [ref=e22]:
+              - text: "1"
+              - superscript [ref=e23]: er
+              - text: Año
+            - link "Copiar enlace a 1er año" [ref=e24] [cursor=pointer]:
+              - /url: "#1er-año"
+              - img [ref=e25]
+          - generic [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+            - combobox "Cambiar estado de todas las materias de 1° año" [ref=e31]:
+              - option "Cambiar materias a..." [disabled] [selected]
+              - option "No cursadas"
+              - option "En curso"
+              - option "Regulares"
+              - option "Aprobadas"
+        - generic [ref=e32]:
+          - heading "Primer cuatrimestre" [level=3] [ref=e33]
+          - generic [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+            - combobox "Cambiar estado de todas las materias de Primer cuatrimestre" [ref=e37]:
+              - option "Cambiar materias a..." [disabled] [selected]
+              - option "No cursadas"
+              - option "En curso"
+              - option "Regulares"
+              - option "Aprobadas"
+        - list [ref=e38]:
+          - listitem [ref=e39]:
+            - generic [ref=e40]:
+              - button "Introducción a la Matemática, 10 horas" [ref=e41] [cursor=pointer]:
+                - img [ref=e42]
+                - generic [ref=e45]: Introducción a la Matemática
+                - generic [ref=e46]: 10 hs
+              - 'combobox "Estado de Introducción a la Matemática: No cursada" [ref=e47] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e48]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e49]:
+            - generic [ref=e50]:
+              - button "Introducción a la Física, 9 horas" [ref=e51] [cursor=pointer]:
+                - img [ref=e52]
+                - generic [ref=e55]: Introducción a la Física
+                - generic [ref=e56]: 9 hs
+              - 'combobox "Estado de Introducción a la Física: No cursada" [ref=e57] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e58]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e59]:
+            - generic [ref=e60]:
+              - button "Elementos de Fisicoquímica, 6 horas" [ref=e61] [cursor=pointer]:
+                - img [ref=e62]
+                - generic [ref=e65]: Elementos de Fisicoquímica
+                - generic [ref=e66]: 6 hs
+              - 'combobox "Estado de Elementos de Fisicoquímica: No cursada" [ref=e67] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e68]: "Atajos de teclado: N, E, R, A."
+        - heading "Segundo cuatrimestre" [level=3] [ref=e70]
+        - list [ref=e71]:
+          - listitem [ref=e72]:
+            - button "Álgebra Lineal y Geometría Analítica, 10 horas, bloqueada por correlativas" [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+              - generic [ref=e78]: Álgebra Lineal y Geometría Analítica
+              - generic [ref=e79]: 10 hs
+              - generic [ref=e80]: Bloqueada
+          - listitem [ref=e81]:
+            - button "Análisis Matemático I, 10 horas, bloqueada por correlativas" [ref=e83] [cursor=pointer]:
+              - img [ref=e84]
+              - generic [ref=e87]: Análisis Matemático I
+              - generic [ref=e88]: 10 hs
+              - generic [ref=e89]: Bloqueada
+          - listitem [ref=e90]:
+            - button "Introducción a los Circuitos Eléctricos, 6 horas, bloqueada por correlativas" [ref=e92] [cursor=pointer]:
+              - img [ref=e93]
+              - generic [ref=e96]: Introducción a los Circuitos Eléctricos
+              - generic [ref=e97]: 6 hs
+              - generic [ref=e98]: Bloqueada
+      - region "segundo Año Copiar enlace a 2do año" [ref=e99]:
+        - heading "segundo Año Copiar enlace a 2do año" [level=2] [ref=e102]:
+          - generic "segundo Año" [ref=e103]:
+            - text: "2"
+            - superscript [ref=e104]: do
+            - text: Año
+          - link "Copiar enlace a 2do año" [ref=e105] [cursor=pointer]:
+            - /url: "#2do-año"
+            - img [ref=e106]
+        - heading "Primer cuatrimestre" [level=3] [ref=e110]
+        - list [ref=e111]:
+          - listitem [ref=e112]:
+            - button "Análisis Matemático II, 10 horas, bloqueada por correlativas" [ref=e114] [cursor=pointer]:
+              - img [ref=e115]
+              - generic [ref=e118]: Análisis Matemático II
+              - generic [ref=e119]: 10 hs
+              - generic [ref=e120]: Bloqueada
+          - listitem [ref=e121]:
+            - button "Física I, 10 horas, bloqueada por correlativas" [ref=e123] [cursor=pointer]:
+              - img [ref=e124]
+              - generic [ref=e127]: Física I
+              - generic [ref=e128]: 10 hs
+              - generic [ref=e129]: Bloqueada
+          - listitem [ref=e130]:
+            - button "Laboratorio I, 6 horas, bloqueada por correlativas" [ref=e132] [cursor=pointer]:
+              - img [ref=e133]
+              - generic [ref=e136]: Laboratorio I
+              - generic [ref=e137]: 6 hs
+              - generic [ref=e138]: Bloqueada
+        - heading "Segundo cuatrimestre" [level=3] [ref=e140]
+        - list [ref=e141]:
+          - listitem [ref=e142]:
+            - button "Análisis Matemático III, 10 horas, bloqueada por correlativas" [ref=e144] [cursor=pointer]:
+              - img [ref=e145]
+              - generic [ref=e148]: Análisis Matemático III
+              - generic [ref=e149]: 10 hs
+              - generic [ref=e150]: Bloqueada
+          - listitem [ref=e151]:
+            - button "Física II, 10 horas, bloqueada por correlativas" [ref=e153] [cursor=pointer]:
+              - img [ref=e154]
+              - generic [ref=e157]: Física II
+              - generic [ref=e158]: 10 hs
+              - generic [ref=e159]: Bloqueada
+          - listitem [ref=e160]:
+            - button "Laboratorio II, 6 horas, bloqueada por correlativas" [ref=e162] [cursor=pointer]:
+              - img [ref=e163]
+              - generic [ref=e166]: Laboratorio II
+              - generic [ref=e167]: 6 hs
+              - generic [ref=e168]: Bloqueada
+          - listitem [ref=e169]:
+            - generic [ref=e170]:
+              - button "Inglés, 6 horas" [ref=e171] [cursor=pointer]:
+                - img [ref=e172]
+                - generic [ref=e175]: Inglés
+                - generic [ref=e176]: 6 hs
+              - 'combobox "Estado de Inglés: No cursada" [ref=e177] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e178]: "Atajos de teclado: N, E, R, A."
+      - region "tercer Año Copiar enlace a 3er año" [ref=e179]:
+        - heading "tercer Año Copiar enlace a 3er año" [level=2] [ref=e182]:
+          - generic "tercer Año" [ref=e183]:
+            - text: "3"
+            - superscript [ref=e184]: er
+            - text: Año
+          - link "Copiar enlace a 3er año" [ref=e185] [cursor=pointer]:
+            - /url: "#3er-año"
+            - img [ref=e186]
+        - heading "Primer cuatrimestre" [level=3] [ref=e190]
+        - list [ref=e191]:
+          - listitem [ref=e192]:
+            - button "Mecánica, 9 horas, bloqueada por correlativas" [ref=e194] [cursor=pointer]:
+              - img [ref=e195]
+              - generic [ref=e198]: Mecánica
+              - generic [ref=e199]: 9 hs
+              - generic [ref=e200]: Bloqueada
+          - listitem [ref=e201]:
+            - button "Termodinámica I, 9 horas, bloqueada por correlativas" [ref=e203] [cursor=pointer]:
+              - img [ref=e204]
+              - generic [ref=e207]: Termodinámica I
+              - generic [ref=e208]: 9 hs
+              - generic [ref=e209]: Bloqueada
+          - listitem [ref=e210]:
+            - button "Física Moderna I, 8 horas, bloqueada por correlativas" [ref=e212] [cursor=pointer]:
+              - img [ref=e213]
+              - generic [ref=e216]: Física Moderna I
+              - generic [ref=e217]: 8 hs
+              - generic [ref=e218]: Bloqueada
+        - heading "Segundo cuatrimestre" [level=3] [ref=e220]
+        - list [ref=e221]:
+          - listitem [ref=e222]:
+            - button "Electromagnetismo, 9 horas, bloqueada por correlativas" [ref=e224] [cursor=pointer]:
+              - img [ref=e225]
+              - generic [ref=e228]: Electromagnetismo
+              - generic [ref=e229]: 9 hs
+              - generic [ref=e230]: Bloqueada
+          - listitem [ref=e231]:
+            - button "Física Moderna II, 8 horas, bloqueada por correlativas" [ref=e233] [cursor=pointer]:
+              - img [ref=e234]
+              - generic [ref=e237]: Física Moderna II
+              - generic [ref=e238]: 8 hs
+              - generic [ref=e239]: Bloqueada
+          - listitem [ref=e240]:
+            - button "Laboratorio de Componentes y Mediciones, 9 horas, bloqueada por correlativas" [ref=e242] [cursor=pointer]:
+              - img [ref=e243]
+              - generic [ref=e246]: Laboratorio de Componentes y Mediciones
+              - generic [ref=e247]: 9 hs
+              - generic [ref=e248]: Bloqueada
+      - region "cuarto Año Copiar enlace a 4to año" [ref=e249]:
+        - heading "cuarto Año Copiar enlace a 4to año" [level=2] [ref=e252]:
+          - generic "cuarto Año" [ref=e253]:
+            - text: "4"
+            - superscript [ref=e254]: to
+            - text: Año
+          - link "Copiar enlace a 4to año" [ref=e255] [cursor=pointer]:
+            - /url: "#4to-año"
+            - img [ref=e256]
+        - heading "Primer cuatrimestre" [level=3] [ref=e260]
+        - list [ref=e261]:
+          - listitem [ref=e262]:
+            - button "Mecánica Cuántica, 10 horas, bloqueada por correlativas" [ref=e264] [cursor=pointer]:
+              - img [ref=e265]
+              - generic [ref=e268]: Mecánica Cuántica
+              - generic [ref=e269]: 10 hs
+              - generic [ref=e270]: Bloqueada
+          - listitem [ref=e271]:
+            - button "Mecánica de Fluidos, 9 horas, bloqueada por correlativas" [ref=e273] [cursor=pointer]:
+              - img [ref=e274]
+              - generic [ref=e277]: Mecánica de Fluidos
+              - generic [ref=e278]: 9 hs
+              - generic [ref=e279]: Bloqueada
+        - heading "Segundo cuatrimestre" [level=3] [ref=e281]
+        - list [ref=e282]:
+          - listitem [ref=e283]:
+            - button "Óptica I, 8 horas, bloqueada por correlativas" [ref=e285] [cursor=pointer]:
+              - img [ref=e286]
+              - generic [ref=e289]: Óptica I
+              - generic [ref=e290]: 8 hs
+              - generic [ref=e291]: Bloqueada
+          - listitem [ref=e292]:
+            - button "Mecánica Estadística, 9 horas, bloqueada por correlativas" [ref=e294] [cursor=pointer]:
+              - img [ref=e295]
+              - generic [ref=e298]: Mecánica Estadística
+              - generic [ref=e299]: 9 hs
+              - generic [ref=e300]: Bloqueada
+          - listitem [ref=e301]:
+            - button "Transferencia de Calor y Materia, 9 horas, bloqueada por correlativas" [ref=e303] [cursor=pointer]:
+              - img [ref=e304]
+              - generic [ref=e307]: Transferencia de Calor y Materia
+              - generic [ref=e308]: 9 hs
+              - generic [ref=e309]: Bloqueada
+      - region "quinto Año Copiar enlace a 5to año" [ref=e310]:
+        - heading "quinto Año Copiar enlace a 5to año" [level=2] [ref=e313]:
+          - generic "quinto Año" [ref=e314]:
+            - text: "5"
+            - superscript [ref=e315]: to
+            - text: Año
+          - link "Copiar enlace a 5to año" [ref=e316] [cursor=pointer]:
+            - /url: "#5to-año"
+            - img [ref=e317]
+        - heading "Primer cuatrimestre" [level=3] [ref=e321]
+        - list [ref=e322]:
+          - listitem [ref=e323]:
+            - generic [ref=e324]:
+              - button "Astrofísica General" [ref=e325] [cursor=pointer]:
+                - img [ref=e326]
+                - generic [ref=e328]:
+                  - generic [ref=e329]: Astrofísica General
+                  - generic [ref=e330]: Optativa
+              - 'combobox "Estado de Astrofísica General: No cursada" [ref=e331] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e332]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e333]:
+            - button "Mecánica Cuántica II, bloqueada por correlativas" [ref=e335] [cursor=pointer]:
+              - img [ref=e336]
+              - generic [ref=e338]:
+                - generic [ref=e339]: Mecánica Cuántica II
+                - generic [ref=e340]: Optativa
+              - generic [ref=e341]: Bloqueada
+          - listitem [ref=e342]:
+            - generic [ref=e343]:
+              - button "Física Experimental I" [ref=e344] [cursor=pointer]:
+                - img [ref=e345]
+                - generic [ref=e347]:
+                  - generic [ref=e348]: Física Experimental I
+                  - generic [ref=e349]: Optativa
+              - 'combobox "Estado de Física Experimental I: No cursada" [ref=e350] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada" [disabled]
+              - generic [ref=e351]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e352]:
+            - generic [ref=e353]:
+              - button "Introducción a la Estadística del no Equilibrio y sus Aplicaciones" [ref=e354] [cursor=pointer]:
+                - img [ref=e355]
+                - generic [ref=e357]:
+                  - generic [ref=e358]: Introducción a la Estadística del no Equilibrio y sus Aplicaciones
+                  - generic [ref=e359]: Optativa
+              - 'combobox "Estado de Introducción a la Estadística del no Equilibrio y sus Aplicaciones: No cursada" [ref=e360] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e361]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e362]:
+            - generic [ref=e363]:
+              - button "Introducción al Análisis de Series temporales con Machine Learning" [ref=e364] [cursor=pointer]:
+                - img [ref=e365]
+                - generic [ref=e367]:
+                  - generic [ref=e368]: Introducción al Análisis de Series temporales con Machine Learning
+                  - generic [ref=e369]: Optativa
+              - 'combobox "Estado de Introducción al Análisis de Series temporales con Machine Learning: No cursada" [ref=e370] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e371]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e372]:
+            - button "Complemento de Electromagnetismo, bloqueada por correlativas" [ref=e374] [cursor=pointer]:
+              - img [ref=e375]
+              - generic [ref=e377]:
+                - generic [ref=e378]: Complemento de Electromagnetismo
+                - generic [ref=e379]: Optativa
+              - generic [ref=e380]: Bloqueada
+          - listitem [ref=e381]:
+            - generic [ref=e382]:
+              - button "Física Computacional" [ref=e383] [cursor=pointer]:
+                - img [ref=e384]
+                - generic [ref=e386]:
+                  - generic [ref=e387]: Física Computacional
+                  - generic [ref=e388]: Optativa
+              - 'combobox "Estado de Física Computacional: No cursada" [ref=e389] [cursor=pointer]':
+                - option "No cursada" [selected]
+                - option "En curso"
+                - option "Regular"
+                - option "Aprobada"
+              - generic [ref=e390]: "Atajos de teclado: N, E, R, A."
+          - listitem [ref=e391]:
+            - button "Física Ambiental, bloqueada por correlativas" [ref=e393] [cursor=pointer]:
+              - img [ref=e394]
+              - generic [ref=e396]:
+                - generic [ref=e397]: Física Ambiental
+                - generic [ref=e398]: Optativa
+              - generic [ref=e399]: Bloqueada
+        - heading "Segundo cuatrimestre" [level=3] [ref=e401]
+        - list [ref=e402]:
+          - listitem [ref=e403]:
+            - button "Trabajo Final, 10 horas, bloqueada por correlativas" [ref=e405] [cursor=pointer]:
+              - img [ref=e406]
+              - generic [ref=e409]: Trabajo Final
+              - generic [ref=e410]: 10 hs
+              - generic [ref=e411]: Bloqueada
+    - generic [ref=e412]:
+      - button "Compartir plan de estudios y el estado de las materias" [ref=e413] [cursor=pointer]:
+        - img [ref=e414]
+        - generic [ref=e420]:
+          - generic [ref=e421]: Compartir plan de estudios
+          - generic [ref=e422]: y el estado de las materias
+      - button "Copiar link para compartir" [ref=e423] [cursor=pointer]:
+        - img [ref=e424]
+        - generic [ref=e427]: Copiar link para compartir
+    - region "Qué podés cursar Copiar enlace a Qué podés cursar" [ref=e428]:
+      - heading "Qué podés cursar Copiar enlace a Qué podés cursar" [level=2] [ref=e429]:
+        - text: Qué podés cursar
+        - link "Copiar enlace a Qué podés cursar" [ref=e430] [cursor=pointer]:
+          - /url: "#disponibles"
+          - img [ref=e431]
+      - generic [ref=e434]:
+        - paragraph [ref=e435]: En tu situación actual, estas son las 9 materias que podés cursar. El número junto al candado indica cuántas materias desbloquea.
+        - generic [ref=e436]:
+          - heading "Primer cuatrimestre (8 materias)" [level=4] [ref=e437]
+          - list [ref=e438]:
+            - listitem [ref=e439]:
+              - link "Introducción a la Matemática" [ref=e440] [cursor=pointer]:
+                - /url: "#Introducción-a-la-Matemática"
+              - generic [ref=e441]:
+                - text: de
+                - generic "primer año" [ref=e442]:
+                  - text: "1"
+                  - superscript [ref=e443]: er
+                  - text: año
+              - generic "Desbloquea 23 materias" [ref=e444]:
+                - img [ref=e445]
+                - text: "23"
+            - listitem [ref=e447]:
+              - link "Introducción a la Física" [ref=e448] [cursor=pointer]:
+                - /url: "#Introducción-a-la-Física"
+              - generic [ref=e449]:
+                - text: de
+                - generic "primer año" [ref=e450]:
+                  - text: "1"
+                  - superscript [ref=e451]: er
+                  - text: año
+              - generic "Desbloquea 20 materias" [ref=e452]:
+                - img [ref=e453]
+                - text: "20"
+            - listitem [ref=e455]:
+              - link "Elementos de Fisicoquímica" [ref=e456] [cursor=pointer]:
+                - /url: "#Elementos-de-Fisicoquímica"
+              - generic [ref=e457]:
+                - text: de
+                - generic "primer año" [ref=e458]:
+                  - text: "1"
+                  - superscript [ref=e459]: er
+                  - text: año
+              - generic "Desbloquea 9 materias" [ref=e460]:
+                - img [ref=e461]
+                - text: "9"
+            - listitem [ref=e463]:
+              - link "Astrofísica General" [ref=e464] [cursor=pointer]:
+                - /url: "#Astrofísica-General"
+              - text: (optativa)
+              - generic [ref=e465]:
+                - text: de
+                - generic "quinto año" [ref=e466]:
+                  - text: "5"
+                  - superscript [ref=e467]: to
+                  - text: año
+            - listitem [ref=e468]:
+              - link "Física Experimental I" [ref=e469] [cursor=pointer]:
+                - /url: "#Física-Experimental-I"
+              - text: (optativa)
+              - generic [ref=e470]:
+                - text: de
+                - generic "quinto año" [ref=e471]:
+                  - text: "5"
+                  - superscript [ref=e472]: to
+                  - text: año
+            - listitem [ref=e473]:
+              - link "Introducción a la Estadística del no Equilibrio y sus Aplicaciones" [ref=e474] [cursor=pointer]:
+                - /url: "#Introducción-a-la-Estadística-del-no-Equilibrio-y-sus-Aplicaciones"
+              - text: (optativa)
+              - generic [ref=e475]:
+                - text: de
+                - generic "quinto año" [ref=e476]:
+                  - text: "5"
+                  - superscript [ref=e477]: to
+                  - text: año
+            - listitem [ref=e478]:
+              - link "Introducción al Análisis de Series temporales con Machine Learning" [ref=e479] [cursor=pointer]:
+                - /url: "#Introducción-al-Análisis-de-Series-temporales-con-Machine-Learning"
+              - text: (optativa)
+              - generic [ref=e480]:
+                - text: de
+                - generic "quinto año" [ref=e481]:
+                  - text: "5"
+                  - superscript [ref=e482]: to
+                  - text: año
+            - listitem [ref=e483]:
+              - link "Física Computacional" [ref=e484] [cursor=pointer]:
+                - /url: "#Física-Computacional"
+              - text: (optativa)
+              - generic [ref=e485]:
+                - text: de
+                - generic "quinto año" [ref=e486]:
+                  - text: "5"
+                  - superscript [ref=e487]: to
+                  - text: año
+        - generic [ref=e488]:
+          - heading "Segundo cuatrimestre (1 materia)" [level=4] [ref=e489]
+          - list [ref=e490]:
+            - listitem [ref=e491]:
+              - link "Inglés" [ref=e492] [cursor=pointer]:
+                - /url: "#Inglés"
+              - generic [ref=e493]:
+                - text: de
+                - generic "segundo año" [ref=e494]:
+                  - text: "2"
+                  - superscript [ref=e495]: do
+                  - text: año
+              - generic "Desbloquea 11 materias" [ref=e496]:
+                - img [ref=e497]
+                - text: "11"
+    - region "Estadísticas Copiar enlace a Estadísticas" [ref=e499]:
+      - heading "Estadísticas Copiar enlace a Estadísticas" [level=2] [ref=e500]:
+        - text: Estadísticas
+        - link "Copiar enlace a Estadísticas" [ref=e501] [cursor=pointer]:
+          - /url: "#estadisticas"
+          - img [ref=e502]
+      - generic [ref=e505]:
+        - generic [ref=e506]:
+          - generic [ref=e507]:
+            - generic [ref=e508]: Avance de carrera
+            - progressbar "Avance de carrera" [ref=e510]:
+              - img [ref=e511]
+              - generic [ref=e515]:
+                - text: "0"
+                - generic [ref=e516]: "%"
+          - generic [ref=e517]:
+            - generic [ref=e518]:
+              - generic [ref=e519]: Distribución de estados
+              - generic [ref=e520]: 33 materias
+            - generic [ref=e523]:
+              - generic [ref=e524]: No cursada (33)
+              - generic [ref=e526]: En curso (0)
+              - generic [ref=e528]: Regular (0)
+              - generic [ref=e530]: Aprobada (0)
+          - region "Materias aprobadas por año" [ref=e532]:
+            - heading "Materias aprobadas por año" [level=3] [ref=e533]
+            - list [ref=e534]:
+              - listitem [ref=e535]:
+                - generic "primer año" [ref=e537]:
+                  - text: "1"
+                  - superscript [ref=e538]: er
+                  - text: año
+                - generic [ref=e546]: 0/6
+                - generic [ref=e547]: 0 de 6
+              - listitem [ref=e548]:
+                - generic "segundo año" [ref=e550]:
+                  - text: "2"
+                  - superscript [ref=e551]: do
+                  - text: año
+                - generic [ref=e560]: 0/7
+                - generic [ref=e561]: 0 de 7
+              - listitem [ref=e562]:
+                - generic "tercer año" [ref=e564]:
+                  - text: "3"
+                  - superscript [ref=e565]: er
+                  - text: año
+                - generic [ref=e573]: 0/6
+                - generic [ref=e574]: 0 de 6
+              - listitem [ref=e575]:
+                - generic "cuarto año" [ref=e577]:
+                  - text: "4"
+                  - superscript [ref=e578]: to
+                  - text: año
+                - generic [ref=e585]: 0/5
+                - generic [ref=e586]: 0 de 5
+              - listitem [ref=e587]:
+                - generic "quinto año" [ref=e589]:
+                  - text: "5"
+                  - superscript [ref=e590]: to
+                  - text: año
+                - generic [ref=e601]: 0/9
+                - generic [ref=e602]: 0 de 9
+        - list [ref=e603]:
+          - listitem [ref=e604]:
+            - generic [ref=e605]:
+              - generic [ref=e607]: Materias aprobadas
+              - generic [ref=e608]:
+                - generic [ref=e609]: "0"
+                - generic [ref=e610]: de
+                - generic [ref=e611]: "33"
+                - generic [ref=e612]: mat.
+          - listitem [ref=e613]:
+            - generic [ref=e614]:
+              - generic [ref=e616]: Materias obligatorias aprobadas
+              - generic [ref=e617]:
+                - generic [ref=e618]: "0"
+                - generic [ref=e619]: de
+                - generic [ref=e620]: "25"
+                - generic [ref=e621]: mat.
+          - listitem [ref=e622]:
+            - generic [ref=e623]:
+              - generic [ref=e624]:
+                - generic [ref=e625]: Materias optativas requeridas aprobadas
+                - generic [ref=e626]: 8 optativas disponibles en el plan
+              - generic [ref=e627]:
+                - generic [ref=e628]: "0"
+                - generic [ref=e629]: de
+                - generic [ref=e630]: "2"
+                - generic [ref=e631]: mat.
+          - listitem [ref=e632]:
+            - generic [ref=e633]:
+              - generic [ref=e635]: Años aprobados
+              - generic [ref=e636]:
+                - generic [ref=e637]: "0"
+                - generic [ref=e638]: de
+                - generic [ref=e639]: "5"
+                - generic [ref=e640]: años
+          - listitem [ref=e641]:
+            - generic [ref=e642]:
+              - generic [ref=e644]: Horas cátedra semanales en curso
+              - generic [ref=e645]:
+                - generic [ref=e646]: "0"
+                - generic [ref=e647]: hs.
+    - region "Orden de prioridad sugerido Copiar enlace a Orden de prioridad sugerido" [ref=e648]:
+      - heading "Orden de prioridad sugerido Copiar enlace a Orden de prioridad sugerido" [level=2] [ref=e649]:
+        - text: Orden de prioridad sugerido
+        - link "Copiar enlace a Orden de prioridad sugerido" [ref=e650] [cursor=pointer]:
+          - /url: "#prioridad"
+          - img [ref=e651]
+      - paragraph [ref=e654]: Todas las materias ordenadas por cantidad de otras que desbloquean. Las que están más arriba son requisito de más materias, así que conviene priorizarlas.
+      - generic [ref=e655]:
+        - generic [ref=e656]:
+          - generic [ref=e657] [cursor=pointer]:
+            - checkbox "Mostrar materias aprobadas" [checked] [ref=e658]
+            - text: Mostrar materias aprobadas
+          - generic [ref=e659] [cursor=pointer]:
+            - checkbox "Mostrar materias optativas" [checked] [ref=e660]
+            - text: Mostrar materias optativas
+        - table [ref=e661]:
+          - rowgroup [ref=e662]:
+            - row "# Materia" [ref=e663]:
+              - columnheader "#" [ref=e664]
+              - columnheader "Materia" [ref=e665]
+              - columnheader "Cantidad de materias que desbloquea" [ref=e666]:
+                - img [ref=e667]
+          - rowgroup [ref=e669]:
+            - row "1 Introducción a la Matemática de primer año No cursada 23" [ref=e670]:
+              - cell "1" [ref=e671]
+              - cell "Introducción a la Matemática de primer año No cursada" [ref=e672]:
+                - generic [ref=e673]:
+                  - link "Introducción a la Matemática" [ref=e674] [cursor=pointer]:
+                    - /url: "#Introducción-a-la-Matemática"
+                  - generic [ref=e675]:
+                    - text: de
+                    - generic "primer año" [ref=e676]:
+                      - text: "1"
+                      - superscript [ref=e677]: er
+                      - text: año
+                  - generic [ref=e678]: No cursada
+              - cell "23" [ref=e679]
+            - row "2 Introducción a la Física de primer año No cursada 20" [ref=e680]:
+              - cell "2" [ref=e681]
+              - cell "Introducción a la Física de primer año No cursada" [ref=e682]:
+                - generic [ref=e683]:
+                  - link "Introducción a la Física" [ref=e684] [cursor=pointer]:
+                    - /url: "#Introducción-a-la-Física"
+                  - generic [ref=e685]:
+                    - text: de
+                    - generic "primer año" [ref=e686]:
+                      - text: "1"
+                      - superscript [ref=e687]: er
+                      - text: año
+                  - generic [ref=e688]: No cursada
+              - cell "20" [ref=e689]
+            - row "3 Álgebra Lineal y Geometría Analítica de primer año No cursada 20" [ref=e690]:
+              - cell "3" [ref=e691]
+              - cell "Álgebra Lineal y Geometría Analítica de primer año No cursada" [ref=e692]:
+                - generic [ref=e693]:
+                  - link "Álgebra Lineal y Geometría Analítica" [ref=e694] [cursor=pointer]:
+                    - /url: "#Álgebra-Lineal-y-Geometría-Analítica"
+                  - generic [ref=e695]:
+                    - text: de
+                    - generic "primer año" [ref=e696]:
+                      - text: "1"
+                      - superscript [ref=e697]: er
+                      - text: año
+                  - generic [ref=e698]: No cursada
+              - cell "20" [ref=e699]
+            - row "4 Análisis Matemático I de primer año No cursada 19" [ref=e700]:
+              - cell "4" [ref=e701]
+              - cell "Análisis Matemático I de primer año No cursada" [ref=e702]:
+                - generic [ref=e703]:
+                  - link "Análisis Matemático I" [ref=e704] [cursor=pointer]:
+                    - /url: "#Análisis-Matemático-I"
+                  - generic [ref=e705]:
+                    - text: de
+                    - generic "primer año" [ref=e706]:
+                      - text: "1"
+                      - superscript [ref=e707]: er
+                      - text: año
+                  - generic [ref=e708]: No cursada
+              - cell "19" [ref=e709]
+            - row "5 Análisis Matemático II de segundo año No cursada 17" [ref=e710]:
+              - cell "5" [ref=e711]
+              - cell "Análisis Matemático II de segundo año No cursada" [ref=e712]:
+                - generic [ref=e713]:
+                  - link "Análisis Matemático II" [ref=e714] [cursor=pointer]:
+                    - /url: "#Análisis-Matemático-II"
+                  - generic [ref=e715]:
+                    - text: de
+                    - generic "segundo año" [ref=e716]:
+                      - text: "2"
+                      - superscript [ref=e717]: do
+                      - text: año
+                  - generic [ref=e718]: No cursada
+              - cell "17" [ref=e719]
+            - row "6 Física I de segundo año No cursada 16" [ref=e720]:
+              - cell "6" [ref=e721]
+              - cell "Física I de segundo año No cursada" [ref=e722]:
+                - generic [ref=e723]:
+                  - link "Física I" [ref=e724] [cursor=pointer]:
+                    - /url: "#Física-I"
+                  - generic [ref=e725]:
+                    - text: de
+                    - generic "segundo año" [ref=e726]:
+                      - text: "2"
+                      - superscript [ref=e727]: do
+                      - text: año
+                  - generic [ref=e728]: No cursada
+              - cell "16" [ref=e729]
+            - row "7 Física II de segundo año No cursada 12" [ref=e730]:
+              - cell "7" [ref=e731]
+              - cell "Física II de segundo año No cursada" [ref=e732]:
+                - generic [ref=e733]:
+                  - link "Física II" [ref=e734] [cursor=pointer]:
+                    - /url: "#Física-II"
+                  - generic [ref=e735]:
+                    - text: de
+                    - generic "segundo año" [ref=e736]:
+                      - text: "2"
+                      - superscript [ref=e737]: do
+                      - text: año
+                  - generic [ref=e738]: No cursada
+              - cell "12" [ref=e739]
+            - row "8 Inglés de segundo año No cursada 11" [ref=e740]:
+              - cell "8" [ref=e741]
+              - cell "Inglés de segundo año No cursada" [ref=e742]:
+                - generic [ref=e743]:
+                  - link "Inglés" [ref=e744] [cursor=pointer]:
+                    - /url: "#Inglés"
+                  - generic [ref=e745]:
+                    - text: de
+                    - generic "segundo año" [ref=e746]:
+                      - text: "2"
+                      - superscript [ref=e747]: do
+                      - text: año
+                  - generic [ref=e748]: No cursada
+              - cell "11" [ref=e749]
+            - row "9 Análisis Matemático III de segundo año No cursada 10" [ref=e750]:
+              - cell "9" [ref=e751]
+              - cell "Análisis Matemático III de segundo año No cursada" [ref=e752]:
+                - generic [ref=e753]:
+                  - link "Análisis Matemático III" [ref=e754] [cursor=pointer]:
+                    - /url: "#Análisis-Matemático-III"
+                  - generic [ref=e755]:
+                    - text: de
+                    - generic "segundo año" [ref=e756]:
+                      - text: "2"
+                      - superscript [ref=e757]: do
+                      - text: año
+                  - generic [ref=e758]: No cursada
+              - cell "10" [ref=e759]
+            - row "10 Elementos de Fisicoquímica de primer año No cursada 9" [ref=e760]:
+              - cell "10" [ref=e761]
+              - cell "Elementos de Fisicoquímica de primer año No cursada" [ref=e762]:
+                - generic [ref=e763]:
+                  - link "Elementos de Fisicoquímica" [ref=e764] [cursor=pointer]:
+                    - /url: "#Elementos-de-Fisicoquímica"
+                  - generic [ref=e765]:
+                    - text: de
+                    - generic "primer año" [ref=e766]:
+                      - text: "1"
+                      - superscript [ref=e767]: er
+                      - text: año
+                  - generic [ref=e768]: No cursada
+              - cell "9" [ref=e769]
+        - button "Mostrar todas" [ref=e770] [cursor=pointer]:
+          - text: Mostrar todas
+          - img [ref=e771]
+    - region "Datos del Plan de Estudios Copiar enlace a Datos del Plan de Estudios" [ref=e773]:
+      - heading "Datos del Plan de Estudios Copiar enlace a Datos del Plan de Estudios" [level=2] [ref=e774]:
+        - text: Datos del Plan de Estudios
+        - link "Copiar enlace a Datos del Plan de Estudios" [ref=e775] [cursor=pointer]:
+          - /url: "#datos"
+          - img [ref=e776]
+      - list [ref=e779]:
+        - listitem [ref=e780]: "Carrera: Licenciatura en Física"
+        - listitem [ref=e781]: "Facultad: Facultad de Ciencias Exactas (FCE)"
+        - listitem [ref=e782]: "Universidad: Universidad Nacional de Salta (UNSa)"
+        - listitem [ref=e783]: "Duración: 5 años"
+        - listitem [ref=e784]: "Año de aprobación: 2005"
+    - region "Notas Copiar enlace a Notas" [ref=e785]:
+      - heading "Notas Copiar enlace a Notas" [level=2] [ref=e786]:
+        - text: Notas
+        - link "Copiar enlace a Notas" [ref=e787] [cursor=pointer]:
+          - /url: "#notas"
+          - img [ref=e788]
+      - list [ref=e791]:
+        - listitem [ref=e792]:
+          - paragraph [ref=e793]:
+            - text: Para cursar el
+            - strong [ref=e794]: Trabajo Final
+            - text: ", se requiere regular algunas materias dependiendo del trabajo propuesto y haber aprobado el 80% de las materias. Para rendir el"
+            - strong [ref=e795]: Trabajo Final
+            - text: ", se deben tener aprobadas todas las materias restantes de la carrera."
+        - listitem [ref=e796]:
+          - paragraph [ref=e797]:
+            - text: Se deben aprobar
+            - strong [ref=e798]: 2 materias optativas
+            - text: (Optativa I y Optativa II) de la lista de electivas disponibles en el 5
+            - superscript [ref=e799]: to
+            - text: año para completar la carrera.
+        - listitem [ref=e800]:
+          - paragraph [ref=e801]:
+            - text: Se omiten requisitos redundantes. Por ejemplo,
+            - strong [ref=e802]: Introducción a la Matemática
+            - text: no se exige para cursar
+            - strong [ref=e803]: Laboratorio I
+            - text: porque ya es requisito para cursar
+            - strong [ref=e804]: Álgebra Lineal y Geometría Analítica
+            - text: ", que también es necesaria para cursar"
+            - strong [ref=e805]: Laboratorio I
+            - text: .
+    - region "Fuentes Copiar enlace a Fuentes" [ref=e806]:
+      - heading "Fuentes Copiar enlace a Fuentes" [level=2] [ref=e807]:
+        - text: Fuentes
+        - link "Copiar enlace a Fuentes" [ref=e808] [cursor=pointer]:
+          - /url: "#fuentes"
+          - img [ref=e809]
+      - list [ref=e812]:
+        - listitem [ref=e813]:
+          - link "Plan de Estudios" [ref=e814] [cursor=pointer]:
+            - /url: https://exactas.unsa.edu.ar/carreras/info/6
+        - listitem [ref=e815]:
+          - link "Res. Ministerial N° 478/04 - C.S. Nº585/17, 661/04 - RESCD-EXA N°646/17, 328/04" [ref=e816] [cursor=pointer]:
+            - /url: https://bo.unsa.edu.ar/cs/R2017/R-CS-2017-0585.pdf
+    - region "Referencias Copiar enlace a Referencias" [ref=e817]:
+      - heading "Referencias Copiar enlace a Referencias" [level=2] [ref=e818]:
+        - text: Referencias
+        - link "Copiar enlace a Referencias" [ref=e819] [cursor=pointer]:
+          - /url: "#referencias"
+          - img [ref=e820]
+      - paragraph [ref=e823]: "Posibles estados de una materia:"
+      - list [ref=e824]:
+        - listitem [ref=e825]:
+          - generic [ref=e826]: No cursada
+          - text: ": Aún no has asistido a sus clases."
+        - listitem [ref=e827]:
+          - generic [ref=e828]: En curso
+          - text: ": Estás asistiendo a sus clases."
+        - listitem [ref=e829]:
+          - generic [ref=e830]: Regular
+          - text: ": Aprobaste la cursada pero aún debés rendir su examen final."
+        - listitem [ref=e831]:
+          - generic [ref=e832]: Aprobada
+          - text: ": Ya la cursaste, rendiste y aprobaste."
+    - region "Exportar Copiar enlace a Exportar" [ref=e833]:
+      - heading "Exportar Copiar enlace a Exportar" [level=2] [ref=e834]:
+        - text: Exportar
+        - link "Copiar enlace a Exportar" [ref=e835] [cursor=pointer]:
+          - /url: "#exportar"
+          - img [ref=e836]
+      - paragraph [ref=e839]: Exportá las materias del plan de estudios y su estado en diferentes formatos.
+      - generic [ref=e840]:
+        - button "Descargar CSV" [ref=e841] [cursor=pointer]:
+          - img [ref=e842]
+          - generic [ref=e845]: Descargar CSV
+        - button "Descargar JSON" [ref=e846] [cursor=pointer]:
+          - img [ref=e847]
+          - generic [ref=e850]: Descargar JSON
+        - button "Descargar TOON" [ref=e851] [cursor=pointer]:
+          - img [ref=e852]
+          - generic [ref=e855]: Descargar TOON
+    - region "Configuración Copiar enlace a Configuración" [ref=e856]:
+      - heading "Configuración Copiar enlace a Configuración" [level=2] [ref=e857]:
+        - text: Configuración
+        - link "Copiar enlace a Configuración" [ref=e858] [cursor=pointer]:
+          - /url: "#configuracion"
+          - img [ref=e859]
+      - generic [ref=e862]:
+        - generic [ref=e863] [cursor=pointer]:
+          - generic [ref=e864]:
+            - strong [ref=e865]: Modo estricto
+            - text: Los requisitos de las materias son obligatorios
+          - checkbox "Modo estricto Los requisitos de las materias son obligatorios" [checked] [ref=e866]
+        - generic [ref=e867] [cursor=pointer]:
+          - generic [ref=e868]:
+            - strong [ref=e869]: Mostrar identificadores
+            - text: Los códigos de las materias se muestran junto a sus nombres
+          - checkbox "Mostrar identificadores Los códigos de las materias se muestran junto a sus nombres" [ref=e870]
+        - generic [ref=e871] [cursor=pointer]:
+          - generic [ref=e872]:
+            - strong [ref=e873]: Botón cíclico para estados
+            - text: Reemplaza el desplegable por un botón que rota entre estados
+          - checkbox "Botón cíclico para estados Reemplaza el desplegable por un botón que rota entre estados" [ref=e874]
+        - button "Reiniciar progreso Se perderán estados de materias, notas y configuraciones" [ref=e875] [cursor=pointer]:
+          - generic [ref=e876]:
+            - strong [ref=e877]: Reiniciar progreso
+            - text: Se perderán estados de materias, notas y configuraciones
+          - img [ref=e878]
+  - generic [ref=e881]:
+    - paragraph [ref=e882]:
+      - strong [ref=e883]: Plande podría tener errores o información incompleta
+      - text: . No tomen decisiones cruciales sobre sus estudios basándose únicamente en la información proporcionada aquí. Recuerden consultar a sus asesores académicos o fuentes oficiales de la Facultad de Ciencias Exactas (FCE) de la Universidad Nacional de Salta (UNSa) para obtener orientación precisa y actualizada.
+    - paragraph [ref=e884]: Esta aplicación es una iniciativa independiente y no está afiliada ni respaldada por la universidad. Cualquier información proporcionada aquí es resultado de esfuerzos individuales y no representa oficialmente a la institución educativa.
+  - contentinfo [ref=e885]:
+    - paragraph [ref=e886]:
+      - text: ¿Tenés dudas, sugerencias o errores?
+      - link "Escribime" [ref=e887] [cursor=pointer]:
+        - /url: https://forms.gle/5iR99PJAffwFmayC6
+      - text: .
+    - paragraph [ref=e888]:
+      - text: ¿Te gustó Plande?
+      - link "Invitame un café" [ref=e889] [cursor=pointer]:
+        - /url: https://cafecito.app/valentincostam
+      - text: .
+    - paragraph [ref=e890]:
+      - link "Plande" [ref=e891] [cursor=pointer]:
+        - /url: ./
+      - text: · Creado por
+      - link "Valentín Costa" [ref=e892] [cursor=pointer]:
+        - /url: https://valentincosta.com
+    - generic [ref=e893]:
+      - img [ref=e895]
+      - 'button "Tema: Sistema" [ref=e897]':
+        - generic [ref=e899]: Sistema
+    - generic [ref=e900]: Activar para cambiar a Claro.

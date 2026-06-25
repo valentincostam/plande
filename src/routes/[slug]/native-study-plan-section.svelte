@@ -38,7 +38,9 @@
 			section.terms
 				.flatMap((term) => term.items)
 				.forEach((item) => {
-					item.item.state = newState;
+					item.item.setState(newState, {
+						allowInvalidPassedState: newState === courseStates.passed
+					});
 				});
 		}
 		selectValue = '';
@@ -67,7 +69,7 @@
 					label={`Cambiar estado de todas las materias de ${section.year}° año`}
 					{onchange}
 					bind:value={selectValue}
-					canPass={section.section.canPass}
+					canPass={true}
 				/>
 			{/if}
 		</header>
