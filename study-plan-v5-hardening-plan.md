@@ -2,6 +2,13 @@
 
 Ejecutor: agente autónomo. Este documento es la única fuente de verdad del trabajo. Leer antes de empezar: `docs/testing.md`, `docs/svelte.md`, `docs/architecture.md`, `study-plan-master-plan.md` (contexto histórico).
 
+## Estado de ejecución
+
+- **Fase 1: COMPLETADA** (commit `79a6680`). Serialización unificada por seqId (courses+milestones en un solo `s=`), sin `m=`, sin `allowInvalidPassedState`, undo/reset/localStorage/og indexados unificado. Golden fixtures legacy en `src/lib/legacy-url-compat.svelte.test.ts`. E2E nuevos en `e2e/milestone-persistence.spec.ts`.
+- **Fase 2: COMPLETADA** (commit `d4b0529`). `evaluateProgress` recursivo; graduación `{id,label,expr,weight}` (los 43 planes migrados con codemod, weight explícito en todos los sum); selectores `all`/`sections`; nodo `countOf` (en lugar de `count.of` — tipado más estricto, misma expresividad); `req.every`/`req.countOf`; ciclos solo sobre edges directos; registry seqId en `src/routes/[slug]/data/seq-id-registry.json` + test de enforcement + `bun run registry:seq`; UNaHur enforced (E2E `e2e/count-gated-courses.spec.ts`); harness muerto de equivalencia eliminado.
+- **Nota Fase 2:** `meetsRequirementState` quedó unificado en el evaluador y `isViewRequirementMet` delega en él; la copia inline en `native-dependent.svelte` queda para la Fase 3 (renderer recursivo la reemplaza entera).
+- **Fases 0 y 3-6: PENDIENTES.**
+
 ## Objetivo
 
 Cerrar los bugs confirmados del review de la rama `study-plan-v5-spec`, generalizar el motor de requisitos para cubrir el espacio real de correlatividades argentinas, y dejar la UI consumiendo el modelo nativo sin adapters. Sin deuda técnica remanente.
