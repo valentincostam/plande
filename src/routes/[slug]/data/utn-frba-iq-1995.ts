@@ -3036,19 +3036,29 @@ export const utnFrbaIq1995: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       },
       {
         "id": "elective-hours",
         "label": "Horas electivas requeridas",
-        "type": "sum",
-        "selector": {
-          "type": "tag",
-          "tag": "progress-elective"
+        "expr": {
+          "type": "sum",
+          "selector": {
+            "type": "tag",
+            "tag": "progress-elective"
+          },
+          "metric": "hours",
+          "min": 44,
+          "state": "passed"
         },
-        "metric": "hours",
-        "min": 44,
-        "state": "passed",
         "weight": 11
       }
     ]

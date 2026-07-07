@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { courseTerms } from './course-term';
 import { courseTypes } from './course-type';
 import { preparePlan } from './prepare-plan';
-import { place, req } from './study-plan-helpers';
+import { place, req, select } from './study-plan-helpers';
 import type { StudyPlanData } from './study-plan-data';
 
 const createBasePlan = (): StudyPlanData => ({
@@ -99,5 +99,67 @@ describe('preparePlan', () => {
 				previousSeqIds: { a: 1, b: 2 }
 			})
 		).toThrow(/Duplicate seqId/i);
+	});
+
+	it('accepts an unchanged item registered with seqId 0', () => {
+		const plan = createBasePlan();
+		plan.items[0].seqId = 0;
+
+		expect(() => preparePlan(plan, { previousSeqIds: { a: 0, b: 2 } })).not.toThrow();
+	});
+
+	it('does not treat mutual any() alternatives as a cycle', () => {
+		const plan = createBasePlan();
+		plan.items.push({
+			id: 'c',
+			seqId: 3,
+			kind: 'course',
+			name: 'C',
+			type: courseTypes.mandatory,
+			placements: [place.year(1, courseTerms.firstSemester)]
+		});
+		// A needs B-or-C, B needs A-or-C: satisfiable (take C first)
+		plan.items[0].requirements = {
+			enroll: req.any(req.item('b', 'passed'), req.item('c', 'passed'))
+		};
+		plan.items[1].requirements = {
+			enroll: req.any(req.item('a', 'passed'), req.item('c', 'passed'))
+		};
+
+		expect(() => preparePlan(plan)).not.toThrow();
+	});
+
+	it('allows count over the all selector on the owner item', () => {
+		const plan = createBasePlan();
+		plan.items[1].requirements = {
+			enroll: req.count(select.all(), 1, 'taken')
+		};
+
+		expect(() => preparePlan(plan)).not.toThrow();
+	});
+
+	it('rejects sum graduation blocks without an explicit weight', () => {
+		const plan = createBasePlan();
+		plan.items[0].hours = 5;
+		plan.requirements = {
+			graduation: [
+				{
+					id: 'hours',
+					label: 'Horas',
+					expr: req.sum(select.items('a'), 'hours', 5, 'passed')
+				}
+			]
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/weight/i);
+	});
+
+	it('rejects countOf with min above its rule count', () => {
+		const plan = createBasePlan();
+		plan.items[1].requirements = {
+			enroll: req.countOf([req.item('a', 'taken')], 2)
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/countOf/i);
 	});
 });

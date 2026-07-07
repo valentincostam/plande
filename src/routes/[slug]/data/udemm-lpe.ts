@@ -1430,20 +1430,30 @@ export const udemmLpe: StudyPlanData = {
 	requirements: {
 		graduation: [
 			{
-				id: 'mandatory',
-				label: 'Materias obligatorias',
-				type: 'allMandatory'
+				"id": "mandatory",
+				"label": "Materias obligatorias",
+				"expr": {
+					"type": "percent",
+					"selector": {
+						"type": "all",
+						"courseType": "mandatory"
+					},
+					"minPercent": 100,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'elective-count',
-				label: 'Materias electivas requeridas',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'progress-elective'
-				},
-				min: 2,
-				state: 'passed'
+				"id": "elective-count",
+				"label": "Materias electivas requeridas",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "progress-elective"
+					},
+					"min": 2,
+					"state": "passed"
+				}
 			}
 		]
 	}

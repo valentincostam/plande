@@ -8,7 +8,7 @@ import type {
 	Section,
 	StudyPlanData
 } from './study-plan-data';
-import { isMilestonePlanItem } from './study-plan-data';
+import { isCoursePlanItem, isMilestonePlanItem } from './study-plan-data';
 
 export type SeqIdRegistry = Record<string, number>;
 
@@ -41,7 +41,7 @@ const visitRequirementExpr = (
 ) => {
 	visit(expr, path);
 
-	if (expr.type === 'all' || expr.type === 'any') {
+	if (expr.type === 'all' || expr.type === 'any' || expr.type === 'countOf') {
 		for (const child of expr.rules) {
 			visitRequirementExpr(child, visit, [...path, expr]);
 		}
@@ -50,6 +50,7 @@ const visitRequirementExpr = (
 
 const getSelectorTargetIds = (
 	selector: Selector,
+	items: PlanItem[],
 	itemIdsByTag: Map<string, string[]>,
 	itemIdsBySection: Map<string, string[]>
 ) => {
@@ -60,6 +61,21 @@ const getSelectorTargetIds = (
 			return itemIdsByTag.get(selector.tag) ?? [];
 		case 'section':
 			return itemIdsBySection.get(selector.sectionId) ?? [];
+		case 'all':
+			return items
+				.filter(isCoursePlanItem)
+				.filter((item) => selector.courseType === undefined || item.type === selector.courseType)
+				.map((item) => item.id);
+		case 'sections':
+			return items
+				.filter((item) =>
+					item.placements.some(
+						(placement) =>
+							selector.sectionIds.includes(placement.sectionId) &&
+							(selector.term === undefined || placement.term === selector.term)
+					)
+				)
+				.map((item) => item.id);
 	}
 };
 
@@ -102,6 +118,7 @@ const extractDependencyEdges = (
 				extractDependencyEdges(ownerItemId, requiredFor, rule, currentKind)
 			);
 		case 'any':
+		case 'countOf':
 			return expr.rules.flatMap((rule) =>
 				extractDependencyEdges(ownerItemId, requiredFor, rule, 'alternative')
 			);
@@ -160,7 +177,7 @@ const validateAppendOnlySeqIds = (items: PlanItem[], previousSeqIds: SeqIdRegist
 			);
 		}
 
-		if (!previousSeqIds[item.id] && item.seqId <= maxPreviousSeqId) {
+		if (!(item.id in previousSeqIds) && item.seqId <= maxPreviousSeqId) {
 			throw new Error(
 				`New item "${item.id}" uses seqId ${item.seqId}. New seqIds must be greater than ${maxPreviousSeqId}.`
 			);
@@ -176,14 +193,19 @@ const inferSelectorScope = (selector: Selector) => {
 			return `tag(${selector.tag})`;
 		case 'section':
 			return `section(${selector.sectionId})`;
+		case 'all':
+			return selector.courseType ? `all(${selector.courseType})` : 'all()';
+		case 'sections':
+			return `sections(${selector.sectionIds.join(', ')}${selector.term ? `, ${selector.term}` : ''})`;
 	}
 };
 
 const validateRequirementExpr = (
+	items: PlanItem[],
 	itemsById: Map<string, PlanItem>,
 	itemIdsByTag: Map<string, string[]>,
 	itemIdsBySection: Map<string, string[]>,
-	ownerItem: PlanItem,
+	ownerItem: PlanItem | undefined,
 	scope: string,
 	expr: RequirementExpr
 ) => {
@@ -192,10 +214,23 @@ const validateRequirementExpr = (
 			case 'item':
 				validateRequirementStateForTarget(itemsById, node.itemId, node.state, scope);
 				break;
+			case 'all':
+			case 'any':
+			case 'countOf': {
+				if (node.rules.length === 0) {
+					throw new Error(`${scope}: ${node.type} requires at least one rule`);
+				}
+				if (node.type === 'countOf' && node.min > node.rules.length) {
+					throw new Error(
+						`${scope}: countOf min (${node.min}) exceeds its ${node.rules.length} rules`
+					);
+				}
+				break;
+			}
 			case 'count':
 			case 'percent':
 			case 'sum': {
-				const targets = getSelectorTargetIds(node.selector, itemIdsByTag, itemIdsBySection);
+				const targets = getSelectorTargetIds(node.selector, items, itemIdsByTag, itemIdsBySection);
 				const selectorScope = inferSelectorScope(node.selector);
 
 				if (targets.length === 0) {
@@ -206,20 +241,21 @@ const validateRequirementExpr = (
 					validateRequirementStateForTarget(itemsById, targetId, node.state, scope);
 				}
 
-				if (targets.includes(ownerItem.id)) {
+				// 'all' selectors exclude the owner at evaluation time, so a rule
+				// like "5 materias regularizadas" is not circular.
+				if (ownerItem && node.selector.type !== 'all' && targets.includes(ownerItem.id)) {
 					throw new Error(
 						`${scope}: selector ${selectorScope} includes the owner item "${ownerItem.id}", creating a circular rule`
 					);
 				}
 				break;
 			}
-			default:
-				break;
 		}
 	});
 };
 
 const validateGraduationRequirement = (
+	items: PlanItem[],
 	itemsById: Map<string, PlanItem>,
 	itemIdsByTag: Map<string, string[]>,
 	itemIdsBySection: Map<string, string[]>,
@@ -227,22 +263,21 @@ const validateGraduationRequirement = (
 ) => {
 	const scope = `Graduation requirement "${requirement.id}"`;
 
-	if (requirement.type === 'item') {
-		validateRequirementStateForTarget(itemsById, requirement.itemId, requirement.state, scope);
-		return;
+	if (requirement.expr.type === 'sum' && requirement.weight === undefined) {
+		throw new Error(
+			`${scope}: sum blocks require an explicit weight (hours/credits units would dominate the degree percentage)`
+		);
 	}
 
-	if (requirement.type === 'count' || requirement.type === 'sum') {
-		const targets = getSelectorTargetIds(requirement.selector, itemIdsByTag, itemIdsBySection);
-		if (targets.length === 0) {
-			throw new Error(
-				`${scope}: selector ${inferSelectorScope(requirement.selector)} does not match any items`
-			);
-		}
-		for (const targetId of targets) {
-			validateRequirementStateForTarget(itemsById, targetId, requirement.state, scope);
-		}
-	}
+	validateRequirementExpr(
+		items,
+		itemsById,
+		itemIdsByTag,
+		itemIdsBySection,
+		undefined,
+		scope,
+		requirement.expr
+	);
 };
 
 export const preparePlan = (
@@ -282,6 +317,7 @@ export const preparePlan = (
 	for (const item of plan.items) {
 		if (item.requirements?.enroll) {
 			validateRequirementExpr(
+				plan.items,
 				itemsById,
 				itemIdsByTag,
 				itemIdsBySection,
@@ -293,6 +329,7 @@ export const preparePlan = (
 
 		if (item.requirements?.complete) {
 			validateRequirementExpr(
+				plan.items,
 				itemsById,
 				itemIdsByTag,
 				itemIdsBySection,
@@ -304,7 +341,13 @@ export const preparePlan = (
 	}
 
 	for (const requirement of plan.requirements?.graduation ?? []) {
-		validateGraduationRequirement(itemsById, itemIdsByTag, itemIdsBySection, requirement);
+		validateGraduationRequirement(
+			plan.items,
+			itemsById,
+			itemIdsByTag,
+			itemIdsBySection,
+			requirement
+		);
 	}
 
 	const dependencyAdjacency = new Map<string, string[]>();
@@ -319,6 +362,9 @@ export const preparePlan = (
 			const edges = extractDependencyEdges(item.id, requiredFor, expr);
 			for (const edge of edges) {
 				dependentEdges.push(edge);
+				// Alternative edges (inside any/countOf) are not hard dependencies:
+				// a mutually-alternative pair is satisfiable, so it is not a cycle.
+				if (edge.kind !== 'direct') continue;
 				dependencyAdjacency.set(
 					item.id,
 					dedupeStrings([...(dependencyAdjacency.get(item.id) ?? []), edge.sourceItemId])

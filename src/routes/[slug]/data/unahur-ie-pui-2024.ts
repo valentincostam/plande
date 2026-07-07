@@ -424,7 +424,15 @@ export const unahurIePui2024: StudyPlanData = {
           "term": "semestral"
         }
       ],
-      "requirements": {}
+      "requirements": {
+        "enroll": {
+          "type": "count",
+          "selector": { "type": "all" },
+          "min": 5,
+          "state": "taken",
+          "label": "5 materias regularizadas"
+        }
+      }
     },
     {
       "id": "13",
@@ -443,7 +451,15 @@ export const unahurIePui2024: StudyPlanData = {
           "term": "semestral"
         }
       ],
-      "requirements": {}
+      "requirements": {
+        "enroll": {
+          "type": "count",
+          "selector": { "type": "all" },
+          "min": 6,
+          "state": "taken",
+          "label": "6 materias regularizadas"
+        }
+      }
     },
     {
       "id": "14",
@@ -821,7 +837,15 @@ export const unahurIePui2024: StudyPlanData = {
           "term": "semestral"
         }
       ],
-      "requirements": {}
+      "requirements": {
+        "enroll": {
+          "type": "count",
+          "selector": { "type": "all" },
+          "min": 10,
+          "state": "taken",
+          "label": "10 materias regularizadas"
+        }
+      }
     },
     {
       "id": "22",
@@ -1348,7 +1372,15 @@ export const unahurIePui2024: StudyPlanData = {
           "term": "semestral"
         }
       ],
-      "requirements": {}
+      "requirements": {
+        "enroll": {
+          "type": "count",
+          "selector": { "type": "all" },
+          "min": 10,
+          "state": "taken",
+          "label": "10 materias regularizadas"
+        }
+      }
     }
   ],
   "requirements": {
@@ -1356,7 +1388,15 @@ export const unahurIePui2024: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       }
     ]
   }

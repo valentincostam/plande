@@ -88,9 +88,11 @@
 
 	const countRequirementDetails = $derived(
 		graduationRequirements
-			.filter((requirement) => requirement.type === 'count')
-			.map((requirement) => {
-				const selector = requirement.selector;
+			.flatMap((requirement) =>
+				requirement.expr.type === 'count' ? [{ requirement, expr: requirement.expr }] : []
+			)
+			.map(({ requirement, expr }) => {
+				const selector = expr.selector;
 				const matchingItems = items.filter((item) => {
 					switch (selector.type) {
 						case 'items':
@@ -101,6 +103,17 @@
 							return item.item.def.placements.some(
 								(placement) => placement.sectionId === selector.sectionId
 							);
+						case 'all':
+							return (
+								item.item.def.kind === 'course' &&
+								(selector.courseType === undefined || item.item.def.type === selector.courseType)
+							);
+						case 'sections':
+							return item.item.def.placements.some(
+								(placement) =>
+									selector.sectionIds.includes(placement.sectionId) &&
+									(selector.term === undefined || placement.term === selector.term)
+							);
 					}
 				});
 				const rawPassedCount = matchingItems.filter(
@@ -110,8 +123,8 @@
 				return {
 					label: requirement.label,
 					value: block?.completedUnits ?? 0,
-					total: requirement.min,
-					summary: `${rawPassedCount} de ${requirement.min} mat.`
+					total: expr.min,
+					summary: `${rawPassedCount} de ${expr.min} mat.`
 				};
 			})
 	);

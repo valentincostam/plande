@@ -22,21 +22,22 @@ export const getDurationYearsFromPlanData = getDurationYears;
 const inferProgressConfig = (
 	graduation: GraduationRequirement[] | undefined
 ): DegreeProgressConfig => {
-	const sumRequirement = graduation?.find((requirement) => requirement.type === 'sum');
-	const countRequirements = graduation?.filter((requirement) => requirement.type === 'count') ?? [];
+	const exprs = graduation?.map((requirement) => requirement.expr) ?? [];
+	const sumExpr = exprs.find((expr) => expr.type === 'sum');
+	const countExprs = exprs.filter((expr) => expr.type === 'count');
 
-	if (sumRequirement?.type === 'sum') {
+	if (sumExpr?.type === 'sum') {
 		return {
 			type: 'mandatory-plus-elective-hours',
-			requiredElectiveHours: sumRequirement.min
+			requiredElectiveHours: sumExpr.min
 		};
 	}
 
-	if (countRequirements.length > 0) {
+	if (countExprs.length > 0) {
 		return {
 			type: 'mandatory-plus-elective-count',
-			requiredElectiveCount: countRequirements.reduce(
-				(total, requirement) => total + requirement.min,
+			requiredElectiveCount: countExprs.reduce(
+				(total, expr) => total + (expr.type === 'count' ? expr.min : 0),
 				0
 			)
 		};

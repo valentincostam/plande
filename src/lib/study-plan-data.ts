@@ -58,7 +58,13 @@ export type RequirementState = (typeof requirementStates)[keyof typeof requireme
 export type Selector =
 	| { type: 'items'; itemIds: string[] }
 	| { type: 'tag'; tag: string }
-	| { type: 'section'; sectionId: string };
+	| { type: 'section'; sectionId: string }
+	// Every course item in the plan (milestones excluded), optionally filtered
+	// by course type. When used inside an item requirement, the owner item is
+	// excluded so rules like "5 materias regularizadas" cannot count themselves.
+	| { type: 'all'; courseType?: CourseType }
+	// Items placed in any of the given sections, optionally narrowed to a term.
+	| { type: 'sections'; sectionIds: string[]; term?: CourseTerm };
 
 export type RequirementExpr =
 	| { type: 'item'; itemId: string; state: RequirementState }
@@ -71,6 +77,8 @@ export type RequirementExpr =
 			state: RequirementState;
 			label?: string;
 	  }
+	// At least `min` of the given sub-expressions must hold ("2 of these groups").
+	| { type: 'countOf'; rules: RequirementExpr[]; min: number; label?: string }
 	| {
 			type: 'percent';
 			selector: Selector;
@@ -87,40 +95,15 @@ export type RequirementExpr =
 			label?: string;
 	  };
 
-export type GraduationRequirement =
-	| {
-			id: string;
-			label: string;
-			type: 'allMandatory';
-			weight?: number;
-	  }
-	| {
-			id: string;
-			label: string;
-			type: 'item';
-			itemId: string;
-			state: 'passed' | 'completed';
-			weight?: number;
-	  }
-	| {
-			id: string;
-			label: string;
-			type: 'count';
-			selector: Selector;
-			min: number;
-			state: 'passed' | 'completed';
-			weight?: number;
-	  }
-	| {
-			id: string;
-			label: string;
-			type: 'sum';
-			selector: Selector;
-			metric: 'hours' | 'credits';
-			min: number;
-			state: 'passed' | 'completed';
-			weight?: number;
-	  };
+export type GraduationRequirement = {
+	id: string;
+	label: string;
+	expr: RequirementExpr;
+	// Contribution of this block to the overall degree percentage. Defaults to
+	// the block's totalUnits; REQUIRED when expr is a sum (hours/credits units
+	// would otherwise dominate the weighting) — enforced by preparePlan.
+	weight?: number;
+};
 
 type BasePlanItem = {
 	id: string;

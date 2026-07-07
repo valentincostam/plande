@@ -12,6 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"registry:seq": "bun scripts/generate-seq-id-registry.ts",
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",

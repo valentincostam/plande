@@ -1404,7 +1404,15 @@ export const unerFcsMed2022: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       }
     ]
   }

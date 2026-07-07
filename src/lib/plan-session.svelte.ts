@@ -60,13 +60,13 @@ export class PlanItemState {
 		if (this.session.isInitializing) return true;
 		if (!this.session.strictMode) return true;
 		const req = this.def.requirements?.enroll;
-		return !req || evaluateRequirement(req, this.session.context);
+		return !req || evaluateRequirement(req, this.session.context, this.def.id);
 	});
 	canComplete = $derived.by(() => {
 		if (this.session.isInitializing) return true;
 		if (!this.session.strictMode) return true;
 		const req = this.def.requirements?.complete;
-		return !req || evaluateRequirement(req, this.session.context);
+		return !req || evaluateRequirement(req, this.session.context, this.def.id);
 	});
 	// A course can only be passed (and a milestone completed) when its
 	// completion requirement holds; alias kept for readability at call sites.

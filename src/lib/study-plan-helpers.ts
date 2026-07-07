@@ -7,6 +7,7 @@ import type {
 } from './study-plan-data';
 import { getSectionIdForYear } from './study-plan-data';
 import type { CourseTerm } from './course-term';
+import { courseTypes, type CourseType } from './course-type';
 
 export const place = {
 	section: (sectionId: string, term?: CourseTerm, order?: number): Placement => ({
@@ -24,7 +25,13 @@ export const place = {
 export const select = {
 	items: (...itemIds: string[]): Selector => ({ type: 'items', itemIds }),
 	tag: (tag: string): Selector => ({ type: 'tag', tag }),
-	section: (sectionId: string): Selector => ({ type: 'section', sectionId })
+	section: (sectionId: string): Selector => ({ type: 'section', sectionId }),
+	all: (courseType?: CourseType): Selector => ({ type: 'all', courseType }),
+	sections: (sectionIds: string[], term?: CourseTerm): Selector => ({
+		type: 'sections',
+		sectionIds,
+		term
+	})
 };
 
 export const req = {
@@ -35,6 +42,18 @@ export const req = {
 	}),
 	all: (...rules: RequirementExpr[]): RequirementExpr => ({ type: 'all', rules }),
 	any: (...rules: RequirementExpr[]): RequirementExpr => ({ type: 'any', rules }),
+	// Every item matched by the selector must meet the state ("todo 1er año aprobado")
+	every: (selector: Selector, state: RequirementState): RequirementExpr => ({
+		type: 'percent',
+		selector,
+		minPercent: 100,
+		state
+	}),
+	countOf: (rules: RequirementExpr[], min: number): RequirementExpr => ({
+		type: 'countOf',
+		rules,
+		min
+	}),
 	count: (selector: Selector, min: number, state: RequirementState): RequirementExpr => ({
 		type: 'count',
 		selector,
@@ -113,11 +132,20 @@ export const req = {
 	})
 };
 
+// Graduation blocks are plain RequirementExprs with a label and a weight.
+// weight defaults to the block's totalUnits, except for sum blocks where it
+// is required (hours/credits would otherwise dominate the degree percentage).
 export const grad = {
+	block: (
+		id: string,
+		label: string,
+		expr: RequirementExpr,
+		weight?: number
+	): GraduationRequirement => ({ id, label, expr, weight }),
 	allMandatory: (id: string, label: string, weight?: number): GraduationRequirement => ({
 		id,
 		label,
-		type: 'allMandatory',
+		expr: req.every(select.all(courseTypes.mandatory), 'passed'),
 		weight
 	}),
 	item: (
@@ -129,9 +157,7 @@ export const grad = {
 	): GraduationRequirement => ({
 		id,
 		label,
-		type: 'item',
-		itemId,
-		state,
+		expr: req.item(itemId, state),
 		weight
 	}),
 	count: (
@@ -144,10 +170,7 @@ export const grad = {
 	): GraduationRequirement => ({
 		id,
 		label,
-		type: 'count',
-		selector,
-		min,
-		state,
+		expr: req.count(selector, min, state),
 		weight
 	}),
 	countTag: (
@@ -160,10 +183,7 @@ export const grad = {
 	): GraduationRequirement => ({
 		id,
 		label,
-		type: 'count',
-		selector: select.tag(tag),
-		min,
-		state,
+		expr: req.countTag(tag, min, state),
 		weight
 	}),
 	sum: (
@@ -173,15 +193,11 @@ export const grad = {
 		metric: 'hours' | 'credits',
 		min: number,
 		state: 'passed' | 'completed',
-		weight?: number
+		weight: number
 	): GraduationRequirement => ({
 		id,
 		label,
-		type: 'sum',
-		selector,
-		metric,
-		min,
-		state,
+		expr: req.sum(selector, metric, min, state),
 		weight
 	}),
 	sumTag: (
@@ -191,15 +207,11 @@ export const grad = {
 		metric: 'hours' | 'credits',
 		min: number,
 		state: 'passed' | 'completed',
-		weight?: number
+		weight: number
 	): GraduationRequirement => ({
 		id,
 		label,
-		type: 'sum',
-		selector: select.tag(tag),
-		metric,
-		min,
-		state,
+		expr: req.sumTag(tag, metric, min, state),
 		weight
 	})
 };

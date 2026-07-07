@@ -4,10 +4,11 @@ import { courseTerms } from './course-term';
 import { courseTypes } from './course-type';
 import {
 	evaluateGraduation,
+	evaluateProgress,
 	evaluateRequirement,
 	type RequirementContext
 } from './requirement-evaluator';
-import { grad, place, req } from './study-plan-helpers';
+import { grad, place, req, select } from './study-plan-helpers';
 import { milestoneStates, type ItemState, type PlanItem } from './study-plan-data';
 
 type MockState = {
@@ -124,6 +125,104 @@ describe('evaluateRequirement', () => {
 			true
 		);
 		expect(evaluateRequirement(req.item('ingles-e', 'completed'), context)).toBe(true);
+	});
+});
+
+describe('evaluateProgress', () => {
+	it('reports partial progress for nested expressions', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.passed },
+			{ item: analisis, state: courseStates.notTaken },
+			{ item: electivaA, state: courseStates.passed },
+			{ item: electivaB, state: courseStates.notTaken }
+		]);
+
+		const expression = req.all(
+			req.item('algebra', 'passed'),
+			req.countTag('electivas', 2, 'passed')
+		);
+
+		expect(evaluateProgress(expression, context)).toEqual({
+			completedUnits: 2, // algebra + 1 of 2 electives
+			totalUnits: 3,
+			met: false
+		});
+	});
+
+	it('any picks the closest-to-complete alternative', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.notTaken },
+			{ item: electivaA, state: courseStates.passed },
+			{ item: electivaB, state: courseStates.notTaken }
+		]);
+
+		const expression = req.any(
+			req.all(req.item('algebra', 'passed'), req.item('analisis', 'passed')),
+			req.countTag('electivas', 2, 'passed')
+		);
+
+		expect(evaluateProgress(expression, context)).toEqual({
+			completedUnits: 1,
+			totalUnits: 2,
+			met: false
+		});
+	});
+
+	it('countOf counts satisfied sub-expressions ("2 of these groups")', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.passed },
+			{ item: analisis, state: courseStates.passed },
+			{ item: electivaA, state: courseStates.passed },
+			{ item: electivaB, state: courseStates.notTaken }
+		]);
+
+		const expression = req.countOf(
+			[
+				req.all(req.item('algebra', 'passed'), req.item('analisis', 'passed')),
+				req.item('electiva-a', 'passed'),
+				req.item('electiva-b', 'passed')
+			],
+			2
+		);
+
+		expect(evaluateProgress(expression, context)).toEqual({
+			completedUnits: 2,
+			totalUnits: 2,
+			met: true
+		});
+	});
+
+	it('the all selector counts every course and excludes the owner item', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.taken },
+			{ item: analisis, state: courseStates.taken },
+			{ item: electivaA, state: courseStates.taken },
+			{ item: ingles, state: milestoneStates.completed }
+		]);
+
+		// "3 materias regularizadas": milestone never counts; the owner does not
+		// count itself even when taken.
+		const rule = req.count(select.all(), 3, 'taken');
+		expect(evaluateRequirement(rule, context)).toBe(true);
+		expect(evaluateRequirement(rule, context, 'electiva-a')).toBe(false);
+	});
+
+	it('every over a sections selector respects the term filter', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.passed },
+			{ item: analisis, state: courseStates.passed },
+			{ item: electivaA, state: courseStates.notTaken }
+		]);
+
+		expect(
+			evaluateRequirement(
+				req.every(select.sections(['year-1'], courseTerms.firstSemester), 'passed'),
+				context
+			)
+		).toBe(true);
+		expect(evaluateRequirement(req.every(select.sections(['year-1', 'year-3']), 'passed'), context)).toBe(
+			false
+		);
 	});
 });
 

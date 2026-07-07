@@ -1633,19 +1633,29 @@ export const utnFrcuIsi2023: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       },
       {
         "id": "elective-hours",
         "label": "Horas electivas requeridas",
-        "type": "sum",
-        "selector": {
-          "type": "tag",
-          "tag": "progress-elective"
+        "expr": {
+          "type": "sum",
+          "selector": {
+            "type": "tag",
+            "tag": "progress-elective"
+          },
+          "metric": "hours",
+          "min": 40,
+          "state": "passed"
         },
-        "metric": "hours",
-        "min": 40,
-        "state": "passed",
         "weight": 10
       }
     ]

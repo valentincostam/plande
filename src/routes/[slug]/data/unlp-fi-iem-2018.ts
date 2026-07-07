@@ -1224,7 +1224,17 @@ export const unlpFiIem2018: StudyPlanData = {
 		graduation: [
 			grad.allMandatory('mandatory', 'Materias obligatorias'),
 			grad.countTag('humanistica', 'Electiva humanística requerida', 'humanistica', 1, 'passed'),
-			grad.sumTag('optativas', 'Horas optativas requeridas', 'optativas', 'credits', 128, 'passed')
+			// weight 2: las 128 horas equivalen a ~2 optativas típicas de 64 hs,
+			// para que las horas no dominen el porcentaje frente a las obligatorias
+			grad.sumTag(
+				'optativas',
+				'Horas optativas requeridas',
+				'optativas',
+				'credits',
+				128,
+				'passed',
+				2
+			)
 		]
 	}
 };

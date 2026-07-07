@@ -1377,53 +1377,69 @@ export const unlpFahcePm2003: StudyPlanData = {
 	requirements: {
 		graduation: [
 			{
-				id: 'mandatory',
-				label: 'Materias obligatorias',
-				type: 'allMandatory'
+				"id": "mandatory",
+				"label": "Materias obligatorias",
+				"expr": {
+					"type": "percent",
+					"selector": {
+						"type": "all",
+						"courseType": "mandatory"
+					},
+					"minPercent": 100,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'optativa-i-count',
-				label: 'Optativas I requeridas',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'optativa-i'
-				},
-				min: 1,
-				state: 'passed'
+				"id": "optativa-i-count",
+				"label": "Optativas I requeridas",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "optativa-i"
+					},
+					"min": 1,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'optativa-ii-count',
-				label: 'Optativas II requeridas',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'optativa-ii'
-				},
-				min: 1,
-				state: 'passed'
+				"id": "optativa-ii-count",
+				"label": "Optativas II requeridas",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "optativa-ii"
+					},
+					"min": 1,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'idioma-latino-count',
-				label: 'Idioma latino requerido',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'idioma-latino'
-				},
-				min: 1,
-				state: 'passed'
+				"id": "idioma-latino-count",
+				"label": "Idioma latino requerido",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "idioma-latino"
+					},
+					"min": 1,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'idioma-germanico-count',
-				label: 'Idioma germánico requerido',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'idioma-germanico'
-				},
-				min: 1,
-				state: 'passed'
+				"id": "idioma-germanico-count",
+				"label": "Idioma germánico requerido",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "idioma-germanico"
+					},
+					"min": 1,
+					"state": "passed"
+				}
 			}
 		]
 	}

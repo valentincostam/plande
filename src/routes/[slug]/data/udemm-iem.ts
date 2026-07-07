@@ -1847,18 +1847,28 @@ export const udemmIem: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       },
       {
         "id": "elective-count",
         "label": "Materias electivas requeridas",
-        "type": "count",
-        "selector": {
-          "type": "tag",
-          "tag": "progress-elective"
-        },
-        "min": 1,
-        "state": "passed"
+        "expr": {
+          "type": "count",
+          "selector": {
+            "type": "tag",
+            "tag": "progress-elective"
+          },
+          "min": 1,
+          "state": "passed"
+        }
       }
     ]
   }

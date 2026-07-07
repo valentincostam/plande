@@ -118,6 +118,9 @@ const describeSelector = (expr: RequirementExpr): string => {
 		case 'count':
 			if (expr.label) return expr.label;
 			return `${expr.min} items de ${describeSelectorSource(expr.selector)}`;
+		case 'countOf':
+			if (expr.label) return expr.label;
+			return `${expr.min} de: ${expr.rules.map(describeSelector).join(', ')}`;
 		case 'percent':
 			if (expr.label) return expr.label;
 			return `${expr.minPercent}% de ${describeSelectorSource(expr.selector)}`;
@@ -128,9 +131,18 @@ const describeSelector = (expr: RequirementExpr): string => {
 };
 
 const describeSelectorSource = (selector: Selector) => {
-	if (selector.type === 'items') return 'items especificos';
-	if (selector.type === 'tag') return `tag ${selector.tag}`;
-	return `section ${selector.sectionId}`;
+	switch (selector.type) {
+		case 'items':
+			return 'items especificos';
+		case 'tag':
+			return `tag ${selector.tag}`;
+		case 'section':
+			return `section ${selector.sectionId}`;
+		case 'all':
+			return selector.courseType ? `todas las ${selector.courseType}` : 'todas las materias';
+		case 'sections':
+			return `sections ${selector.sectionIds.join(', ')}`;
+	}
 };
 
 const formatPercentRequirementDescription = (
@@ -210,6 +222,7 @@ const extractAtomicRequirements = (
 				extractAtomicRequirements(rule, kind, itemsById, ownerId, `${prefix}-${index}`)
 			);
 		case 'count':
+		case 'countOf':
 		case 'percent':
 		case 'sum':
 			return [];
@@ -261,13 +274,11 @@ export const countAllViewDependents = (
 };
 
 export const isViewRequirementMet = (requirement: ViewAtomicRequirement) =>
-	requirement.item.item.def.kind === 'milestone'
-		? requirement.requiredState === 'completed' &&
-			requirement.item.item.state === milestoneStates.completed
-		: isCourseStateGreaterOrEqual(
-				requirement.item.item.state as CourseState,
-				requirement.requiredState === 'completed' ? courseStates.passed : requirement.requiredState
-			);
+	meetsRequirementState(
+		requirement.item.item.def,
+		requirement.item.item.state,
+		requirement.requiredState
+	);
 
 const sortSectionItems = (items: PlanItemState[], sectionId: string) => {
 	return [...items].sort((a, b) => {

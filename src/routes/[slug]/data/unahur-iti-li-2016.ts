@@ -1675,18 +1675,28 @@ export const unahurItiLi2016: StudyPlanData = {
       {
         "id": "mandatory",
         "label": "Materias obligatorias",
-        "type": "allMandatory"
+        "expr": {
+          "type": "percent",
+          "selector": {
+            "type": "all",
+            "courseType": "mandatory"
+          },
+          "minPercent": 100,
+          "state": "passed"
+        }
       },
       {
         "id": "elective-count",
         "label": "Materias electivas requeridas",
-        "type": "count",
-        "selector": {
-          "type": "tag",
-          "tag": "progress-elective"
-        },
-        "min": 2,
-        "state": "passed"
+        "expr": {
+          "type": "count",
+          "selector": {
+            "type": "tag",
+            "tag": "progress-elective"
+          },
+          "min": 2,
+          "state": "passed"
+        }
       }
     ]
   }

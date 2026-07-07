@@ -1621,20 +1621,30 @@ export const unsDcsLe2017: StudyPlanData = {
 	requirements: {
 		graduation: [
 			{
-				id: 'mandatory',
-				label: 'Materias obligatorias',
-				type: 'allMandatory'
+				"id": "mandatory",
+				"label": "Materias obligatorias",
+				"expr": {
+					"type": "percent",
+					"selector": {
+						"type": "all",
+						"courseType": "mandatory"
+					},
+					"minPercent": 100,
+					"state": "passed"
+				}
 			},
 			{
-				id: 'elective-count',
-				label: 'Materias electivas requeridas de 3er año',
-				type: 'count',
-				selector: {
-					type: 'tag',
-					tag: 'third-year-second-semester-elective'
-				},
-				min: 2,
-				state: 'passed'
+				"id": "elective-count",
+				"label": "Materias electivas requeridas de 3er año",
+				"expr": {
+					"type": "count",
+					"selector": {
+						"type": "tag",
+						"tag": "third-year-second-semester-elective"
+					},
+					"min": 2,
+					"state": "passed"
+				}
 			}
 		]
 	}

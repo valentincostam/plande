@@ -1,5 +1,4 @@
 import { courseStates, isCourseStateGreaterOrEqual } from './course-state';
-import { courseTypes } from './course-type';
 import type {
 	GraduationRequirement,
 	ItemState,
@@ -8,7 +7,7 @@ import type {
 	RequirementState,
 	Selector
 } from './study-plan-data';
-import { isCoursePlanItem, milestoneStates, type CoursePlanItem } from './study-plan-data';
+import { milestoneStates } from './study-plan-data';
 
 export type RequirementContextItem = {
 	item: PlanItem;
@@ -20,6 +19,12 @@ export type RequirementContext = {
 	getAllItems: () => RequirementContextItem[];
 	getItemsByTag: (tag: string) => RequirementContextItem[];
 	getItemsBySection: (sectionId: string) => RequirementContextItem[];
+};
+
+export type RequirementProgress = {
+	completedUnits: number;
+	totalUnits: number;
+	met: boolean;
 };
 
 export type GraduationRequirementResult = {
@@ -72,9 +77,16 @@ export const meetsRequirementState = (
 	}
 };
 
+const itemHasPlacementIn = (item: PlanItem, sectionIds: string[], term?: string) =>
+	item.placements.some(
+		(placement) =>
+			sectionIds.includes(placement.sectionId) && (term === undefined || placement.term === term)
+	);
+
 export const resolveSelector = (
 	selector: Selector,
-	context: RequirementContext
+	context: RequirementContext,
+	ownerItemId?: string
 ): RequirementContextItem[] => {
 	switch (selector.type) {
 		case 'items':
@@ -87,164 +99,144 @@ export const resolveSelector = (
 			return uniqByItemId(context.getItemsByTag(selector.tag));
 		case 'section':
 			return uniqByItemId(context.getItemsBySection(selector.sectionId));
+		case 'all':
+			return uniqByItemId(
+				context
+					.getAllItems()
+					.filter(({ item }) => item.kind === 'course')
+					.filter(
+						({ item }) => selector.courseType === undefined || item.type === selector.courseType
+					)
+					.filter(({ item }) => item.id !== ownerItemId)
+			);
+		case 'sections':
+			return uniqByItemId(
+				selector.sectionIds
+					.flatMap((sectionId) => context.getItemsBySection(sectionId))
+					.filter(({ item }) => itemHasPlacementIn(item, selector.sectionIds, selector.term))
+			);
+	}
+};
+
+// Recursive progress semantics per node type:
+// - item: 0/1 or 1/1
+// - all: sum of children; met when every child is met
+// - any: the closest-to-complete alternative (met children win, then highest
+//   ratio, then fewest units); met when some child is met
+// - count/countOf: min(#met, min) / min
+// - percent: min(#met, requiredCount) / requiredCount with
+//   requiredCount = ceil(minPercent% of matched items)
+// - sum: min(metric sum over met items, min) / min
+export const evaluateProgress = (
+	expr: RequirementExpr,
+	context: RequirementContext,
+	ownerItemId?: string
+): RequirementProgress => {
+	switch (expr.type) {
+		case 'item': {
+			const match = context.getItem(expr.itemId);
+			const met = match ? meetsRequirementState(match.item, match.state, expr.state) : false;
+			return { completedUnits: met ? 1 : 0, totalUnits: 1, met };
+		}
+		case 'all': {
+			const children = expr.rules.map((rule) => evaluateProgress(rule, context, ownerItemId));
+			return {
+				completedUnits: children.reduce((total, child) => total + child.completedUnits, 0),
+				totalUnits: children.reduce((total, child) => total + child.totalUnits, 0),
+				met: children.every((child) => child.met)
+			};
+		}
+		case 'any': {
+			const children = expr.rules.map((rule) => evaluateProgress(rule, context, ownerItemId));
+			const ratio = (child: RequirementProgress) =>
+				child.totalUnits === 0 ? (child.met ? 1 : 0) : child.completedUnits / child.totalUnits;
+			const best = children.reduce((currentBest, child) => {
+				if (child.met !== currentBest.met) return child.met ? child : currentBest;
+				if (ratio(child) !== ratio(currentBest)) {
+					return ratio(child) > ratio(currentBest) ? child : currentBest;
+				}
+				return child.totalUnits < currentBest.totalUnits ? child : currentBest;
+			});
+			return { ...best, met: children.some((child) => child.met) };
+		}
+		case 'count': {
+			const items = resolveSelector(expr.selector, context, ownerItemId);
+			const metCount = items.filter((item) =>
+				meetsRequirementState(item.item, item.state, expr.state)
+			).length;
+			return {
+				completedUnits: Math.min(metCount, expr.min),
+				totalUnits: expr.min,
+				met: metCount >= expr.min
+			};
+		}
+		case 'countOf': {
+			const metCount = expr.rules.filter(
+				(rule) => evaluateProgress(rule, context, ownerItemId).met
+			).length;
+			return {
+				completedUnits: Math.min(metCount, expr.min),
+				totalUnits: expr.min,
+				met: metCount >= expr.min
+			};
+		}
+		case 'percent': {
+			const items = resolveSelector(expr.selector, context, ownerItemId);
+			const requiredCount = Math.ceil((expr.minPercent / 100) * items.length);
+			const metCount = items.filter((item) =>
+				meetsRequirementState(item.item, item.state, expr.state)
+			).length;
+			if (items.length === 0) {
+				return { completedUnits: 0, totalUnits: 0, met: false };
+			}
+			return {
+				completedUnits: Math.min(metCount, requiredCount),
+				totalUnits: requiredCount,
+				met: metCount >= requiredCount
+			};
+		}
+		case 'sum': {
+			const items = resolveSelector(expr.selector, context, ownerItemId);
+			const sum = items.reduce((total, item) => {
+				if (!meetsRequirementState(item.item, item.state, expr.state)) return total;
+				return total + (item.item[expr.metric] ?? 0);
+			}, 0);
+			return {
+				completedUnits: Math.min(sum, expr.min),
+				totalUnits: expr.min,
+				met: sum >= expr.min
+			};
+		}
 	}
 };
 
 export const evaluateRequirement = (
 	expr: RequirementExpr | undefined,
-	context: RequirementContext
+	context: RequirementContext,
+	ownerItemId?: string
 ): boolean => {
 	if (!expr) return true;
-
-	switch (expr.type) {
-		case 'item': {
-			const match = context.getItem(expr.itemId);
-			return match ? meetsRequirementState(match.item, match.state, expr.state) : false;
-		}
-		case 'all':
-			return expr.rules.every((rule) => evaluateRequirement(rule, context));
-		case 'any':
-			return expr.rules.some((rule) => evaluateRequirement(rule, context));
-		case 'count': {
-			const items = resolveSelector(expr.selector, context);
-			const metCount = items.filter((item) =>
-				meetsRequirementState(item.item, item.state, expr.state)
-			).length;
-			return metCount >= expr.min;
-		}
-		case 'percent': {
-			const items = resolveSelector(expr.selector, context);
-			if (items.length === 0) return false;
-			const metCount = items.filter((item) =>
-				meetsRequirementState(item.item, item.state, expr.state)
-			).length;
-			return (metCount / items.length) * 100 >= expr.minPercent;
-		}
-		case 'sum': {
-			const items = resolveSelector(expr.selector, context);
-			const sum = items.reduce((total, item) => {
-				if (!meetsRequirementState(item.item, item.state, expr.state)) return total;
-				return total + (item.item[expr.metric] ?? 0);
-			}, 0);
-			return sum >= expr.min;
-		}
-	}
-};
-
-const inferGraduationWeight = (
-	requirement: GraduationRequirement,
-	context: RequirementContext,
-	mandatoryCourses: CoursePlanItem[]
-) => {
-	if (requirement.weight !== undefined) return requirement.weight;
-
-	switch (requirement.type) {
-		case 'allMandatory':
-			return mandatoryCourses.length;
-		case 'item':
-			return 1;
-		case 'count':
-			return requirement.min;
-		case 'sum':
-			return requirement.min;
-	}
+	return evaluateProgress(expr, context, ownerItemId).met;
 };
 
 export const evaluateGraduation = (
 	requirements: GraduationRequirement[] = [],
 	context: RequirementContext
 ): GraduationProgress => {
-	const allItems = uniqByItemId(context.getAllItems());
-	const mandatoryCourses = allItems
-		.map(({ item }) => item)
-		.filter(
-			(item): item is CoursePlanItem =>
-				isCoursePlanItem(item) && item.type === courseTypes.mandatory
-		);
-
 	const blocks = requirements.map<GraduationRequirementResult>((requirement) => {
-		switch (requirement.type) {
-			case 'allMandatory': {
-				const completedUnits = mandatoryCourses.filter((course) => {
-					const current = context.getItem(course.id);
-					return current ? meetsRequirementState(course, current.state, 'passed') : false;
-				}).length;
-				const totalUnits = mandatoryCourses.length;
-				const weight = inferGraduationWeight(requirement, context, mandatoryCourses);
-				const progress = totalUnits === 0 ? 0 : completedUnits / totalUnits;
-				return {
-					id: requirement.id,
-					label: requirement.label,
-					completedUnits,
-					totalUnits,
-					weight,
-					weightedCompletedUnits: progress * weight,
-					weightedTotalUnits: weight,
-					progress
-				};
-			}
-			case 'item': {
-				const current = context.getItem(requirement.itemId);
-				const met = current
-					? meetsRequirementState(current.item, current.state, requirement.state)
-					: false;
-				const weight = inferGraduationWeight(requirement, context, mandatoryCourses);
-				return {
-					id: requirement.id,
-					label: requirement.label,
-					completedUnits: met ? 1 : 0,
-					totalUnits: 1,
-					weight,
-					weightedCompletedUnits: met ? weight : 0,
-					weightedTotalUnits: weight,
-					progress: met ? 1 : 0
-				};
-			}
-			case 'count': {
-				const items = resolveSelector(requirement.selector, context);
-				const completedUnits = Math.min(
-					items.filter((item) => meetsRequirementState(item.item, item.state, requirement.state))
-						.length,
-					requirement.min
-				);
-				const totalUnits = requirement.min;
-				const weight = inferGraduationWeight(requirement, context, mandatoryCourses);
-				const progress = totalUnits === 0 ? 0 : completedUnits / totalUnits;
-				return {
-					id: requirement.id,
-					label: requirement.label,
-					completedUnits,
-					totalUnits,
-					weight,
-					weightedCompletedUnits: progress * weight,
-					weightedTotalUnits: weight,
-					progress
-				};
-			}
-			case 'sum': {
-				const items = resolveSelector(requirement.selector, context);
-				const completedUnits = Math.min(
-					items.reduce((total, item) => {
-						if (!meetsRequirementState(item.item, item.state, requirement.state)) return total;
-						return total + (item.item[requirement.metric] ?? 0);
-					}, 0),
-					requirement.min
-				);
-				const totalUnits = requirement.min;
-				const weight = inferGraduationWeight(requirement, context, mandatoryCourses);
-				const progress = totalUnits === 0 ? 0 : completedUnits / totalUnits;
-				return {
-					id: requirement.id,
-					label: requirement.label,
-					completedUnits,
-					totalUnits,
-					weight,
-					weightedCompletedUnits: progress * weight,
-					weightedTotalUnits: weight,
-					progress
-				};
-			}
-		}
+		const { completedUnits, totalUnits, met } = evaluateProgress(requirement.expr, context);
+		const progress = totalUnits === 0 ? (met ? 1 : 0) : completedUnits / totalUnits;
+		const weight = requirement.weight ?? totalUnits;
+		return {
+			id: requirement.id,
+			label: requirement.label,
+			completedUnits,
+			totalUnits,
+			weight,
+			weightedCompletedUnits: progress * weight,
+			weightedTotalUnits: weight,
+			progress
+		};
 	});
 
 	const completedUnits = blocks.reduce((total, block) => total + block.weightedCompletedUnits, 0);
