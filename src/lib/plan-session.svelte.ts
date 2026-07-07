@@ -1,10 +1,8 @@
 import { courseStates, type CourseState } from './course-state';
 import {
-	decodeCourseItemStates,
-	decodeMilestoneStates,
-	encodeCourseItemStates,
-	encodeMilestoneStates,
-	sortItemsBySeqId
+	comparableCourseStateToItemState,
+	decodeItemStates,
+	encodeItemStates
 } from './study-plan-url-state';
 import type { PreparedPlan } from './prepare-plan';
 import type { DependentEdge, Section } from './study-plan-data';
@@ -15,26 +13,11 @@ import { milestoneStates, type ItemState, type PlanItem } from './study-plan-dat
 
 export type PlanSessionOptions = {
 	strictMode?: boolean;
-	initialCourseStates?: CourseState[];
-	initialMilestoneStates?: (typeof milestoneStates)[keyof typeof milestoneStates][];
+	// Raw states ordered by seqId over ALL items (courses and milestones), as
+	// decoded from the URL/localStorage letter stream.
+	initialStates?: CourseState[];
+	// Grades ordered the same way; milestone positions are ignored.
 	initialGrades?: (number | undefined)[];
-};
-
-const getInitialItemState = (
-	item: PlanItem,
-	initialCourseStates: CourseState[],
-	initialMilestoneStates: (typeof milestoneStates)[keyof typeof milestoneStates][],
-	indexByKind: { course: number; milestone: number }
-): ItemState => {
-	if (item.kind === 'course') {
-		const state = initialCourseStates[indexByKind.course];
-		indexByKind.course += 1;
-		return state ?? courseStates.notTaken;
-	}
-
-	const state = initialMilestoneStates[indexByKind.milestone];
-	indexByKind.milestone += 1;
-	return state ?? milestoneStates.pending;
 };
 
 const getComparableSectionState = (item: PlanItemState): CourseState => {
@@ -71,7 +54,6 @@ export class PlanItemState {
 	def: PlanItem;
 	session: PlanSession;
 	state = $state<ItemState>(courseStates.notTaken);
-	allowInvalidPassedState = $state(false);
 	grade = $state<number | undefined>();
 	dependents: DependentEdge[];
 	isEnabled = $derived.by(() => {
@@ -80,19 +62,17 @@ export class PlanItemState {
 		const req = this.def.requirements?.enroll;
 		return !req || evaluateRequirement(req, this.session.context);
 	});
-	canPass = $derived.by(() => {
-		if (this.session.isInitializing) return true;
-		if (this.def.kind !== 'course') return this.canComplete;
-		if (!this.session.strictMode) return true;
-		const req = this.def.requirements?.complete;
-		return !req || evaluateRequirement(req, this.session.context);
-	});
 	canComplete = $derived.by(() => {
 		if (this.session.isInitializing) return true;
 		if (!this.session.strictMode) return true;
 		const req = this.def.requirements?.complete;
 		return !req || evaluateRequirement(req, this.session.context);
 	});
+	// A course can only be passed (and a milestone completed) when its
+	// completion requirement holds; alias kept for readability at call sites.
+	get canPass() {
+		return this.canComplete;
+	}
 
 	constructor(def: PlanItem, session: PlanSession, initialState: ItemState, grade?: number) {
 		this.def = def;
@@ -106,8 +86,6 @@ export class PlanItemState {
 
 			const corrected = normalizeItemState(this.def, this.state, {
 				isEnabled: this.isEnabled,
-				allowInvalidPassedState: this.allowInvalidPassedState,
-				canPass: this.canPass,
 				canComplete: this.canComplete
 			});
 
@@ -117,8 +95,7 @@ export class PlanItemState {
 		});
 	}
 
-	setState(state: ItemState, options?: { allowInvalidPassedState?: boolean }) {
-		this.allowInvalidPassedState = options?.allowInvalidPassedState ?? false;
+	setState(state: ItemState) {
 		this.state = state;
 	}
 }
@@ -140,7 +117,10 @@ export class PlanSession {
 	prepared: PreparedPlan;
 	isInitializing = $state(true);
 	strictMode = $state(true);
+	// All items ordered by seqId — the canonical serialization order.
 	items: PlanItemState[];
+	courseItems: PlanItemState[];
+	milestoneItems: PlanItemState[];
 	itemsById: Map<string, PlanItemState>;
 	sections: SectionState[];
 	context: RequirementContext;
@@ -170,21 +150,21 @@ export class PlanSession {
 					.map((item) => ({ item: item.def, state: item.state }))
 		};
 
-		const initialCourseStates = options.initialCourseStates ?? [];
-		const initialMilestoneStates = options.initialMilestoneStates ?? [];
+		const initialStates = options.initialStates ?? [];
 		const initialGrades = options.initialGrades ?? [];
-		const indexByKind = { course: 0, milestone: 0 };
 
 		this.items = prepared.orderedItems.map(
-			(item) =>
+			(item, index) =>
 				new PlanItemState(
 					item,
 					this,
-					getInitialItemState(item, initialCourseStates, initialMilestoneStates, indexByKind),
-					item.kind === 'course' ? initialGrades[indexByKind.course - 1] : undefined
+					comparableCourseStateToItemState(item, initialStates[index]),
+					item.kind === 'course' ? initialGrades[index] : undefined
 				)
 		);
 
+		this.courseItems = this.items.filter((item) => item.def.kind === 'course');
+		this.milestoneItems = this.items.filter((item) => item.def.kind === 'milestone');
 		this.itemsById = new Map(this.items.map((item) => [item.def.id, item]));
 
 		this.sections = prepared.sections.map((section) => {
@@ -200,40 +180,27 @@ export class PlanSession {
 	}
 
 	getCourseItems() {
-		return sortItemsBySeqId(
-			this.items.filter((item) => item.def.kind === 'course').map((item) => item.def)
-		).map((def) => this.itemsById.get(def.id)!) as PlanItemState[];
+		return this.courseItems;
 	}
 
 	getMilestoneItems() {
-		return sortItemsBySeqId(
-			this.items.filter((item) => item.def.kind === 'milestone').map((item) => item.def)
-		).map((def) => this.itemsById.get(def.id)!) as PlanItemState[];
+		return this.milestoneItems;
 	}
 
-	serializeCourseStates() {
-		return encodeCourseItemStates(this.getCourseItems().map((item) => item.state as CourseState));
+	serializeStates() {
+		return encodeItemStates(this.items.map((item) => ({ def: item.def, state: item.state })));
 	}
 
-	applySerializedCourseStates(encoded: string) {
-		const states = decodeCourseItemStates(encoded);
-		this.getCourseItems().forEach((item, index) => {
-			item.state = states[index] ?? courseStates.notTaken;
-		});
+	applySerializedStates(encoded: string) {
+		this.applyStates(decodeItemStates(encoded));
 	}
 
-	serializeMilestoneStates() {
-		return encodeMilestoneStates(
-			this.getMilestoneItems().map(
-				(item) => item.state as (typeof milestoneStates)[keyof typeof milestoneStates]
-			)
-		);
-	}
-
-	applySerializedMilestoneStates(encoded: string) {
-		const states = decodeMilestoneStates(encoded);
-		this.getMilestoneItems().forEach((item, index) => {
-			item.state = states[index] ?? milestoneStates.pending;
+	applyStates(states: CourseState[]) {
+		this.items.forEach((item, index) => {
+			const next = comparableCourseStateToItemState(item.def, states[index]);
+			if (item.state !== next) {
+				item.state = next;
+			}
 		});
 	}
 

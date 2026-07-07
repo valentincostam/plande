@@ -13,7 +13,7 @@
 	import ExportButton from './export-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
-	import { courseStates, decodeCoursesStates, encodeCoursesStates } from '$lib/course-state';
+	import { courseStates, encodeCoursesStates } from '$lib/course-state';
 	import {
 		pushState as pushHistoryState,
 		undo as historyUndo,
@@ -87,15 +87,15 @@
 	let useCycleButton = $state(false);
 	let isInitializing = $state(true);
 	const initialNativeStudyPlan = untrack(() => data.nativeStudyPlan);
-	const initialCoursesStates = untrack(() => data.coursesStates);
-	const initialCoursesGrades = untrack(() => data.coursesGrades);
+	const initialItemStates = untrack(() => data.itemStates);
+	const initialItemGrades = untrack(() => data.itemGrades);
 	const initialStrictMode = untrack(() => data.isStrictModeEnabled);
 
 	const v5Session = untrack(
 		() =>
 			new PlanSession(preparePlan(initialNativeStudyPlan), {
-				initialCourseStates: initialCoursesStates,
-				initialGrades: initialCoursesGrades,
+				initialStates: initialItemStates,
+				initialGrades: initialItemGrades,
 				strictMode: initialStrictMode
 			})
 	);
@@ -125,20 +125,21 @@
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
 
-		const coursesStates = orderedCourseItems.map((item) => item.item.state);
-		const coursesGrades = orderedCourseItems.map((item) => item.item.grade);
+		// One stream over ALL items (courses + milestones) ordered by seqId
+		const encodedStates = v5Session.serializeStates();
+		const itemGrades = v5Session.items.map((item) =>
+			item.def.kind === 'course' ? item.grade : undefined
+		);
 		const urlSearchParams = createUrlSearchParams(
-			coursesStates,
+			encodedStates,
 			isStrictModeEnabled,
 			showCodes,
-			coursesGrades
+			encodeGrades(itemGrades)
 		);
 
 		if (!browser) return;
 
 		// Track state changes for undo/redo
-		const encodedStates = encodeCoursesStates(coursesStates);
-
 		if (!getIsApplyingHistory()) {
 			pushHistoryState(encodedStates);
 		} else {
@@ -150,7 +151,7 @@
 			isStrictModeEnabled,
 			showCodes,
 			useCycleButton,
-			grades: coursesGrades
+			grades: itemGrades
 		};
 
 		localStorage.setItem(storageKey, JSON.stringify(storageData));
@@ -186,23 +187,17 @@
 			}
 
 			// Load grades from localStorage only if not in URL
-			if (data.coursesGrades.length === 0 && parsed.grades) {
-				orderedCourseItems.forEach((item, index) => {
-					if (index < parsed.grades.length) {
-						item.item.grade = parsed.grades[index] ?? undefined;
+			if (data.itemGrades.length === 0 && parsed.grades) {
+				v5Session.items.forEach((item, index) => {
+					if (item.def.kind === 'course' && index < parsed.grades.length) {
+						item.grade = parsed.grades[index] ?? undefined;
 					}
 				});
 			}
 
 			// Load states from localStorage only if not in URL
-			if (data.coursesStates.length === 0) {
-				const decodedStates = decodeCoursesStates(parsed.coursesStates);
-
-				orderedCourseItems.forEach((item, index) => {
-					if (decodedStates[index]) {
-						item.item.state = decodedStates[index];
-					}
-				});
+			if (data.itemStates.length === 0) {
+				v5Session.applySerializedStates(parsed.coursesStates ?? '');
 
 				if (parsed.isStrictModeEnabled !== undefined) {
 					isStrictModeEnabled = parsed.isStrictModeEnabled;
@@ -225,10 +220,7 @@
 		);
 		if (!confirmed) return;
 
-		orderedCourseItems.forEach((item) => {
-			item.item.state = courseStates.notTaken;
-			item.item.grade = undefined;
-		});
+		v5Session.reset();
 		isStrictModeEnabled = true;
 		showCodes = false;
 		useCycleButton = false;
@@ -240,13 +232,7 @@
 	}
 
 	function applyHistoryState(encoded: string) {
-		const decodedStates = decodeCoursesStates(encoded);
-		orderedCourseItems.forEach((item, index) => {
-			const newState = decodedStates[index] ?? courseStates.notTaken;
-			if (item.item.state !== newState) {
-				item.item.state = newState;
-			}
-		});
+		v5Session.applySerializedStates(encoded);
 	}
 
 	function handleUndo() {
@@ -295,9 +281,9 @@
 
 		// Build query params for OG URLs
 		const initialStateLetters =
-			data.coursesStates.length > 0 ? encodeCoursesStates(data.coursesStates) : '';
+			data.itemStates.length > 0 ? encodeCoursesStates(data.itemStates) : '';
 		const initialGradeLetters =
-			data.coursesGrades.length > 0 ? encodeGrades(data.coursesGrades) : '';
+			data.itemGrades.length > 0 ? encodeGrades(data.itemGrades) : '';
 		const ogQuery = [
 			initialStateLetters ? `s=${encodeURIComponent(initialStateLetters)}` : '',
 			initialGradeLetters ? `n=${encodeURIComponent(initialGradeLetters)}` : ''

@@ -23,29 +23,25 @@ const milestoneItem: PlanItem = {
 describe('normalizeItemState', () => {
 	it('resets an invalid course to notTaken when enroll requirements fail', () => {
 		expect(
-			normalizeItemState(courseItem, courseStates.taken, { isEnabled: false, canPass: true })
+			normalizeItemState(courseItem, courseStates.taken, { isEnabled: false, canComplete: true })
 		).toBe(courseStates.notTaken);
 	});
 
 	it('resets a passed course to notTaken when completion requirements fail', () => {
 		expect(
-			normalizeItemState(courseItem, courseStates.passed, { isEnabled: true, canPass: false })
+			normalizeItemState(courseItem, courseStates.passed, { isEnabled: true, canComplete: false })
 		).toBe(courseStates.notTaken);
 	});
 
-	it('keeps a passed course when invalid passed state is explicitly allowed', () => {
+	it('keeps a non-passed course even when completion requirements fail', () => {
 		expect(
-			normalizeItemState(courseItem, courseStates.passed, {
-				isEnabled: true,
-				allowInvalidPassedState: true,
-				canPass: false
-			})
-		).toBe(courseStates.passed);
+			normalizeItemState(courseItem, courseStates.taken, { isEnabled: true, canComplete: false })
+		).toBe(courseStates.taken);
 	});
 
 	it('keeps a valid course state unchanged', () => {
 		expect(
-			normalizeItemState(courseItem, courseStates.taken, { isEnabled: true, canPass: true })
+			normalizeItemState(courseItem, courseStates.taken, { isEnabled: true, canComplete: true })
 		).toBe(courseStates.taken);
 	});
 

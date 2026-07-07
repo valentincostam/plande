@@ -38,9 +38,9 @@
 			section.terms
 				.flatMap((term) => term.items)
 				.forEach((item) => {
-					item.item.setState(newState, {
-						allowInvalidPassedState: newState === courseStates.passed
-					});
+					if (item.item.def.kind === 'course') {
+						item.item.setState(newState);
+					}
 				});
 		}
 		selectValue = '';

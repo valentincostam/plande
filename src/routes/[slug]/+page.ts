@@ -1,4 +1,4 @@
-import { decodeCoursesStates } from '$lib/course-state';
+import { decodeItemStates } from '$lib/study-plan-url-state';
 import { decodeGrades } from '$lib/grade-encoding';
 import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 import type { PageLoad } from './$types';
@@ -44,8 +44,9 @@ export const load: PageLoad = ({ params, url }) => {
 		studyPlan,
 		nativeStudyPlan,
 		slug,
-		coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
-		coursesGrades: gradeLetters ? decodeGrades(gradeLetters) : [],
+		// Raw states/grades ordered by seqId over ALL items (see study-plan-url-state)
+		itemStates: stateLetters ? decodeItemStates(stateLetters) : [],
+		itemGrades: gradeLetters ? decodeGrades(gradeLetters) : [],
 		isStrictModeEnabled,
 		showCodes
 	};

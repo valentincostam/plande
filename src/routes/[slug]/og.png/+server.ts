@@ -2,11 +2,12 @@ import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
 import { studyPlanSlugMap, studyPlanSlugWithYearMap } from '../study-plan-maps';
-import { decodeCoursesStates, courseStates } from '$lib/course-state';
+import { courseStates } from '$lib/course-state';
 import { decodeGrades } from '$lib/grade-encoding';
 import { calculateDegreeProgress } from '$lib/degree-progress';
 import type { Course } from '$lib/course.svelte';
 import { studyPlanDataToStudyPlan } from '$lib/study-plan-catalog';
+import { decodeItemStates, sortItemsBySeqId } from '$lib/study-plan-url-state';
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
@@ -24,8 +25,19 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const stateLetters = url.searchParams.get('s') || url.searchParams.get('estado');
 	const gradeLetters = url.searchParams.get('n') || url.searchParams.get('notas');
 
-	const coursesStates = stateLetters ? decodeCoursesStates(stateLetters) : [];
-	const coursesGrades = gradeLetters ? decodeGrades(gradeLetters) : [];
+	// The letter streams are indexed over ALL items (courses + milestones)
+	// ordered by seqId; project them onto course positions only.
+	const itemStates = stateLetters ? decodeItemStates(stateLetters) : [];
+	const itemGrades = gradeLetters ? decodeGrades(gradeLetters) : [];
+	const orderedItems = sortItemsBySeqId(studyPlan.items);
+	const coursesStates = orderedItems
+		.map((item, index) => ({ item, state: itemStates[index] }))
+		.filter(({ item }) => item.kind === 'course')
+		.map(({ state }) => state);
+	const coursesGrades = orderedItems
+		.map((item, index) => ({ item, grade: itemGrades[index] }))
+		.filter(({ item }) => item.kind === 'course')
+		.map(({ grade }) => grade);
 
 	// Apply states to courses
 	const coursesWithState = exportStudyPlan.courses.map((course, index) => ({
