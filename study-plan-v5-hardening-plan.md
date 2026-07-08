@@ -7,7 +7,9 @@ Ejecutor: agente autónomo. Este documento es la única fuente de verdad del tra
 - **Fase 1: COMPLETADA** (commit `79a6680`). Serialización unificada por seqId (courses+milestones en un solo `s=`), sin `m=`, sin `allowInvalidPassedState`, undo/reset/localStorage/og indexados unificado. Golden fixtures legacy en `src/lib/legacy-url-compat.svelte.test.ts`. E2E nuevos en `e2e/milestone-persistence.spec.ts`.
 - **Fase 2: COMPLETADA** (commit `d4b0529`). `evaluateProgress` recursivo; graduación `{id,label,expr,weight}` (los 43 planes migrados con codemod, weight explícito en todos los sum); selectores `all`/`sections`; nodo `countOf` (en lugar de `count.of` — tipado más estricto, misma expresividad); `req.every`/`req.countOf`; ciclos solo sobre edges directos; registry seqId en `src/routes/[slug]/data/seq-id-registry.json` + test de enforcement + `bun run registry:seq`; UNaHur enforced (E2E `e2e/count-gated-courses.spec.ts`); harness muerto de equivalencia eliminado.
 - **Nota Fase 2:** `meetsRequirementState` quedó unificado en el evaluador y `isViewRequirementMet` delega en él; la copia inline en `native-dependent.svelte` queda para la Fase 3 (renderer recursivo la reemplaza entera).
-- **Fases 0 y 3-6: PENDIENTES.**
+- **Fase 3: COMPLETADA** (commit `138159c`). Árbol recursivo `ViewRequirementNode` + componente `native-requirement-node.svelte` (any como alternativas, expresiones mixtas completas, cuantitativos con progreso y copy en el componente); dependents solo-cursar (semántica legacy en ranking y listas); dedupe multi-placement en `courseItems`; milestones con placement renderizan en su término; bulk-select gateado por año real; borrados `native-requirement-summary`, campos alias de `PreparedPlan` y el param `path`. E2E nuevos en `e2e/requirement-tree.spec.ts`.
+- **Pendiente de Fase 3 (menor):** no existe aún plan con `any`/mixto en datos, así que el rendering de esos nodos solo tiene cobertura indirecta (unit del motor + componente); al cargar el primer plan que los use, agregar el E2E correspondiente.
+- **Fases 0 y 4-6: PENDIENTES.**
 
 ## Objetivo
 
