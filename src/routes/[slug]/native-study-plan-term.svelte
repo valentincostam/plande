@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { StudyPlanViewTerm } from '$lib/study-plan-view';
+	import type { StudyPlanViewItem, StudyPlanViewTerm } from '$lib/study-plan-view';
 	import BulkStateSelect from './bulk-state-select.svelte';
 	import type { CourseState } from '$lib/course-state';
 	import NativeItemCard from './native-item-card.svelte';
@@ -14,7 +14,11 @@
 
 	let { term, showCodes = false, useCycleButton = false, hideTypeBadge = false }: Props = $props();
 	let selectValue = $state<CourseState | ''>('');
-	const courseItems = $derived(term.items.filter((item) => item.item.def.kind === 'course'));
+	const courseItems = $derived(
+		term.items.filter(
+			(item): item is StudyPlanViewItem => item.item.def.kind === 'course'
+		)
+	);
 	const allItemsEnabled = $derived(courseItems.every((item) => item.item.isEnabled));
 	const canPass = $derived(courseItems.every((item) => item.item.canPass));
 
@@ -48,7 +52,12 @@
 	<ul class="grid gap-1">
 		{#each term.items as item (item.item.def.id)}
 			{#if item.item.def.kind === 'course'}
-				<NativeItemCard {item} {showCodes} {useCycleButton} {hideTypeBadge} />
+				<NativeItemCard
+					item={item as StudyPlanViewItem}
+					{showCodes}
+					{useCycleButton}
+					{hideTypeBadge}
+				/>
 			{:else}
 				<NativeMilestoneCard {item} />
 			{/if}

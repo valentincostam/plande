@@ -13,8 +13,7 @@
 	import { slide } from 'svelte/transition';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import StateSelect from './state-select.svelte';
-	import NativeRequirement from './native-requirement.svelte';
-	import NativeRequirementSummary from './native-requirement-summary.svelte';
+	import NativeRequirementNode from './native-requirement-node.svelte';
 	import NativeDependent from './native-dependent.svelte';
 	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 
@@ -63,9 +62,7 @@
 	}
 
 	const formatHours = (hours: number) => Math.round(hours);
-	const hasCompletionRequirements = $derived(
-		item.requirementsForCompletion.length > 0 || item.requirementSummariesForCompletion.length > 0
-	);
+	const hasCompletionRequirements = $derived(item.requirementTreeForCompletion.length > 0);
 	const indirectDependentsCount = $derived(item.totalDependentCount - item.dependents.length);
 	const visibleTagLabels = $derived(getVisibleItemTagLabels(item.item.def.tags));
 </script>
@@ -188,22 +185,14 @@
 						/>
 					</li>
 				{/if}
-				{#if item.requirementsForEnrollment.length > 0 || item.requirementSummariesForEnrollment.length > 0}
+				{#if item.requirementTreeForEnrollment.length > 0}
 					<li class="grid gap-2">
 						<strong>Requisitos para cursar {hasCompletionRequirements ? '' : 'y rendir'}</strong>
-						{#if item.requirementsForEnrollment.length > 0}
-							<ul class="grid gap-2">
-								{#each item.requirementsForEnrollment as requirement (requirement.id)}
-									<NativeRequirement {requirement} {showCodes} />
-								{/each}
-							</ul>
-						{:else}
-							<ul class="grid gap-2">
-								{#each item.requirementSummariesForEnrollment as summary (`${summary.kind}-${summary.label}`)}
-									<NativeRequirementSummary requirement={summary} />
-								{/each}
-							</ul>
-						{/if}
+						<ul class="grid gap-2">
+							{#each item.requirementTreeForEnrollment as node (node.id)}
+								<NativeRequirementNode {node} {showCodes} />
+							{/each}
+						</ul>
 					</li>
 				{:else}
 					<li>
@@ -214,21 +203,11 @@
 				{#if hasCompletionRequirements}
 					<li class="grid gap-2">
 						<strong>Requisitos para rendir</strong>
-						{#if item.requirementsForCompletion.length > 0}
-							<ul class="grid gap-2">
-								{#each item.requirementsForCompletion as requirement (requirement.id)}
-									<NativeRequirement {requirement} {showCodes} />
-								{/each}
-							</ul>
-						{:else if item.requirementSummariesForCompletion.length > 0}
-							<ul class="grid gap-2">
-								{#each item.requirementSummariesForCompletion as summary (`${summary.kind}-${summary.label}`)}
-									<NativeRequirementSummary requirement={summary} />
-								{/each}
-							</ul>
-						{:else}
-							<span>Ninguno</span>
-						{/if}
+						<ul class="grid gap-2">
+							{#each item.requirementTreeForCompletion as node (node.id)}
+								<NativeRequirementNode {node} {showCodes} />
+							{/each}
+						</ul>
 					</li>
 				{/if}
 				{#if item.dependents.length > 0}
@@ -238,7 +217,8 @@
 							{#each item.dependents as dependent (dependent.id)}
 								<NativeDependent
 									{dependent}
-									currentState={item.item.state as (typeof courseStates)[keyof typeof courseStates]}
+									ownerItem={item.item.def}
+									currentState={item.item.state}
 									{showCodes}
 								/>
 							{/each}

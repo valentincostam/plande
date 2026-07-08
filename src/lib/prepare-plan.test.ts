@@ -45,7 +45,7 @@ describe('preparePlan', () => {
 
 		expect(prepared.itemsById.get('a')?.id).toBe('a');
 		expect(prepared.itemIdsBySection.get('year-1')).toEqual(['a']);
-		expect(prepared.dependentEdges).toEqual([
+		expect(prepared.dependentEdgesByItemId.get('a')).toEqual([
 			{
 				sourceItemId: 'a',
 				targetItemId: 'b',
@@ -62,7 +62,7 @@ describe('preparePlan', () => {
 		};
 
 		const prepared = preparePlan(plan);
-		expect(prepared.dependentEdges[0]?.kind).toBe('alternative');
+		expect(prepared.dependentEdgesByItemId.get('a')?.[0]?.kind).toBe('alternative');
 	});
 
 	it('rejects milestone references with taken/passed states', () => {

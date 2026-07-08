@@ -9,21 +9,20 @@
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
 	import type { ViewDependent } from '$lib/study-plan-view';
-	import { isCourseStateGreaterOrEqual } from '$lib/course-state';
+	import type { ItemState, PlanItem } from '$lib/study-plan-data';
+	import { meetsRequirementState } from '$lib/requirement-evaluator';
 
 	type Props = {
 		dependent: ViewDependent;
-		currentState: (typeof courseStates)[keyof typeof courseStates];
+		ownerItem: PlanItem;
+		currentState: ItemState;
 		showCodes?: boolean;
 	};
 
-	let { dependent, currentState, showCodes = false }: Props = $props();
+	let { dependent, ownerItem, currentState, showCodes = false }: Props = $props();
 
 	const isRequirementMet = $derived(
-		isCourseStateGreaterOrEqual(
-			currentState,
-			dependent.requiredState === 'completed' ? courseStates.passed : dependent.requiredState
-		)
+		meetsRequirementState(ownerItem, currentState, dependent.requiredState)
 	);
 	const courseIsTransversal = $derived(
 		dependent.item.item.def.kind === 'course' &&

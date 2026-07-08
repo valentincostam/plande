@@ -1,19 +1,13 @@
 import { courseTermLabels, type CourseTerm } from './course-term';
-import { courseStates, isCourseStateGreaterOrEqual, type CourseState } from './course-state';
+import type { CourseState } from './course-state';
 import type { GraduationProgress } from './requirement-evaluator';
 import {
-	evaluateRequirement,
+	evaluateProgress,
 	meetsRequirementState,
 	resolveSelector
 } from './requirement-evaluator';
 import type { PlanSession, PlanItemState, SectionState } from './plan-session.svelte';
-import {
-	milestoneStates,
-	type PlanItem,
-	type RequirementExpr,
-	type RequirementState,
-	type Selector
-} from './study-plan-data';
+import type { PlanItem, RequirementExpr, RequirementState } from './study-plan-data';
 
 const toKebabCase = (name: string) => name.replace(/\s+/g, '-');
 
@@ -39,10 +33,12 @@ export type StudyPlanViewMilestone = {
 	diagramNodeId: number;
 	year?: number;
 	term?: CourseTerm;
+	// Item-level references, used for dependents and export
 	requirementsForEnrollment: ViewAtomicRequirement[];
 	requirementsForCompletion: ViewAtomicRequirement[];
-	requirementSummariesForEnrollment: RequirementView[];
-	requirementSummariesForCompletion: RequirementView[];
+	// Full requirement tree, used for rendering
+	requirementTreeForEnrollment: ViewRequirementNode[];
+	requirementTreeForCompletion: ViewRequirementNode[];
 	dependents: ViewDependent[];
 	totalDependentCount: number;
 };
@@ -63,12 +59,38 @@ export type ViewDependent = {
 	kind: 'enroll' | 'complete';
 };
 
-export type RequirementView = {
-	label: string;
-	kind: 'enroll' | 'complete' | 'graduation';
-	isMet: boolean;
-	description?: string;
-};
+// Structured requirement tree for rendering. Components own all user-facing
+// copy; this carries only data.
+export type ViewRequirementNode =
+	| {
+			nodeType: 'item';
+			id: string;
+			atomic: ViewAtomicRequirement;
+			met: boolean;
+	  }
+	| {
+			nodeType: 'group';
+			id: string;
+			op: 'all' | 'any';
+			label?: string;
+			met: boolean;
+			children: ViewRequirementNode[];
+	  }
+	| {
+			nodeType: 'quant';
+			id: string;
+			variant: 'count' | 'countOf' | 'percent' | 'sum';
+			label?: string;
+			met: boolean;
+			completedUnits: number;
+			totalUnits: number;
+			requiredState?: RequirementState;
+			metric?: 'hours' | 'credits';
+			minPercent?: number;
+			matchedItemCount?: number;
+			metItemCount?: number;
+			children?: ViewRequirementNode[];
+	  };
 
 export type StudyPlanViewItem = {
 	item: CoursePlanItemState;
@@ -76,10 +98,12 @@ export type StudyPlanViewItem = {
 	diagramNodeId: number;
 	year?: number;
 	term?: CourseTerm;
+	// Item-level references, used for dependents and export
 	requirementsForEnrollment: ViewAtomicRequirement[];
 	requirementsForCompletion: ViewAtomicRequirement[];
-	requirementSummariesForEnrollment: RequirementView[];
-	requirementSummariesForCompletion: RequirementView[];
+	// Full requirement tree, used for rendering
+	requirementTreeForEnrollment: ViewRequirementNode[];
+	requirementTreeForCompletion: ViewRequirementNode[];
 	dependents: ViewDependent[];
 	totalDependentCount: number;
 };
@@ -87,7 +111,7 @@ export type StudyPlanViewItem = {
 export type StudyPlanViewTerm = {
 	term?: CourseTerm;
 	title?: string;
-	items: StudyPlanViewItem[];
+	items: LinkedStudyPlanViewItem[];
 };
 
 export type StudyPlanViewSection = {
@@ -105,93 +129,107 @@ export type StudyPlanView = {
 	graduation: GraduationProgress;
 };
 
-const describeSelector = (expr: RequirementExpr): string => {
+const buildRequirementTree = (
+	expr: RequirementExpr,
+	kind: 'enroll' | 'complete',
+	itemsById: Map<string, LinkedStudyPlanViewItem>,
+	ownerId: string,
+	session: PlanSession,
+	prefix: string
+): ViewRequirementNode | undefined => {
 	switch (expr.type) {
-		case 'item':
-			return `Item ${expr.itemId} ${expr.state}`;
-		case 'all':
-			if (expr.label) return expr.label;
-			return expr.rules.map(describeSelector).join(' y ');
-		case 'any':
-			if (expr.label) return expr.label;
-			return expr.rules.map(describeSelector).join(' o ');
-		case 'count':
-			if (expr.label) return expr.label;
-			return `${expr.min} items de ${describeSelectorSource(expr.selector)}`;
-		case 'countOf':
-			if (expr.label) return expr.label;
-			return `${expr.min} de: ${expr.rules.map(describeSelector).join(', ')}`;
-		case 'percent':
-			if (expr.label) return expr.label;
-			return `${expr.minPercent}% de ${describeSelectorSource(expr.selector)}`;
-		case 'sum':
-			if (expr.label) return expr.label;
-			return `${expr.min} ${expr.metric} de ${describeSelectorSource(expr.selector)}`;
-	}
-};
-
-const describeSelectorSource = (selector: Selector) => {
-	switch (selector.type) {
-		case 'items':
-			return 'items especificos';
-		case 'tag':
-			return `tag ${selector.tag}`;
-		case 'section':
-			return `section ${selector.sectionId}`;
-		case 'all':
-			return selector.courseType ? `todas las ${selector.courseType}` : 'todas las materias';
-		case 'sections':
-			return `sections ${selector.sectionIds.join(', ')}`;
-	}
-};
-
-const formatPercentRequirementDescription = (
-	expr: Extract<RequirementExpr, { type: 'percent' }>,
-	session: PlanSession
-) => {
-	const items = resolveSelector(expr.selector, session.context);
-	const total = items.length;
-	if (total === 0) return undefined;
-
-	const metCount = items.filter((item) =>
-		meetsRequirementState(item.item, item.state, expr.state)
-	).length;
-	const requiredCount = Math.ceil((expr.minPercent / 100) * total);
-	const currentPercent = Math.floor((metCount / total) * 100);
-
-	if (metCount >= requiredCount) {
-		return `${expr.minPercent}% de las materias (${requiredCount} de ${total}) deben estar aprobadas y ${currentPercent}% lo está (${metCount} de ${total})`;
-	}
-
-	return `${expr.minPercent}% de las materias (${requiredCount} de ${total}) deben estar aprobadas pero solo el ${currentPercent}% lo está (${metCount} de ${total})`;
-};
-
-const describeRequirementView = (expr: RequirementExpr, session: PlanSession) => {
-	if (expr.type === 'percent') {
-		return {
-			label: expr.label ?? `${expr.minPercent}% de ${describeSelectorSource(expr.selector)}`,
-			description: formatPercentRequirementDescription(expr, session)
-		};
-	}
-
-	return { label: describeSelector(expr) };
-};
-
-export const buildRequirementViews = (
-	expr: RequirementExpr | undefined,
-	kind: RequirementView['kind'],
-	session: PlanSession
-) => {
-	if (!expr) return [];
-	const description = describeRequirementView(expr, session);
-	return [
-		{
-			label: description.label,
-			kind,
-			isMet: evaluateRequirement(expr, session.context),
-			description: description.description
+		case 'item': {
+			const item = itemsById.get(expr.itemId);
+			if (!item) return undefined;
+			const atomic: ViewAtomicRequirement = {
+				id: `${ownerId}-${prefix}-${expr.itemId}`,
+				item,
+				requiredState: expr.state,
+				kind
+			};
+			return {
+				nodeType: 'item',
+				id: atomic.id,
+				atomic,
+				met: isViewRequirementMet(atomic)
+			};
 		}
-	];
+		case 'all':
+		case 'any': {
+			const children = expr.rules
+				.map((rule, index) =>
+					buildRequirementTree(rule, kind, itemsById, ownerId, session, `${prefix}-${index}`)
+				)
+				.filter((node): node is ViewRequirementNode => node !== undefined);
+			return {
+				nodeType: 'group',
+				id: `${ownerId}-${prefix}`,
+				op: expr.type,
+				label: expr.label,
+				met: evaluateProgress(expr, session.context, ownerId).met,
+				children
+			};
+		}
+		case 'countOf': {
+			const children = expr.rules
+				.map((rule, index) =>
+					buildRequirementTree(rule, kind, itemsById, ownerId, session, `${prefix}-${index}`)
+				)
+				.filter((node): node is ViewRequirementNode => node !== undefined);
+			const progress = evaluateProgress(expr, session.context, ownerId);
+			return {
+				nodeType: 'quant',
+				id: `${ownerId}-${prefix}`,
+				variant: 'countOf',
+				label: expr.label,
+				met: progress.met,
+				completedUnits: progress.completedUnits,
+				totalUnits: progress.totalUnits,
+				children
+			};
+		}
+		case 'count':
+		case 'percent':
+		case 'sum': {
+			const progress = evaluateProgress(expr, session.context, ownerId);
+			const items = resolveSelector(expr.selector, session.context, ownerId);
+			const metItemCount = items.filter((entry) =>
+				meetsRequirementState(entry.item, entry.state, expr.state)
+			).length;
+			return {
+				nodeType: 'quant',
+				id: `${ownerId}-${prefix}`,
+				variant: expr.type,
+				label: expr.label,
+				met: progress.met,
+				completedUnits: progress.completedUnits,
+				totalUnits: progress.totalUnits,
+				requiredState: expr.state,
+				metric: expr.type === 'sum' ? expr.metric : undefined,
+				minPercent: expr.type === 'percent' ? expr.minPercent : undefined,
+				matchedItemCount: items.length,
+				metItemCount
+			};
+		}
+	}
+};
+
+// A root all() without label renders as a flat list, exactly like the legacy
+// atomic requirement list for classic plans.
+const buildRequirementTreeRoots = (
+	expr: RequirementExpr | undefined,
+	kind: 'enroll' | 'complete',
+	itemsById: Map<string, LinkedStudyPlanViewItem>,
+	ownerId: string,
+	session: PlanSession
+): ViewRequirementNode[] => {
+	if (!expr) return [];
+	const root = buildRequirementTree(expr, kind, itemsById, ownerId, session, kind);
+	if (!root) return [];
+	if (root.nodeType === 'group' && root.op === 'all' && !root.label) {
+		return root.children;
+	}
+	return [root];
 };
 
 const extractAtomicRequirements = (
@@ -229,20 +267,14 @@ const extractAtomicRequirements = (
 	}
 };
 
+// Dependents keep the legacy semantics: only ENROLLMENT requirements count,
+// both for the list and for the priority ranking.
 const buildDependents = (
 	owner: LinkedStudyPlanViewItem,
 	allItems: LinkedStudyPlanViewItem[]
 ): ViewDependent[] => {
-	return allItems.flatMap((candidate) => [
-		...candidate.requirementsForEnrollment
-			.filter((requirement) => requirement.item.item.def.id === owner.item.def.id)
-			.map((requirement) => ({
-				id: `${candidate.item.def.id}-${requirement.id}`,
-				item: candidate,
-				requiredState: requirement.requiredState,
-				kind: requirement.kind
-			})),
-		...candidate.requirementsForCompletion
+	return allItems.flatMap((candidate) =>
+		candidate.requirementsForEnrollment
 			.filter((requirement) => requirement.item.item.def.id === owner.item.def.id)
 			.map((requirement) => ({
 				id: `${candidate.item.def.id}-${requirement.id}`,
@@ -250,7 +282,7 @@ const buildDependents = (
 				requiredState: requirement.requiredState,
 				kind: requirement.kind
 			}))
-	]);
+	);
 };
 
 export const countAllViewDependents = (
@@ -311,16 +343,8 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 		term: item.def.placements[0]?.term,
 		requirementsForEnrollment: [],
 		requirementsForCompletion: [],
-		requirementSummariesForEnrollment: buildRequirementViews(
-			item.def.requirements?.enroll,
-			'enroll',
-			session
-		),
-		requirementSummariesForCompletion: buildRequirementViews(
-			item.def.requirements?.complete,
-			'complete',
-			session
-		),
+		requirementTreeForEnrollment: [],
+		requirementTreeForCompletion: [],
 		dependents: [],
 		totalDependentCount: 0
 	}));
@@ -343,6 +367,20 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 			itemViewsById,
 			itemView.item.def.id,
 			'complete'
+		);
+		itemView.requirementTreeForEnrollment = buildRequirementTreeRoots(
+			itemView.item.def.requirements?.enroll,
+			'enroll',
+			itemViewsById,
+			itemView.item.def.id,
+			session
+		);
+		itemView.requirementTreeForCompletion = buildRequirementTreeRoots(
+			itemView.item.def.requirements?.complete,
+			'complete',
+			itemViewsById,
+			itemView.item.def.id,
+			session
 		);
 	}
 	for (const itemView of linkedItemViews) {
@@ -370,8 +408,8 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 					});
 				}
 				const itemView = itemViewsById.get(item.def.id);
-				if (itemView && itemView.item.def.kind === 'course') {
-					terms.get(key)!.items.push(itemView as StudyPlanViewItem);
+				if (itemView) {
+					terms.get(key)!.items.push(itemView);
 				}
 			}
 

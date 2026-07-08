@@ -105,9 +105,21 @@
 	});
 
 	const studyPlanView = $derived(buildStudyPlanView(v5Session));
-	const courseItems = $derived(
-		studyPlanView.sections.flatMap((section) => section.terms.flatMap((term) => term.items))
-	);
+	// Deduped by item id: multi-placement courses appear in several sections
+	// but must count once in stats, charts, diagram and lists.
+	const courseItems = $derived.by(() => {
+		const seen = new Map<string, StudyPlanViewItem>();
+		for (const section of studyPlanView.sections) {
+			for (const term of section.terms) {
+				for (const item of term.items) {
+					if (item.item.def.kind === 'course' && !seen.has(item.item.def.id)) {
+						seen.set(item.item.def.id, item as StudyPlanViewItem);
+					}
+				}
+			}
+		}
+		return [...seen.values()];
+	});
 	const courseItemsById = $derived(
 		new Map<string, StudyPlanViewItem>(courseItems.map((item) => [item.item.def.id, item]))
 	);
@@ -271,6 +283,19 @@
 
 	const hasCodes = $derived(orderedCourseItems.some((item) => item.item.def.code));
 
+	// Legacy gating: a year's bulk select shows when every section of the
+	// previous year is passed (non-year sections are never gated).
+	function isPreviousYearPassed(year?: number) {
+		if (year === undefined) return true;
+		const previousYearSections = studyPlanView.sections.filter(
+			(section) => section.year === year - 1
+		);
+		if (previousYearSections.length === 0) return true;
+		return previousYearSections.every(
+			(section) => section.section.state === courseStates.passed
+		);
+	}
+
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
 		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
@@ -384,15 +409,12 @@
 			</div>
 		{:else}
 			<div class="grid gap-9">
-				{#each studyPlanView.sections as section, index (section.id)}
+				{#each studyPlanView.sections as section (section.id)}
 					<NativeStudyPlanSection
 						{section}
 						{showCodes}
 						{useCycleButton}
-						showBulkSelect={section.year === undefined || !isStrictModeEnabled
-							? true
-							: index === 0 ||
-								studyPlanView.sections[index - 1]?.section.state === courseStates.passed}
+						showBulkSelect={!isStrictModeEnabled || isPreviousYearPassed(section.year)}
 					/>
 				{/each}
 				{#if studyPlanView.additionalRequirements.length > 0}

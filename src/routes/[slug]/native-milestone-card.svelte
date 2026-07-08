@@ -4,8 +4,7 @@
 	import type { StudyPlanViewMilestone } from '$lib/study-plan-view';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import MilestoneStatePill from './milestone-state-pill.svelte';
-	import NativeRequirement from './native-requirement.svelte';
-	import NativeRequirementSummary from './native-requirement-summary.svelte';
+	import NativeRequirementNode from './native-requirement-node.svelte';
 
 	type Props = {
 		item: StudyPlanViewMilestone;
@@ -14,9 +13,7 @@
 	let { item }: Props = $props();
 	let isExpanded = $state(false);
 
-	const hasCompletionRequirements = $derived(
-		item.requirementsForCompletion.length > 0 || item.requirementSummariesForCompletion.length > 0
-	);
+	const hasCompletionRequirements = $derived(item.requirementTreeForCompletion.length > 0);
 	const canComplete = $derived(item.item.canComplete);
 
 	const stateControlLabel = $derived(
@@ -71,22 +68,14 @@
 	{#if isExpanded}
 		<div id={`${item.anchorId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
-				{#if item.requirementsForCompletion.length > 0 || item.requirementSummariesForCompletion.length > 0}
+				{#if hasCompletionRequirements}
 					<li class="grid gap-2">
 						<strong>Requisitos para completarlo</strong>
-						{#if item.requirementsForCompletion.length > 0}
-							<ul class="grid gap-2">
-								{#each item.requirementsForCompletion as requirement (requirement.id)}
-									<NativeRequirement {requirement} />
-								{/each}
-							</ul>
-						{:else}
-							<ul class="grid gap-2">
-								{#each item.requirementSummariesForCompletion as summary (`${summary.kind}-${summary.label}`)}
-									<NativeRequirementSummary requirement={summary} />
-								{/each}
-							</ul>
-						{/if}
+						<ul class="grid gap-2">
+							{#each item.requirementTreeForCompletion as node (node.id)}
+								<NativeRequirementNode {node} />
+							{/each}
+						</ul>
 					</li>
 				{:else}
 					<li><strong>Requisitos para completarlo:</strong> Ninguno</li>

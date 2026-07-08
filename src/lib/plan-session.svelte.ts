@@ -167,7 +167,7 @@ export class PlanSession {
 		this.milestoneItems = this.items.filter((item) => item.def.kind === 'milestone');
 		this.itemsById = new Map(this.items.map((item) => [item.def.id, item]));
 
-		this.sections = prepared.sections.map((section) => {
+		this.sections = prepared.plan.sections.map((section) => {
 			const sectionItems = dedupeItemStatesById(
 				(prepared.itemIdsBySection.get(section.id) ?? [])
 					.map((itemId) => this.itemsById.get(itemId))

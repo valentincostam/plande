@@ -4,7 +4,7 @@ import { preparePlan } from './prepare-plan';
 import type { GraduationRequirement } from './study-plan-data';
 import type { RawCourseRequirement, RawCourse } from './raw-course';
 import type { StudyPlan, StudyPlanCatalogEntry } from './study-plan';
-import { buildStudyPlanView } from './study-plan-view';
+import { buildStudyPlanView, type StudyPlanViewItem } from './study-plan-view';
 import {
 	getStudyPlanDataSlug,
 	getStudyPlanDataSlugWithYear,
@@ -63,18 +63,15 @@ export const studyPlanDataToCatalogEntry = (plan: StudyPlanData): StudyPlanCatal
 export const studyPlanDataToStudyPlan = (plan: StudyPlanData): StudyPlan => {
 	const session = new PlanSession(preparePlan(plan));
 	const view = buildStudyPlanView(session);
+	const viewItems = view.sections.flatMap((section) =>
+		section.terms.flatMap((term) => term.items)
+	);
 	const orderedItems = session
 		.getCourseItems()
-		.map((item) =>
-			view.sections
-				.flatMap((section) => section.terms.flatMap((term) => term.items))
-				.find((entry) => entry.item.def.id === item.def.id)
-		)
+		.map((item) => viewItems.find((entry) => entry.item.def.id === item.def.id))
 		.filter(
-			(
-				entry
-			): entry is NonNullable<(typeof view.sections)[number]['terms'][number]['items'][number]> =>
-				entry !== undefined
+			(entry): entry is StudyPlanViewItem =>
+				entry !== undefined && entry.item.def.kind === 'course'
 		);
 	let nextRequirementId = 1;
 	const getExportId = (itemId: string) => {

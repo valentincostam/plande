@@ -5,10 +5,10 @@ import type {
 	RequirementExpr,
 	RequirementState,
 	Selector,
-	Section,
 	StudyPlanData
 } from './study-plan-data';
 import { isCoursePlanItem, isMilestonePlanItem } from './study-plan-data';
+import { sortItemsBySeqId } from './study-plan-url-state';
 
 export type SeqIdRegistry = Record<string, number>;
 
@@ -18,13 +18,10 @@ export type PreparePlanOptions = {
 
 export type PreparedPlan = {
 	plan: StudyPlanData;
-	sections: Section[];
 	orderedItems: PlanItem[];
 	itemsById: Map<string, PlanItem>;
-	itemsBySeqId: Map<number, PlanItem>;
 	itemIdsByTag: Map<string, string[]>;
 	itemIdsBySection: Map<string, string[]>;
-	dependentEdges: DependentEdge[];
 	dependentEdgesByItemId: Map<string, DependentEdge[]>;
 };
 
@@ -34,16 +31,12 @@ const pushMapValue = (map: Map<string, string[]>, key: string, value: string) =>
 	map.set(key, dedupeStrings([...(map.get(key) ?? []), value]));
 };
 
-const visitRequirementExpr = (
-	expr: RequirementExpr,
-	visit: (expr: RequirementExpr, path: RequirementExpr[]) => void,
-	path: RequirementExpr[] = []
-) => {
-	visit(expr, path);
+const visitRequirementExpr = (expr: RequirementExpr, visit: (expr: RequirementExpr) => void) => {
+	visit(expr);
 
 	if (expr.type === 'all' || expr.type === 'any' || expr.type === 'countOf') {
 		for (const child of expr.rules) {
-			visitRequirementExpr(child, visit, [...path, expr]);
+			visitRequirementExpr(child, visit);
 		}
 	}
 };
@@ -394,13 +387,10 @@ export const preparePlan = (
 
 	return {
 		plan,
-		sections: plan.sections,
-		orderedItems: [...plan.items].sort((a, b) => a.seqId - b.seqId),
+		orderedItems: sortItemsBySeqId(plan.items),
 		itemsById,
-		itemsBySeqId,
 		itemIdsByTag,
 		itemIdsBySection,
-		dependentEdges: uniqueEdges,
 		dependentEdgesByItemId
 	};
 };
