@@ -280,7 +280,7 @@ const courses: RawCourse[] = [
 		id: 18,
 		code: '18',
 		name: 'Economía',
-		hours: 3,
+		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 3,
 		type: courseTypes.mandatory,
@@ -304,7 +304,7 @@ const courses: RawCourse[] = [
 		id: 19,
 		code: '19',
 		name: 'Bases de Datos',
-		hours: 4,
+		hours: 8,
 		term: courseTerms.firstSemester,
 		year: 3,
 		type: courseTypes.mandatory,
@@ -340,7 +340,7 @@ const courses: RawCourse[] = [
 		id: 20,
 		code: '20',
 		name: 'Desarrollo de Software',
-		hours: 4,
+		hours: 8,
 		term: courseTerms.firstSemester,
 		year: 3,
 		type: courseTypes.mandatory,
@@ -399,7 +399,7 @@ const courses: RawCourse[] = [
 		id: 22,
 		code: '22',
 		name: 'Análisis Numérico',
-		hours: 3,
+		hours: 6,
 		term: courseTerms.secondSemester,
 		year: 3,
 		type: courseTypes.mandatory,
@@ -863,7 +863,7 @@ const courses: RawCourse[] = [
 		id: 91,
 		code: '91',
 		name: 'Backend de Aplicaciones',
-		hours: 4,
+		hours: 8,
 		term: courseTerms.secondSemester,
 		year: 3,
 		type: courseTypes.elective,
@@ -1534,6 +1534,11 @@ export const utnFrcIsi2023: StudyPlan = {
 			id: 5,
 			label: 'Régimen de Correlatividades Plan 2023 con Electivas',
 			url: 'https://drive.google.com/file/d/15ZBqXbfH-aniEsmB4welWVbuiojkNeml/view'
+		},
+		{
+			id: 6,
+			label: 'Modalidades (Programas) - Departamento de Sistemas',
+			url: 'https://www.institucional.frc.utn.edu.ar/sistemas/Areas/Academica/Modalidades.asp'
 		}
 	],
 	notes: [
