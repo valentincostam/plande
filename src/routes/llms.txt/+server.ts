@@ -1,15 +1,11 @@
 import type { RequestHandler } from './$types';
-import { studyPlanSlugMap } from '../[slug]/study-plan-maps';
+import { studyPlanCatalog } from '../[slug]/data/study-plan-catalog';
 import { getStudyPlanSlug } from '$lib/study-plan';
-import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 
 export const prerender = true;
 
 function generateLlmsTxt(): string {
-	// Get all unique study plans from the slug map
-	const studyPlans = Array.from(new Set(Object.values(studyPlanSlugMap))).map(
-		studyPlanDataToCatalogEntry
-	);
+	const studyPlans = [...studyPlanCatalog];
 
 	// Sort study plans by university, then college, then degree
 	const sortedPlans = studyPlans.sort((planA, planB) => {

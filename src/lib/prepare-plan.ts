@@ -30,8 +30,10 @@ export type PreparedPlan = {
 
 const dedupeStrings = (values: string[]) => [...new Set(values)];
 
-const pushMapValue = (map: Map<string, string[]>, key: string, value: string) => {
-	map.set(key, dedupeStrings([...(map.get(key) ?? []), value]));
+const pushMapValue = (map: Map<string, Set<string>>, key: string, value: string) => {
+	const values = map.get(key) ?? new Set<string>();
+	values.add(value);
+	map.set(key, values);
 };
 
 const visitRequirementExpr = (expr: RequirementExpr, visit: (expr: RequirementExpr) => void) => {
@@ -419,8 +421,8 @@ export const preparePlan = (
 	}
 	const itemsById = new Map<string, PlanItem>();
 	const itemsBySeqId = new Map<number, PlanItem>();
-	const itemIdsByTag = new Map<string, string[]>();
-	const itemIdsBySection = new Map<string, string[]>();
+	const itemIdSetsByTag = new Map<string, Set<string>>();
+	const itemIdSetsBySection = new Map<string, Set<string>>();
 
 	for (const item of plan.items) {
 		if (itemsById.has(item.id)) {
@@ -448,13 +450,19 @@ export const preparePlan = (
 			if (!sectionIds.has(placement.sectionId)) {
 				throw new Error(`Item "${item.id}" references unknown section "${placement.sectionId}"`);
 			}
-			pushMapValue(itemIdsBySection, placement.sectionId, item.id);
+			pushMapValue(itemIdSetsBySection, placement.sectionId, item.id);
 		}
 
 		for (const tag of item.tags ?? []) {
-			pushMapValue(itemIdsByTag, tag, item.id);
+			pushMapValue(itemIdSetsByTag, tag, item.id);
 		}
 	}
+	const itemIdsByTag = new Map(
+		[...itemIdSetsByTag].map(([tag, itemIds]) => [tag, [...itemIds]])
+	);
+	const itemIdsBySection = new Map(
+		[...itemIdSetsBySection].map(([sectionId, itemIds]) => [sectionId, [...itemIds]])
+	);
 
 	validateAppendOnlySeqIds(plan.items, previousSeqIds);
 

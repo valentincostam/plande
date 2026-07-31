@@ -1,9 +1,10 @@
 import type { RequestHandler } from './$types';
 import { error, json } from '@sveltejs/kit';
-import { studyPlanSlugMap, studyPlanSlugWithYearMap } from './study-plan-maps';
+import { loadStudyPlan } from './data/study-plan-loaders';
 import { studyPlanToMarkdown } from '$lib/formatters/study-plan-markdown';
 import { studyPlanToPlainText } from '$lib/formatters/study-plan-plaintext';
 import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
+import type { StudyPlanData } from '$lib/study-plan-data';
 
 export const prerender = true;
 
@@ -43,11 +44,7 @@ function isOGCrawler(userAgent: string | null): boolean {
 /**
  * Generate minimal HTML response with Open Graph meta tags for social media crawlers
  */
-function generateOGResponse(
-	studyPlan: (typeof studyPlanSlugMap)[string],
-	slug: string,
-	url: URL
-): Response {
+function generateOGResponse(studyPlan: StudyPlanData, slug: string, url: URL): Response {
 	const studyPlanEntry = studyPlanDataToCatalogEntry(studyPlan);
 	const collegeAbbr = studyPlanEntry.collegeSlug ? studyPlanEntry.collegeSlug.toUpperCase() : '';
 	const universityAbbr = studyPlanEntry.universitySlug.toUpperCase();
@@ -172,8 +169,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 	const { slug } = params;
 
 	// Lookup study plan
-	const studyPlan =
-		studyPlanSlugMap[slug.toLowerCase()] ?? studyPlanSlugWithYearMap[slug.toLowerCase()];
+	const studyPlan = await loadStudyPlan(slug);
 
 	if (!studyPlan) {
 		error(404, {

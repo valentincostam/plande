@@ -104,10 +104,10 @@
 		v5Session.strictMode = isStrictModeEnabled;
 	});
 
-	const studyPlanView = $derived(buildStudyPlanView(v5Session));
+	const studyPlanView = untrack(() => buildStudyPlanView(v5Session));
 	// Deduped by item id: multi-placement courses appear in several sections
 	// but must count once in stats, charts, diagram and lists.
-	const courseItems = $derived.by(() => {
+	const courseItems = untrack(() => {
 		const seen = new Map<string, StudyPlanViewItem>();
 		for (const section of studyPlanView.sections) {
 			for (const term of section.terms) {
@@ -120,10 +120,10 @@
 		}
 		return [...seen.values()];
 	});
-	const courseItemsById = $derived(
-		new Map<string, StudyPlanViewItem>(courseItems.map((item) => [item.item.def.id, item]))
+	const courseItemsById = new Map<string, StudyPlanViewItem>(
+		courseItems.map((item) => [item.item.def.id, item])
 	);
-	const orderedCourseItems = $derived(
+	const orderedCourseItems = untrack(() =>
 		v5Session
 			.getCourseItems()
 			.map((item) => courseItemsById.get(item.def.id))

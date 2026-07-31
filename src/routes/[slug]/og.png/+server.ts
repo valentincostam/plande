@@ -1,7 +1,7 @@
 import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
-import { studyPlanSlugMap, studyPlanSlugWithYearMap } from '../study-plan-maps';
+import { loadStudyPlan } from '../data/study-plan-loaders';
 import { decodeGrades } from '$lib/grade-encoding';
 import { decodeItemStates } from '$lib/study-plan-url-state';
 import { calculateStudyPlanSnapshot } from '$lib/study-plan-progress';
@@ -9,8 +9,7 @@ import { calculateStudyPlanSnapshot } from '$lib/study-plan-progress';
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
 
-	const studyPlan =
-		studyPlanSlugMap[slug.toLowerCase()] ?? studyPlanSlugWithYearMap[slug.toLowerCase()];
+	const studyPlan = await loadStudyPlan(slug);
 
 	if (!studyPlan) {
 		error(404, { message: 'Study plan not found' });

@@ -6,7 +6,11 @@ import {
 } from './study-plan-url-state';
 import type { PreparedPlan } from './prepare-plan';
 import type { DependentEdge, Section } from './study-plan-data';
-import type { GraduationProgress, RequirementContext } from './requirement-evaluator';
+import type {
+	GraduationProgress,
+	RequirementContext,
+	RequirementContextItem
+} from './requirement-evaluator';
 import { evaluateGraduation, evaluateRequirement } from './requirement-evaluator';
 import { normalizeItemState } from './normalize-item-state';
 import { milestoneStates, type ItemState, type PlanItem } from './study-plan-data';
@@ -132,22 +136,46 @@ export class PlanSession {
 		this.prepared = prepared;
 		this.strictMode = options.strictMode ?? true;
 		this.itemsById = new Map();
+		const contextItemsById = new Map<string, RequirementContextItem>();
+		const contextArraysByTag = new Map<string, RequirementContextItem[]>();
+		const contextArraysBySection = new Map<string, RequirementContextItem[]>();
+		let allContextItems: RequirementContextItem[] | undefined;
+		const getContextItem = (itemId: string) => {
+			const cached = contextItemsById.get(itemId);
+			if (cached) return cached;
+			const itemState = this.itemsById.get(itemId);
+			if (!itemState) return undefined;
+			const contextItem = {
+				item: itemState.def,
+				get state() {
+					return itemState.state;
+				}
+			};
+			contextItemsById.set(itemId, contextItem);
+			return contextItem;
+		};
+		const getContextItems = (ids: string[]) =>
+			ids
+				.map(getContextItem)
+				.filter((item): item is RequirementContextItem => item !== undefined);
 		this.context = {
-			getItem: (itemId) => {
-				const item = this.itemsById.get(itemId);
-				return item ? { item: item.def, state: item.state } : undefined;
+			getItem: getContextItem,
+			getAllItems: () =>
+				(allContextItems ??= getContextItems(this.items.map((item) => item.def.id))),
+			getItemsByTag: (tag) => {
+				const cached = contextArraysByTag.get(tag);
+				if (cached) return cached;
+				const items = getContextItems(prepared.itemIdsByTag.get(tag) ?? []);
+				contextArraysByTag.set(tag, items);
+				return items;
 			},
-			getAllItems: () => this.items.map((item) => ({ item: item.def, state: item.state })),
-			getItemsByTag: (tag) =>
-				(prepared.itemIdsByTag.get(tag) ?? [])
-					.map((itemId) => this.itemsById.get(itemId))
-					.filter((item): item is PlanItemState => item !== undefined)
-					.map((item) => ({ item: item.def, state: item.state })),
-			getItemsBySection: (sectionId) =>
-				(prepared.itemIdsBySection.get(sectionId) ?? [])
-					.map((itemId) => this.itemsById.get(itemId))
-					.filter((item): item is PlanItemState => item !== undefined)
-					.map((item) => ({ item: item.def, state: item.state }))
+			getItemsBySection: (sectionId) => {
+				const cached = contextArraysBySection.get(sectionId);
+				if (cached) return cached;
+				const items = getContextItems(prepared.itemIdsBySection.get(sectionId) ?? []);
+				contextArraysBySection.set(sectionId, items);
+				return items;
+			}
 		};
 
 		const initialStates = options.initialStates ?? [];

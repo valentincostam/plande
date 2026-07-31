@@ -151,7 +151,9 @@ const buildRequirementTree = (
 				nodeType: 'item',
 				id: atomic.id,
 				atomic,
-				met: isViewRequirementMet(atomic)
+				get met() {
+					return isViewRequirementMet(atomic);
+				}
 			};
 		}
 		case 'all':
@@ -166,7 +168,9 @@ const buildRequirementTree = (
 				id: `${ownerId}-${prefix}`,
 				op: expr.type,
 				label: expr.label,
-				met: evaluateProgress(expr, session.context, ownerId).met,
+				get met() {
+					return evaluateProgress(expr, session.context, ownerId).met;
+				},
 				children
 			};
 		}
@@ -176,39 +180,50 @@ const buildRequirementTree = (
 					buildRequirementTree(rule, kind, itemsById, ownerId, session, `${prefix}-${index}`)
 				)
 				.filter((node): node is ViewRequirementNode => node !== undefined);
-			const progress = evaluateProgress(expr, session.context, ownerId);
 			return {
 				nodeType: 'quant',
 				id: `${ownerId}-${prefix}`,
 				variant: 'countOf',
 				label: expr.label,
-				met: progress.met,
-				completedUnits: progress.completedUnits,
-				totalUnits: progress.totalUnits,
+				get met() {
+					return evaluateProgress(expr, session.context, ownerId).met;
+				},
+				get completedUnits() {
+					return evaluateProgress(expr, session.context, ownerId).completedUnits;
+				},
+				get totalUnits() {
+					return evaluateProgress(expr, session.context, ownerId).totalUnits;
+				},
 				children
 			};
 		}
 		case 'count':
 		case 'percent':
 		case 'sum': {
-			const progress = evaluateProgress(expr, session.context, ownerId);
-			const items = resolveSelector(expr.selector, session.context, ownerId);
-			const metItemCount = items.filter((entry) =>
-				meetsRequirementState(entry.item, entry.state, expr.state)
-			).length;
+			const matchedItemCount = resolveSelector(expr.selector, session.context, ownerId).length;
 			return {
 				nodeType: 'quant',
 				id: `${ownerId}-${prefix}`,
 				variant: expr.type,
 				label: expr.label,
-				met: progress.met,
-				completedUnits: progress.completedUnits,
-				totalUnits: progress.totalUnits,
+				get met() {
+					return evaluateProgress(expr, session.context, ownerId).met;
+				},
+				get completedUnits() {
+					return evaluateProgress(expr, session.context, ownerId).completedUnits;
+				},
+				get totalUnits() {
+					return evaluateProgress(expr, session.context, ownerId).totalUnits;
+				},
 				requiredState: expr.state,
 				metric: expr.type === 'sum' ? expr.metric : undefined,
 				minPercent: expr.type === 'percent' ? expr.minPercent : undefined,
-				matchedItemCount: items.length,
-				metItemCount
+				matchedItemCount,
+				get metItemCount() {
+					return resolveSelector(expr.selector, session.context, ownerId).filter((entry) =>
+						meetsRequirementState(entry.item, entry.state, expr.state)
+					).length;
+				}
 			};
 		}
 	}
@@ -435,6 +450,8 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 		additionalRequirements: additionalRequirements
 			.map((item) => itemViewsById.get(item.def.id))
 			.filter((item): item is StudyPlanViewMilestone => item !== undefined),
-		graduation: session.graduation
+		get graduation() {
+			return session.graduation;
+		}
 	};
 };

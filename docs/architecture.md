@@ -43,3 +43,10 @@
 - URL-based state via query params (persistence + sharing)
 - URL encoding uses base64url for compactness
 - Pure functions for calculations, runes for reactivity
+
+### Native reactive view
+
+- `buildStudyPlanView` builds section, term, requirement-tree, dependent and anchor identities once per page load.
+- Requirement/progress fields are reactive getters over `PlanSession`; changing one state does not rebuild the view tree.
+- Selector context arrays are cached and expose current state through reactive getters.
+- Item-level autocorrection remains one `$effect` per item: the persistence/bulk-select E2E suite shows stable final URLs and no intermediate history entries, so a fixed-point rewrite is not currently justified.

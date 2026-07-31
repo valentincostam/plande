@@ -12,7 +12,8 @@ Ejecutor: agente autónomo. Este documento es la única fuente de verdad del tra
 - **Pendiente de Fase 3 (menor):** no existe aún plan con `any`/mixto en datos, así que el rendering de esos nodos solo tiene cobertura indirecta (unit del motor + componente); al cargar el primer plan que los use, agregar el E2E correspondiente.
 - **Hardening post-review: COMPLETADO.** Validación de alcanzabilidad para ciclos lógicos ocultos por alternativas; invariantes numéricos/estructurales completos; `year` semántico derivado en `preparePlan`; IDs DOM únicos para items multi-placement. Gates: check, 138 unit y 269 E2E verdes (1 skipped).
 - **Fase 4: COMPLETADA.** API JSON nativa; Markdown/plaintext recorren requisitos completos (incluidos hitos y cuantitativos); OG y página comparten `evaluateGraduation`; eliminados adapter, motor y tipos legacy. Gates: check, 130 unit y 269 E2E verdes (1 skipped).
-- **Fases 5-6: PENDIENTES.**
+- **Fase 5: COMPLETADA.** Catálogo liviano server-side; loader dinámico por slug; cero payloads curriculares en chunks cliente; view tree estable con hojas reactivas; contextos de selectores cacheados; autocorrección por item conservada y documentada. Gates: check, build, 135 unit y 269 E2E verdes (1 skipped).
+- **Fase 6: PENDIENTE.**
 
 ## Objetivo
 
