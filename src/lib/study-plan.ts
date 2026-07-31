@@ -1,5 +1,3 @@
-import type { RawCourse } from './raw-course';
-import type { DegreeProgressConfig } from './degree-progress';
 
 export type StudyPlanSource = {
 	id: number;
@@ -26,16 +24,6 @@ export type StudyPlanCatalogEntry = StudyPlanMetadata & {
 	durationYears: number;
 	sources: StudyPlanSource[];
 	notes?: StudyPlanNote[];
-	progress: DegreeProgressConfig;
-};
-
-export type StudyPlan = StudyPlanCatalogEntry & {
-	courses: RawCourse[];
-	durationYears: number;
-	year?: number;
-	sources: StudyPlanSource[];
-	notes?: StudyPlanNote[];
-	progress: DegreeProgressConfig;
 };
 
 export const getStudyPlanSlug = ({

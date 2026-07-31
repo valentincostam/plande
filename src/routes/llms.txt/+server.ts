@@ -152,7 +152,7 @@ Plande codifica el estado de todas las materias en el parámetro de query \`s\`,
 
 - Cada estado se representa con una letra: \`n\` (no cursada), \`e\` (en curso), \`r\` (regular), \`a\` (aprobada)
 - Estados consecutivos idénticos se comprimen: \`a2n5\` = dos aprobadas seguidas de cinco no cursadas
-- El orden de letras corresponde al orden de materias en el plan de estudios
+- El orden de letras corresponde al seqId de todos los items (materias e hitos)
 
 ### Ejemplo
 
@@ -215,33 +215,35 @@ Cada plan de estudio incluye:
 - **Fuentes**: Links a documentación oficial
 - **Configuración de progreso**: Requisitos para completar el título
 
-### Estructura de Materia
+### Estructura de Item
 
 \`\`\`json
 {
-  "id": 1,
+  "id": "matematica-i",
+  "seqId": 1,
+  "kind": "course",
   "name": "Matemática I",
   "code": "MAT101",
-  "year": 1,
-  "term": "firstSemester",
   "hours": 144,
   "type": "mandatory",
-  "attributes": [],
-  "requirements": [
-    {
-      "requiredCourseId": 2,
-      "requiredState": "passed",
-      "requiredFor": "enroll"
+  "placements": [
+    { "sectionId": "year-1", "term": "firstSemester" }
+  ],
+  "requirements": {
+    "enroll": {
+      "type": "item",
+      "itemId": "introduccion",
+      "state": "passed"
     }
-  ]
+  }
 }
 \`\`\`
 
-**Cuatrimestres**: \`annual\`, \`firstSemester\`, \`secondSemester\`, \`annualOrSemestral\`, \`semestral\`, \`crossYear\`, \`unknown\`
+**Períodos**: \`annual\`, \`firstSemester\`, \`secondSemester\`, \`annualOrSemestral\`, \`semestral\`
 
 **Tipos**: \`mandatory\` (obligatoria), \`elective\` (electiva), \`optative\` (optativa)
 
-**Propósitos de requisito**: \`enroll\` (para cursar), \`complete\` (para aprobar/finalizar)
+**Requisitos**: árboles recursivos \`item\`, \`all\`, \`any\`, \`count\`, \`countOf\`, \`percent\` y \`sum\`; \`enroll\` aplica al cursado y \`complete\` a la aprobación/finalización.
 
 ## Endpoints Disponibles
 

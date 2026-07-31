@@ -7,7 +7,7 @@
 	import StatePill from './state-pill.svelte';
 	import Ordinal from '$lib/ordinal.svelte';
 	import NativeStudyPlanTerm from './native-study-plan-term.svelte';
-	import { getOrdinalPrefix } from '$lib/year.svelte';
+	import { getOrdinalPrefix } from '$lib/ordinal';
 
 	type Props = {
 		section: StudyPlanViewSection;

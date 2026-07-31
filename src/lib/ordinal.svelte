@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getOrdinalSuperscript, getOrdinalWord } from '$lib/year.svelte';
+	import { getOrdinalSuperscript, getOrdinalWord } from '$lib/ordinal';
 
 	type Props = {
 		number: number;

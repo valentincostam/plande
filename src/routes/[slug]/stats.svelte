@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { courseStates } from '$lib/course-state';
 	import { courseTypes, isElectiveOrOptative } from '$lib/course-type';
-	import type { DegreeProgressConfig } from '$lib/degree-progress';
 	import type { GraduationRequirement } from '$lib/study-plan-data';
 	import type { GraduationRequirementResult } from '$lib/requirement-evaluator';
 	import type { StudyPlanViewItem, StudyPlanViewSection } from '$lib/study-plan-view';
@@ -12,13 +11,11 @@
 		graduationRequirements?: GraduationRequirement[];
 		items: StudyPlanViewItem[];
 		sections: StudyPlanViewSection[];
-		progress: DegreeProgressConfig;
 	};
 
 	let {
 		items,
 		sections,
-		progress,
 		graduationRequirements = [],
 		graduationBlocks = []
 	}: Props = $props();
@@ -82,8 +79,27 @@
 		return `${electiveCourses.length} electivas disponibles en el plan`;
 	});
 
+	const countGraduationRequirements = $derived(
+		graduationRequirements.filter(
+			(requirement) => requirement.expr.type === 'count'
+		)
+	);
+	const sumGraduationRequirements = $derived(
+		graduationRequirements.filter((requirement) => requirement.expr.type === 'sum')
+	);
 	const requiredElectiveCount = $derived(
-		progress.type === 'mandatory-plus-elective-count' ? (progress.requiredElectiveCount ?? 1) : 0
+		countGraduationRequirements.reduce(
+			(total, requirement) =>
+				total + (requirement.expr.type === 'count' ? requirement.expr.min : 0),
+			0
+		)
+	);
+	const requiredElectiveHours = $derived(
+		sumGraduationRequirements.reduce(
+			(total, requirement) =>
+				total + (requirement.expr.type === 'sum' ? requirement.expr.min : 0),
+			0
+		)
 	);
 
 	const countRequirementDetails = $derived(
@@ -156,7 +172,7 @@
 		unit="mat."
 	/>
 	{#if hasElectiveCourses || hasOptativeCourses}
-		{#if progress.type === 'mandatory-plus-elective-count'}
+		{#if countGraduationRequirements.length > 0}
 			<Stat
 				label={requiredGroupedCoursesLabel}
 				description={availableGroupedCoursesDescription}
@@ -184,11 +200,11 @@
 		total={sections.filter((section) => section.year !== undefined).length}
 		unit="años"
 	/>
-	{#if progress.type === 'mandatory-plus-elective-hours'}
+	{#if sumGraduationRequirements.length > 0}
 		<Stat
 			label="Horas cátedra de materias electivas aprobadas"
 			value={passedElectiveHours}
-			total={progress.requiredElectiveHours ?? 0}
+			total={requiredElectiveHours}
 			unit="hs."
 		/>
 	{/if}

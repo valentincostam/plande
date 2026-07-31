@@ -51,9 +51,11 @@ test.describe('export and API matrix', () => {
 			expect(jsonResponse.status()).toBe(200);
 			expect(jsonResponse.headers()['content-type']).toContain('application/json');
 			const jsonData = await jsonResponse.json();
-			expect(jsonData.degreeName).toBe(plan.degreeName);
-			expect(Array.isArray(jsonData.courses)).toBe(true);
-			expect(jsonData.courses.length).toBeGreaterThan(0);
+			expect(jsonData.info.degreeName).toBe(plan.degreeName);
+			expect(Array.isArray(jsonData.items)).toBe(true);
+			expect(jsonData.items.length).toBeGreaterThan(0);
+			expect(jsonData.items[0]).toHaveProperty('kind');
+			expect(jsonData.items[0]).toHaveProperty('placements');
 
 			const markdownResponse = await request.get(`/${plan.shortSlug}`, {
 				headers: { Accept: 'text/markdown' }

@@ -3,7 +3,7 @@ import { error, json } from '@sveltejs/kit';
 import { studyPlanSlugMap, studyPlanSlugWithYearMap } from './study-plan-maps';
 import { studyPlanToMarkdown } from '$lib/formatters/study-plan-markdown';
 import { studyPlanToPlainText } from '$lib/formatters/study-plan-plaintext';
-import { studyPlanDataToCatalogEntry, studyPlanDataToStudyPlan } from '$lib/study-plan-catalog';
+import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 
 export const prerender = true;
 
@@ -200,7 +200,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 
 	switch (contentType) {
 		case 'text/markdown': {
-			const markdown = studyPlanToMarkdown(studyPlanDataToStudyPlan(studyPlan));
+			const markdown = studyPlanToMarkdown(studyPlan);
 			return new Response(markdown, {
 				headers: {
 					...headers,
@@ -210,7 +210,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 		}
 
 		case 'text/plain': {
-			const plaintext = studyPlanToPlainText(studyPlanDataToStudyPlan(studyPlan));
+			const plaintext = studyPlanToPlainText(studyPlan);
 			return new Response(plaintext, {
 				headers: {
 					...headers,
@@ -221,7 +221,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 
 		case 'application/json':
 		default: {
-			return json(studyPlanDataToStudyPlan(studyPlan), {
+			return json(studyPlan, {
 				headers
 			});
 		}

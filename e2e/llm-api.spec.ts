@@ -71,10 +71,11 @@ test.describe('LLM API content parity', () => {
 
 		const data = await response.json();
 
-		expect(data).toHaveProperty('degreeName');
-		expect(data).toHaveProperty('universityName');
-		expect(data).toHaveProperty('courses');
-		expect(Array.isArray(data.courses)).toBe(true);
-		expect(data.courses.length).toBeGreaterThan(0);
+		expect(data.info).toHaveProperty('degreeName');
+		expect(data.info).toHaveProperty('universityName');
+		expect(data).toHaveProperty('sections');
+		expect(data).toHaveProperty('items');
+		expect(Array.isArray(data.items)).toBe(true);
+		expect(data.items.length).toBeGreaterThan(0);
 	});
 });

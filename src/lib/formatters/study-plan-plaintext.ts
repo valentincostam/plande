@@ -1,266 +1,85 @@
-import type { StudyPlan } from '../study-plan';
-import { courseTermLabels } from '../course-term';
-import { courseTypeLabels } from '../course-type';
 import { courseAttributeLabels } from '../course-attribute';
-import { feminineCourseStateLabels } from '../course-state';
-import { requiredFor, requiredForLabels } from '../raw-course';
+import { courseTypeLabels } from '../course-type';
+import type { StudyPlanData } from '../study-plan-data';
+import { buildStudyPlanDocument } from './study-plan-document';
 
-/**
- * Count all courses that transitively depend on a given course.
- * Works with raw study plan data (no Svelte reactivity).
- */
-function countDependents(courseId: number, allCourses: StudyPlan['courses']): number {
-	const dependentsMap = new Map<number, Set<number>>();
+const separator = '--------------------------------------------------------------------------------';
 
-	for (const course of allCourses) {
-		for (const req of course.requirements ?? []) {
-			if (!dependentsMap.has(req.requiredCourseId)) {
-				dependentsMap.set(req.requiredCourseId, new Set());
-			}
-			dependentsMap.get(req.requiredCourseId)!.add(course.id);
+export function studyPlanToPlainText(source: StudyPlanData): string {
+	const { plan, durationYears, items, graduationRequirements, priority } =
+		buildStudyPlanDocument(source);
+	const lines: string[] = [
+		separator,
+		plan.info.degreeName.toUpperCase(),
+		separator,
+		'',
+		`Universidad: ${plan.info.universityName} (${plan.info.universitySlug})`
+	];
+	if (plan.info.collegeName && plan.info.collegeSlug) {
+		lines.push(`Facultad: ${plan.info.collegeName} (${plan.info.collegeSlug})`);
+	}
+	lines.push(`Duración: ${durationYears} años`);
+	if (plan.info.year) lines.push(`Plan: ${plan.info.year}`);
+	lines.push('', separator, 'CONFIGURACIÓN DE PROGRESO', separator, '');
+	if (graduationRequirements.length === 0) lines.push('Sin requisitos de graduación definidos.');
+	for (const requirement of graduationRequirements) {
+		lines.push(`- ${requirement.label}: ${requirement.description}`);
+	}
+
+	lines.push('', separator, 'MATERIAS', separator, '');
+	let currentSection: string | undefined;
+	for (const entry of items) {
+		if (entry.sectionLabel !== currentSection) {
+			currentSection = entry.sectionLabel;
+			lines.push(currentSection.toUpperCase(), '');
 		}
-	}
-
-	const visited = new Set<number>();
-	const queue = [courseId];
-
-	while (queue.length > 0) {
-		const current = queue.shift()!;
-		for (const depId of dependentsMap.get(current) ?? []) {
-			if (!visited.has(depId)) {
-				visited.add(depId);
-				queue.push(depId);
-			}
-		}
-	}
-
-	return visited.size;
-}
-
-export function studyPlanToPlainText(studyPlan: StudyPlan): string {
-	const sections: string[] = [];
-	const SEPARATOR =
-		'================================================================================';
-	const SUBSEPARATOR =
-		'--------------------------------------------------------------------------------';
-
-	// Header with metadata
-	sections.push(SEPARATOR);
-	sections.push(studyPlan.degreeName.toUpperCase());
-	sections.push(SEPARATOR);
-	sections.push('');
-	sections.push(`Universidad: ${studyPlan.universityName} (${studyPlan.universitySlug})`);
-
-	if (studyPlan.collegeName && studyPlan.collegeSlug) {
-		sections.push(`Facultad: ${studyPlan.collegeName} (${studyPlan.collegeSlug})`);
-	}
-
-	sections.push(`Duración: ${studyPlan.durationYears} años`);
-
-	if (studyPlan.year) {
-		sections.push(`Plan: ${studyPlan.year}`);
-	}
-
-	sections.push('');
-
-	// Progress configuration
-	sections.push(SUBSEPARATOR);
-	sections.push('CONFIGURACIÓN DE PROGRESO');
-	sections.push(SUBSEPARATOR);
-	sections.push('');
-
-	const progressTypeLabels = {
-		'mandatory-only': 'Solo materias obligatorias',
-		'mandatory-plus-elective-hours': 'Obligatorias + horas electivas específicas',
-		'mandatory-plus-elective-count': 'Obligatorias + N electivas específicas'
-	};
-
-	sections.push(`Tipo: ${progressTypeLabels[studyPlan.progress.type]}`);
-
-	if (studyPlan.progress.requiredElectiveHours) {
-		sections.push(`Horas electivas requeridas: ${studyPlan.progress.requiredElectiveHours} horas`);
-	}
-
-	if (studyPlan.progress.requiredElectiveCount) {
-		sections.push(`Cantidad de electivas requeridas: ${studyPlan.progress.requiredElectiveCount}`);
-	}
-
-	sections.push('');
-
-	// Group courses by year
-	const coursesByYear = new Map<number | undefined, typeof studyPlan.courses>();
-
-	for (const course of studyPlan.courses) {
-		if (!coursesByYear.has(course.year)) {
-			coursesByYear.set(course.year, []);
-		}
-		coursesByYear.get(course.year)!.push(course);
-	}
-
-	// Sort years (undefined = transversal goes last)
-	const sortedYears = Array.from(coursesByYear.keys()).sort((a, b) => {
-		if (a === undefined) return 1;
-		if (b === undefined) return -1;
-		return a - b;
-	});
-
-	sections.push(SUBSEPARATOR);
-	sections.push('MATERIAS');
-	sections.push(SUBSEPARATOR);
-	sections.push('');
-
-	for (const year of sortedYears) {
-		sections.push(year !== undefined ? `AÑO ${year}` : 'MATERIAS TRANSVERSALES');
-		sections.push('');
-
-		const courses = coursesByYear.get(year)!;
-
-		for (const course of courses) {
-			sections.push(course.name);
-
-			// Course details
-			if (course.code) {
-				sections.push(`  Código: ${course.code}`);
-			}
-
-			if (course.hours) {
-				sections.push(`  Horas: ${course.hours}`);
-			}
-
-			const termLabel = courseTermLabels[course.term];
-			if (termLabel) {
-				sections.push(`  Período: ${termLabel}`);
-			}
-
-			sections.push(`  Tipo: ${courseTypeLabels[course.type]}`);
-
-			if (course.attributes && course.attributes.length > 0) {
-				const attrLabels = course.attributes.map((a) => courseAttributeLabels[a]).join(', ');
-				sections.push(`  Atributos: ${attrLabels}`);
-			}
-
-			if (course.crossYear) {
-				const endTermLabel = courseTermLabels[course.crossYear.endsInTerm];
-				sections.push(`  Plurianual: Hasta año ${course.crossYear.spansToYear} (${endTermLabel})`);
-			}
-
-			// Requirements
-			if (course.requirements && course.requirements.length > 0) {
-				sections.push('  Correlativas:');
-
-				// Group requirements by purpose
-				const enrollRequirements = course.requirements.filter(
-					(req) => req.requiredFor === requiredFor.enroll
+		lines.push(entry.item.name);
+		if (entry.item.code) lines.push(`  Código: ${entry.item.code}`);
+		if (entry.item.kind === 'course') {
+			if (entry.item.hours) lines.push(`  Horas: ${entry.item.hours}`);
+			if (entry.item.credits) lines.push(`  Créditos: ${entry.item.credits}`);
+			lines.push(`  Tipo: ${courseTypeLabels[entry.item.type]}`);
+			if (entry.item.attributes?.length) {
+				lines.push(
+					`  Atributos: ${entry.item.attributes.map((value) => courseAttributeLabels[value]).join(', ')}`
 				);
-				const completeRequirements = course.requirements.filter(
-					(req) => req.requiredFor === requiredFor.complete
-				);
-
-				if (enrollRequirements.length > 0) {
-					sections.push(`    Para ${requiredForLabels[requiredFor.enroll]}:`);
-					for (const req of enrollRequirements) {
-						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = feminineCourseStateLabels[req.requiredState];
-						if (reqCourse) {
-							sections.push(`      - ${reqCourse.name} (debe estar ${stateLabel})`);
-						}
-					}
-				}
-
-				if (completeRequirements.length > 0) {
-					sections.push(`    Para ${requiredForLabels[requiredFor.complete]}:`);
-					for (const req of completeRequirements) {
-						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = feminineCourseStateLabels[req.requiredState];
-						if (reqCourse) {
-							sections.push(`      - ${reqCourse.name} (debe estar ${stateLabel})`);
-						}
-					}
-				}
 			}
-
-			sections.push('');
+		} else {
+			lines.push('  Tipo: Hito');
 		}
+		if (entry.placements.length) lines.push(`  Ubicación: ${entry.placements.join('; ')}`);
+		if (entry.enrollRequirement) lines.push(`  Requiere para cursar: ${entry.enrollRequirement}`);
+		if (entry.completeRequirement) {
+			lines.push(`  Requiere para completar: ${entry.completeRequirement}`);
+		}
+		lines.push('');
 	}
 
-	// Priority section
-	sections.push(SUBSEPARATOR);
-	sections.push('ORDEN DE PRIORIDAD SUGERIDO');
-	sections.push(SUBSEPARATOR);
-	sections.push('');
-	sections.push(
-		'Materias ordenadas por cantidad de otras que desbloquean. Conviene priorizar las que están más arriba.'
-	);
-	sections.push('');
-
-	const coursesWithDependents = studyPlan.courses
-		.map((course) => ({
-			course,
-			dependentCount: countDependents(course.id, studyPlan.courses)
-		}))
-		.sort((a, b) => {
-			if (b.dependentCount !== a.dependentCount) {
-				return b.dependentCount - a.dependentCount;
-			}
-			const yearA = a.course.year ?? Infinity;
-			const yearB = b.course.year ?? Infinity;
-			if (yearA !== yearB) {
-				return yearA - yearB;
-			}
-			return a.course.name.localeCompare(b.course.name, 'es');
-		});
-
-	coursesWithDependents.forEach(({ course, dependentCount }, index) => {
-		const yearStr = course.year !== undefined ? `${course.year}º año` : 'transversal';
-		sections.push(`${index + 1}. ${course.name} (${yearStr}) - desbloquea ${dependentCount}`);
+	lines.push(separator, 'ORDEN DE PRIORIDAD SUGERIDO', separator, '');
+	priority.forEach((entry, index) => {
+		lines.push(
+			`${index + 1}. ${entry.item.name} (${entry.year === undefined ? 'transversal' : `${entry.year}º año`}) - desbloquea ${entry.dependentCount}`
+		);
 	});
-
-	sections.push('');
-
-	// Sources
-	if (studyPlan.sources.length > 0) {
-		sections.push(SUBSEPARATOR);
-		sections.push('FUENTES OFICIALES');
-		sections.push(SUBSEPARATOR);
-		sections.push('');
-
-		for (const source of studyPlan.sources) {
-			sections.push(`${source.id}. ${source.label}`);
-			sections.push(`   ${source.url}`);
-		}
-
-		sections.push('');
-	}
-
-	// Notes
-	if (studyPlan.notes && studyPlan.notes.length > 0) {
-		sections.push(SUBSEPARATOR);
-		sections.push('NOTAS ADICIONALES');
-		sections.push(SUBSEPARATOR);
-		sections.push('');
-
-		for (const note of studyPlan.notes) {
-			// Strip markdown formatting from notes for plain text
-			const plainNote = note.text
-				.replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
-				.replace(/\*(.+?)\*/g, '$1') // Remove italic
-				.replace(/\[(.+?)\]\(.+?\)/g, '$1') // Remove links, keep text
-				.replace(/<sup>(.+?)<\/sup>/g, '^$1'); // Convert sup to caret notation
-
-			sections.push(plainNote);
-			sections.push('');
+	if (plan.info.sources?.length) {
+		lines.push('', separator, 'FUENTES OFICIALES', separator, '');
+		for (const sourceItem of plan.info.sources) {
+			lines.push(`${sourceItem.id}. ${sourceItem.label}`, `   ${sourceItem.url}`);
 		}
 	}
-
-	// Credits
-	sections.push(SUBSEPARATOR);
-	sections.push('');
-	sections.push('Este plan de estudios fue creado con Plande (https://plande.app).');
-	sections.push('Plande es un proyecto de Valentín Costa (https://valentincosta.com).');
-	sections.push(
-		'Podés apoyar el proyecto comprándole un café a Valentín en Cafecito (https://cafecito.app/valentincostam).'
-	);
-	sections.push('');
-
-	return sections.join('\n');
+	if (plan.info.notes?.length) {
+		lines.push('', separator, 'NOTAS ADICIONALES', separator, '');
+		for (const note of plan.info.notes) {
+			lines.push(
+				note.text
+					.replace(/\*\*(.+?)\*\*/g, '$1')
+					.replace(/\*(.+?)\*/g, '$1')
+					.replace(/\[(.+?)\]\(.+?\)/g, '$1')
+					.replace(/<sup>(.+?)<\/sup>/g, '^$1'),
+				''
+			);
+		}
+	}
+	lines.push('', separator, '', 'Este plan de estudios fue creado con Plande (https://plande.app).', '');
+	return lines.join('\n');
 }

@@ -11,7 +11,8 @@ Ejecutor: agente autónomo. Este documento es la única fuente de verdad del tra
 - **Fase 3: COMPLETADA** (commit `138159c`). Árbol recursivo `ViewRequirementNode` + componente `native-requirement-node.svelte` (any como alternativas, expresiones mixtas completas, cuantitativos con progreso y copy en el componente); dependents solo-cursar (semántica legacy en ranking y listas); dedupe multi-placement en `courseItems`; milestones con placement renderizan en su término; bulk-select gateado por año real; borrados `native-requirement-summary`, campos alias de `PreparedPlan` y el param `path`. E2E nuevos en `e2e/requirement-tree.spec.ts`.
 - **Pendiente de Fase 3 (menor):** no existe aún plan con `any`/mixto en datos, así que el rendering de esos nodos solo tiene cobertura indirecta (unit del motor + componente); al cargar el primer plan que los use, agregar el E2E correspondiente.
 - **Hardening post-review: COMPLETADO.** Validación de alcanzabilidad para ciclos lógicos ocultos por alternativas; invariantes numéricos/estructurales completos; `year` semántico derivado en `preparePlan`; IDs DOM únicos para items multi-placement. Gates: check, 138 unit y 269 E2E verdes (1 skipped).
-- **Fases 4-6: PENDIENTES.**
+- **Fase 4: COMPLETADA.** API JSON nativa; Markdown/plaintext recorren requisitos completos (incluidos hitos y cuantitativos); OG y página comparten `evaluateGraduation`; eliminados adapter, motor y tipos legacy. Gates: check, 130 unit y 269 E2E verdes (1 skipped).
+- **Fases 5-6: PENDIENTES.**
 
 ## Objetivo
 

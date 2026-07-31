@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { DegreeProgressConfig } from '$lib/degree-progress';
 	import type { StudyPlanViewItem, StudyPlanViewSection } from '$lib/study-plan-view';
 	import Donut from './donut.svelte';
 	import StateDistribution from './state-distribution.svelte';
@@ -8,11 +7,10 @@
 	type Props = {
 		items: StudyPlanViewItem[];
 		sections: StudyPlanViewSection[];
-		progress: DegreeProgressConfig;
 		percentage: number;
 	};
 
-	let { items, sections, percentage, progress }: Props = $props();
+	let { items, sections, percentage }: Props = $props();
 </script>
 
 <div class="grid gap-3 px-3 md:grid-cols-[1fr_3fr] md:px-0">

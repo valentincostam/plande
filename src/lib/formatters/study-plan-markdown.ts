@@ -1,282 +1,85 @@
-import type { StudyPlan } from '../study-plan';
-import { courseTermLabels } from '../course-term';
-import { courseTypeLabels, isElectiveOrOptative } from '../course-type';
-import { courseAttributeLabels, isTransversal } from '../course-attribute';
-import { feminineCourseStateLabels } from '../course-state';
-import { requiredFor, requiredForLabels } from '../raw-course';
+import { courseAttributeLabels } from '../course-attribute';
+import { courseTypeLabels } from '../course-type';
+import type { StudyPlanData } from '../study-plan-data';
+import { buildStudyPlanDocument } from './study-plan-document';
 
-/**
- * Count all courses that transitively depend on a given course.
- * Works with raw study plan data (no Svelte reactivity).
- */
-function countDependents(courseId: number, allCourses: StudyPlan['courses']): number {
-	// Build dependency graph: courseId -> Set of courses that directly depend on it
-	const dependentsMap = new Map<number, Set<number>>();
+export function studyPlanToMarkdown(source: StudyPlanData): string {
+	const { plan, durationYears, items, graduationRequirements, priority } =
+		buildStudyPlanDocument(source);
+	const lines: string[] = [
+		`# ${plan.info.degreeName}`,
+		'',
+		`**Universidad**: ${plan.info.universityName} (${plan.info.universitySlug})`
+	];
+	if (plan.info.collegeName && plan.info.collegeSlug) {
+		lines.push(`**Facultad**: ${plan.info.collegeName} (${plan.info.collegeSlug})`);
+	}
+	lines.push(`**Duración**: ${durationYears} años`);
+	if (plan.info.year) lines.push(`**Plan**: ${plan.info.year}`);
+	lines.push('', '## Configuración de Progreso', '');
+	if (graduationRequirements.length === 0) lines.push('Sin requisitos de graduación definidos.');
+	for (const requirement of graduationRequirements) {
+		lines.push(`- **${requirement.label}**: ${requirement.description}`);
+	}
 
-	for (const course of allCourses) {
-		for (const req of course.requirements ?? []) {
-			if (!dependentsMap.has(req.requiredCourseId)) {
-				dependentsMap.set(req.requiredCourseId, new Set());
-			}
-			dependentsMap.get(req.requiredCourseId)!.add(course.id);
+	lines.push('', '## Materias', '');
+	let currentSection: string | undefined;
+	for (const entry of items) {
+		if (entry.sectionLabel !== currentSection) {
+			currentSection = entry.sectionLabel;
+			lines.push(`### ${currentSection}`, '');
 		}
-	}
-
-	// BFS to count all transitive dependents
-	const visited = new Set<number>();
-	const queue = [courseId];
-
-	while (queue.length > 0) {
-		const current = queue.shift()!;
-		for (const depId of dependentsMap.get(current) ?? []) {
-			if (!visited.has(depId)) {
-				visited.add(depId);
-				queue.push(depId);
-			}
-		}
-	}
-
-	return visited.size;
-}
-
-export function studyPlanToMarkdown(studyPlan: StudyPlan): string {
-	const sections: string[] = [];
-
-	// Header with metadata
-	sections.push(`# ${studyPlan.degreeName}`);
-	sections.push('');
-	sections.push(`**Universidad**: ${studyPlan.universityName} (${studyPlan.universitySlug})`);
-
-	if (studyPlan.collegeName && studyPlan.collegeSlug) {
-		sections.push(`**Facultad**: ${studyPlan.collegeName} (${studyPlan.collegeSlug})`);
-	}
-
-	sections.push(`**Duración**: ${studyPlan.durationYears} años`);
-
-	if (studyPlan.year) {
-		sections.push(`**Plan**: ${studyPlan.year}`);
-	}
-
-	sections.push('');
-
-	// Progress configuration
-	sections.push('## Configuración de Progreso');
-	sections.push('');
-
-	const progressTypeLabels = {
-		'mandatory-only': 'Solo materias obligatorias',
-		'mandatory-plus-elective-hours': 'Obligatorias + horas electivas específicas',
-		'mandatory-plus-elective-count': 'Obligatorias + N electivas específicas'
-	};
-
-	sections.push(`**Tipo**: ${progressTypeLabels[studyPlan.progress.type]}`);
-
-	if (studyPlan.progress.requiredElectiveHours) {
-		sections.push(
-			`**Horas electivas requeridas**: ${studyPlan.progress.requiredElectiveHours} horas`
-		);
-	}
-
-	if (studyPlan.progress.requiredElectiveCount) {
-		sections.push(
-			`**Cantidad de electivas requeridas**: ${studyPlan.progress.requiredElectiveCount}`
-		);
-	}
-
-	sections.push('');
-
-	// Group courses by year
-	const coursesByYear = new Map<number | undefined, typeof studyPlan.courses>();
-
-	for (const course of studyPlan.courses) {
-		if (!coursesByYear.has(course.year)) {
-			coursesByYear.set(course.year, []);
-		}
-		coursesByYear.get(course.year)!.push(course);
-	}
-
-	// Sort years (undefined = transversal goes last)
-	const sortedYears = Array.from(coursesByYear.keys()).sort((a, b) => {
-		if (a === undefined) return 1;
-		if (b === undefined) return -1;
-		return a - b;
-	});
-
-	sections.push('## Materias');
-	sections.push('');
-
-	// Helper function to render a list of courses
-	const renderCourses = (courses: typeof studyPlan.courses) => {
-		for (const course of courses) {
-			// Course header
-			sections.push(`#### ${course.name}`);
-			sections.push('');
-
-			// Course details
-			if (course.code) {
-				sections.push(`- **Código**: ${course.code}`);
-			}
-
-			if (course.hours) {
-				sections.push(`- **Horas**: ${course.hours}`);
-			}
-
-			const termLabel = courseTermLabels[course.term];
-			if (termLabel) {
-				sections.push(`- **Período**: ${termLabel}`);
-			}
-
-			sections.push(`- **Tipo**: ${courseTypeLabels[course.type]}`);
-
-			if (course.attributes && course.attributes.length > 0) {
-				const attrLabels = course.attributes.map((a) => courseAttributeLabels[a]).join(', ');
-				sections.push(`- **Atributos**: ${attrLabels}`);
-			}
-
-			if (course.crossYear) {
-				const endTermLabel = courseTermLabels[course.crossYear.endsInTerm];
-				sections.push(
-					`- **Plurianual**: Hasta año ${course.crossYear.spansToYear} (${endTermLabel})`
+		lines.push(`#### ${entry.item.name}`, '');
+		if (entry.item.code) lines.push(`- **Código**: ${entry.item.code}`);
+		if (entry.item.kind === 'course') {
+			if (entry.item.hours) lines.push(`- **Horas**: ${entry.item.hours}`);
+			if (entry.item.credits) lines.push(`- **Créditos**: ${entry.item.credits}`);
+			lines.push(`- **Tipo**: ${courseTypeLabels[entry.item.type]}`);
+			if (entry.item.attributes?.length) {
+				lines.push(
+					`- **Atributos**: ${entry.item.attributes.map((value) => courseAttributeLabels[value]).join(', ')}`
 				);
 			}
-
-			// Requirements
-			if (course.requirements && course.requirements.length > 0) {
-				sections.push('');
-				sections.push('**Correlativas**:');
-
-				// Group requirements by purpose
-				const enrollRequirements = course.requirements.filter(
-					(req) => req.requiredFor === requiredFor.enroll
-				);
-				const completeRequirements = course.requirements.filter(
-					(req) => req.requiredFor === requiredFor.complete
-				);
-
-				if (enrollRequirements.length > 0) {
-					sections.push(`- Para ${requiredForLabels[requiredFor.enroll]}:`);
-					for (const req of enrollRequirements) {
-						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = feminineCourseStateLabels[req.requiredState];
-						if (reqCourse) {
-							sections.push(`  - ${reqCourse.name} (debe estar ${stateLabel})`);
-						}
-					}
-				}
-
-				if (completeRequirements.length > 0) {
-					sections.push(`- Para ${requiredForLabels[requiredFor.complete]}:`);
-					for (const req of completeRequirements) {
-						const reqCourse = studyPlan.courses.find((c) => c.id === req.requiredCourseId);
-						const stateLabel = feminineCourseStateLabels[req.requiredState];
-						if (reqCourse) {
-							sections.push(`  - ${reqCourse.name} (debe estar ${stateLabel})`);
-						}
-					}
-				}
-			}
-
-			sections.push('');
-			sections.push('---');
-			sections.push('');
-		}
-	};
-
-	for (const year of sortedYears) {
-		const courses = coursesByYear.get(year)!;
-
-		if (year !== undefined) {
-			// Regular year - render all courses under one heading
-			sections.push(`### Año ${year}`);
-			sections.push('');
-			renderCourses(courses);
 		} else {
-			// Courses without year - separate transversal mandatory from electives
-			const transversalMandatoryCourses = courses.filter(
-				(c) => isTransversal(c.attributes ?? []) && !isElectiveOrOptative(c.type)
-			);
-			const electiveCourses = courses.filter((c) => isElectiveOrOptative(c.type));
-
-			if (transversalMandatoryCourses.length > 0) {
-				sections.push('### Materias Transversales');
-				sections.push('');
-				renderCourses(transversalMandatoryCourses);
-			}
-
-			if (electiveCourses.length > 0) {
-				sections.push('### Materias Electivas');
-				sections.push('');
-				renderCourses(electiveCourses);
-			}
+			lines.push('- **Tipo**: Hito');
 		}
+		if (entry.placements.length) lines.push(`- **Ubicación**: ${entry.placements.join('; ')}`);
+		if (entry.enrollRequirement) lines.push(`- **Requiere para cursar**: ${entry.enrollRequirement}`);
+		if (entry.completeRequirement) lines.push(`- **Requiere para completar**: ${entry.completeRequirement}`);
+		lines.push('', '---', '');
 	}
 
-	// Priority section - courses sorted by how many others they unlock
-	sections.push('## Orden de Prioridad Sugerido');
-	sections.push('');
-	sections.push(
-		'Materias ordenadas por cantidad de otras que desbloquean. Conviene priorizar las que están más arriba.'
+	lines.push(
+		'## Orden de Prioridad Sugerido',
+		'',
+		'Materias ordenadas por cantidad de otras que desbloquean. Conviene priorizar las que están más arriba.',
+		'',
+		'| # | Materia | Año | Desbloquea |',
+		'|---|---------|-----|------------|'
 	);
-	sections.push('');
-	sections.push('| # | Materia | Año | Desbloquea |');
-	sections.push('|---|---------|-----|------------|');
-
-	const coursesWithDependents = studyPlan.courses
-		.map((course) => ({
-			course,
-			dependentCount: countDependents(course.id, studyPlan.courses)
-		}))
-		.sort((a, b) => {
-			if (b.dependentCount !== a.dependentCount) {
-				return b.dependentCount - a.dependentCount;
-			}
-			const yearA = a.course.year ?? Infinity;
-			const yearB = b.course.year ?? Infinity;
-			if (yearA !== yearB) {
-				return yearA - yearB;
-			}
-			return a.course.name.localeCompare(b.course.name, 'es');
-		});
-
-	coursesWithDependents.forEach(({ course, dependentCount }, index) => {
-		const yearStr = course.year !== undefined ? `${course.year}º` : '-';
-		sections.push(`| ${index + 1} | ${course.name} | ${yearStr} | ${dependentCount} |`);
+	priority.forEach((entry, index) => {
+		lines.push(
+			`| ${index + 1} | ${entry.item.name} | ${entry.year === undefined ? '-' : `${entry.year}º`} | ${entry.dependentCount} |`
+		);
 	});
 
-	sections.push('');
-
-	// Sources
-	if (studyPlan.sources.length > 0) {
-		sections.push('## Fuentes Oficiales');
-		sections.push('');
-
-		for (const source of studyPlan.sources) {
-			sections.push(`${source.id}. [${source.label}](${source.url})`);
-		}
-
-		sections.push('');
-	}
-
-	// Notes
-	if (studyPlan.notes && studyPlan.notes.length > 0) {
-		sections.push('## Notas Adicionales');
-		sections.push('');
-
-		for (const note of studyPlan.notes) {
-			sections.push(note.text);
-			sections.push('');
+	if (plan.info.sources?.length) {
+		lines.push('', '## Fuentes Oficiales', '');
+		for (const sourceItem of plan.info.sources) {
+			lines.push(`${sourceItem.id}. [${sourceItem.label}](${sourceItem.url})`);
 		}
 	}
-
-	// Credits
-	sections.push('---');
-	sections.push('');
-	sections.push('Este plan de estudios fue creado con [Plande](https://plande.app).');
-	sections.push('Plande es un proyecto de [Valentín Costa](https://valentincosta.com).');
-	sections.push(
-		'Podés apoyar el proyecto comprándole un café a Valentín en [Cafecito](https://cafecito.app/valentincostam).'
+	if (plan.info.notes?.length) {
+		lines.push('', '## Notas Adicionales', '');
+		for (const note of plan.info.notes) lines.push(note.text, '');
+	}
+	lines.push(
+		'',
+		'---',
+		'',
+		'Este plan de estudios fue creado con [Plande](https://plande.app).',
+		'Plande es un proyecto de [Valentín Costa](https://valentincosta.com).',
+		''
 	);
-	sections.push('');
-
-	return sections.join('\n');
+	return lines.join('\n');
 }

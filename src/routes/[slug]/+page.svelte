@@ -447,13 +447,11 @@
 				<Charts
 					items={courseItems}
 					sections={studyPlanView.sections}
-					progress={data.studyPlan.progress}
 					percentage={studyPlanView.graduation.percentage}
 				/>
 				<Stats
 					items={courseItems}
 					sections={studyPlanView.sections}
-					progress={data.studyPlan.progress}
 					graduationRequirements={data.nativeStudyPlan.requirements?.graduation ?? []}
 					graduationBlocks={studyPlanView.graduation.blocks}
 				/>
