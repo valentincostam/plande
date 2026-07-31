@@ -17,6 +17,18 @@ test.describe('Milestone requirements', () => {
 			name: 'Detalles de Examen de Suficiencia de Inglés E'
 		});
 		await expect(milestoneDetails.getByText('Requisitos para completarlo:')).toBeVisible();
+		await expect(
+			milestoneDetails.getByText('Materias que desbloquea', { exact: true })
+		).toBeVisible();
+		const unlockedCourseLink = milestoneDetails.getByRole('link', {
+			name: 'Educación en el Cuidado de la Salud'
+		});
+		await expect(unlockedCourseLink).toBeVisible();
+		const unlockedCourse = milestoneDetails
+			.getByRole('list', { name: 'Materias que desbloquea' })
+			.getByRole('listitem')
+			.filter({ hasText: 'Educación en el Cuidado de la Salud' });
+		await expect(unlockedCourse).toContainText(/necesita este hito.*Completado.*rendir/);
 
 		const courseButton = studyPlan.getCourseButton('Educación en el Cuidado de la Salud');
 		await courseButton.click();
@@ -27,15 +39,14 @@ test.describe('Milestone requirements', () => {
 		await expect(englishRequirement).toContainText('debe estar completado');
 		await expect(englishRequirement).toContainText('Pendiente');
 
-		await page
-			.getByRole('button', {
-				name: 'Estado de Examen de Suficiencia de Inglés E: Pendiente',
-				exact: true
-			})
-			.click();
+		const milestoneState = page.getByRole('combobox', {
+			name: 'Estado de Examen de Suficiencia de Inglés E: Pendiente',
+			exact: true
+		});
+		await milestoneState.selectOption({ label: 'Completado' });
 
 		await expect(
-			page.getByRole('button', {
+			page.getByRole('combobox', {
 				name: 'Estado de Examen de Suficiencia de Inglés E: Completado',
 				exact: true
 			})
@@ -65,15 +76,14 @@ test.describe('Milestone requirements', () => {
 		await expect(englishRequirement).toContainText('debe estar completado');
 		await expect(englishRequirement).toContainText('Pendiente');
 
-		await page
-			.getByRole('button', {
-				name: 'Estado de Prueba de Suficiencia de Inglés: Pendiente',
-				exact: true
-			})
-			.click();
+		const milestoneState = page.getByRole('combobox', {
+			name: 'Estado de Prueba de Suficiencia de Inglés: Pendiente',
+			exact: true
+		});
+		await milestoneState.selectOption({ label: 'Completado' });
 
 		await expect(
-			page.getByRole('button', {
+			page.getByRole('combobox', {
 				name: 'Estado de Prueba de Suficiencia de Inglés: Completado',
 				exact: true
 			})
@@ -89,21 +99,21 @@ test.describe('Milestone requirements', () => {
 	}) => {
 		await studyPlan.goto('unlam-dce-lci');
 
-		const stateButton = page.getByRole('button', {
+		const stateSelect = page.getByRole('combobox', {
 			name: 'Estado de Título intermedio: Técnico Universitario en Comercio Internacional: Pendiente',
 			exact: true
 		});
-		await expect(stateButton).toBeDisabled();
+		await expect(stateSelect).toBeDisabled();
 
 		await studyPlan.setYearState(1, 'Aprobadas');
 		await studyPlan.setYearState(2, 'Aprobadas');
 		await studyPlan.setYearState(3, 'Aprobadas');
 
-		await expect(stateButton).toBeEnabled();
-		await stateButton.click();
+		await expect(stateSelect).toBeEnabled();
+		await stateSelect.selectOption({ label: 'Completado' });
 
 		await expect(
-			page.getByRole('button', {
+			page.getByRole('combobox', {
 				name: 'Estado de Título intermedio: Técnico Universitario en Comercio Internacional: Completado',
 				exact: true
 			})
@@ -116,21 +126,21 @@ test.describe('Milestone requirements', () => {
 	}) => {
 		await studyPlan.goto('udemm-lpe');
 
-		const stateButton = page.getByRole('button', {
+		const stateSelect = page.getByRole('combobox', {
 			name: 'Estado de Título intermedio: Asistente Psicopedagógico: Pendiente',
 			exact: true
 		});
-		await expect(stateButton).toBeDisabled();
+		await expect(stateSelect).toBeDisabled();
 
 		await studyPlan.setYearState(1, 'Aprobadas');
 		await studyPlan.setYearState(2, 'Aprobadas');
 		await studyPlan.setYearState(3, 'Aprobadas');
 
-		await expect(stateButton).toBeEnabled();
-		await stateButton.click();
+		await expect(stateSelect).toBeEnabled();
+		await stateSelect.selectOption({ label: 'Completado' });
 
 		await expect(
-			page.getByRole('button', {
+			page.getByRole('combobox', {
 				name: 'Estado de Título intermedio: Asistente Psicopedagógico: Completado',
 				exact: true
 			})

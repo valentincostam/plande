@@ -4,15 +4,14 @@ const englishMilestonePending = 'Estado de Examen de Suficiencia de Inglés E: P
 const englishMilestoneCompleted = 'Estado de Examen de Suficiencia de Inglés E: Completado';
 
 test.describe('Milestone state persistence', () => {
-	test('completed milestone survives a page reload via URL state', async ({
-		page,
-		studyPlan
-	}) => {
+	test('completed milestone survives a page reload via URL state', async ({ page, studyPlan }) => {
 		await studyPlan.goto('uns-dcs-le-2017');
 
-		await page.getByRole('button', { name: englishMilestonePending, exact: true }).click();
+		await page
+			.getByRole('combobox', { name: englishMilestonePending, exact: true })
+			.selectOption({ label: 'Completado' });
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 
 		await expect(page).toHaveURL(/[?&]s=/);
@@ -20,7 +19,7 @@ test.describe('Milestone state persistence', () => {
 		await page.reload({ waitUntil: 'load' });
 
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 	});
 
@@ -30,16 +29,18 @@ test.describe('Milestone state persistence', () => {
 	}) => {
 		await studyPlan.goto('uns-dcs-le-2017');
 
-		await page.getByRole('button', { name: englishMilestonePending, exact: true }).click();
+		await page
+			.getByRole('combobox', { name: englishMilestonePending, exact: true })
+			.selectOption({ label: 'Completado' });
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 		await expect(page).toHaveURL(/[?&]s=/);
 
 		await studyPlan.goto('uns-dcs-le-2017');
 
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 	});
 
@@ -53,13 +54,15 @@ test.describe('Milestone state persistence', () => {
 		// is that BOTH states round-trip through the same URL stream.
 		await studyPlan.getStrictModeToggle().uncheck();
 
-		await page.getByRole('button', { name: englishMilestonePending, exact: true }).click();
+		await page
+			.getByRole('combobox', { name: englishMilestonePending, exact: true })
+			.selectOption({ label: 'Completado' });
 		await studyPlan.setCourseState('Educación en el Cuidado de la Salud', 'Aprobada');
 
 		await page.reload({ waitUntil: 'load' });
 
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 		await expect(
 			studyPlan.getCourseStateControl('Educación en el Cuidado de la Salud')
@@ -76,19 +79,21 @@ test.describe('Milestone state persistence', () => {
 		// change first and then toggle the milestone.
 		await studyPlan.setCourseState('Fundamentos del Cuidado', 'Aprobada');
 
-		await page.getByRole('button', { name: englishMilestonePending, exact: true }).click();
+		await page
+			.getByRole('combobox', { name: englishMilestonePending, exact: true })
+			.selectOption({ label: 'Completado' });
 		await expect(
-			page.getByRole('button', { name: englishMilestoneCompleted, exact: true })
+			page.getByRole('combobox', { name: englishMilestoneCompleted, exact: true })
 		).toBeVisible();
 
 		await page.keyboard.press('ControlOrMeta+z');
 
 		await expect(
-			page.getByRole('button', { name: englishMilestonePending, exact: true })
+			page.getByRole('combobox', { name: englishMilestonePending, exact: true })
 		).toBeVisible();
-		await expect(
-			studyPlan.getCourseStateControl('Fundamentos del Cuidado')
-		).toHaveAccessibleName('Estado de Fundamentos del Cuidado: Aprobada');
+		await expect(studyPlan.getCourseStateControl('Fundamentos del Cuidado')).toHaveAccessibleName(
+			'Estado de Fundamentos del Cuidado: Aprobada'
+		);
 	});
 });
 
@@ -100,16 +105,16 @@ test.describe('Bulk select state persistence', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		await studyPlan.setYearState(1, 'Aprobadas');
-		await expect(
-			studyPlan.getCourseStateControl('Análisis Matemático I')
-		).toHaveAccessibleName('Estado de Análisis Matemático I: Aprobada');
+		await expect(studyPlan.getCourseStateControl('Análisis Matemático I')).toHaveAccessibleName(
+			'Estado de Análisis Matemático I: Aprobada'
+		);
 		await expect(page).toHaveURL(/[?&]s=/);
 
 		await page.reload({ waitUntil: 'load' });
 
-		await expect(
-			studyPlan.getCourseStateControl('Análisis Matemático I')
-		).toHaveAccessibleName('Estado de Análisis Matemático I: Aprobada');
+		await expect(studyPlan.getCourseStateControl('Análisis Matemático I')).toHaveAccessibleName(
+			'Estado de Análisis Matemático I: Aprobada'
+		);
 		await expect(
 			studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')
 		).toHaveAccessibleName('Estado de Álgebra y Geometría Analítica: Aprobada');

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { milestoneStates } from '$lib/study-plan-data';
 	import { slide } from 'svelte/transition';
 	import type { StudyPlanViewMilestone } from '$lib/study-plan-view';
 	import ChevronDownIcon from './chevron-down-icon.svelte';
-	import MilestoneStatePill from './milestone-state-pill.svelte';
+	import MilestoneStateSelect from './milestone-state-select.svelte';
+	import NativeDependent from './native-dependent.svelte';
 	import NativeRequirementNode from './native-requirement-node.svelte';
 
 	type Props = {
@@ -16,21 +16,13 @@
 
 	const hasCompletionRequirements = $derived(item.requirementTreeForCompletion.length > 0);
 	const canComplete = $derived(item.item.canComplete);
-
-	const stateControlLabel = $derived(
-		`Estado de ${item.item.def.name}: ${item.item.state === milestoneStates.completed ? 'Completado' : 'Pendiente'}`
+	const directDependentCount = $derived(
+		new Set(item.dependents.map((dependent) => dependent.item.item.def.id)).size
 	);
+	const indirectDependentsCount = $derived(item.totalDependentCount - directDependentCount);
 
 	function handleClick() {
 		isExpanded = !isExpanded;
-	}
-
-	function toggleState() {
-		if (item.item.state !== milestoneStates.completed && !canComplete) return;
-		item.item.state =
-			item.item.state === milestoneStates.completed
-				? milestoneStates.pending
-				: milestoneStates.completed;
 	}
 </script>
 
@@ -52,18 +44,12 @@
 			/>
 			<span class="font-noto grow text-left tracking-tight select-none">{item.item.def.name}</span>
 		</button>
-		<button
-			type="button"
-			onclick={toggleState}
-			aria-label={stateControlLabel}
-			disabled={!canComplete && item.item.state !== milestoneStates.completed}
-			class="cursor-pointer rounded-md focus:outline-2 focus:outline-blue-500"
-		>
-			<MilestoneStatePill
-				state={item.item.state as (typeof milestoneStates)[keyof typeof milestoneStates]}
-				class="text-xs"
-			/>
-		</button>
+		<MilestoneStateSelect
+			id={`${domId}-state`}
+			bind:value={item.item.state}
+			{canComplete}
+			milestoneName={item.item.def.name}
+		/>
 	</div>
 
 	{#if isExpanded}
@@ -78,7 +64,7 @@
 				{#if hasCompletionRequirements}
 					<li class="grid gap-2">
 						<strong>Requisitos para completarlo</strong>
-						<ul class="grid gap-2">
+						<ul class="grid gap-2" aria-label="Requisitos para completarlo">
 							{#each item.requirementTreeForCompletion as node (node.id)}
 								<NativeRequirementNode {node} />
 							{/each}
@@ -86,6 +72,33 @@
 					</li>
 				{:else}
 					<li><strong>Requisitos para completarlo:</strong> Ninguno</li>
+				{/if}
+				{#if item.dependents.length > 0}
+					<li class="grid gap-2">
+						<strong>Materias que desbloquea</strong>
+						<ul class="grid gap-2" aria-label="Materias que desbloquea">
+							{#each item.dependents as dependent (dependent.id)}
+								<NativeDependent
+									{dependent}
+									ownerItem={item.item.def}
+									currentState={item.item.state}
+								/>
+							{/each}
+						</ul>
+					</li>
+				{:else}
+					<li><strong>Materias que desbloquea:</strong> Ninguna</li>
+				{/if}
+				{#if item.dependents.length > 0}
+					<li>
+						<strong>Cantidad total de materias que desbloquea:</strong>
+						{item.totalDependentCount}
+						{#if indirectDependentsCount > 0}
+							<span class="text-gray-500">
+								({directDependentCount} directamente, {indirectDependentsCount} indirectamente)
+							</span>
+						{/if}
+					</li>
 				{/if}
 			</ul>
 		</div>

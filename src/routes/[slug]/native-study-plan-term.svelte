@@ -2,6 +2,7 @@
 	import type {
 		LinkedStudyPlanViewItem,
 		StudyPlanViewItem,
+		StudyPlanViewMilestone,
 		StudyPlanViewTerm
 	} from '$lib/study-plan-view';
 	import BulkStateSelect from './bulk-state-select.svelte';
@@ -17,13 +18,16 @@
 		hideTypeBadge?: boolean;
 	};
 
-	let { term, sectionId, showCodes = false, useCycleButton = false, hideTypeBadge = false }: Props =
-		$props();
+	let {
+		term,
+		sectionId,
+		showCodes = false,
+		useCycleButton = false,
+		hideTypeBadge = false
+	}: Props = $props();
 	let selectValue = $state<CourseState | ''>('');
 	const courseItems = $derived(
-		term.items.filter(
-			(item): item is StudyPlanViewItem => item.item.def.kind === 'course'
-		)
+		term.items.filter((item): item is StudyPlanViewItem => item.item.def.kind === 'course')
 	);
 	const allItemsEnabled = $derived(courseItems.every((item) => item.item.isEnabled));
 	const canPass = $derived(courseItems.every((item) => item.item.canPass));
@@ -68,13 +72,13 @@
 			{#if item.item.def.kind === 'course'}
 				<NativeItemCard
 					item={item as StudyPlanViewItem}
-						domId={getDomId(item)}
+					domId={getDomId(item)}
 					{showCodes}
 					{useCycleButton}
 					{hideTypeBadge}
 				/>
 			{:else}
-				<NativeMilestoneCard {item} domId={getDomId(item)} />
+				<NativeMilestoneCard item={item as StudyPlanViewMilestone} domId={getDomId(item)} />
 			{/if}
 		{/each}
 	</ul>

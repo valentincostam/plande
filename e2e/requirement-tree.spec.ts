@@ -29,7 +29,9 @@ test.describe('Requirement rendering and multi-placement stats', () => {
 		const milestoneDetails = page.getByRole('region', {
 			name: 'Detalles de Título intermedio: Técnico Universitario en Comercio Internacional'
 		});
-		await expect(milestoneDetails.getByText('7 materias aprobadas', { exact: true })).toBeVisible();
+		await expect(
+			milestoneDetails.getByText('7 materias de 1er Año aprobadas', { exact: true })
+		).toBeVisible();
 		await expect(page.getByText(/items de section/i)).toHaveCount(0);
 	});
 });

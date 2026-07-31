@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ViewRequirementNode } from '$lib/study-plan-view';
 	import { pluralFeminineCourseStateLabels, courseStates } from '$lib/course-state';
+	import { courseTypes } from '$lib/course-type';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import NativeRequirement from './native-requirement.svelte';
@@ -14,22 +15,60 @@
 	let { node, showCodes = false }: Props = $props();
 
 	const requiredStateLabel = (state?: string) => {
-		if (!state || state === 'completed') return pluralFeminineCourseStateLabels[courseStates.passed];
+		if (!state || state === 'completed')
+			return pluralFeminineCourseStateLabels[courseStates.passed];
 		return pluralFeminineCourseStateLabels[state as keyof typeof pluralFeminineCourseStateLabels];
 	};
+
+	const courseTypePluralLabels = {
+		[courseTypes.mandatory]: 'obligatorias',
+		[courseTypes.elective]: 'electivas',
+		[courseTypes.optative]: 'optativas'
+	} as const;
+
+	const selectorLabel = (quantNode: Extract<ViewRequirementNode, { nodeType: 'quant' }>) => {
+		const selector = quantNode.selector;
+		if (!selector) return 'materias';
+
+		switch (selector.type) {
+			case 'section':
+				return `materias de ${quantNode.selectorSectionLabels?.[0] ?? selector.sectionId}`;
+			case 'sections':
+				return `materias de ${quantNode.selectorSectionLabels?.join(', ') ?? selector.sectionIds.join(', ')}`;
+			case 'all':
+				return selector.courseType
+					? `materias ${courseTypePluralLabels[selector.courseType]}`
+					: 'materias del plan';
+			case 'items':
+			case 'tag': {
+				if (quantNode.selectorCoversAllCourses) return 'materias del plan';
+				const courseType =
+					quantNode.selectorCourseTypes?.length === 1
+						? quantNode.selectorCourseTypes[0]
+						: undefined;
+				return courseType
+					? `materias ${courseTypePluralLabels[courseType]}`
+					: 'materias seleccionadas';
+			}
+		}
+	};
+
+	const selectorLabelWithArticle = (
+		quantNode: Extract<ViewRequirementNode, { nodeType: 'quant' }>
+	) => selectorLabel(quantNode).replace(/^materias/, 'las materias');
 
 	const quantLabel = $derived.by(() => {
 		if (node.nodeType !== 'quant') return '';
 		if (node.label) return node.label;
 		switch (node.variant) {
 			case 'count':
-				return `${node.totalUnits} materias ${requiredStateLabel(node.requiredState).toLowerCase()}`;
+				return `${node.totalUnits} ${selectorLabel(node)} ${requiredStateLabel(node.requiredState).toLowerCase()}`;
 			case 'countOf':
 				return `${node.totalUnits} de las siguientes opciones`;
 			case 'percent':
-				return `${node.minPercent}% de las materias (${node.totalUnits} de ${node.matchedItemCount}) ${requiredStateLabel(node.requiredState).toLowerCase()}`;
+				return `${node.minPercent}% de ${selectorLabelWithArticle(node)} (${node.totalUnits} de ${node.matchedItemCount}) ${requiredStateLabel(node.requiredState).toLowerCase()}`;
 			case 'sum':
-				return `${node.totalUnits} ${node.metric === 'credits' ? 'créditos' : 'horas'} ${requiredStateLabel(node.requiredState).toLowerCase()}`;
+				return `${node.totalUnits} ${node.metric === 'credits' ? 'créditos' : 'horas'} de ${selectorLabel(node)} ${requiredStateLabel(node.requiredState).toLowerCase()}`;
 		}
 	});
 
@@ -54,7 +93,7 @@
 
 		const state = requiredStateLabel(node.requiredState).toLowerCase();
 		const currentPercent = Math.floor((node.metItemCount / node.matchedItemCount) * 100);
-		const threshold = `${node.minPercent}% de las materias (${node.totalUnits} de ${node.matchedItemCount}) deben estar ${state}`;
+		const threshold = `${node.minPercent}% de ${selectorLabelWithArticle(node)} (${node.totalUnits} de ${node.matchedItemCount}) deben estar ${state}`;
 		return node.met
 			? `${threshold} y ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`
 			: `${threshold} pero solo el ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`;

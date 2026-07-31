@@ -86,4 +86,55 @@ describe('study plan view reactivity', () => {
 		});
 		cleanup();
 	});
+
+	it('shows completion dependents for milestones without changing course priority semantics', () => {
+		const plan: StudyPlanData = {
+			info: {
+				degreeName: 'Test',
+				degreeSlug: 'test',
+				universityName: 'Test',
+				universitySlug: 'test'
+			},
+			sections: [{ id: 'year-1', label: '1er Año' }],
+			items: [
+				{
+					id: 'milestone',
+					seqId: 1,
+					kind: 'milestone',
+					name: 'Hito',
+					placements: []
+				},
+				{
+					id: 'a',
+					seqId: 2,
+					kind: 'course',
+					name: 'A',
+					type: courseTypes.mandatory,
+					placements: [{ sectionId: 'year-1' }],
+					requirements: { complete: req.item('milestone', 'completed') }
+				},
+				{
+					id: 'b',
+					seqId: 3,
+					kind: 'course',
+					name: 'B',
+					type: courseTypes.mandatory,
+					placements: [{ sectionId: 'year-1' }],
+					requirements: { complete: req.item('a', 'passed') }
+				}
+			]
+		};
+
+		const cleanup = $effect.root(() => {
+			const session = new PlanSession(preparePlan(plan), { strictMode: false });
+			const view = buildStudyPlanView(session);
+			const milestone = view.additionalRequirements[0];
+			const courseA = view.sections[0].terms[0].items.find((item) => item.item.def.id === 'a')!;
+
+			expect(milestone.dependents.map((dependent) => dependent.item.item.def.id)).toEqual(['a']);
+			expect(milestone.dependents[0].kind).toBe('complete');
+			expect(courseA.dependents).toEqual([]);
+		});
+		cleanup();
+	});
 });

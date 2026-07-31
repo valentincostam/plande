@@ -8,6 +8,7 @@
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
+	import MilestoneStatePill from './milestone-state-pill.svelte';
 	import type { ViewDependent } from '$lib/study-plan-view';
 	import type { ItemState, PlanItem } from '$lib/study-plan-data';
 	import { meetsRequirementState } from '$lib/requirement-evaluator';
@@ -60,13 +61,18 @@
 		{:else if courseIsTransversal}
 			({courseLabel})
 		{/if}
-		necesita esta materia {#if dependent.requiredState !== courseStates.passed}al menos
+		necesita {ownerItem.kind === 'milestone' ? 'este hito' : 'esta materia'}
+		{#if ownerItem.kind !== 'milestone' && dependent.requiredState !== courseStates.passed}al menos
 		{/if}
-		<StatePill
-			state={dependent.requiredState === 'completed'
-				? courseStates.passed
-				: dependent.requiredState}
-		/>
+		{#if ownerItem.kind === 'milestone'}
+			<MilestoneStatePill state="completed" />
+		{:else}
+			<StatePill
+				state={dependent.requiredState === 'completed'
+					? courseStates.passed
+					: dependent.requiredState}
+			/>
+		{/if}
 		para {dependent.kind === 'enroll' ? 'cursar' : 'rendir'}
 	</span>
 </li>
