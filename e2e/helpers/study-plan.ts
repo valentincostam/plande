@@ -24,7 +24,7 @@ const getOrdinalWord = (year: number): string => {
 
 export const goto = async (page: Page, slug = 'utn-frcu-isi') => {
 	await page.goto(`/${slug}`, { waitUntil: 'load' });
-	await page.waitForTimeout(2000);
+	await expect(page.getByRole('main')).toHaveAttribute('aria-busy', 'false');
 };
 
 const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -55,10 +55,10 @@ const getCourseStateLabel = async (control: Locator) => {
 const getExistingCourseStateControl = async (page: Page, courseName: string) => {
 	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
 	const combobox = page.getByRole('combobox', { name });
-	if ((await combobox.count()) > 0) return combobox.first();
+	if ((await combobox.count()) > 0) return combobox;
 
 	const button = page.getByRole('button', { name });
-	if ((await button.count()) > 0) return button.first();
+	if ((await button.count()) > 0) return button;
 
 	throw new Error(`Could not find course state control for "${courseName}"`);
 };
@@ -67,14 +67,14 @@ export const getCourseStateControl = (page: Page, courseName: string): Locator =
 	const name = new RegExp(`^Estado de ${escapeRegex(courseName)}: `);
 	const combobox = page.getByRole('combobox', { name });
 	const button = page.getByRole('button', { name });
-	return combobox.or(button).first();
+	return combobox.or(button);
 };
 
 export const getCourseButton = (page: Page, courseName: string): Locator =>
-	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) }).first();
+	page.getByRole('button', { name: new RegExp(`^${escapeRegex(courseName)}(?:,|$)`) });
 
 export const getAvailableCoursesSection = (page: Page): Locator =>
-	page.locator('section', { has: page.getByRole('heading', { name: 'Qué podés cursar' }) });
+	page.getByRole('region', { name: 'Qué podés cursar' });
 
 export const getStrictModeToggle = (page: Page): Locator =>
 	page.getByRole('checkbox', { name: /modo estricto/i });
@@ -90,9 +90,8 @@ export const getResetProgressButton = (page: Page): Locator =>
 
 export const getCourseDetailsPanel = async (page: Page, courseName: string): Promise<Locator> => {
 	const button = getCourseButton(page, courseName);
-	const panelId = await button.getAttribute('aria-controls');
-	if (!panelId) throw new Error(`Course button for "${courseName}" has no aria-controls`);
-	return page.locator(`[id="${panelId}"]`);
+	await expect(button).toHaveAttribute('aria-controls');
+	return page.getByRole('region', { name: `Detalles de ${courseName}`, exact: true });
 };
 
 export const setCourseState = async (page: Page, courseName: string, state: string) => {
@@ -131,10 +130,10 @@ export const setYearState = async (page: Page, year: number, state: string) => {
 	await select.selectOption({ label: state });
 };
 
-export const gotoWithState = (page: Page, slug: string, stateParam: string) =>
-	page.goto(`/${slug}?s=${stateParam}`, { waitUntil: 'load' }).then(async () => {
-		await page.waitForTimeout(2000);
-	});
+export const gotoWithState = async (page: Page, slug: string, stateParam: string) => {
+	await page.goto(`/${slug}?s=${stateParam}`, { waitUntil: 'load' });
+	await expect(page.getByRole('main')).toHaveAttribute('aria-busy', 'false');
+};
 
 export const getDegreeProgressBar = (page: Page): Locator => page.getByRole('progressbar');
 
@@ -142,7 +141,7 @@ export const getStatByLabel = (page: Page, labelPattern: string | RegExp): Locat
 	page.getByRole('listitem').filter({ hasText: labelPattern });
 
 export const setGrade = async (page: Page, grade: number) => {
-	const gradeInput = page.locator('input[type="number"]:visible').last();
+	const gradeInput = page.getByRole('spinbutton', { name: /^Nota de aprobación de / });
 	await expect(gradeInput).toBeVisible({ timeout: 20000 });
 	await gradeInput.fill(grade.toString());
 	await gradeInput.blur();

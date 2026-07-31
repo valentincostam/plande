@@ -67,7 +67,13 @@
 	</div>
 
 	{#if isExpanded}
-		<div id={`${domId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div
+			id={`${domId}-details`}
+			role="region"
+			aria-label={`Detalles de ${item.item.def.name}`}
+			class="px-3 pb-3"
+			transition:slide={{ duration: 200 }}
+		>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
 				{#if hasCompletionRequirements}
 					<li class="grid gap-2">

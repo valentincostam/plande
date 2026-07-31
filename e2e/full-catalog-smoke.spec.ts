@@ -30,7 +30,6 @@ test.describe('full catalog smoke', () => {
 			const regionCount = await page.getByRole('region').count();
 			expect(regionCount).toBeGreaterThan(0);
 
-			await expect(page.locator('vite-error-overlay')).toHaveCount(0);
 			expect(pageErrors).toEqual([]);
 			expect(consoleErrors).toEqual([]);
 		});

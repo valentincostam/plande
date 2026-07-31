@@ -59,7 +59,7 @@ test.describe('Course details (expand/collapse)', () => {
 		await expect(
 			panel.getByText('Requisitos para cursar y rendir:', { exact: true })
 		).toBeVisible();
-		await expect(panel.getByText('Ninguno').first()).toBeVisible();
+		await expect(panel.getByText(/Requisitos para cursar y rendir:\s*Ninguno/)).toBeVisible();
 	});
 
 	test('course with requirements shows them listed', async ({ studyPlan }) => {
@@ -155,7 +155,7 @@ test.describe('Course dependents (courses that this unlocks)', () => {
 
 		await dependentLink.click();
 
-		await expect(page.locator(`[id="${href.slice(1)}"]`)).toHaveClass(/is-targeted/);
+		await expect(studyPlan.getCourseButton('Análisis Matemático II')).toBeInViewport();
 	});
 
 	test('dependent shows required state label', async ({ studyPlan }) => {

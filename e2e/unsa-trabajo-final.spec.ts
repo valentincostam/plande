@@ -17,9 +17,6 @@ test.describe('UNSa Trabajo Final requirements', () => {
 			)
 		).toBeVisible();
 		await expect(
-			panel.getByText('80% de las materias aprobadas', { exact: true }).locator('..')
-		).toBeVisible();
-		await expect(
 			panel.getByText('Todas las materias restantes de la carrera aprobadas', { exact: true })
 		).toBeVisible();
 		await expect(

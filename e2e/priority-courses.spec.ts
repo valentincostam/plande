@@ -27,8 +27,8 @@ test.describe('Priority courses section', () => {
 		const table = studyPlan.getPriorityCoursesTable();
 		const rows = table.getByRole('row');
 
-		const firstRowUnlocks = await rows.nth(1).getByRole('cell').last().textContent();
-		const secondRowUnlocks = await rows.nth(2).getByRole('cell').last().textContent();
+		const firstRowUnlocks = await rows.nth(1).getByRole('cell').nth(2).textContent();
+		const secondRowUnlocks = await rows.nth(2).getByRole('cell').nth(2).textContent();
 
 		const first = parseInt(firstRowUnlocks ?? '0');
 		const second = parseInt(secondRowUnlocks ?? '0');
@@ -49,7 +49,7 @@ test.describe('Priority courses section', () => {
 
 		let hasZeroDependents = false;
 		for (let i = 1; i < rowCount; i++) {
-			const unlocks = await rows.nth(i).getByRole('cell').last().textContent();
+			const unlocks = await rows.nth(i).getByRole('cell').nth(2).textContent();
 			const count = parseInt(unlocks ?? '0');
 			if (count === 0) {
 				hasZeroDependents = true;
@@ -100,13 +100,10 @@ test.describe('Priority courses section', () => {
 		await studyPlan.goto();
 
 		const table = studyPlan.getPriorityCoursesTable();
-		const periodCells = table.getByRole('cell').filter({ hasText: /año/i });
-		const count = await periodCells.count();
-
-		expect(count).toBeGreaterThan(0);
-
-		const firstPeriodCell = periodCells.first();
-		await expect(firstPeriodCell.locator('sup').first()).toBeVisible();
+		const firstCourseRow = table.getByRole('row').nth(1);
+		await expect(
+			firstCourseRow.getByLabel(/^(primer|segundo|tercer|cuarto|quinto) año$/i)
+		).toBeVisible();
 	});
 
 	test('shows course codes when setting is enabled', async ({ studyPlan }) => {
@@ -127,12 +124,12 @@ test.describe('Priority courses section', () => {
 		await studyPlan.goto();
 
 		const table = studyPlan.getPriorityCoursesTable();
-		const firstCourseLink = table.getByRole('link').first();
+		const firstCourseLink = table.getByRole('row').nth(1).getByRole('link');
 		const courseName = await firstCourseLink.textContent();
 
 		await firstCourseLink.click();
 
-		const courseButton = studyPlan.getCourseButton(courseName!.trim()).first();
+		const courseButton = studyPlan.getCourseButton(courseName!.trim());
 		await expect(courseButton).toBeInViewport();
 	});
 
@@ -147,12 +144,11 @@ test.describe('Priority courses section', () => {
 		const table = studyPlan.getPriorityCoursesTable();
 		await table.scrollIntoViewIfNeeded();
 
-		const firstCourseLink = table.getByRole('link').first();
+		const firstCourseLink = table.getByRole('row').nth(1).getByRole('link');
 		const courseName = await firstCourseLink.textContent();
 		await firstCourseLink.click();
 
-		const diagramRegion = studyPlan.getDiagramRegion();
-		const courseNode = diagramRegion.getByText(courseName!.trim()).first();
+		const courseNode = studyPlan.getDiagramCourseNode(courseName!.trim());
 		await expect(courseNode).toBeInViewport();
 	});
 

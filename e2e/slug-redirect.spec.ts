@@ -35,14 +35,15 @@ test.describe('Slug redirect to canonical URL with year', () => {
 			name: 'Ingeniería en Sistemas de Información Plan 2008',
 			exact: true
 		});
-		const isiLink2023 = page
-			.getByRole('link', {
-				name: 'Ingeniería en Sistemas de Información Plan 2023',
-				exact: true
-			})
-			.and(page.locator('a[href="/utn-frba-isi-2023"]'));
+		const isiLink2023 = page.getByRole('link', {
+			name: 'Ingeniería en Sistemas de Información Plan 2023',
+			exact: true
+		});
 
 		await expect(isiLink2008).toHaveAttribute('href', '/utn-frba-isi-2008');
-		await expect(isiLink2023).toHaveAttribute('href', '/utn-frba-isi-2023');
+		const plan2023Links = await isiLink2023.evaluateAll((links) =>
+			links.map((link) => link.getAttribute('href'))
+		);
+		expect(plan2023Links).toContain('/utn-frba-isi-2023');
 	});
 });

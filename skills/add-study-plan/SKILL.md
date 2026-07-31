@@ -14,10 +14,11 @@ Convert source documents into a new `StudyPlanData` plan file and wire it into P
 3. Extract plan metadata, sections, items, placements, prerequisites, and graduation rules.
 4. Create `src/routes/[slug]/data/{slug}.ts`.
 5. Register the plan in `src/routes/[slug]/data/all-study-plans.ts`.
-6. If this is the first plan for the university, add logo assets using `references/logo-workflow.md`.
-7. Run `bun run check`.
-8. Verify the generated plan against the official source using `references/source-verification.md`.
-9. Finish with a brief QA report using `references/final-report.md`.
+6. Run `bun run registry:seq` to regenerate the append-only registry, lightweight catalog and dynamic loaders.
+7. If this is the first plan for the university, add logo assets using `references/logo-workflow.md`.
+8. Run `bun run check`.
+9. Verify the generated plan against the official source using `references/source-verification.md`.
+10. Finish with a brief QA report using `references/final-report.md`.
 
 If the user asks only for extraction, stop before editing the repo and return the TypeScript contents.
 
@@ -34,6 +35,9 @@ It is the current and only prompt that should drive authoring for the live model
 - Use one canonical item per academic entity.
 - Use multiple placements instead of duplicated items.
 - Use semantic requirements when the source is group-based.
+- Use `select.all`/`select.sections`, `req.every` and `req.countOf` when they match the official rule.
+- Graduation uses the same recursive expression model; a root `sum` requires explicit `weight`.
+- `seqId` is one append-only stream across courses and milestones. Never renumber or reuse an existing value; append from the current maximum.
 - Use weekly hours, not total hours.
 - Allow stable alphanumeric item IDs when the official code is alphanumeric.
 - Keep names, codes, accents, and official terminology faithful to the source.
@@ -64,6 +68,7 @@ Always check:
 - prerequisites were mapped correctly
 - graduation requirements match the source
 - the plan is registered in `all-study-plans.ts`
+- `bun run registry:seq` was run and the registry, catalog and loader changes are committed
 - `bun run check` passes
 - local app output matches the official source for a representative manual pass
 - the local app shows the expected title, section headings, term headings, and view toggle

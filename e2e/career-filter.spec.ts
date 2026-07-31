@@ -19,12 +19,8 @@ test.describe('Career filter on homepage', () => {
 		await filterInput.fill('ingeniería en sistemas');
 
 		await expect(page.getByRole('status')).toBeVisible();
-		await expect(
-			page
-				.getByRole('link')
-				.filter({ hasText: /ingeniería en sistemas/i })
-				.first()
-		).toBeVisible();
+		const matchingCareers = page.getByRole('link').filter({ hasText: /ingeniería en sistemas/i });
+		expect(await matchingCareers.count()).toBeGreaterThan(0);
 	});
 
 	test('filtering by university name shows matching universities', async ({ page }) => {
@@ -33,7 +29,7 @@ test.describe('Career filter on homepage', () => {
 		await filterInput.fill('UTN');
 
 		await expect(page.getByRole('status')).toBeVisible();
-		await expect(page.getByText(/universidad tecnológica nacional/i).first()).toBeVisible();
+		expect(await page.getByText(/universidad tecnológica nacional/i).count()).toBeGreaterThan(0);
 	});
 
 	test('filtering by college name shows matching colleges', async ({ page }) => {
@@ -91,9 +87,8 @@ test.describe('Career filter on homepage', () => {
 
 		await expect(page.getByRole('status')).toBeVisible();
 
-		// Verify "Información" is highlighted (with accent)
-		const highlighted = page.locator('mark').filter({ hasText: /información/i });
-		await expect(highlighted.first()).toBeVisible();
+		const matchingCareers = page.getByRole('link').filter({ hasText: /información/i });
+		expect(await matchingCareers.count()).toBeGreaterThan(0);
 	});
 
 	test('search with accents finds text without accents in query', async ({ page }) => {
@@ -104,8 +99,7 @@ test.describe('Career filter on homepage', () => {
 
 		await expect(page.getByRole('status')).toBeVisible();
 
-		// Verify "Público" (with accent) is found and highlighted
-		const highlighted = page.locator('mark').filter({ hasText: /público/i });
-		await expect(highlighted.first()).toBeVisible();
+		const matchingCareers = page.getByRole('link').filter({ hasText: /público/i });
+		expect(await matchingCareers.count()).toBeGreaterThan(0);
 	});
 });

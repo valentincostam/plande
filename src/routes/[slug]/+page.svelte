@@ -397,7 +397,7 @@
 		</div>
 	</header>
 
-	<main class="grid gap-9">
+	<main class="grid gap-9" aria-busy={isInitializing}>
 		{#if viewMode === 'diagram'}
 			<div id="diagram-container">
 				<CourseDiagram

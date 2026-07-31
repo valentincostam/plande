@@ -47,15 +47,14 @@ test.describe('Year badge "Aprobado"', () => {
 
 	test('year badge shows masculine form "Aprobado" not "Aprobada"', async ({ studyPlan }) => {
 		const yearSection = studyPlan.getYearSection(1);
-		// The header contains the year title and the badge
-		const yearHeader = yearSection.locator('header');
-
 		// Pass all courses
 		await studyPlan.setYearState(1, 'Aprobadas');
 
 		// Should show "Aprobado" (masculine for "año") in the header
-		await expect(yearHeader.getByText('Aprobado', { exact: true })).toBeVisible();
+		await expect(yearSection.getByText('Aprobado', { exact: true })).toBeVisible();
 		// Should NOT show "Aprobada" (feminine) in the header
-		await expect(yearHeader.getByText('Aprobada', { exact: true })).not.toBeVisible();
+		await expect(
+			yearSection.getByText('Aprobada', { exact: true }).filter({ visible: true })
+		).toHaveCount(0);
 	});
 });

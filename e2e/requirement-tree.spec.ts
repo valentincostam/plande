@@ -9,9 +9,7 @@ test.describe('Requirement rendering and multi-placement stats', () => {
 		const passedStat = studyPlan.getStatByLabel(/^Materias aprobadas/);
 		await expect(passedStat).toContainText('50');
 		await expect(passedStat).not.toContainText('51');
-		await expect(
-			page.getByRole('region', { name: 'Diagrama de correlatividades' })
-		).toHaveCount(0);
+		await expect(page.getByRole('region', { name: 'Diagrama de correlatividades' })).toHaveCount(0);
 	});
 
 	test('quantitative milestone requirements read as sentences, not raw selectors', async ({
@@ -28,7 +26,10 @@ test.describe('Requirement rendering and multi-placement stats', () => {
 			.click();
 
 		await expect(page.getByText('Requisitos para completarlo')).toBeVisible();
-		await expect(page.getByText(/materias aprobadas/i).first()).toBeVisible();
+		const milestoneDetails = page.getByRole('region', {
+			name: 'Detalles de Título intermedio: Técnico Universitario en Comercio Internacional'
+		});
+		await expect(milestoneDetails.getByText('7 materias aprobadas', { exact: true })).toBeVisible();
 		await expect(page.getByText(/items de section/i)).toHaveCount(0);
 	});
 });

@@ -6,16 +6,15 @@ test.describe('Diagram node selection', () => {
 		await studyPlan.getDiagramViewButton().click();
 
 		const courseName = 'Álgebra y Geometría Analítica';
-		const diagramRegion = studyPlan.getDiagramRegion();
 		const stateControl = studyPlan.getCourseStateControl(courseName);
 
 		await stateControl.selectOption({ label: 'En curso' });
 		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: En curso`);
-		await expect(diagramRegion.getByText(courseName).first()).toBeVisible();
+		await expect(studyPlan.getDiagramCourseNode(courseName)).toBeVisible();
 
 		await stateControl.selectOption({ label: 'Regular' });
 		await expect(stateControl).toHaveAccessibleName(`Estado de ${courseName}: Regular`);
-		await expect(diagramRegion.getByText(courseName).first()).toBeVisible();
+		await expect(studyPlan.getDiagramCourseNode(courseName)).toBeVisible();
 	});
 
 	test('keeps diagram controls usable after interacting with the canvas background', async ({

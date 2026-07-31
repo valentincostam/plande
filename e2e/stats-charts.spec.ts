@@ -121,7 +121,9 @@ test.describe('Stats and Charts - Average grade', () => {
 
 		await studyPlan.getCourseButton('Álgebra y Geometría Analítica').click();
 		const panel = await studyPlan.getCourseDetailsPanel('Álgebra y Geometría Analítica');
-		const gradeInput = panel.locator('input[type="number"]');
+		const gradeInput = panel.getByRole('spinbutton', {
+			name: 'Nota de aprobación de Álgebra y Geometría Analítica'
+		});
 		await expect(gradeInput).toBeVisible();
 		await gradeInput.fill('10');
 		await gradeInput.blur();

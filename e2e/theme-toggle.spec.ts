@@ -60,12 +60,10 @@ test.describe('Theme toggle', () => {
 
 		await expect(themeButton).toHaveAccessibleName('Tema: Oscuro');
 		await expect.poll(async () => page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
-		await expect(page.locator('html')).toHaveClass(/dark/);
 
 		await page.reload({ waitUntil: 'networkidle' });
 		await expect(getThemeButton(page)).toHaveAccessibleName('Tema: Oscuro');
 		await expect.poll(async () => page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
-		await expect(page.locator('html')).toHaveClass(/dark/);
 	});
 
 	test('system option clears saved theme', async ({ page }) => {

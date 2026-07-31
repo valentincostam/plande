@@ -5,7 +5,7 @@ test.describe('native native data cross-year pilot plan', () => {
 		page,
 		studyPlan
 	}) => {
-		await page.goto('/utn-frcu-ic-2023', { waitUntil: 'networkidle' });
+		await studyPlan.goto('utn-frcu-ic-2023');
 
 		await expect(studyPlan.getYearSection(5)).toBeVisible();
 		await expect(studyPlan.getYearSection(6)).toBeVisible();
@@ -23,9 +23,8 @@ test.describe('native native data cross-year pilot plan', () => {
 
 		const projectButton = year6Section.getByRole('button', { name: /^Proyecto Final(?:,|$)/ });
 		await projectButton.click();
-		const panelId = await projectButton.getAttribute('aria-controls');
-		expect(panelId).toBeTruthy();
-		const details = page.locator(`#${panelId}`);
+		await expect(projectButton).toHaveAttribute('aria-controls');
+		const details = page.getByRole('region', { name: 'Detalles de Proyecto Final' });
 		await expect(details).toContainText(
 			'Instalaciones Sanitarias y de Gas de 4to año debe estar al menos Regular'
 		);

@@ -166,7 +166,13 @@
 	</div>
 
 	{#if isExpanded}
-		<div id={`${domId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div
+			id={`${domId}-details`}
+			role="region"
+			aria-label={`Detalles de ${item.item.def.name}`}
+			class="px-3 pb-3"
+			transition:slide={{ duration: 200 }}
+		>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
 				{#if item.item.def.hours}
 					<li>
@@ -179,6 +185,7 @@
 						<strong>Nota de aprobación:</strong>
 						<input
 							type="number"
+							aria-label={`Nota de aprobación de ${item.item.def.name}`}
 							min="4"
 							max="10"
 							step="1"

@@ -14,12 +14,13 @@ Use the current model:
 Core rules:
 
 - `id` is a stable string
-- `seqId` is unique and append-only
+- `seqId` is one unique append-only stream across courses and milestones; never renumber
 - alphanumeric `id` values are valid
 - use `place.year(...)` for classic yearly plans
 - use multiple placements for multi-placement items
-- use `req.item`, `req.all`, `req.any`, `req.count`, `req.percent`, `req.sum`
-- use `grad.allMandatory`, `grad.countTag`, `grad.sumTag`
+- use `select.items`, `select.tag`, `select.section`, `select.sections`, `select.all`
+- use `req.item`, `req.all`, `req.any`, `req.count`, `req.countOf`, `req.percent`, `req.sum`, `req.every`
+- use the same expression AST in graduation; root `sum` blocks require explicit `weight`
 - use weekly hours
 - use semantic tags only when they matter for rules or graduation
 - verify the local app renders headings, sections, and view toggle correctly
@@ -34,4 +35,4 @@ Prerequisite mapping:
 
 Always register the new plan in `src/routes/[slug]/data/all-study-plans.ts`.
 
-Run `bun run check` after editing.
+Run `bun run registry:seq` and then `bun run check` after editing.

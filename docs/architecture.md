@@ -1,52 +1,53 @@
 # Architecture
 
-## Routes
+Plande renders immutable curriculum definitions plus a reactive user session. The native model is the only runtime model; there is no legacy adapter.
 
-- `+page.svelte` — Landing page
-- `[slug]/` — Dynamic pages per degree program
-- `[slug]/data/` — Data files per university/degree
-- `[slug]/diagram/` — Visual diagram components
+## Loading
 
-## Data Flow
+- `src/routes/+page.server.ts`, `api/home`, sitemap and `llms.txt` use `study-plan-catalog.ts`, which contains metadata only.
+- `src/routes/[slug]/+page.server.ts` resolves aliases and dynamically imports one plan through `study-plan-loaders.ts`.
+- Plan payloads stay out of client chunks until their route is requested.
+- `all-study-plans.ts` exists for server tooling, validation and generation only.
+- `bun run registry:seq` regenerates catalog, dynamic loaders and the append-only `seqId` registry after a plan is added.
 
-1. Route loads based on slug parameter in `+page.ts`
-2. Degree-specific data file imported from `src/routes/[slug]/data/*.ts`
-3. Course states decoded from URL parameters
-4. Components render interactive progression
-5. State changes update URL for sharing
+## Native data model
 
-## Key Components
+`StudyPlanData` contains:
 
-| Component                         | Purpose                   |
-| --------------------------------- | ------------------------- |
-| `[slug]/course.svelte`            | Individual course card    |
-| `[slug]/year.svelte`              | Year section              |
-| `[slug]/term.svelte`              | Term grouping             |
-| `[slug]/section.svelte`           | Reusable section + h2     |
-| `[slug]/stats.svelte`             | Progress statistics       |
-| `[slug]/state-select.svelte`      | Course state cycle button |
-| `[slug]/bulk-state-select.svelte` | Bulk state change         |
+- `info`: degree and source metadata.
+- `sections`: visual/semantic groups; `year` is explicit or derived from `year-N`.
+- `items`: courses and milestones. Each has stable `id`, append-only `seqId`, placements and optional enrollment/completion requirements.
+- `requirements.graduation`: labeled requirement expressions with optional weight.
 
-## Core Logic (src/lib/)
+One item may have multiple placements. Placements never duplicate identity, state, statistics or diagram nodes.
 
-| File                 | Purpose                                      |
-| -------------------- | -------------------------------------------- |
-| `course-state.ts`    | Course states (pending, in-progress, passed) |
-| `degree-progress.ts` | Degree completion calculations               |
-| `grade-encoding.ts`  | Grade encoding/decoding for URL              |
-| `raw-course.ts`      | Course data types                            |
-| `course.svelte.ts`   | Course reactive state with runes             |
-| `year.svelte.ts`     | Year-level reactive state                    |
+Requirements are a recursive AST: `item`, `all`, `any`, `count`, `countOf`, `percent` and `sum`. Selectors address explicit items, tags, one section, multiple sections or all courses. `preparePlan` validates references, numeric bounds, placements, selector structure, `seqId` stability, required sum metrics/weights and satisfiability.
 
-## State Management
+## Engine
 
-- URL-based state via query params (persistence + sharing)
-- URL encoding uses base64url for compactness
-- Pure functions for calculations, runes for reactivity
+`preparePlan` builds indexed immutable definitions and dependency edges. `PlanSession` owns reactive states and grades.
 
-### Native reactive view
+`evaluateProgress(expr, context)` is the single evaluator. It returns completed units, total units and satisfaction. Enrollment gates, completion gates, graduation, UI trees, exports and Open Graph progress all use it. `evaluateRequirement` is its boolean wrapper.
 
-- `buildStudyPlanView` builds section, term, requirement-tree, dependent and anchor identities once per page load.
-- Requirement/progress fields are reactive getters over `PlanSession`; changing one state does not rebuild the view tree.
-- Selector context arrays are cached and expose current state through reactive getters.
-- Item-level autocorrection remains one `$effect` per item: the persistence/bulk-select E2E suite shows stable final URLs and no intermediate history entries, so a fixed-point rewrite is not currently justified.
+User-visible requirement wording stays in recursive Svelte components, not in engine files.
+
+## State and compatibility
+
+URL query `s=` is one run-length encoded stream ordered by `seqId` across courses and milestones. `n=` uses the same positions for grades; milestone grade slots remain empty. This preserves production URLs because migrated `seqId`s match their original course-array indexes.
+
+The same unified stream backs URL sharing, local storage, undo/redo and reset. Existing `seqId`s must never change; new items use `max(seqId) + 1`. `seq-id-registry.json` enforces this in tests.
+
+## Reactive view
+
+`buildStudyPlanView` creates section, term, anchor, dependent and requirement-tree identities once per page load. Reactive getters expose leaf state and progress without rebuilding the tree. Selector contexts are cached and read current session state through getters.
+
+State autocorrection remains one `$effect` per item. Bulk changes and persistence tests show a stable final URL and no intermediate history entries, so fixed-point normalization is unnecessary today.
+
+## Rendering and outputs
+
+- List mode recursively renders the full requirement AST and placed milestones.
+- Diagram mode uses deduplicated course identities and enrollment dependency edges.
+- Priority/dependent lists intentionally count enrollment dependencies only.
+- `GET /[slug].json` returns native `StudyPlanData`.
+- Markdown/plain-text formatters traverse native requirements, including milestones and quantitative rules.
+- Open Graph and the page share the same graduation snapshot calculation.

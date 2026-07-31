@@ -54,6 +54,7 @@
 	{#if totalDependents > 0}
 		<span
 			class="inline-flex items-center gap-0.5 rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-500"
+			aria-label="Desbloquea {totalDependents} {totalDependents === 1 ? 'materia' : 'materias'}"
 			title="Desbloquea {totalDependents} {totalDependents === 1 ? 'materia' : 'materias'}"
 		>
 			<UnlockIcon class="size-3" />

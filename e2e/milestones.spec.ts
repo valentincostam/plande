@@ -13,14 +13,17 @@ test.describe('Milestone requirements', () => {
 		await page
 			.getByRole('button', { name: 'Examen de Suficiencia de Inglés E', exact: true })
 			.click();
-		await expect(page.getByText('Requisitos para completarlo:').first()).toBeVisible();
+		const milestoneDetails = page.getByRole('region', {
+			name: 'Detalles de Examen de Suficiencia de Inglés E'
+		});
+		await expect(milestoneDetails.getByText('Requisitos para completarlo:')).toBeVisible();
 
 		const courseButton = studyPlan.getCourseButton('Educación en el Cuidado de la Salud');
 		await courseButton.click();
 		const panel = await studyPlan.getCourseDetailsPanel('Educación en el Cuidado de la Salud');
-		const englishRequirement = panel
-			.getByRole('link', { name: 'Examen de Suficiencia de Inglés E' })
-			.locator('..');
+		const englishRequirement = panel.getByText(
+			/Examen de Suficiencia de Inglés E.*debe estar completado/
+		);
 		await expect(englishRequirement).toContainText('debe estar completado');
 		await expect(englishRequirement).toContainText('Pendiente');
 
@@ -56,9 +59,9 @@ test.describe('Milestone requirements', () => {
 		const panel = await studyPlan.getCourseDetailsPanel(
 			'Dispositivos e Instalaciones Eléctricas II'
 		);
-		const englishRequirement = panel
-			.getByRole('link', { name: 'Prueba de Suficiencia de Inglés' })
-			.locator('..');
+		const englishRequirement = panel.getByText(
+			/Prueba de Suficiencia de Inglés.*debe estar completado/
+		);
 		await expect(englishRequirement).toContainText('debe estar completado');
 		await expect(englishRequirement).toContainText('Pendiente');
 

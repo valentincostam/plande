@@ -76,8 +76,7 @@ test.describe('Available courses', () => {
 		const courseLink = section.getByRole('link', { name: 'Álgebra y Geometría Analítica' });
 		await courseLink.click();
 
-		const diagramRegion = studyPlan.getDiagramRegion();
-		const courseNode = diagramRegion.getByText('Álgebra y Geometría Analítica').first();
+		const courseNode = studyPlan.getDiagramCourseNode('Álgebra y Geometría Analítica');
 		await expect(courseNode).toBeInViewport();
 	});
 
@@ -86,7 +85,7 @@ test.describe('Available courses', () => {
 		const algebraItem = section
 			.getByRole('listitem')
 			.filter({ hasText: 'Álgebra y Geometría Analítica' });
-		const unlockBadge = algebraItem.locator('[title^="Desbloquea"]');
+		const unlockBadge = algebraItem.getByLabel(/^Desbloquea \d+ materias?$/);
 
 		await expect(unlockBadge).toBeVisible();
 		await expect(unlockBadge).toHaveAttribute('title', /Desbloquea \d+ materias?/);

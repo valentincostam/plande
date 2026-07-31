@@ -10,8 +10,9 @@ Unless told otherwise, do all of this:
 
 1. create `src/routes/[slug]/data/{slug}.ts`
 2. register it in `src/routes/[slug]/data/all-study-plans.ts`
-3. add university logo assets if this is the first plan from that university
-4. run `bun run check`
+3. run `bun run registry:seq`
+4. add university logo assets if this is the first plan from that university
+5. run `bun run check`
 
 If the user only wants extraction, return just the TypeScript file contents.
 
@@ -78,7 +79,9 @@ export const variableName: StudyPlanData = {
 - `id` is a stable string.
 - `seqId` is a stable unique integer.
 - For a brand new plan, assign `seqId` sequentially in visual order.
-- If editing an existing plan, never renumber existing `seqId`s; only append.
+- If editing an existing plan, **never renumber or reuse existing `seqId`s**. New items use `max(seqId) + 1`, even when inserted visually in the middle.
+- `seqId` defines the shared URL/localStorage/undo stream across both courses and milestones. Renumbering corrupts saved progress.
+- After adding or editing items, run `bun run registry:seq`; its committed registry makes renumbering fail CI.
 - If the official code is numeric, use that code as `id` string too: `code: '14'` -> `id: '14'`.
 - If the official code is alphanumeric, it is valid to use that exact code as `id` when it is stable: `code: 'M0001'` -> `id: 'M0001'`.
 - Do not assume `id` must be numeric. `code` and `id` may match, but they do not have to.
@@ -111,14 +114,38 @@ Use semantic rules, not old flat arrays.
 - `req.all(...)`
 - `req.any(...)`
 - `req.count(...)`
+- `req.countOf(...)`
 - `req.percent(...)`
 - `req.sum(...)`
+- `req.every(...)`
 
 Use selectors when the source is group-based:
 
 - `select.items(...)`
 - `select.tag(...)`
 - `select.section(...)`
+- `select.sections(...)`
+- `select.all(...)`
+
+Examples:
+
+```ts
+// Every course from two sections must be passed.
+req.every(select.sections(['year-1', 'year-2']), 'passed');
+
+// Six courses anywhere in the plan must be regularized.
+req.count(select.all(), 6, 'taken');
+
+// Two of three independently meaningful alternatives/groups.
+req.countOf(
+	[
+		req.item('english', 'completed'),
+		req.every(select.section('languages'), 'passed'),
+		req.count(select.tag('language-elective'), 2, 'passed')
+	],
+	2
+);
+```
 
 Prefer semantic rules over expanding long lists when the source says things like:
 
@@ -240,6 +267,21 @@ graduation: [
 ];
 ```
 
+Graduation blocks use the same recursive requirement AST as prerequisites. Use `grad.block(id, label, expr, weight?)` for arbitrary combinations and orientations.
+
+`weight` defaults to the expression's logical unit count. It is **mandatory** when the root expression is `sum`, otherwise hours/credits would dominate the total percentage:
+
+```ts
+graduation: [
+	grad.block(
+		'elective-hours',
+		'Horas electivas requeridas',
+		req.sum(select.tag('progress-elective'), 'hours', 40, 'passed'),
+		4
+	)
+];
+```
+
 - X elective hours:
 
 ```ts
@@ -251,7 +293,8 @@ graduation: [
 		'progress-elective',
 		'hours',
 		40,
-		'passed'
+		'passed',
+		4
 	)
 ];
 ```
@@ -276,15 +319,17 @@ Only include `year` if the official documentation identifies the plan by year/ve
 5. Determine graduation rules.
 6. Write the `StudyPlanData` file.
 7. Register it in `all-study-plans.ts`.
-8. If needed, add university logos.
-9. Run `bun run check`.
-10. Open the local app and verify the generated plan renders correctly.
+8. Run `bun run registry:seq` to regenerate the registry, catalog and dynamic loaders.
+9. If needed, add university logos.
+10. Run `bun run check`.
+11. Open the local app and verify the generated plan renders correctly.
 
 ## Validation Checklist
 
 - [ ] all items from the curriculum are present
 - [ ] no duplicate `id`
 - [ ] no duplicate `seqId`
+- [ ] existing `seqId`s were not changed; new ones were appended
 - [ ] placements match the source
 - [ ] prerequisite columns were mapped correctly
 - [ ] multi-code cells were fully expanded
@@ -293,6 +338,7 @@ Only include `year` if the official documentation identifies the plan by year/ve
 - [ ] graduation requirements are correct
 - [ ] names are cleaned and accented
 - [ ] file is registered in `all-study-plans.ts`
+- [ ] `bun run registry:seq` was run and generated files are committed
 - [ ] `bun run check` passes
 - [ ] the local app shows the correct title, section headings, term headings, and view toggle
 
@@ -306,5 +352,7 @@ Avoid these:
 4. using total hours as weekly hours
 5. flattening a semantic rule that should be `count` / `percent` / `sum`
 6. renumbering existing `seqId`s when editing a plan
+7. assigning separate course and milestone index sequences; `seqId` is one unified stream
+8. omitting `weight` from a graduation block whose root is `sum`
 
 Generate the final TypeScript file using this model.
