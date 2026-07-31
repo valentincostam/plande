@@ -29,6 +29,7 @@ export type StudyPlanInfo = {
 export type Section = {
 	id: string;
 	label: string;
+	year?: number;
 };
 
 export type Placement = {

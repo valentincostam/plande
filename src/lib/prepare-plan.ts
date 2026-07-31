@@ -1,13 +1,16 @@
 import type {
 	DependentEdge,
 	GraduationRequirement,
+	ItemState,
 	PlanItem,
 	RequirementExpr,
 	RequirementState,
 	Selector,
 	StudyPlanData
 } from './study-plan-data';
-import { isCoursePlanItem, isMilestonePlanItem } from './study-plan-data';
+import { courseStates } from './course-state';
+import { evaluateRequirement, type RequirementContext } from './requirement-evaluator';
+import { isCoursePlanItem, isMilestonePlanItem, milestoneStates } from './study-plan-data';
 import { sortItemsBySeqId } from './study-plan-url-state';
 
 export type SeqIdRegistry = Record<string, number>;
@@ -145,6 +148,72 @@ const detectCycles = (items: PlanItem[], adjacency: Map<string, string[]>) => {
 	}
 };
 
+const validateReachableTerminalStates = (
+	items: PlanItem[],
+	itemsById: Map<string, PlanItem>,
+	itemIdsByTag: Map<string, string[]>,
+	itemIdsBySection: Map<string, string[]>
+) => {
+	const states = new Map<string, ItemState>(
+		items.map((item) => [
+			item.id,
+			isCoursePlanItem(item) ? courseStates.notTaken : milestoneStates.pending
+		])
+	);
+	const contextItems = (ids: string[]) =>
+		ids.flatMap((id) => {
+			const item = itemsById.get(id);
+			const state = states.get(id);
+			return item && state ? [{ item, state }] : [];
+		});
+	const context: RequirementContext = {
+		getItem: (id) => contextItems([id])[0],
+		getAllItems: () => contextItems(items.map((item) => item.id)),
+		getItemsByTag: (tag) => contextItems(itemIdsByTag.get(tag) ?? []),
+		getItemsBySection: (sectionId) => contextItems(itemIdsBySection.get(sectionId) ?? [])
+	};
+
+	let changed: boolean;
+	do {
+		changed = false;
+		for (const item of items) {
+			if (isCoursePlanItem(item)) {
+				if (states.get(item.id) === courseStates.passed) continue;
+				if (!evaluateRequirement(item.requirements?.enroll, context, item.id)) continue;
+				const nextState = evaluateRequirement(item.requirements?.complete, context, item.id)
+					? courseStates.passed
+					: courseStates.taken;
+				if (states.get(item.id) !== nextState) {
+					states.set(item.id, nextState);
+					changed = true;
+				}
+				continue;
+			}
+
+			if (
+				states.get(item.id) === milestoneStates.pending &&
+				evaluateRequirement(item.requirements?.enroll, context, item.id) &&
+				evaluateRequirement(item.requirements?.complete, context, item.id)
+			) {
+				states.set(item.id, milestoneStates.completed);
+				changed = true;
+			}
+		}
+	} while (changed);
+
+	const unreachableIds = items
+		.filter((item) =>
+			isCoursePlanItem(item)
+				? states.get(item.id) !== courseStates.passed
+				: states.get(item.id) !== milestoneStates.completed
+		)
+		.map((item) => item.id);
+
+	if (unreachableIds.length > 0) {
+		throw new Error(`Unsatisfiable dependency constraints: ${unreachableIds.join(', ')}`);
+	}
+};
+
 const validateAppendOnlySeqIds = (items: PlanItem[], previousSeqIds: SeqIdRegistry) => {
 	const previousEntries = Object.entries(previousSeqIds);
 	if (previousEntries.length === 0) return;
@@ -198,6 +267,7 @@ const validateRequirementExpr = (
 	itemsById: Map<string, PlanItem>,
 	itemIdsByTag: Map<string, string[]>,
 	itemIdsBySection: Map<string, string[]>,
+	sectionIds: Set<string>,
 	ownerItem: PlanItem | undefined,
 	scope: string,
 	expr: RequirementExpr
@@ -218,20 +288,64 @@ const validateRequirementExpr = (
 						`${scope}: countOf min (${node.min}) exceeds its ${node.rules.length} rules`
 					);
 				}
+				if (node.type === 'countOf' && (!Number.isInteger(node.min) || node.min <= 0)) {
+					throw new Error(`${scope}: countOf min must be a positive integer`);
+				}
 				break;
 			}
 			case 'count':
 			case 'percent':
 			case 'sum': {
+				const selectedSectionIds =
+					node.selector.type === 'section'
+						? [node.selector.sectionId]
+						: node.selector.type === 'sections'
+							? node.selector.sectionIds
+							: [];
+				for (const sectionId of selectedSectionIds) {
+					if (!sectionIds.has(sectionId)) {
+						throw new Error(`${scope}: selector references unknown section "${sectionId}"`);
+					}
+				}
+				if (node.type === 'count' && (!Number.isInteger(node.min) || node.min <= 0)) {
+					throw new Error(`${scope}: count min must be a positive integer`);
+				}
+				if (
+					node.type === 'percent' &&
+					(!Number.isFinite(node.minPercent) || node.minPercent <= 0 || node.minPercent > 100)
+				) {
+					throw new Error(`${scope}: minPercent must be between 1 and 100`);
+				}
+				if (node.type === 'sum' && (!Number.isFinite(node.min) || node.min <= 0)) {
+					throw new Error(`${scope}: sum min must be a positive finite number`);
+				}
 				const targets = getSelectorTargetIds(node.selector, items, itemIdsByTag, itemIdsBySection);
 				const selectorScope = inferSelectorScope(node.selector);
 
 				if (targets.length === 0) {
 					throw new Error(`${scope}: selector ${selectorScope} does not match any items`);
 				}
+				const availableTargetCount =
+					ownerItem && node.selector.type === 'all'
+						? targets.filter((targetId) => targetId !== ownerItem.id).length
+						: targets.length;
+				if (node.type === 'count' && node.min > availableTargetCount) {
+					throw new Error(
+						`${scope}: count min (${node.min}) exceeds its ${availableTargetCount} matched items`
+					);
+				}
 
 				for (const targetId of targets) {
 					validateRequirementStateForTarget(itemsById, targetId, node.state, scope);
+					const target = itemsById.get(targetId);
+					if (
+						node.type === 'sum' &&
+						(!target || !isCoursePlanItem(target) || target[node.metric] === undefined)
+					) {
+						throw new Error(
+							`${scope}: item "${targetId}" is missing metric "${node.metric}" required by sum`
+						);
+					}
 				}
 
 				// 'all' selectors exclude the owner at evaluation time, so a rule
@@ -252,14 +366,25 @@ const validateGraduationRequirement = (
 	itemsById: Map<string, PlanItem>,
 	itemIdsByTag: Map<string, string[]>,
 	itemIdsBySection: Map<string, string[]>,
+	sectionIds: Set<string>,
 	requirement: GraduationRequirement
 ) => {
 	const scope = `Graduation requirement "${requirement.id}"`;
+	let containsSum = false;
+	visitRequirementExpr(requirement.expr, (node) => {
+		containsSum ||= node.type === 'sum';
+	});
 
-	if (requirement.expr.type === 'sum' && requirement.weight === undefined) {
+	if (containsSum && requirement.weight === undefined) {
 		throw new Error(
 			`${scope}: sum blocks require an explicit weight (hours/credits units would dominate the degree percentage)`
 		);
+	}
+	if (
+		requirement.weight !== undefined &&
+		(!Number.isFinite(requirement.weight) || requirement.weight <= 0)
+	) {
+		throw new Error(`${scope}: weight must be a positive finite number`);
 	}
 
 	validateRequirementExpr(
@@ -267,6 +392,7 @@ const validateGraduationRequirement = (
 		itemsById,
 		itemIdsByTag,
 		itemIdsBySection,
+		sectionIds,
 		undefined,
 		scope,
 		requirement.expr
@@ -277,7 +403,20 @@ export const preparePlan = (
 	plan: StudyPlanData,
 	{ previousSeqIds = {} }: PreparePlanOptions = {}
 ): PreparedPlan => {
-	const sectionIds = new Set(plan.sections.map((section) => section.id));
+	const normalizedPlan: StudyPlanData = {
+		...plan,
+		sections: plan.sections.map((section) => {
+			const yearMatch = /^year-(\d+)$/.exec(section.id);
+			return {
+				...section,
+				year: section.year ?? (yearMatch ? Number(yearMatch[1]) : undefined)
+			};
+		})
+	};
+	const sectionIds = new Set(normalizedPlan.sections.map((section) => section.id));
+	if (sectionIds.size !== plan.sections.length) {
+		throw new Error('Duplicate section id');
+	}
 	const itemsById = new Map<string, PlanItem>();
 	const itemsBySeqId = new Map<number, PlanItem>();
 	const itemIdsByTag = new Map<string, string[]>();
@@ -287,11 +426,23 @@ export const preparePlan = (
 		if (itemsById.has(item.id)) {
 			throw new Error(`Duplicate item id: "${item.id}"`);
 		}
+		if (!Number.isInteger(item.seqId) || item.seqId < 0) {
+			throw new Error(`Item "${item.id}" seqId must be a non-negative integer`);
+		}
 		if (itemsBySeqId.has(item.seqId)) {
 			throw new Error(`Duplicate seqId: ${item.seqId}`);
 		}
 		itemsById.set(item.id, item);
 		itemsBySeqId.set(item.seqId, item);
+		if (isCoursePlanItem(item) && item.placements.length === 0) {
+			throw new Error(`Course "${item.id}" must have a placement`);
+		}
+		const placementKeys = item.placements.map(
+			({ sectionId, term, order }) => `${sectionId}|${term ?? ''}|${order ?? ''}`
+		);
+		if (new Set(placementKeys).size !== placementKeys.length) {
+			throw new Error(`Item "${item.id}" has a duplicate placement`);
+		}
 
 		for (const placement of item.placements) {
 			if (!sectionIds.has(placement.sectionId)) {
@@ -314,6 +465,7 @@ export const preparePlan = (
 				itemsById,
 				itemIdsByTag,
 				itemIdsBySection,
+				sectionIds,
 				item,
 				`Item "${item.id}" enroll requirement`,
 				item.requirements.enroll
@@ -326,6 +478,7 @@ export const preparePlan = (
 				itemsById,
 				itemIdsByTag,
 				itemIdsBySection,
+				sectionIds,
 				item,
 				`Item "${item.id}" complete requirement`,
 				item.requirements.complete
@@ -339,6 +492,7 @@ export const preparePlan = (
 			itemsById,
 			itemIdsByTag,
 			itemIdsBySection,
+			sectionIds,
 			requirement
 		);
 	}
@@ -370,6 +524,7 @@ export const preparePlan = (
 	}
 
 	detectCycles(plan.items, dependencyAdjacency);
+	validateReachableTerminalStates(plan.items, itemsById, itemIdsByTag, itemIdsBySection);
 
 	const edgeMap = new Map<string, DependentEdge>();
 	for (const edge of dependentEdges) {
@@ -386,7 +541,7 @@ export const preparePlan = (
 	}
 
 	return {
-		plan,
+		plan: normalizedPlan,
 		orderedItems: sortItemsBySeqId(plan.items),
 		itemsById,
 		itemIdsByTag,

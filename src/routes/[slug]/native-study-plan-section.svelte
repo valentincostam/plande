@@ -74,7 +74,7 @@
 			{/if}
 		</header>
 		{#each section.terms as term (`${section.id}-${term.term ?? 'no-term'}`)}
-			<NativeStudyPlanTerm {term} {showCodes} {useCycleButton} />
+			<NativeStudyPlanTerm {term} sectionId={section.id} {showCodes} {useCycleButton} />
 		{/each}
 	</section>
 {:else}
@@ -82,6 +82,7 @@
 		{#each section.terms as term (`${section.id}-${term.term ?? 'no-term'}`)}
 			<NativeStudyPlanTerm
 				{term}
+				sectionId={section.id}
 				{showCodes}
 				{useCycleButton}
 				hideTypeBadge={allItemsAreElective}

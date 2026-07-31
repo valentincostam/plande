@@ -331,15 +331,14 @@ const sortSectionItems = (items: PlanItemState[], sectionId: string) => {
 };
 
 export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
+	const sectionsById = new Map(
+		session.prepared.plan.sections.map((section) => [section.id, section])
+	);
 	const linkedItemViews = session.items.map<LinkedStudyPlanViewItem>((item) => ({
 		item: item.def.kind === 'course' ? (item as CoursePlanItemState) : item,
 		anchorId: toKebabCase(item.def.name),
 		diagramNodeId: Number.isFinite(Number(item.def.id)) ? Number(item.def.id) : item.def.seqId,
-		year: (() => {
-			const placement = item.def.placements[0];
-			const match = placement ? /^year-(\d+)$/.exec(placement.sectionId) : null;
-			return match ? Number(match[1]) : undefined;
-		})(),
+		year: sectionsById.get(item.def.placements[0]?.sectionId ?? '')?.year,
 		term: item.def.placements[0]?.term,
 		requirementsForEnrollment: [],
 		requirementsForCompletion: [],
@@ -393,7 +392,6 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 	const sections = session.sections
 		.map<StudyPlanViewSection>((sectionState) => {
 			const terms = new Map<string, StudyPlanViewTerm>();
-			const yearMatch = /^year-(\d+)$/.exec(sectionState.def.id);
 
 			for (const item of sortSectionItems(sectionState.items, sectionState.def.id)) {
 				const placement = item.def.placements.find(
@@ -416,7 +414,7 @@ export const buildStudyPlanView = (session: PlanSession): StudyPlanView => {
 			return {
 				id: sectionState.def.id,
 				title: sectionState.def.label,
-				year: yearMatch ? Number(yearMatch[1]) : undefined,
+				year: sectionState.def.year,
 				section: sectionState,
 				terms: [...terms.values()].sort((a, b) => {
 					const aKey = a.term ?? 'no-term';

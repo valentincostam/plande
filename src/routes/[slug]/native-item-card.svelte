@@ -19,12 +19,19 @@
 
 	type Props = {
 		item: StudyPlanViewItem;
+		domId?: string;
 		showCodes?: boolean;
 		hideTypeBadge?: boolean;
 		useCycleButton?: boolean;
 	};
 
-	let { item, showCodes = false, hideTypeBadge = false, useCycleButton = false }: Props = $props();
+	let {
+		item,
+		domId = item.anchorId,
+		showCodes = false,
+		hideTypeBadge = false,
+		useCycleButton = false
+	}: Props = $props();
 
 	let isExpanded = $state(false);
 	let showGradeFeedback = $state(false);
@@ -68,7 +75,7 @@
 </script>
 
 <li
-	id={item.anchorId}
+	id={domId}
 	class={[
 		courseBgColors[item.item.state as keyof typeof courseBgColors],
 		'scroll-my-4 overflow-hidden transition-colors md:first:rounded-t-md md:last:rounded-b-md',
@@ -81,7 +88,7 @@
 			onclick={handleClick}
 			onkeydown={handleKeydown}
 			aria-expanded={isExpanded}
-			aria-controls={`${item.anchorId}-details`}
+			aria-controls={`${domId}-details`}
 			aria-label={`${item.item.def.name}${item.item.def.hours ? `, ${formatHours(item.item.def.hours)} horas` : ''}${!item.item.isEnabled ? ', bloqueada por correlativas' : ''}`}
 			aria-keyshortcuts="n e r a"
 			class={[
@@ -148,7 +155,7 @@
 		</button>
 		{#if item.item.isEnabled}
 			<StateSelect
-				id={`${item.anchorId}-state-select`}
+				id={`${domId}-state-select`}
 				bind:value={item.item.state}
 				canPass={item.item.canPass}
 				courseName={item.item.def.name}
@@ -159,7 +166,7 @@
 	</div>
 
 	{#if isExpanded}
-		<div id={`${item.anchorId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div id={`${domId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
 				{#if item.item.def.hours}
 					<li>

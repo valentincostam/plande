@@ -1,5 +1,9 @@
 <script lang="ts">
-	import type { StudyPlanViewItem, StudyPlanViewTerm } from '$lib/study-plan-view';
+	import type {
+		LinkedStudyPlanViewItem,
+		StudyPlanViewItem,
+		StudyPlanViewTerm
+	} from '$lib/study-plan-view';
 	import BulkStateSelect from './bulk-state-select.svelte';
 	import type { CourseState } from '$lib/course-state';
 	import NativeItemCard from './native-item-card.svelte';
@@ -7,12 +11,14 @@
 
 	type Props = {
 		term: StudyPlanViewTerm;
+		sectionId: string;
 		showCodes?: boolean;
 		useCycleButton?: boolean;
 		hideTypeBadge?: boolean;
 	};
 
-	let { term, showCodes = false, useCycleButton = false, hideTypeBadge = false }: Props = $props();
+	let { term, sectionId, showCodes = false, useCycleButton = false, hideTypeBadge = false }: Props =
+		$props();
 	let selectValue = $state<CourseState | ''>('');
 	const courseItems = $derived(
 		term.items.filter(
@@ -31,6 +37,14 @@
 			});
 		}
 		selectValue = '';
+	}
+
+	function getDomId(item: LinkedStudyPlanViewItem) {
+		const firstPlacement = item.item.def.placements[0];
+		if (firstPlacement?.sectionId === sectionId && firstPlacement.term === term.term) {
+			return item.anchorId;
+		}
+		return `${item.anchorId}-${sectionId}-${term.term ?? 'no-term'}`;
 	}
 </script>
 
@@ -54,12 +68,13 @@
 			{#if item.item.def.kind === 'course'}
 				<NativeItemCard
 					item={item as StudyPlanViewItem}
+						domId={getDomId(item)}
 					{showCodes}
 					{useCycleButton}
 					{hideTypeBadge}
 				/>
 			{:else}
-				<NativeMilestoneCard {item} />
+				<NativeMilestoneCard {item} domId={getDomId(item)} />
 			{/if}
 		{/each}
 	</ul>

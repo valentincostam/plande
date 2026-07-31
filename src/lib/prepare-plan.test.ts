@@ -129,6 +129,27 @@ describe('preparePlan', () => {
 		expect(() => preparePlan(plan)).not.toThrow();
 	});
 
+	it('rejects an unsatisfiable cycle hidden behind any() alternatives', () => {
+		const plan = createBasePlan();
+		plan.items.push({
+			id: 'c',
+			seqId: 3,
+			kind: 'course',
+			name: 'C',
+			type: courseTypes.mandatory,
+			placements: [place.year(1, courseTerms.firstSemester)],
+			requirements: { enroll: req.item('a', 'taken') }
+		});
+		plan.items[0].requirements = {
+			enroll: req.any(req.item('b', 'taken'), req.item('c', 'taken'))
+		};
+		plan.items[1].requirements = {
+			enroll: req.item('a', 'taken')
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/unsatisfiable dependency/i);
+	});
+
 	it('allows count over the all selector on the owner item', () => {
 		const plan = createBasePlan();
 		plan.items[1].requirements = {
@@ -161,5 +182,135 @@ describe('preparePlan', () => {
 		};
 
 		expect(() => preparePlan(plan)).toThrow(/countOf/i);
+	});
+
+	it('rejects non-positive count minimums', () => {
+		const plan = createBasePlan();
+		plan.items[1].requirements = {
+			enroll: req.count(select.items('a'), 0, 'taken')
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/positive integer/i);
+	});
+
+	it('rejects percentages outside 1–100', () => {
+		const plan = createBasePlan();
+		plan.items[1].requirements = {
+			enroll: req.percent(select.items('a'), 101, 'taken')
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/between 1 and 100/i);
+	});
+
+	it('rejects sum selectors containing items without the metric', () => {
+		const plan = createBasePlan();
+		plan.requirements = {
+			graduation: [
+				{
+					id: 'hours',
+					label: 'Horas',
+					expr: req.sum(select.items('a'), 'hours', 5, 'passed'),
+					weight: 1
+				}
+			]
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/missing metric "hours"/i);
+	});
+
+	it('rejects duplicate section ids', () => {
+		const plan = createBasePlan();
+		plan.sections.push({ id: 'year-1', label: 'Duplicada' });
+
+		expect(() => preparePlan(plan)).toThrow(/duplicate section id/i);
+	});
+
+	it('rejects every unknown id in a sections selector', () => {
+		const plan = createBasePlan();
+		plan.items[1].requirements = {
+			enroll: req.count(select.sections(['year-1', 'missing']), 1, 'taken')
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/unknown section "missing"/i);
+	});
+
+	it('rejects unplaced courses', () => {
+		const plan = createBasePlan();
+		plan.items[0].placements = [];
+
+		expect(() => preparePlan(plan)).toThrow(/course "a" must have a placement/i);
+	});
+
+	it('rejects duplicate placements', () => {
+		const plan = createBasePlan();
+		plan.items[0].placements.push(place.year(1, courseTerms.firstSemester));
+
+		expect(() => preparePlan(plan)).toThrow(/duplicate placement/i);
+	});
+
+	it('requires weight when a graduation block contains a nested sum', () => {
+		const plan = createBasePlan();
+		plan.items[0].hours = 5;
+		plan.requirements = {
+			graduation: [
+				{
+					id: 'mixed',
+					label: 'Mixto',
+					expr: req.all(
+						req.sum(select.items('a'), 'hours', 5, 'passed'),
+						req.item('b', 'passed')
+					)
+				}
+			]
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/weight/i);
+	});
+
+	it('rejects count minimums above the matched item count', () => {
+		const plan = createBasePlan();
+		plan.requirements = {
+			graduation: [
+				{
+					id: 'courses',
+					label: 'Materias',
+					expr: req.count(select.items('a'), 2, 'passed')
+				}
+			]
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/exceeds its 1 matched items/i);
+	});
+
+	it('rejects invalid seqIds', () => {
+		const plan = createBasePlan();
+		plan.items[0].seqId = -1;
+
+		expect(() => preparePlan(plan)).toThrow(/non-negative integer/i);
+	});
+
+	it('rejects non-positive graduation weights', () => {
+		const plan = createBasePlan();
+		plan.requirements = {
+			graduation: [
+				{
+					id: 'a',
+					label: 'A',
+					expr: req.item('a', 'passed'),
+					weight: 0
+				}
+			]
+		};
+
+		expect(() => preparePlan(plan)).toThrow(/weight must be a positive finite number/i);
+	});
+
+	it('derives semantic section years without mutating input', () => {
+		const plan = createBasePlan();
+
+		const prepared = preparePlan(plan);
+
+		expect(prepared.plan.sections.map((section) => section.year)).toEqual([1, 2]);
+		expect(plan.sections.map((section) => section.year)).toEqual([undefined, undefined]);
 	});
 });

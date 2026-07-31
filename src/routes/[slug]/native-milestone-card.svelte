@@ -8,9 +8,10 @@
 
 	type Props = {
 		item: StudyPlanViewMilestone;
+		domId?: string;
 	};
 
-	let { item }: Props = $props();
+	let { item, domId = item.anchorId }: Props = $props();
 	let isExpanded = $state(false);
 
 	const hasCompletionRequirements = $derived(item.requirementTreeForCompletion.length > 0);
@@ -34,7 +35,7 @@
 </script>
 
 <li
-	id={item.anchorId}
+	id={domId}
 	class="overflow-hidden bg-gray-200 transition-colors focus-within:outline-2 focus-within:outline-blue-500 md:first:rounded-t-md md:last:rounded-b-md dark:bg-gray-200"
 >
 	<div class="flex items-center pr-3">
@@ -42,7 +43,7 @@
 			type="button"
 			onclick={handleClick}
 			aria-expanded={isExpanded}
-			aria-controls={`${item.anchorId}-details`}
+			aria-controls={`${domId}-details`}
 			aria-label={item.item.def.name}
 			class="flex grow cursor-pointer items-center gap-3 p-3 focus:outline-none"
 		>
@@ -66,7 +67,7 @@
 	</div>
 
 	{#if isExpanded}
-		<div id={`${item.anchorId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
+		<div id={`${domId}-details`} class="px-3 pb-3" transition:slide={{ duration: 200 }}>
 			<ul class="grid gap-4 rounded-md bg-white p-3 text-sm dark:bg-gray-50">
 				{#if hasCompletionRequirements}
 					<li class="grid gap-2">
