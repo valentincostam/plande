@@ -1,4 +1,4 @@
-import type { StudyPlanData } from '$lib/study-plan-data';
+import type { StudyPlanData } from "$lib/study-plan-data";
 
 export const ucaeceLp2023: StudyPlanData = {
   "info": {
@@ -11,12 +11,12 @@ export const ucaeceLp2023: StudyPlanData = {
       {
         "id": 1,
         "label": "Plan de Estudios (Web)",
-        "url": "https://www.ucaece.edu.ar/es/carrera/licenciatura-en-psicologia"
+        "url": "https://www.ucaece.edu.ar/carrera/lic-en-psicologia-presencial?caece___carrera___curso_de_interes=P049"
       },
       {
         "id": 2,
         "label": "Plan de Estudios (PDF)",
-        "url": "https://drive.google.com/file/d/1hDTjA0Okf-Hi4SZG3hY5sY-fBIyk2ff5/view?usp=drive_link"
+        "url": "https://drive.google.com/file/d/1prxPQVlINUmrdGGmT-fFTkOA8vQkkxe4/view?usp=sharing"
       }
     ]
   },
@@ -63,11 +63,11 @@ export const ucaeceLp2023: StudyPlanData = {
       "requirements": {}
     },
     {
-      "id": "2",
-      "seqId": 2,
+      "id": "4",
+      "seqId": 4,
       "kind": "course",
-      "name": "Historia de la Psicología",
-      "code": "2118/11Z",
+      "name": "Sociología",
+      "code": "2015/05P",
       "type": "mandatory",
       "hours": 4,
       "tags": [
@@ -101,11 +101,11 @@ export const ucaeceLp2023: StudyPlanData = {
       "requirements": {}
     },
     {
-      "id": "4",
-      "seqId": 4,
+      "id": "2",
+      "seqId": 2,
       "kind": "course",
-      "name": "Sociología",
-      "code": "2015/05P",
+      "name": "Historia de la Psicología",
+      "code": "2118/11Z",
       "type": "mandatory",
       "hours": 4,
       "tags": [
@@ -115,25 +115,6 @@ export const ucaeceLp2023: StudyPlanData = {
         {
           "sectionId": "year-1",
           "term": "firstSemester"
-        }
-      ],
-      "requirements": {}
-    },
-    {
-      "id": "5",
-      "seqId": 5,
-      "kind": "course",
-      "name": "Historia Contemporánea",
-      "code": "1852/11P",
-      "type": "mandatory",
-      "hours": 4,
-      "tags": [
-        "year-1"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-1",
-          "term": "secondSemester"
         }
       ],
       "requirements": {}
@@ -167,6 +148,25 @@ export const ucaeceLp2023: StudyPlanData = {
           "state": "passed"
         }
       }
+    },
+    {
+      "id": "5",
+      "seqId": 5,
+      "kind": "course",
+      "name": "Historia Contemporánea",
+      "code": "1852/11P",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-1"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-1",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {}
     },
     {
       "id": "7",
@@ -222,7 +222,7 @@ export const ucaeceLp2023: StudyPlanData = {
       "id": "8",
       "seqId": 8,
       "kind": "course",
-      "name": "Teoría y Práctica Psicoanalítica I",
+      "name": "Teoría y Práctica en Psicoanálisis I",
       "code": "2116/11Z",
       "type": "mandatory",
       "hours": 8,
@@ -288,25 +288,6 @@ export const ucaeceLp2023: StudyPlanData = {
       "requirements": {}
     },
     {
-      "id": "10",
-      "seqId": 10,
-      "kind": "course",
-      "name": "Filosofía",
-      "code": "4844/05P",
-      "type": "mandatory",
-      "hours": 4,
-      "tags": [
-        "year-2"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-2",
-          "term": "firstSemester"
-        }
-      ],
-      "requirements": {}
-    },
-    {
       "id": "11",
       "seqId": 11,
       "kind": "course",
@@ -356,11 +337,11 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
-      "id": "13",
-      "seqId": 13,
+      "id": "10",
+      "seqId": 10,
       "kind": "course",
-      "name": "Filosofía Contemporánea",
-      "code": "5502/11P",
+      "name": "Filosofía",
+      "code": "4844/05P",
       "type": "mandatory",
       "hours": 4,
       "tags": [
@@ -369,51 +350,10 @@ export const ucaeceLp2023: StudyPlanData = {
       "placements": [
         {
           "sectionId": "year-2",
-          "term": "secondSemester"
+          "term": "firstSemester"
         }
       ],
-      "requirements": {
-        "enroll": {
-          "type": "item",
-          "itemId": "10",
-          "state": "taken"
-        },
-        "complete": {
-          "type": "item",
-          "itemId": "10",
-          "state": "passed"
-        }
-      }
-    },
-    {
-      "id": "14",
-      "seqId": 14,
-      "kind": "course",
-      "name": "Psicología del Desarrollo II",
-      "code": "2119/11Z",
-      "type": "mandatory",
-      "hours": 8,
-      "tags": [
-        "year-2"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-2",
-          "term": "secondSemester"
-        }
-      ],
-      "requirements": {
-        "enroll": {
-          "type": "item",
-          "itemId": "12",
-          "state": "taken"
-        },
-        "complete": {
-          "type": "item",
-          "itemId": "12",
-          "state": "passed"
-        }
-      }
+      "requirements": {}
     },
     {
       "id": "15",
@@ -466,10 +406,40 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
+      "id": "14",
+      "seqId": 14,
+      "kind": "course",
+      "name": "Psicología del Desarrollo II",
+      "code": "2119/11Z",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "12",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "12",
+          "state": "passed"
+        }
+      }
+    },
+    {
       "id": "16",
       "seqId": 16,
       "kind": "course",
-      "name": "Teoría y Práctica Psicoanalítica II",
+      "name": "Teoría y Práctica en Psicoanálisis II",
       "code": "2120/11Z",
       "type": "mandatory",
       "hours": 4,
@@ -512,6 +482,96 @@ export const ucaeceLp2023: StudyPlanData = {
               "state": "passed"
             }
           ]
+        }
+      }
+    },
+    {
+      "id": "13",
+      "seqId": 13,
+      "kind": "course",
+      "name": "Filosofía Contemporánea",
+      "code": "5502/11P",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-2"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-2",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "10",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "10",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "19",
+      "seqId": 19,
+      "kind": "course",
+      "name": "Estadística Aplicada a la Psicología e Investigación",
+      "code": "2121/11P",
+      "type": "mandatory",
+      "hours": 8,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "3",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "3",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "20",
+      "seqId": 20,
+      "kind": "course",
+      "name": "Psicoterapias Cognitivas",
+      "code": "2122/11Z",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-3"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-3",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "15",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
         }
       }
     },
@@ -636,11 +696,11 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
-      "id": "19",
-      "seqId": 19,
+      "id": "22",
+      "seqId": 22,
       "kind": "course",
-      "name": "Estadística Aplicada a la Investigación Psicológica",
-      "code": "2121/11P",
+      "name": "Psicología de la Educación",
+      "code": "2046/11Z",
       "type": "mandatory",
       "hours": 8,
       "tags": [
@@ -649,48 +709,48 @@ export const ucaeceLp2023: StudyPlanData = {
       "placements": [
         {
           "sectionId": "year-3",
-          "term": "firstSemester"
+          "term": "secondSemester"
         }
       ],
       "requirements": {
         "enroll": {
           "type": "item",
-          "itemId": "3",
+          "itemId": "14",
           "state": "taken"
         },
         "complete": {
           "type": "item",
-          "itemId": "3",
+          "itemId": "14",
           "state": "passed"
         }
       }
     },
     {
-      "id": "20",
-      "seqId": 20,
+      "id": "23",
+      "seqId": 23,
       "kind": "course",
-      "name": "Psicoterapias Cognitivas",
-      "code": "2122/11Z",
+      "name": "Teorías y Técnicas de la Exploración y Evaluación Psicológica I",
+      "code": "2136/11P",
       "type": "mandatory",
-      "hours": 4,
+      "hours": 8,
       "tags": [
         "year-3"
       ],
       "placements": [
         {
           "sectionId": "year-3",
-          "term": "firstSemester"
+          "term": "secondSemester"
         }
       ],
       "requirements": {
         "enroll": {
           "type": "item",
-          "itemId": "15",
+          "itemId": "19",
           "state": "taken"
         },
         "complete": {
           "type": "item",
-          "itemId": "15",
+          "itemId": "19",
           "state": "passed"
         }
       }
@@ -746,72 +806,13 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
-      "id": "22",
-      "seqId": 22,
-      "kind": "course",
-      "name": "Psicología de la Educación",
-      "code": "2046/11Z",
-      "type": "mandatory",
-      "hours": 8,
-      "tags": [
-        "year-3"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-3",
-          "term": "secondSemester"
-        }
-      ],
-      "requirements": {
-        "enroll": {
-          "type": "item",
-          "itemId": "14",
-          "state": "taken"
-        },
-        "complete": {
-          "type": "item",
-          "itemId": "14",
-          "state": "passed"
-        }
-      }
-    },
-    {
-      "id": "23",
-      "seqId": 23,
-      "kind": "course",
-      "name": "Teoría y Técnicas de Evaluación Psicológica I",
-      "code": "2136/11P",
-      "type": "mandatory",
-      "hours": 8,
-      "tags": [
-        "year-3"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-3",
-          "term": "secondSemester"
-        }
-      ],
-      "requirements": {
-        "enroll": {
-          "type": "item",
-          "itemId": "19",
-          "state": "taken"
-        },
-        "complete": {
-          "type": "item",
-          "itemId": "19",
-          "state": "passed"
-        }
-      }
-    },
-    {
       "id": "25",
       "seqId": 24,
       "kind": "course",
       "name": "Inglés Técnico",
       "code": "1001/91",
       "type": "mandatory",
+      "hours": 0,
       "tags": [
         "year-3"
       ],
@@ -827,7 +828,7 @@ export const ucaeceLp2023: StudyPlanData = {
       "id": "26",
       "seqId": 25,
       "kind": "course",
-      "name": "Psicología Institucional y Organizacional",
+      "name": "Psicología de las Instituciones y Organizaciones",
       "code": "1780/11Z",
       "type": "mandatory",
       "hours": 4,
@@ -892,34 +893,14 @@ export const ucaeceLp2023: StudyPlanData = {
       ],
       "requirements": {
         "enroll": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "17",
-              "state": "taken"
-            },
-            {
-              "type": "item",
-              "itemId": "15",
-              "state": "taken"
-            }
-          ]
+          "type": "item",
+          "itemId": "17",
+          "state": "taken"
         },
         "complete": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "17",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "15",
-              "state": "passed"
-            }
-          ]
+          "type": "item",
+          "itemId": "17",
+          "state": "passed"
         }
       }
     },
@@ -927,7 +908,7 @@ export const ucaeceLp2023: StudyPlanData = {
       "id": "28",
       "seqId": 27,
       "kind": "course",
-      "name": "Teoría y Técnica Clínica Sistémica",
+      "name": "Teoría y Técnica de la Clínica Sistémica",
       "code": "2127/11Z",
       "type": "mandatory",
       "hours": 4,
@@ -942,34 +923,14 @@ export const ucaeceLp2023: StudyPlanData = {
       ],
       "requirements": {
         "enroll": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "8",
-              "state": "taken"
-            },
-            {
-              "type": "item",
-              "itemId": "23",
-              "state": "taken"
-            }
-          ]
+          "type": "item",
+          "itemId": "15",
+          "state": "taken"
         },
         "complete": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "8",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "23",
-              "state": "passed"
-            }
-          ]
+          "type": "item",
+          "itemId": "15",
+          "state": "passed"
         }
       }
     },
@@ -977,7 +938,7 @@ export const ucaeceLp2023: StudyPlanData = {
       "id": "29",
       "seqId": 28,
       "kind": "course",
-      "name": "Teoría y Técnicas de Evaluación Psicológica II",
+      "name": "Teorías y Técnicas de la Exploración y Evaluación Psicológica II",
       "code": "2137/11Z",
       "type": "mandatory",
       "hours": 8,
@@ -992,14 +953,34 @@ export const ucaeceLp2023: StudyPlanData = {
       ],
       "requirements": {
         "enroll": {
-          "type": "item",
-          "itemId": "17",
-          "state": "taken"
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "taken"
+            }
+          ]
         },
         "complete": {
-          "type": "item",
-          "itemId": "17",
-          "state": "passed"
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "8",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "23",
+              "state": "passed"
+            }
+          ]
         }
       }
     },
@@ -1022,34 +1003,44 @@ export const ucaeceLp2023: StudyPlanData = {
       ],
       "requirements": {
         "enroll": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "9",
-              "state": "taken"
-            },
-            {
-              "type": "item",
-              "itemId": "26",
-              "state": "taken"
-            }
-          ]
+          "type": "item",
+          "itemId": "17",
+          "state": "taken"
         },
         "complete": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "9",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "26",
-              "state": "passed"
-            }
-          ]
+          "type": "item",
+          "itemId": "17",
+          "state": "passed"
+        }
+      }
+    },
+    {
+      "id": "33",
+      "seqId": 32,
+      "kind": "course",
+      "name": "Psicología del Trabajo",
+      "code": "1794/11Z",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-4"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-4",
+          "term": "secondSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "26",
+          "state": "taken"
+        },
+        "complete": {
+          "type": "item",
+          "itemId": "26",
+          "state": "passed"
         }
       }
     },
@@ -1076,7 +1067,7 @@ export const ucaeceLp2023: StudyPlanData = {
           "rules": [
             {
               "type": "item",
-              "itemId": "13",
+              "itemId": "9",
               "state": "taken"
             },
             {
@@ -1091,7 +1082,7 @@ export const ucaeceLp2023: StudyPlanData = {
           "rules": [
             {
               "type": "item",
-              "itemId": "13",
+              "itemId": "9",
               "state": "passed"
             },
             {
@@ -1134,31 +1125,31 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
-      "id": "33",
-      "seqId": 32,
+      "id": "36",
+      "seqId": 35,
       "kind": "course",
-      "name": "Psicología del Trabajo",
-      "code": "1794/11Z",
+      "name": "Psicología Forense y Jurisprudencia",
+      "code": "1799/11Z",
       "type": "mandatory",
       "hours": 4,
       "tags": [
-        "year-4"
+        "year-5"
       ],
       "placements": [
         {
-          "sectionId": "year-4",
-          "term": "secondSemester"
+          "sectionId": "year-5",
+          "term": "firstSemester"
         }
       ],
       "requirements": {
         "enroll": {
           "type": "item",
-          "itemId": "26",
+          "itemId": "31",
           "state": "taken"
         },
         "complete": {
           "type": "item",
-          "itemId": "26",
+          "itemId": "31",
           "state": "passed"
         }
       }
@@ -1214,10 +1205,70 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
+      "id": "37",
+      "seqId": 36,
+      "kind": "course",
+      "name": "Salud Mental y Comunitaria",
+      "code": "2131/11Z",
+      "type": "mandatory",
+      "hours": 4,
+      "tags": [
+        "year-5"
+      ],
+      "placements": [
+        {
+          "sectionId": "year-5",
+          "term": "firstSemester"
+        }
+      ],
+      "requirements": {
+        "enroll": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "31",
+              "state": "taken"
+            }
+          ]
+        },
+        "complete": {
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "20",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "28",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "31",
+              "state": "passed"
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "35",
       "seqId": 34,
       "kind": "course",
-      "name": "Práctica Profesional Supervisada I",
+      "name": "Prácticas Profesionales Supervisadas I",
       "code": "2132/11Z",
       "type": "mandatory",
       "hours": 8,
@@ -1284,96 +1335,6 @@ export const ucaeceLp2023: StudyPlanData = {
       }
     },
     {
-      "id": "36",
-      "seqId": 35,
-      "kind": "course",
-      "name": "Psicología Forense y Jurisprudencia",
-      "code": "1799/11Z",
-      "type": "mandatory",
-      "hours": 4,
-      "tags": [
-        "year-5"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-5",
-          "term": "firstSemester"
-        }
-      ],
-      "requirements": {
-        "enroll": {
-          "type": "item",
-          "itemId": "31",
-          "state": "taken"
-        },
-        "complete": {
-          "type": "item",
-          "itemId": "31",
-          "state": "passed"
-        }
-      }
-    },
-    {
-      "id": "37",
-      "seqId": 36,
-      "kind": "course",
-      "name": "Salud Mental Comunitaria",
-      "code": "2131/11Z",
-      "type": "mandatory",
-      "hours": 4,
-      "tags": [
-        "year-5"
-      ],
-      "placements": [
-        {
-          "sectionId": "year-5",
-          "term": "firstSemester"
-        }
-      ],
-      "requirements": {
-        "enroll": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "20",
-              "state": "taken"
-            },
-            {
-              "type": "item",
-              "itemId": "28",
-              "state": "taken"
-            },
-            {
-              "type": "item",
-              "itemId": "31",
-              "state": "taken"
-            }
-          ]
-        },
-        "complete": {
-          "type": "all",
-          "rules": [
-            {
-              "type": "item",
-              "itemId": "20",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "28",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "31",
-              "state": "passed"
-            }
-          ]
-        }
-      }
-    },
-    {
       "id": "38",
       "seqId": 37,
       "kind": "course",
@@ -1407,7 +1368,7 @@ export const ucaeceLp2023: StudyPlanData = {
       "id": "39",
       "seqId": 38,
       "kind": "course",
-      "name": "Práctica Profesional Supervisada II",
+      "name": "Prácticas Profesionales Supervisadas II",
       "code": "2133/11Z",
       "type": "mandatory",
       "hours": 8,

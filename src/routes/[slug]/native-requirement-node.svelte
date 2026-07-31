@@ -39,6 +39,26 @@
 			node.variant === 'sum' ? (node.metric === 'credits' ? 'créditos' : 'horas') : undefined;
 		return `${node.completedUnits} de ${node.totalUnits}${unit ? ` ${unit}` : ''}`;
 	});
+
+	const quantDescription = $derived.by(() => {
+		if (
+			node.nodeType !== 'quant' ||
+			node.variant !== 'percent' ||
+			node.matchedItemCount === undefined ||
+			node.metItemCount === undefined ||
+			node.minPercent === undefined ||
+			node.matchedItemCount === 0
+		) {
+			return undefined;
+		}
+
+		const state = requiredStateLabel(node.requiredState).toLowerCase();
+		const currentPercent = Math.floor((node.metItemCount / node.matchedItemCount) * 100);
+		const threshold = `${node.minPercent}% de las materias (${node.totalUnits} de ${node.matchedItemCount}) deben estar ${state}`;
+		return node.met
+			? `${threshold} y ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`
+			: `${threshold} pero solo el ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`;
+	});
 </script>
 
 {#if node.nodeType === 'item'}
@@ -70,9 +90,9 @@
 			{:else}
 				<CloseIcon class="h-5 w-5 flex-none translate-y-1 stroke-red-700" />
 			{/if}
-			<span class="font-noto">
-				{quantLabel}
-				<span class="text-gray-500">({quantProgress})</span>
+			<span class="font-noto grid gap-1">
+				<span>{quantLabel}</span>
+				<span class="text-gray-500">{quantDescription ?? `(${quantProgress})`}</span>
 			</span>
 		</span>
 		{#if node.children && node.children.length > 0}

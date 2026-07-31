@@ -34,6 +34,11 @@ export const utnFrcIsi2023: StudyPlanData = {
         "id": 5,
         "label": "Régimen de Correlatividades Plan 2023 con Electivas",
         "url": "https://drive.google.com/file/d/15ZBqXbfH-aniEsmB4welWVbuiojkNeml/view"
+      },
+      {
+        "id": 6,
+        "label": "Modalidades (Programas) - Departamento de Sistemas",
+        "url": "https://www.institucional.frc.utn.edu.ar/sistemas/Areas/Academica/Modalidades.asp"
       }
     ],
     "notes": [
@@ -453,7 +458,13 @@ export const utnFrcIsi2023: StudyPlanData = {
           "term": "annual"
         }
       ],
-      "requirements": {}
+      "requirements": {
+        "enroll": {
+          "type": "item",
+          "itemId": "7",
+          "state": "taken"
+        }
+      }
     },
     {
       "id": "16",
@@ -538,7 +549,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "name": "Economía",
       "code": "18",
       "type": "mandatory",
-      "hours": 3,
+      "hours": 6,
       "attributes": [
         "contraSemester"
       ],
@@ -558,7 +569,7 @@ export const utnFrcIsi2023: StudyPlanData = {
             {
               "type": "item",
               "itemId": "1",
-              "state": "taken"
+              "state": "passed"
             },
             {
               "type": "item",
@@ -576,7 +587,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "name": "Bases de Datos",
       "code": "19",
       "type": "mandatory",
-      "hours": 4,
+      "hours": 8,
       "attributes": [
         "contraSemester"
       ],
@@ -624,7 +635,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "name": "Desarrollo de Software",
       "code": "20",
       "type": "mandatory",
-      "hours": 4,
+      "hours": 8,
       "attributes": [
         "contraSemester"
       ],
@@ -650,6 +661,16 @@ export const utnFrcIsi2023: StudyPlanData = {
               "type": "item",
               "itemId": "16",
               "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "5",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "6",
+              "state": "passed"
             }
           ]
         }
@@ -697,7 +718,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "name": "Análisis Numérico",
       "code": "22",
       "type": "mandatory",
-      "hours": 3,
+      "hours": 6,
       "attributes": [
         "contraSemester"
       ],
@@ -959,9 +980,19 @@ export const utnFrcIsi2023: StudyPlanData = {
       ],
       "requirements": {
         "enroll": {
-          "type": "item",
-          "itemId": "17",
-          "state": "taken"
+          "type": "all",
+          "rules": [
+            {
+              "type": "item",
+              "itemId": "17",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "passed"
+            }
+          ]
         }
       }
     },
@@ -998,6 +1029,11 @@ export const utnFrcIsi2023: StudyPlanData = {
               "type": "item",
               "itemId": "22",
               "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "9",
+              "state": "passed"
             }
           ]
         }
@@ -1122,7 +1158,7 @@ export const utnFrcIsi2023: StudyPlanData = {
             },
             {
               "type": "item",
-              "itemId": "22",
+              "itemId": "19",
               "state": "passed"
             }
           ]
@@ -1325,7 +1361,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "name": "Backend de Aplicaciones",
       "code": "91",
       "type": "elective",
-      "hours": 4,
+      "hours": 8,
       "tags": [
         "progress-elective",
         "year-3"
@@ -1614,7 +1650,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "id": "98",
       "seqId": 44,
       "kind": "course",
-      "name": "Seguridad en el Desarrollo de Software",
+      "name": "Arquitectura de Software",
       "code": "98",
       "type": "elective",
       "hours": 4,
@@ -1625,7 +1661,7 @@ export const utnFrcIsi2023: StudyPlanData = {
       "placements": [
         {
           "sectionId": "year-4",
-          "term": "secondSemester"
+          "term": "firstSemester"
         }
       ],
       "requirements": {
@@ -1634,22 +1670,22 @@ export const utnFrcIsi2023: StudyPlanData = {
           "rules": [
             {
               "type": "item",
-              "itemId": "20",
-              "state": "passed"
-            },
-            {
-              "type": "item",
-              "itemId": "26",
-              "state": "taken"
-            },
-            {
-              "type": "item",
               "itemId": "19",
               "state": "taken"
             },
             {
               "type": "item",
-              "itemId": "8",
+              "itemId": "20",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "13",
               "state": "passed"
             }
           ]
@@ -1706,6 +1742,16 @@ export const utnFrcIsi2023: StudyPlanData = {
             {
               "type": "item",
               "itemId": "19",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "14",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "20",
               "state": "passed"
             }
           ]
@@ -1887,6 +1933,11 @@ export const utnFrcIsi2023: StudyPlanData = {
               "type": "item",
               "itemId": "19",
               "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "30",
+              "state": "taken"
             }
           ]
         }
@@ -1994,6 +2045,11 @@ export const utnFrcIsi2023: StudyPlanData = {
             {
               "type": "item",
               "itemId": "26",
+              "state": "taken"
+            },
+            {
+              "type": "item",
+              "itemId": "19",
               "state": "taken"
             },
             {
@@ -2186,6 +2242,11 @@ export const utnFrcIsi2023: StudyPlanData = {
             {
               "type": "item",
               "itemId": "23",
+              "state": "passed"
+            },
+            {
+              "type": "item",
+              "itemId": "12",
               "state": "passed"
             }
           ]
