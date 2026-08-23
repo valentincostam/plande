@@ -64,12 +64,12 @@
 						plural={node.totalUnits !== 1}
 					/>{#if !node.met}&nbsp;{#if node.metItemCount === 0}pero ninguna lo está{:else}pero solo
 							{node.metItemCount}
-							{node.metItemCount === 1 ? 'lo está' : 'lo están'}{/if} ({node.totalUnits -
-							node.completedUnits ===
-						1
-							? 'falta'
-							: 'faltan'}
-						{node.totalUnits - node.completedUnits}){/if}
+							{node.metItemCount === 1 ? 'lo está' : 'lo están'} ({node.totalUnits -
+								node.completedUnits ===
+							1
+								? 'falta'
+								: 'faltan'}
+							{node.totalUnits - node.completedUnits}){/if}{/if}
 				</span>
 			{:else if node.variant === 'percent'}
 				<span class="font-noto">
@@ -79,7 +79,7 @@
 						plural
 					/>{#if !node.met}&nbsp;{#if node.metItemCount === 0}pero ninguna lo está{:else}pero solo
 							el {currentPercent(node)}% lo está{/if} ({node.metItemCount}
-						de {node.matchedItemCount} y {node.totalUnits - node.completedUnits === 1
+						de {node.matchedItemCount}, {node.totalUnits - node.completedUnits === 1
 							? 'falta'
 							: 'faltan'}
 						{node.totalUnits - node.completedUnits}){/if}

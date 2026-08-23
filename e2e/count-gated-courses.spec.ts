@@ -19,7 +19,7 @@ test.describe('Courses gated by a count of regularized courses', () => {
 		const esiPanel = await studyPlan.getCourseDetailsPanel('Educación Sexual Integral');
 		expect(
 			(await esiPanel.getByText(/5 materias del plan/).innerText()).replaceAll('\u00a0', ' ')
-		).toBe('5 materias del plan deben estar Regulares pero ninguna lo está (faltan 5)');
+		).toBe('5 materias del plan deben estar Regulares pero ninguna lo está');
 		await expect(esiPanel.getByText('(0 de 5)', { exact: true })).not.toBeVisible();
 		await esiButton.click();
 
