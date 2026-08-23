@@ -2,6 +2,8 @@ import type { RequestHandler } from './$types';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
 import { allStudyPlans } from '../[slug]/data/all-study-plans';
 
+export const prerender = true;
+
 const totalPlans = allStudyPlans.length;
 const universityCounts = new Map<string, number>();
 
