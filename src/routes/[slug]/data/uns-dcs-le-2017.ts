@@ -24,14 +24,6 @@ export const unsDcsLe2017: StudyPlanData = {
 			{
 				id: 2,
 				text: 'Existe un **Curso de Nivelación** para carreras que articulan, con las materias Enfermería en Salud Colectiva y Familiar A (20097) y Fundamentos de los Procesos Biológicos (1183).'
-			},
-			{
-				id: 3,
-				text: 'Se deben aprobar **2 de las 4 materias electivas** del segundo cuatrimestre de tercer año para completar la carrera.'
-			},
-			{
-				id: 4,
-				text: 'El **Examen de Suficiencia de Inglés E** (4586) se modela como un **hito** independiente, ya que actúa como requisito para varias materias de 5to año.'
 			}
 		]
 	},

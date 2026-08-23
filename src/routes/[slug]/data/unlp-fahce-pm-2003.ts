@@ -20,12 +20,6 @@ export const unlpFahcePm2003: StudyPlanData = {
 				label: 'Plan de Estudios (descarga PDF)',
 				url: 'https://www.fahce.unlp.edu.ar/facultad/secretarias-y-prosecretarias/academica/deptos/ciencias-exactas-y-naturales/carreras/profesorado-de-matematica/@@edit/++widget++form.widgets.IArchivos.archivos/@@download/0'
 			}
-		],
-		notes: [
-			{
-				id: 1,
-				text: '**Optativas:** Para completar la carrera se deben aprobar **4 materias optativas**: 1 de las Optativas I (Complementos de Análisis, Estructuras Algebraicas, Geometría Diferencial o Probabilidades I), 1 de las Optativas II (Tecnología Educativa, Investigación Educativa II, Introducción a la Filosofía o Sociología de la Educación), 1 idioma latino (Francés, Italiano o Portugués) y 1 idioma germánico (Alemán o Inglés).'
-			}
 		]
 	},
 	sections: [

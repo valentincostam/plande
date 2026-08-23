@@ -89,10 +89,6 @@ export const unlpFiIem2018: StudyPlanData = {
 			{
 				id: 4,
 				text: 'Las **Actividades de Formación Complementaria** se modelan como items obligatorios secuenciales (`AFC1` a `AFC5`). La documentación oficial además exige completar **50 puntos** en total entre ellas.'
-			},
-			{
-				id: 5,
-				text: 'La **Electiva Humanística** se modela como un requisito de egreso de **1 materia aprobada** dentro de la sección correspondiente.'
 			}
 		]
 	},

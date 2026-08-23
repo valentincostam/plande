@@ -35,10 +35,6 @@ export const unlpFpLp2012: StudyPlanData = {
         "text": "**Capacitación en Idioma**: el plan establece como requisito tener 12 materias con finales rendidos para cursar (pueden rendirse en calidad de libre)."
       },
       {
-        "id": 4,
-        "text": "**Taller de Producción Textual**: tiene como requisito contar con cursadas aprobadas de las asignaturas de 4º año."
-      },
-      {
         "id": 5,
         "text": "**Trabajo Integrador Final (TIF)**: tiene como requisito contar con las asignaturas de 4º año aprobadas y con el 50% de las cursadas aprobadas de 5º año (condición porcentual no representada como correlativas de materias individuales)."
       }

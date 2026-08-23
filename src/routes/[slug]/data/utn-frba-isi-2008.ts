@@ -27,10 +27,6 @@ export const utnFrbaIsi2008: StudyPlanData = {
         "text": "El plan de estudios 2008 (K08) está vigente **hasta 2028 para ingresantes hasta 2022**. A partir de 2023 rige el plan de estudios 2023 (K23)."
       },
       {
-        "id": 2,
-        "text": "Se requieren **44 horas de materias electivas** (de cursado cuatrimestral) para egresarse."
-      },
-      {
         "id": 3,
         "text": "La carrera incluye una **Práctica Profesional Supervisada** de 200 horas reloj como requisito para egresarse."
       },

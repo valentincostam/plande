@@ -34,10 +34,6 @@ export const unahurIePui2024: StudyPlanData = {
       {
         "id": 2,
         "text": "**Ciclos Preparatorios de Inglés (CPI)**: Antes de comenzar la cursada, es obligatorio realizar una entrevista de diagnóstico de nivel. Los cursos 1, 2 y 3 requieren haber completado el CPI Intermedio nivel 6 o nivel intermedio alto 2. Esta es una instancia preparatoria, no una materia del plan."
-      },
-      {
-        "id": 3,
-        "text": "**Requisitos por cantidad de materias regularizadas** (adicionales a los prerrequisitos específicos mostrados):\n\t\t\t\t\n - **Educación Sexual Integral** (2<sup>do</sup> año): 5 materias regularizadas\n\t\t\t\t\n - **Pensamiento Pedagógico Latinoamericano** (2<sup>do</sup> año): 6 materias regularizadas\n\t\t\t\t\n - **Historia de la Nación Argentina y sus Proyectos Educativos** (3<sup>er</sup> año): 10 materias regularizadas\n\t\t\t\t\n - **Actividades Curriculares Acreditables (ACA)**: 10 materias regularizadas"
       }
     ]
   },

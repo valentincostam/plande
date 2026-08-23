@@ -19,12 +19,6 @@ export const unlamDceLci: StudyPlanData = {
 				label: 'Plan de Estudios (PDF)',
 				url: 'https://economicas.unlam.edu.ar/descargas/112_LICENCIATURAENCOMERCIOINTERNACIONAL.pdf'
 			}
-		],
-		notes: [
-			{
-				id: 1,
-				text: 'El título intermedio de **Técnico Universitario en Comercio Internacional** se modela como un **hito** que se completa al aprobar todas las materias de 1<sup>er</sup> año, 2<sup>do</sup> año y 3<sup>er</sup> año.'
-			}
 		]
 	},
 	sections: [

@@ -19,12 +19,6 @@ export const unmdpFhLcp: StudyPlanData = {
         "label": "Estructura de Cursada Recomendada",
         "url": "https://drive.google.com/file/d/1F6Ar-Cd-J22RWTlW11DKKUZK0gZJAsyl/view?usp=sharing"
       }
-    ],
-    "notes": [
-      {
-        "id": 1,
-        "text": "El **Seminario 2** (5° año) es a elección del estudiante."
-      }
     ]
   },
   "sections": [

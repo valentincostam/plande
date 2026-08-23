@@ -27,10 +27,6 @@ export const unsaFceLf2005: StudyPlanData = {
 				text: 'Para cursar el **Trabajo Final**, se requiere regular algunas materias dependiendo del trabajo propuesto y haber aprobado el 80% de las materias. Para rendir el **Trabajo Final**, se deben tener aprobadas todas las materias restantes de la carrera.'
 			},
 			{
-				id: 2,
-				text: 'Se deben aprobar **2 materias optativas** (Optativa I y Optativa II) de la lista de electivas disponibles en el 5<sup>to</sup> año para completar la carrera.'
-			},
-			{
 				id: 3,
 				text: 'Se omiten requisitos redundantes. Por ejemplo, **Introducción a la Matemática** no se exige para cursar **Laboratorio I** porque ya es requisito para cursar **Álgebra Lineal y Geometría Analítica**, que también es necesaria para cursar **Laboratorio I**.'
 			}

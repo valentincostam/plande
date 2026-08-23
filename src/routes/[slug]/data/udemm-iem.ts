@@ -26,10 +26,6 @@ export const udemmIem: StudyPlanData = {
       {
         "id": 2,
         "text": "Se normalizó la correlativa de **Proyecto Electromecánico Integrador** de `I1421` a `I1422` por consistencia con el plan y la tabla de materias."
-      },
-      {
-        "id": 3,
-        "text": "Para completar la carrera se requiere aprobar **1 materia electiva** del bloque de electivas de 4<sup>to</sup> año."
       }
     ]
   },
