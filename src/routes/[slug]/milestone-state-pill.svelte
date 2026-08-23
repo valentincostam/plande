@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { milestoneStates, type MilestoneState } from '$lib/study-plan-data';
+	import { courseBgColors, courseStates } from '$lib/course-state';
 	import type { ClassValue } from 'svelte/elements';
 
 	type Props = {
@@ -15,8 +16,8 @@
 	} as const;
 
 	const classByState = {
-		[milestoneStates.pending]: 'bg-gray-600 text-white dark:text-gray-100',
-		[milestoneStates.completed]: 'bg-green-600 text-white dark:text-gray-100'
+		[milestoneStates.pending]: courseBgColors[courseStates.notTaken],
+		[milestoneStates.completed]: courseBgColors[courseStates.passed]
 	} as const;
 </script>
 

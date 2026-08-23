@@ -1,4 +1,11 @@
 import { test, expect } from './fixtures';
+import type { Locator } from '@playwright/test';
+
+const getPillColors = (locator: Locator) =>
+	locator.evaluate((element) => {
+		const styles = getComputedStyle(element);
+		return { background: styles.backgroundColor, foreground: styles.color };
+	});
 
 test.describe('Milestone requirements', () => {
 	test('UNS English sufficiency milestone is shown and satisfies course requirements', async ({
@@ -91,6 +98,30 @@ test.describe('Milestone requirements', () => {
 
 		await expect(panel.getByText('Completado', { exact: true })).toBeVisible();
 		await expect(panel.getByText('Pendiente', { exact: true })).toHaveCount(0);
+	});
+
+	test('milestone requirement pills match equivalent course-state pills in both themes', async ({
+		page,
+		studyPlan
+	}) => {
+		for (const theme of ['light', 'dark']) {
+			await studyPlan.goto('unlp-fi-iem-2018');
+			await page.evaluate((value) => localStorage.setItem('theme', value), theme);
+			await page.reload({ waitUntil: 'load' });
+			await expect(page.getByRole('main')).toHaveAttribute('aria-busy', 'false');
+
+			await studyPlan.getCourseButton('Dispositivos e Instalaciones Eléctricas II').click();
+			const panel = await studyPlan.getCourseDetailsPanel(
+				'Dispositivos e Instalaciones Eléctricas II'
+			);
+
+			await expect
+				.poll(() => getPillColors(panel.getByText('Pendiente', { exact: true })))
+				.toEqual(await getPillColors(panel.getByText('No cursada', { exact: true })));
+			await expect
+				.poll(() => getPillColors(panel.getByText('Completado', { exact: true })))
+				.toEqual(await getPillColors(panel.getByText('Aprobada', { exact: true })));
+		}
 	});
 
 	test('UNLaM intermediate title milestone unlocks after passing first three years', async ({
