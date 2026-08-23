@@ -15,6 +15,14 @@ test.describe('Courses gated by a count of regularized courses', () => {
 		await expect(esiButton).toHaveAttribute('aria-label', /bloqueada por correlativas/i);
 		await expect(esiStateControl).not.toBeVisible();
 
+		await esiButton.click();
+		const esiPanel = await studyPlan.getCourseDetailsPanel('Educación Sexual Integral');
+		await expect(esiPanel.getByText(/5 materias del plan/)).toContainText(
+			/5 materias del plan\s+Regulares, pero ninguna lo está\./
+		);
+		await expect(esiPanel.getByText('(0 de 5)', { exact: true })).not.toBeVisible();
+		await esiButton.click();
+
 		const firstYearCourses = [
 			'Lengua Inglesa I',
 			'Gramática Inglesa I',

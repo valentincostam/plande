@@ -31,4 +31,22 @@ describe('lightweight study plan loading', () => {
 	it('resolves short slugs to the newest plan', () => {
 		expect(getCanonicalStudyPlanSlug('utn-frba-isi')).toBe('utn-frba-isi-2023');
 	});
+
+	it('keeps enough UNLP optative total hours to satisfy its 128-hour requirement', async () => {
+		const plan = await loadStudyPlan('unlp-fi-iem-2018');
+		const optatives = plan?.items.filter(
+			(item) => item.kind === 'course' && item.tags?.includes('optativas')
+		);
+
+		expect(optatives).toHaveLength(22);
+		expect(
+			optatives?.every((item) => item.kind === 'course' && item.totalHours !== undefined)
+		).toBe(true);
+		expect(
+			optatives?.reduce(
+				(total, item) => total + (item.kind === 'course' ? (item.totalHours ?? 0) : 0),
+				0
+			)
+		).toBe(1728);
+	});
 });

@@ -29,9 +29,9 @@ test.describe('Requirement rendering and multi-placement stats', () => {
 		const milestoneDetails = page.getByRole('region', {
 			name: 'Detalles de Título intermedio: Técnico Universitario en Comercio Internacional'
 		});
-		await expect(
-			milestoneDetails.getByText('7 materias de 1er Año aprobadas', { exact: true })
-		).toBeVisible();
+		await expect(milestoneDetails.getByLabel('primer año', { exact: true })).toBeVisible();
+		await expect(milestoneDetails.getByText('Aprobadas', { exact: true })).toHaveCount(3);
+		await expect(milestoneDetails.getByText('(0 de 7)', { exact: true })).toHaveCount(0);
 		await expect(page.getByText(/items de section/i)).toHaveCount(0);
 	});
 });

@@ -3,7 +3,8 @@ import { courseTypeLabels } from '../course-type';
 import type { StudyPlanData } from '../study-plan-data';
 import { buildStudyPlanDocument } from './study-plan-document';
 
-const separator = '--------------------------------------------------------------------------------';
+const separator =
+	'--------------------------------------------------------------------------------';
 
 export function studyPlanToPlainText(source: StudyPlanData): string {
 	const { plan, durationYears, items, graduationRequirements, priority } =
@@ -37,6 +38,7 @@ export function studyPlanToPlainText(source: StudyPlanData): string {
 		if (entry.item.code) lines.push(`  Código: ${entry.item.code}`);
 		if (entry.item.kind === 'course') {
 			if (entry.item.hours) lines.push(`  Horas: ${entry.item.hours}`);
+			if (entry.item.totalHours) lines.push(`  Horas totales: ${entry.item.totalHours}`);
 			if (entry.item.credits) lines.push(`  Créditos: ${entry.item.credits}`);
 			lines.push(`  Tipo: ${courseTypeLabels[entry.item.type]}`);
 			if (entry.item.attributes?.length) {
@@ -80,6 +82,12 @@ export function studyPlanToPlainText(source: StudyPlanData): string {
 			);
 		}
 	}
-	lines.push('', separator, '', 'Este plan de estudios fue creado con Plande (https://plande.app).', '');
+	lines.push(
+		'',
+		separator,
+		'',
+		'Este plan de estudios fue creado con Plande (https://plande.app).',
+		''
+	);
 	return lines.join('\n');
 }

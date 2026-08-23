@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { ViewRequirementNode } from '$lib/study-plan-view';
-	import { pluralFeminineCourseStateLabels, courseStates } from '$lib/course-state';
-	import { courseTypes } from '$lib/course-type';
+	import { courseStates } from '$lib/course-state';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import NativeRequirement from './native-requirement.svelte';
 	import NativeRequirementNode from './native-requirement-node.svelte';
+	import NativeRequirementSelector from './native-requirement-selector.svelte';
+	import StatePill from './state-pill.svelte';
 
 	type Props = {
 		node: ViewRequirementNode;
@@ -14,90 +15,15 @@
 
 	let { node, showCodes = false }: Props = $props();
 
-	const requiredStateLabel = (state?: string) => {
-		if (!state || state === 'completed')
-			return pluralFeminineCourseStateLabels[courseStates.passed];
-		return pluralFeminineCourseStateLabels[state as keyof typeof pluralFeminineCourseStateLabels];
-	};
+	const requiredCourseState = (state?: string) =>
+		state === 'completed' || state === undefined
+			? courseStates.passed
+			: (state as (typeof courseStates)[keyof typeof courseStates]);
 
-	const courseTypePluralLabels = {
-		[courseTypes.mandatory]: 'obligatorias',
-		[courseTypes.elective]: 'electivas',
-		[courseTypes.optative]: 'optativas'
-	} as const;
-
-	const selectorLabel = (quantNode: Extract<ViewRequirementNode, { nodeType: 'quant' }>) => {
-		const selector = quantNode.selector;
-		if (!selector) return 'materias';
-
-		switch (selector.type) {
-			case 'section':
-				return `materias de ${quantNode.selectorSectionLabels?.[0] ?? selector.sectionId}`;
-			case 'sections':
-				return `materias de ${quantNode.selectorSectionLabels?.join(', ') ?? selector.sectionIds.join(', ')}`;
-			case 'all':
-				return selector.courseType
-					? `materias ${courseTypePluralLabels[selector.courseType]}`
-					: 'materias del plan';
-			case 'items':
-			case 'tag': {
-				if (quantNode.selectorCoversAllCourses) return 'materias del plan';
-				const courseType =
-					quantNode.selectorCourseTypes?.length === 1
-						? quantNode.selectorCourseTypes[0]
-						: undefined;
-				return courseType
-					? `materias ${courseTypePluralLabels[courseType]}`
-					: 'materias seleccionadas';
-			}
-		}
-	};
-
-	const selectorLabelWithArticle = (
-		quantNode: Extract<ViewRequirementNode, { nodeType: 'quant' }>
-	) => selectorLabel(quantNode).replace(/^materias/, 'las materias');
-
-	const quantLabel = $derived.by(() => {
-		if (node.nodeType !== 'quant') return '';
-		if (node.label) return node.label;
-		switch (node.variant) {
-			case 'count':
-				return `${node.totalUnits} ${selectorLabel(node)} ${requiredStateLabel(node.requiredState).toLowerCase()}`;
-			case 'countOf':
-				return `${node.totalUnits} de las siguientes opciones`;
-			case 'percent':
-				return `${node.minPercent}% de ${selectorLabelWithArticle(node)} (${node.totalUnits} de ${node.matchedItemCount}) ${requiredStateLabel(node.requiredState).toLowerCase()}`;
-			case 'sum':
-				return `${node.totalUnits} ${node.metric === 'credits' ? 'créditos' : 'horas'} de ${selectorLabel(node)} ${requiredStateLabel(node.requiredState).toLowerCase()}`;
-		}
-	});
-
-	const quantProgress = $derived.by(() => {
-		if (node.nodeType !== 'quant') return '';
-		const unit =
-			node.variant === 'sum' ? (node.metric === 'credits' ? 'créditos' : 'horas') : undefined;
-		return `${node.completedUnits} de ${node.totalUnits}${unit ? ` ${unit}` : ''}`;
-	});
-
-	const quantDescription = $derived.by(() => {
-		if (
-			node.nodeType !== 'quant' ||
-			node.variant !== 'percent' ||
-			node.matchedItemCount === undefined ||
-			node.metItemCount === undefined ||
-			node.minPercent === undefined ||
-			node.matchedItemCount === 0
-		) {
-			return undefined;
-		}
-
-		const state = requiredStateLabel(node.requiredState).toLowerCase();
-		const currentPercent = Math.floor((node.metItemCount / node.matchedItemCount) * 100);
-		const threshold = `${node.minPercent}% de ${selectorLabelWithArticle(node)} (${node.totalUnits} de ${node.matchedItemCount}) deben estar ${state}`;
-		return node.met
-			? `${threshold} y ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`
-			: `${threshold} pero solo el ${currentPercent}% lo está (${node.metItemCount} de ${node.matchedItemCount})`;
-	});
+	const currentPercent = (quantNode: Extract<ViewRequirementNode, { nodeType: 'quant' }>) =>
+		quantNode.matchedItemCount && quantNode.metItemCount !== undefined
+			? Math.floor((quantNode.metItemCount / quantNode.matchedItemCount) * 100)
+			: 0;
 </script>
 
 {#if node.nodeType === 'item'}
@@ -129,10 +55,49 @@
 			{:else}
 				<CloseIcon class="h-5 w-5 flex-none translate-y-1 stroke-red-700" />
 			{/if}
-			<span class="font-noto grid gap-1">
-				<span>{quantLabel}</span>
-				<span class="text-gray-500">{quantDescription ?? `(${quantProgress})`}</span>
-			</span>
+			{#if node.variant === 'count'}
+				<span class="font-noto">
+					{node.totalUnits}
+					<NativeRequirementSelector {node} />&nbsp;
+					<StatePill
+						state={requiredCourseState(node.requiredState)}
+						plural={node.totalUnits !== 1}
+					/>{#if node.metItemCount === 0}, pero ninguna lo está.{:else if node.met}, y {node.metItemCount}
+						{node.metItemCount === 1 ? 'lo está' : 'lo están'}.{:else}, pero solo
+						{node.metItemCount}
+						{node.metItemCount === 1 ? 'lo está' : 'lo están'}.{/if}
+				</span>
+			{:else if node.variant === 'percent'}
+				<span class="font-noto">
+					{node.minPercent}% de <NativeRequirementSelector {node} article />&nbsp;
+					<StatePill state={requiredCourseState(node.requiredState)} plural />: se necesitan
+					{node.totalUnits}{#if node.metItemCount === 0}, pero ninguna lo está.{:else if node.met}
+						&nbsp;y&nbsp;{node.metItemCount} lo están, es decir, el {currentPercent(node)}%.{:else},
+						pero solo
+						{node.metItemCount} lo están, es decir, el {currentPercent(node)}%.{/if}
+				</span>
+			{:else if node.variant === 'sum'}
+				<span class="font-noto">
+					{node.totalUnits}
+					{node.metric === 'credits'
+						? 'créditos'
+						: node.metric === 'totalHours'
+							? 'horas totales'
+							: 'horas'} de <NativeRequirementSelector {node} />&nbsp;
+					<StatePill
+						state={requiredCourseState(node.requiredState)}
+						plural
+					/>{#if node.completedUnits === 0}, pero todavía no se acumuló ninguna.{:else if node.met},
+						y ya se acumularon
+						{node.completedUnits}.{:else}, pero solo se acumularon {node.completedUnits}.{/if}
+				</span>
+			{:else}
+				<span class="font-noto">
+					{node.label ?? `${node.totalUnits} de las siguientes opciones`}: {#if node.completedUnits === 0}ninguna
+						se cumple.{:else if node.met}{node.completedUnits} se cumplen.{:else}solo
+						{node.completedUnits} se {node.completedUnits === 1 ? 'cumple' : 'cumplen'}.{/if}
+				</span>
+			{/if}
 		</span>
 		{#if node.children && node.children.length > 0}
 			<ul class="grid gap-2 pl-6">

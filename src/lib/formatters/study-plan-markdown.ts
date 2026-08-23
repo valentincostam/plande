@@ -33,6 +33,7 @@ export function studyPlanToMarkdown(source: StudyPlanData): string {
 		if (entry.item.code) lines.push(`- **Código**: ${entry.item.code}`);
 		if (entry.item.kind === 'course') {
 			if (entry.item.hours) lines.push(`- **Horas**: ${entry.item.hours}`);
+			if (entry.item.totalHours) lines.push(`- **Horas totales**: ${entry.item.totalHours}`);
 			if (entry.item.credits) lines.push(`- **Créditos**: ${entry.item.credits}`);
 			lines.push(`- **Tipo**: ${courseTypeLabels[entry.item.type]}`);
 			if (entry.item.attributes?.length) {
@@ -44,8 +45,10 @@ export function studyPlanToMarkdown(source: StudyPlanData): string {
 			lines.push('- **Tipo**: Hito');
 		}
 		if (entry.placements.length) lines.push(`- **Ubicación**: ${entry.placements.join('; ')}`);
-		if (entry.enrollRequirement) lines.push(`- **Requiere para cursar**: ${entry.enrollRequirement}`);
-		if (entry.completeRequirement) lines.push(`- **Requiere para completar**: ${entry.completeRequirement}`);
+		if (entry.enrollRequirement)
+			lines.push(`- **Requiere para cursar**: ${entry.enrollRequirement}`);
+		if (entry.completeRequirement)
+			lines.push(`- **Requiere para completar**: ${entry.completeRequirement}`);
 		lines.push('', '---', '');
 	}
 

@@ -78,7 +78,7 @@ export const describeRequirement = (expr: RequirementExpr, plan: StudyPlanData):
 			case 'percent':
 				return `${node.minPercent}% de las ${selectorLabel(node.selector, plan)} ${stateLabel(node.state, true)}`;
 			case 'sum':
-				return `${node.min} ${node.metric === 'hours' ? 'horas' : 'créditos'} de ${selectorLabel(node.selector, plan)} ${stateLabel(node.state, true)}`;
+				return `${node.min} ${node.metric === 'credits' ? 'créditos' : node.metric === 'totalHours' ? 'horas totales' : 'horas'} de ${selectorLabel(node.selector, plan)} ${stateLabel(node.state, true)}`;
 		}
 	};
 

@@ -152,7 +152,7 @@ test.describe('Stats and Charts - Elective courses', () => {
 	test('shows elective hours and updates when elective passed', async ({ studyPlan }) => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
-		const electiveHoursStat = studyPlan.getStatByLabel(/^Horas cátedra de materias electivas/);
+		const electiveHoursStat = studyPlan.getStatByLabel(/^Horas electivas requeridas/);
 		await expect(electiveHoursStat).toContainText('0 de 40');
 
 		await studyPlan.setCourseState('Sistemas y Procesos de Negocios', 'Aprobada');
@@ -164,13 +164,36 @@ test.describe('Stats and Charts - Elective courses', () => {
 	test('shows required elective count for count-based plans', async ({ studyPlan }) => {
 		await studyPlan.goto('udemm-iem');
 
-		const electivesStat = studyPlan.getStatByLabel(/^Materias electivas requeridas aprobadas/);
+		const electivesStat = studyPlan.getStatByLabel(/^Materias electivas requeridas/);
 		await expect(electivesStat).toContainText('0 de 1');
 		await expect(electivesStat).toContainText('6 electivas disponibles en el plan');
 
 		await studyPlan.setCourseState('Estabilidad II', 'Aprobada');
 
 		await expect(electivesStat).toContainText('1 de 1');
+	});
+
+	test('separates UNLP humanistic count from total optative hours', async ({ studyPlan }) => {
+		await studyPlan.goto('unlp-fi-iem-2018');
+
+		const humanisticStat = studyPlan.getStatByLabel(/^Electiva humanística requerida/);
+		await expect(humanisticStat).toContainText('0 de 1 mat.');
+
+		const optativeHoursStat = studyPlan.getStatByLabel(/^Horas optativas requeridas/);
+		await expect(optativeHoursStat).toContainText('0 de 128 hs.');
+
+		await studyPlan.getStrictModeToggle().uncheck();
+		await studyPlan.setCourseState(
+			'Relaciones Humanas en el Ámbito del Desarrollo de las Ingenierías',
+			'Aprobada'
+		);
+		await expect(optativeHoursStat).toContainText('64 de 128 hs.');
+
+		await studyPlan.setCourseState(
+			'Análisis de Falla en Componentes Mecánicos y Piezas de Acero',
+			'Aprobada'
+		);
+		await expect(optativeHoursStat).toContainText('128 de 128 hs.');
 	});
 
 	test('sums grouped elective requirements for plans with multiple count blocks', async ({

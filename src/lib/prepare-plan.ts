@@ -379,7 +379,7 @@ const validateGraduationRequirement = (
 
 	if (containsSum && requirement.weight === undefined) {
 		throw new Error(
-			`${scope}: sum blocks require an explicit weight (hours/credits units would dominate the degree percentage)`
+			`${scope}: sum blocks require an explicit weight (hour/credit units would dominate the degree percentage)`
 		);
 	}
 	if (
@@ -457,9 +457,7 @@ export const preparePlan = (
 			pushMapValue(itemIdSetsByTag, tag, item.id);
 		}
 	}
-	const itemIdsByTag = new Map(
-		[...itemIdSetsByTag].map(([tag, itemIds]) => [tag, [...itemIds]])
-	);
+	const itemIdsByTag = new Map([...itemIdSetsByTag].map(([tag, itemIds]) => [tag, [...itemIds]]));
 	const itemIdsBySection = new Map(
 		[...itemIdSetsBySection].map(([sectionId, itemIds]) => [sectionId, [...itemIds]])
 	);

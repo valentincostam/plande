@@ -13,12 +13,7 @@
 		sections: StudyPlanViewSection[];
 	};
 
-	let {
-		items,
-		sections,
-		graduationRequirements = [],
-		graduationBlocks = []
-	}: Props = $props();
+	let { items, sections, graduationRequirements = [], graduationBlocks = [] }: Props = $props();
 
 	const someCourseHasHours = $derived(items.some((item) => item.item.def.hours));
 
@@ -60,10 +55,6 @@
 		mandatoryCourses.filter((item) => item.item.state === courseStates.passed)
 	);
 
-	const passedElectiveHours = $derived(
-		passedElectiveCourses.reduce((acc, item) => acc + (item.item.def.hours ?? 0), 0)
-	);
-
 	const requiredGroupedCoursesLabel = $derived.by(() => {
 		if (hasElectiveCourses && hasOptativeCourses)
 			return 'Materias electivas y optativas requeridas aprobadas';
@@ -80,12 +71,7 @@
 	});
 
 	const countGraduationRequirements = $derived(
-		graduationRequirements.filter(
-			(requirement) => requirement.expr.type === 'count'
-		)
-	);
-	const sumGraduationRequirements = $derived(
-		graduationRequirements.filter((requirement) => requirement.expr.type === 'sum')
+		graduationRequirements.filter((requirement) => requirement.expr.type === 'count')
 	);
 	const requiredElectiveCount = $derived(
 		countGraduationRequirements.reduce(
@@ -94,14 +80,6 @@
 			0
 		)
 	);
-	const requiredElectiveHours = $derived(
-		sumGraduationRequirements.reduce(
-			(total, requirement) =>
-				total + (requirement.expr.type === 'sum' ? requirement.expr.min : 0),
-			0
-		)
-	);
-
 	const countRequirementDetails = $derived(
 		graduationRequirements
 			.flatMap((requirement) =>
@@ -136,13 +114,36 @@
 					(item) => item.item.state === courseStates.passed
 				).length;
 				const block = graduationBlocks.find((candidate) => candidate.id === requirement.id);
+				const matchingCourseTypes = new Set(
+					matchingItems.map((item) => item.item.def.type).filter((type) => type !== undefined)
+				);
+				const matchingItemsDescription =
+					matchingCourseTypes.size === 1
+						? `${matchingItems.length} ${matchingItems[0]?.item.def.type === courseTypes.optative ? 'optativas' : 'electivas'} disponibles en el plan`
+						: `${matchingItems.length} opciones disponibles en el plan`;
 				return {
 					label: requirement.label,
+					description: matchingItemsDescription,
 					value: block?.completedUnits ?? 0,
 					total: expr.min,
 					summary: `${rawPassedCount} de ${expr.min} mat.`
 				};
 			})
+	);
+
+	const sumRequirementDetails = $derived(
+		graduationRequirements.flatMap((requirement) => {
+			if (requirement.expr.type !== 'sum') return [];
+			const block = graduationBlocks.find((candidate) => candidate.id === requirement.id);
+			return [
+				{
+					label: requirement.label,
+					value: block?.completedUnits ?? 0,
+					total: requirement.expr.min,
+					unit: requirement.expr.metric === 'credits' ? 'cr.' : 'hs.'
+				}
+			];
+		})
 	);
 
 	const passedRequiredElectiveCount = $derived(
@@ -173,14 +174,24 @@
 	/>
 	{#if hasElectiveCourses || hasOptativeCourses}
 		{#if countGraduationRequirements.length > 0}
-			<Stat
-				label={requiredGroupedCoursesLabel}
-				description={availableGroupedCoursesDescription}
-				details={countRequirementDetails.length > 1 ? countRequirementDetails : []}
-				value={passedRequiredElectiveCount}
-				total={requiredElectiveCount}
-				unit="mat."
-			/>
+			{#if countRequirementDetails.length === 1}
+				<Stat
+					label={countRequirementDetails[0].label}
+					description={countRequirementDetails[0].description}
+					value={countRequirementDetails[0].value}
+					total={countRequirementDetails[0].total}
+					unit="mat."
+				/>
+			{:else}
+				<Stat
+					label={requiredGroupedCoursesLabel}
+					description={availableGroupedCoursesDescription}
+					details={countRequirementDetails}
+					value={passedRequiredElectiveCount}
+					total={requiredElectiveCount}
+					unit="mat."
+				/>
+			{/if}
 		{:else}
 			<Stat
 				label={hasElectiveCourses && hasOptativeCourses
@@ -200,14 +211,9 @@
 		total={sections.filter((section) => section.year !== undefined).length}
 		unit="años"
 	/>
-	{#if sumGraduationRequirements.length > 0}
-		<Stat
-			label="Horas cátedra de materias electivas aprobadas"
-			value={passedElectiveHours}
-			total={requiredElectiveHours}
-			unit="hs."
-		/>
-	{/if}
+	{#each sumRequirementDetails as requirement (requirement.label)}
+		<Stat {...requirement} />
+	{/each}
 	{#if someCourseHasHours}
 		<Stat label="Horas cátedra semanales en curso" value={inProgressCourseHours} unit="hs." />
 	{/if}

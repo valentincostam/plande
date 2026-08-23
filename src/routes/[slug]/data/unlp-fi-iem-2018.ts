@@ -84,7 +84,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			},
 			{
 				id: 3,
-				text: 'Las **optativas** exigen completar **128 horas totales**. Para poder representar esa regla en el modelo actual, esas horas totales se cargan en `credits` y el egreso las suma con esa métrica.'
+				text: 'Las **optativas** exigen completar **128 horas totales**. La tabla oficial distingue las horas escolarizadas semanales (`Hes`) de las horas escolarizadas totales por asignatura (`Het`); el progreso se calcula automáticamente con estas últimas.'
 			},
 			{
 				id: 4,
@@ -850,7 +850,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Relaciones Humanas en el Ámbito del Desarrollo de las Ingenierías',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 1)],
 			requirements: {
@@ -868,7 +868,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Conformado Plástico de Metales y Pulvimetalurgia',
 			type: 'optative',
 			hours: 6,
-			credits: 192,
+			totalHours: 192,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 2)],
 			requirements: {
@@ -883,7 +883,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Análisis de Falla en Componentes Mecánicos y Piezas de Acero',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 3)],
 			requirements: {
@@ -898,7 +898,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Estructuras III',
 			type: 'optative',
 			hours: 6,
-			credits: 96,
+			totalHours: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 4)],
 			requirements: {
@@ -913,7 +913,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Sistemas Dinámicos',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 5)],
 			requirements: {
@@ -934,7 +934,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Introducción a la Mecánica de Fluidos Computacional',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 6)],
 			requirements: {
@@ -953,7 +953,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Introducción al Método de los Elementos Finitos Aplicados al Análisis Estructural',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 7)],
 			requirements: {
@@ -972,7 +972,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Logística Aplicada',
 			type: 'optative',
 			hours: 3,
-			credits: 48,
+			totalHours: 48,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 8)],
 			requirements: {
@@ -990,7 +990,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Sustentabilidad y Triple Impacto',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 9)],
 			requirements: {
@@ -1008,7 +1008,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Generación de Energía Eléctrica',
 			type: 'optative',
 			hours: 6,
-			credits: 96,
+			totalHours: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 10)],
 			requirements: {
@@ -1028,7 +1028,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Distribución de la Energía Eléctrica',
 			type: 'optative',
 			hours: 6,
-			credits: 96,
+			totalHours: 96,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 11)],
 			requirements: {
@@ -1043,7 +1043,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Máquinas Hidráulicas',
 			type: 'optative',
 			hours: 2,
-			credits: 32,
+			totalHours: 32,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 12)],
 			requirements: {
@@ -1058,7 +1058,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Tecnología de Unión de Materiales',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 13)],
 			requirements: {
@@ -1073,7 +1073,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Proyecto de Máquinas',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 14)],
 			requirements: {
@@ -1092,7 +1092,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Automatización II',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 15)],
 			requirements: {
@@ -1107,7 +1107,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Automotores y Máquinas Agrícolas',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 16)],
 			requirements: { complete: complete('A1050', 'M1618') }
@@ -1120,7 +1120,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Mantenimiento de Equipos de Transporte',
 			type: 'optative',
 			hours: 3,
-			credits: 48,
+			totalHours: 48,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 17)],
 			requirements: {
@@ -1141,7 +1141,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Termoeconomía y Uso Racional de la Energía en Sistemas Térmicos',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 18)],
 			requirements: {
@@ -1156,7 +1156,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Diseño e Ingeniería Asistidos por Computadora',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 19)],
 			requirements: {
@@ -1171,7 +1171,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Planificación y Administración de Proyectos y Obras',
 			type: 'optative',
 			hours: 5,
-			credits: 80,
+			totalHours: 80,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 20)],
 			requirements: {
@@ -1190,7 +1190,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Trabajo Final',
 			type: 'optative',
 			hours: 8,
-			credits: 128,
+			totalHours: 128,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 21)],
 			requirements: {
@@ -1208,7 +1208,7 @@ export const unlpFiIem2018: StudyPlanData = {
 			name: 'Vehículos y Máquinas Ferroviarias',
 			type: 'optative',
 			hours: 4,
-			credits: 64,
+			totalHours: 64,
 			tags: ['optativas'],
 			placements: [place.section('optativas', undefined, 22)],
 			requirements: {
@@ -1230,7 +1230,7 @@ export const unlpFiIem2018: StudyPlanData = {
 				'optativas',
 				'Horas optativas requeridas',
 				'optativas',
-				'credits',
+				'totalHours',
 				128,
 				'passed',
 				2

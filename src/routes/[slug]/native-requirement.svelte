@@ -2,13 +2,14 @@
 	import { isTransversal } from '$lib/course-attribute';
 	import { courseStates } from '$lib/course-state';
 	import { isElectiveOrOptative, courseTypeLabels } from '$lib/course-type';
-	import { milestoneStates } from '$lib/study-plan-data';
+	import { milestoneStates, type MilestoneState } from '$lib/study-plan-data';
 	import Ordinal from '$lib/ordinal.svelte';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import Link from '$lib/link.svelte';
 	import CheckIcon from './check-icon.svelte';
 	import CloseIcon from './close-icon.svelte';
 	import StatePill from './state-pill.svelte';
+	import MilestoneStatePill from './milestone-state-pill.svelte';
 	import { isViewRequirementMet, type ViewAtomicRequirement } from '$lib/study-plan-view';
 
 	type Props = {
@@ -58,7 +59,7 @@
 			({courseLabel})
 		{/if}
 		{#if requirementIsMilestone}
-			debe estar completado
+			debe estar <MilestoneStatePill state={milestoneStates.completed} />
 		{:else}
 			debe estar {#if requirement.requiredState !== courseStates.passed}al menos
 			{/if}
@@ -72,11 +73,7 @@
 		{#if !isRequirementMet}
 			pero está
 			{#if requirementIsMilestone}
-				<span
-					class="inline-block rounded-md bg-gray-600 px-2 py-1 leading-none whitespace-nowrap text-white dark:text-gray-100"
-				>
-					{requirement.item.item.state === milestoneStates.completed ? 'Completado' : 'Pendiente'}
-				</span>
+				<MilestoneStatePill state={requirement.item.item.state as MilestoneState} />
 			{:else}
 				<StatePill
 					state={requirement.item.item.state as (typeof courseStates)[keyof typeof courseStates]}

@@ -94,13 +94,13 @@ export type ViewRequirementNode =
 			completedUnits: number;
 			totalUnits: number;
 			requiredState?: RequirementState;
-			metric?: 'hours' | 'credits';
+			metric?: 'hours' | 'totalHours' | 'credits';
 			minPercent?: number;
 			matchedItemCount?: number;
 			metItemCount?: number;
 			selector?: Selector;
 			selectorCourseTypes?: CourseType[];
-			selectorSectionLabels?: string[];
+			selectorSections?: Array<{ id: string; label: string; year?: number }>;
 			selectorCoversAllCourses?: boolean;
 			children?: ViewRequirementNode[];
 	  };
@@ -251,11 +251,14 @@ const buildRequirementTree = (
 				selectorCoversAllCourses:
 					matchedIds.size === allSelectableCourseIds.length &&
 					allSelectableCourseIds.every((itemId) => matchedIds.has(itemId)),
-				selectorSectionLabels: selectorSectionIds.map(
-					(sectionId) =>
-						session.prepared.plan.sections.find((section) => section.id === sectionId)?.label ??
-						sectionId
-				),
+				selectorSections: selectorSectionIds.map((sectionId) => {
+					const section = session.prepared.plan.sections.find((entry) => entry.id === sectionId);
+					return {
+						id: sectionId,
+						label: section?.label ?? sectionId,
+						year: section?.year
+					};
+				}),
 				get metItemCount() {
 					return resolveSelector(expr.selector, session.context, ownerId).filter((entry) =>
 						meetsRequirementState(entry.item, entry.state, expr.state)

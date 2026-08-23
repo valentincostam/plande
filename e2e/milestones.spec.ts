@@ -33,11 +33,11 @@ test.describe('Milestone requirements', () => {
 		const courseButton = studyPlan.getCourseButton('Educación en el Cuidado de la Salud');
 		await courseButton.click();
 		const panel = await studyPlan.getCourseDetailsPanel('Educación en el Cuidado de la Salud');
-		const englishRequirement = panel.getByText(
-			/Examen de Suficiencia de Inglés E.*debe estar completado/
-		);
-		await expect(englishRequirement).toContainText('debe estar completado');
-		await expect(englishRequirement).toContainText('Pendiente');
+		await expect(
+			panel.getByRole('link', { name: 'Examen de Suficiencia de Inglés E' })
+		).toBeVisible();
+		await expect(panel.getByText('Completado', { exact: true })).toBeVisible();
+		await expect(panel.getByText('Pendiente', { exact: true })).toBeVisible();
 
 		const milestoneState = page.getByRole('combobox', {
 			name: 'Estado de Examen de Suficiencia de Inglés E: Pendiente',
@@ -52,8 +52,8 @@ test.describe('Milestone requirements', () => {
 			})
 		).toBeVisible();
 
-		await expect(englishRequirement).toContainText('debe estar completado');
-		await expect(englishRequirement).not.toContainText('pero está');
+		await expect(panel.getByText('Completado', { exact: true })).toBeVisible();
+		await expect(panel.getByText('Pendiente', { exact: true })).toHaveCount(0);
 	});
 
 	test('UNLP English sufficiency milestone is shown and used by course requirements', async ({
@@ -70,11 +70,11 @@ test.describe('Milestone requirements', () => {
 		const panel = await studyPlan.getCourseDetailsPanel(
 			'Dispositivos e Instalaciones Eléctricas II'
 		);
-		const englishRequirement = panel.getByText(
-			/Prueba de Suficiencia de Inglés.*debe estar completado/
-		);
-		await expect(englishRequirement).toContainText('debe estar completado');
-		await expect(englishRequirement).toContainText('Pendiente');
+		await expect(
+			panel.getByRole('link', { name: 'Prueba de Suficiencia de Inglés' })
+		).toBeVisible();
+		await expect(panel.getByText('Completado', { exact: true })).toBeVisible();
+		await expect(panel.getByText('Pendiente', { exact: true })).toBeVisible();
 
 		const milestoneState = page.getByRole('combobox', {
 			name: 'Estado de Prueba de Suficiencia de Inglés: Pendiente',
@@ -89,8 +89,8 @@ test.describe('Milestone requirements', () => {
 			})
 		).toBeVisible();
 
-		await expect(englishRequirement).toContainText('debe estar completado');
-		await expect(englishRequirement).not.toContainText('pero está');
+		await expect(panel.getByText('Completado', { exact: true })).toBeVisible();
+		await expect(panel.getByText('Pendiente', { exact: true })).toHaveCount(0);
 	});
 
 	test('UNLaM intermediate title milestone unlocks after passing first three years', async ({

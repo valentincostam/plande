@@ -55,6 +55,7 @@ export const requirementStates = {
 } as const;
 
 export type RequirementState = (typeof requirementStates)[keyof typeof requirementStates];
+export type RequirementMetric = 'hours' | 'totalHours' | 'credits';
 
 export type Selector =
 	| { type: 'items'; itemIds: string[] }
@@ -90,7 +91,7 @@ export type RequirementExpr =
 	| {
 			type: 'sum';
 			selector: Selector;
-			metric: 'hours' | 'credits';
+			metric: RequirementMetric;
 			min: number;
 			state: RequirementState;
 			label?: string;
@@ -101,7 +102,7 @@ export type GraduationRequirement = {
 	label: string;
 	expr: RequirementExpr;
 	// Contribution of this block to the overall degree percentage. Defaults to
-	// the block's totalUnits; REQUIRED when expr is a sum (hours/credits units
+	// the block's totalUnits; REQUIRED when expr is a sum (hour/credit units
 	// would otherwise dominate the weighting) — enforced by preparePlan.
 	weight?: number;
 };
@@ -123,6 +124,7 @@ export type CoursePlanItem = BasePlanItem & {
 	kind: 'course';
 	type: CourseType;
 	hours?: number;
+	totalHours?: number;
 	credits?: number;
 	attributes?: CourseAttribute[];
 };
@@ -131,6 +133,7 @@ export type MilestonePlanItem = BasePlanItem & {
 	kind: 'milestone';
 	type?: never;
 	hours?: never;
+	totalHours?: never;
 	credits?: never;
 	attributes?: never;
 };

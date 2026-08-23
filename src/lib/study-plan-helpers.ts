@@ -3,6 +3,7 @@ import type {
 	Placement,
 	RequirementExpr,
 	RequirementState,
+	RequirementMetric,
 	Selector
 } from './study-plan-data';
 import { getSectionIdForYear } from './study-plan-data';
@@ -96,7 +97,7 @@ export const req = {
 	}),
 	sum: (
 		selector: Selector,
-		metric: 'hours' | 'credits',
+		metric: RequirementMetric,
 		min: number,
 		state: RequirementState
 	): RequirementExpr => ({
@@ -108,7 +109,7 @@ export const req = {
 	}),
 	sumTag: (
 		tag: string,
-		metric: 'hours' | 'credits',
+		metric: RequirementMetric,
 		min: number,
 		state: RequirementState
 	): RequirementExpr => ({
@@ -120,7 +121,7 @@ export const req = {
 	}),
 	sumSection: (
 		sectionId: string,
-		metric: 'hours' | 'credits',
+		metric: RequirementMetric,
 		min: number,
 		state: RequirementState
 	): RequirementExpr => ({
@@ -134,7 +135,7 @@ export const req = {
 
 // Graduation blocks are plain RequirementExprs with a label and a weight.
 // weight defaults to the block's totalUnits, except for sum blocks where it
-// is required (hours/credits would otherwise dominate the degree percentage).
+// is required (hour/credit units would otherwise dominate the degree percentage).
 export const grad = {
 	block: (
 		id: string,
@@ -190,7 +191,7 @@ export const grad = {
 		id: string,
 		label: string,
 		selector: Selector,
-		metric: 'hours' | 'credits',
+		metric: RequirementMetric,
 		min: number,
 		state: 'passed' | 'completed',
 		weight: number
@@ -204,7 +205,7 @@ export const grad = {
 		id: string,
 		label: string,
 		tag: string,
-		metric: 'hours' | 'credits',
+		metric: RequirementMetric,
 		min: number,
 		state: 'passed' | 'completed',
 		weight: number
