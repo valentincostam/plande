@@ -8,6 +8,7 @@
 	import Ordinal from '$lib/ordinal.svelte';
 	import NativeStudyPlanTerm from './native-study-plan-term.svelte';
 	import { getOrdinalPrefix } from '$lib/ordinal';
+	import { isElectiveOrOptative } from '$lib/course-type';
 
 	type Props = {
 		section: StudyPlanViewSection;
@@ -27,8 +28,13 @@
 	const yearOrdinalPrefix = $derived(section.year ? getOrdinalPrefix(section.year) : undefined);
 	const yearId = $derived(section.year ? `${yearOrdinalPrefix}-año` : section.id);
 	const headingId = $derived(`${yearId}-heading`);
-	const allItemsAreElective = $derived(
-		section.terms.flatMap((term) => term.items).every((item) => item.item.def.type === 'elective')
+	const sectionItemTypes = $derived(
+		section.terms.flatMap((term) => term.items).map((item) => item.item.def.type)
+	);
+	const hideRedundantTypeBadge = $derived(
+		sectionItemTypes.length > 0 &&
+			sectionItemTypes.every((type) => type !== undefined && isElectiveOrOptative(type)) &&
+			new Set(sectionItemTypes).size === 1
 	);
 
 	function onchange(event: Event) {
@@ -85,7 +91,7 @@
 				sectionId={section.id}
 				{showCodes}
 				{useCycleButton}
-				hideTypeBadge={allItemsAreElective}
+				hideTypeBadge={hideRedundantTypeBadge}
 			/>
 		{/each}
 	</Section>
