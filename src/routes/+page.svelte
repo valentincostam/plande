@@ -10,6 +10,10 @@
 	import Link from '$lib/link.svelte';
 	import { resolve } from '$app/paths';
 
+	const seoTitle = 'Planificá tu carrera universitaria | Plande';
+	const seoDescription = `Explorá ${allStudyPlans.length} planes de estudio interactivos. Visualizá correlatividades, descubrí qué materias podés cursar y llevá tu progreso sin crear una cuenta.`;
+	const seoImageUrl = 'https://plande.app/og.png';
+
 	let searchQuery = $state('');
 
 	function getStudyPlanSearchText(plan: (typeof allStudyPlans)[number]): string {
@@ -50,35 +54,35 @@
 </script>
 
 <svelte:head>
-	<title>
-		Planificá tu carrera universitaria fácil y rápido con un plan de estudios interactivo de Plande
-	</title>
-	<meta
-		name="description"
-		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
-	/>
+	<title>{seoTitle}</title>
+	<meta name="description" content={seoDescription} />
 	<link rel="canonical" href="https://plande.app/" />
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Plande - Planificador de Carreras Universitarias" />
-	<meta
-		property="og:description"
-		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
-	/>
+	<meta property="og:title" content={seoTitle} />
+	<meta property="og:description" content={seoDescription} />
 	<meta property="og:url" content="https://plande.app/" />
 	<meta property="og:site_name" content="Plande" />
-	<meta property="og:image" content="https://plande.app/og-home.png" />
+	<meta property="og:image" content={seoImageUrl} />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta
+		property="og:image:alt"
+		content={`Plande, planificador universitario con ${allStudyPlans.length} planes de estudio disponibles`}
+	/>
 	<meta property="og:locale" content="es_AR" />
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Plande - Planificador de Carreras Universitarias" />
+	<meta name="twitter:title" content={seoTitle} />
+	<meta name="twitter:description" content={seoDescription} />
+	<meta name="twitter:image" content={seoImageUrl} />
 	<meta
-		name="twitter:description"
-		content="Plande te ayuda a planificar tu carrera universitaria. Visualizá correlatividades, descubrí qué materias podés cursar ahora y compartí tu progreso."
+		name="twitter:image:alt"
+		content={`Plande, planificador universitario con ${allStudyPlans.length} planes de estudio disponibles`}
 	/>
-	<meta name="twitter:image" content="https://plande.app/og-home.png" />
 
 	<!-- Schema.org: WebApplication -->
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
