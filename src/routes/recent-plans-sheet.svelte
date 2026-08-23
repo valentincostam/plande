@@ -30,6 +30,15 @@
 
 	const latestPlan = $derived(plans[0]);
 	const previousPlans = $derived(plans.slice(1));
+	const panelTitle = $derived(
+		plans.length === 1 ? 'Último plan visitado' : 'Últimos planes visitados'
+	);
+	const collapseLabel = $derived(
+		plans.length === 1 ? 'Colapsar último plan visitado' : 'Colapsar últimos planes visitados'
+	);
+	const expandLabel = $derived(
+		plans.length === 1 ? 'Expandir último plan visitado' : 'Expandir últimos planes visitados'
+	);
 
 	$effect(() => {
 		reservedHeight = preferenceReady ? (expanded ? expandedHeight : 46) + bottomSpace : 0;
@@ -58,13 +67,13 @@
 	<div class="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto max-w-2xl px-3">
 		<section
 			aria-labelledby={expanded ? 'recent-plans-heading' : undefined}
-			aria-label={expanded ? undefined : 'Últimos planes visitados'}
+			aria-label={expanded ? undefined : panelTitle}
 			class="recent-plans-stage relative mx-auto w-full"
 		>
 			<div
 				bind:clientHeight={expandedHeight}
 				role="group"
-				aria-label="Panel de últimos planes visitados"
+				aria-label={`Panel de ${panelTitle.toLowerCase()}`}
 				aria-hidden={!expanded}
 				inert={!expanded}
 				class:is-visible={expanded}
@@ -76,10 +85,10 @@
 							type="button"
 							onclick={toggleExpanded}
 							class="panel-control flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 px-4 text-left"
-							aria-label="Colapsar últimos planes visitados"
+							aria-label={collapseLabel}
 							aria-expanded="true"
 						>
-							<span class="panel-title text-base font-bold">Últimos planes visitados</span>
+							<span class="panel-title text-base font-bold">{panelTitle}</span>
 							<span class="grid size-5 shrink-0 place-items-center" aria-hidden="true">
 								<svg viewBox="0 0 24 24" class="size-5">
 									<path
@@ -201,7 +210,7 @@
 					onclick={toggleExpanded}
 					disabled={expanded}
 					aria-hidden={expanded}
-					aria-label="Expandir últimos planes visitados"
+					aria-label={expandLabel}
 					aria-expanded="false"
 					class:is-visible={!expanded}
 					class="compact-button absolute bottom-0 left-1/2 flex h-[2.875rem] w-max max-w-full -translate-x-1/2 cursor-pointer items-center rounded-full border pl-3 text-left"

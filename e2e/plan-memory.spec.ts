@@ -43,13 +43,13 @@ test.describe('Remembered study plans', () => {
 		await expect(page.getByRole('textbox', { name: /buscar carrera/i })).toBeVisible();
 		const header = page.getByRole('banner');
 		const headerPosition = await header.boundingBox();
-		const quickAccess = page.getByRole('region', { name: 'Últimos planes visitados' });
+		const quickAccess = page.getByRole('region', { name: 'Último plan visitado' });
 		await expect(
 			quickAccess.getByRole('link', { name: /Continuar con Ingeniería en Sistemas de Información/ })
 		).toBeVisible();
-		const title = quickAccess.getByRole('heading', { name: 'Últimos planes visitados' });
+		const title = quickAccess.getByText('Último plan visitado', { exact: true });
 		const collapseButton = quickAccess.getByRole('button', {
-			name: 'Colapsar últimos planes visitados'
+			name: 'Colapsar último plan visitado'
 		});
 		await expect(collapseButton).toHaveCSS('cursor', 'pointer');
 
@@ -72,7 +72,7 @@ test.describe('Remembered study plans', () => {
 		).toBeHidden();
 		await expect(quickAccess.getByRole('link')).toHaveCount(0);
 		const compactButton = quickAccess.getByRole('button', {
-			name: 'Expandir últimos planes visitados'
+			name: 'Expandir último plan visitado'
 		});
 		const compactDonut = compactButton.getByRole('img', {
 			name: /Ingeniería en Sistemas de Información: 2% completado/
@@ -119,7 +119,7 @@ test.describe('Remembered study plans', () => {
 		await page.reload({ waitUntil: 'networkidle' });
 		await expect(
 			page
-				.getByRole('region', { name: 'Últimos planes visitados' })
+				.getByRole('region', { name: 'Último plan visitado' })
 				.getByRole('group', { name: 'Último plan usado' })
 		).toBeVisible();
 	});
@@ -134,11 +134,11 @@ test.describe('Remembered study plans', () => {
 		});
 
 		await page.goto('/', { waitUntil: 'networkidle' });
-		const recentPlans = page.getByRole('region', { name: 'Últimos planes visitados' });
-		await recentPlans.getByRole('button', { name: 'Colapsar últimos planes visitados' }).click();
+		const recentPlans = page.getByRole('region', { name: 'Último plan visitado' });
+		await recentPlans.getByRole('button', { name: 'Colapsar último plan visitado' }).click();
 
 		await expect(
-			recentPlans.getByRole('button', { name: 'Expandir últimos planes visitados' })
+			recentPlans.getByRole('button', { name: 'Expandir último plan visitado' })
 		).toBeVisible();
 		await expect
 			.poll(() => recentPlans.evaluate((panel) => panel.getAnimations({ subtree: true }).length))
@@ -202,6 +202,7 @@ test.describe('Remembered study plans', () => {
 		await page.getByRole('banner').getByRole('link', { name: 'Plande', exact: true }).click();
 
 		const recentPlans = page.getByRole('region', { name: 'Últimos planes visitados' });
+		await expect(recentPlans.getByText('Últimos planes visitados', { exact: true })).toBeVisible();
 		await expect(recentPlans.getByRole('link')).toHaveCount(3);
 		await expect(
 			recentPlans.getByRole('button', { name: /mostrar|ocultar otros planes/i })
@@ -271,9 +272,10 @@ test.describe('Remembered study plans', () => {
 		expect(removeButtonBox!.height).toBeGreaterThanOrEqual(43.5);
 		await removeButton.click();
 
-		await expect(recentPlans).not.toContainText('Ingeniería Electromecánica');
+		const remainingRecentPlan = page.getByRole('region', { name: 'Último plan visitado' });
+		await expect(remainingRecentPlan).not.toContainText('Ingeniería Electromecánica');
 		await page.reload({ waitUntil: 'networkidle' });
-		await expect(recentPlans).not.toContainText('Ingeniería Electromecánica');
+		await expect(remainingRecentPlan).not.toContainText('Ingeniería Electromecánica');
 
 		await studyPlan.goto('utn-frcu-ie-2023');
 		await expect(
@@ -288,7 +290,7 @@ test.describe('Remembered study plans', () => {
 		await studyPlan.goto('utn-frcu-ic-2023');
 		await page.getByRole('banner').getByRole('link', { name: 'Plande', exact: true }).click();
 
-		const recentPlans = page.getByRole('region', { name: 'Últimos planes visitados' });
+		const recentPlans = page.getByRole('region', { name: 'Último plan visitado' });
 		await expect(recentPlans.getByRole('link')).toHaveCount(1);
 		await expect(recentPlans).toContainText('Ingeniería en Sistemas de Información');
 		await expect(recentPlans).not.toContainText('Ingeniería Civil');
@@ -301,9 +303,9 @@ test.describe('Remembered study plans', () => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 
 		await expect(page.getByRole('button', { name: 'Tema: Oscuro', exact: true })).toBeVisible();
-		const recentPlans = page.getByRole('region', { name: 'Últimos planes visitados' });
+		const recentPlans = page.getByRole('region', { name: 'Último plan visitado' });
 		await expect(
-			recentPlans.getByRole('group', { name: 'Panel de últimos planes visitados' })
+			recentPlans.getByRole('group', { name: 'Panel de último plan visitado' })
 		).toBeVisible();
 		const results = await new AxeBuilder({ page })
 			.include('[aria-labelledby="recent-plans-heading"]')
@@ -422,6 +424,57 @@ test.describe('Shared progress conflicts', () => {
 		await expect(
 			studyPlan.getCourseStateControl('Álgebra y Geometría Analítica')
 		).toHaveAccessibleName('Estado de Álgebra y Geometría Analítica: Aprobada');
+	});
+
+	test('animates saved-state indicators only when the conflict appears', async ({
+		page,
+		studyPlan
+	}) => {
+		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
+		await page.goto('/utn-frcu-isi-2023?s=nrn3r', { waitUntil: 'domcontentloaded' });
+
+		const savedStateIndicator = page.getByRole('img', {
+			name: 'Guardado en este dispositivo: Aprobada',
+			exact: true
+		});
+		const animatedOnAppearance = await savedStateIndicator.evaluate(async (indicator) => {
+			const runningAnimation = indicator
+				.getAnimations()
+				.find((animation) => animation.playState === 'running');
+			if (!runningAnimation) return false;
+
+			await runningAnimation.finished;
+			return true;
+		});
+		expect(animatedOnAppearance).toBe(true);
+
+		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
+		expect(
+			await savedStateIndicator.evaluate(
+				(indicator) =>
+					indicator.getAnimations().filter((animation) => animation.playState === 'running').length
+			)
+		).toBe(0);
+	});
+
+	test('shows saved-state indicators without motion when reduced motion is preferred', async ({
+		page,
+		studyPlan
+	}) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await studyPlan.goto('utn-frcu-isi-2023');
+		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
+		await page.goto('/utn-frcu-isi-2023?s=nrn3r', { waitUntil: 'domcontentloaded' });
+
+		const savedStateIndicator = page.getByRole('img', {
+			name: 'Guardado en este dispositivo: Aprobada',
+			exact: true
+		});
+		await expect(savedStateIndicator).toBeVisible();
+		expect(
+			await savedStateIndicator.evaluate((indicator) => indicator.getAnimations().length)
+		).toBe(0);
 	});
 
 	test('shows saved-state indicators on courses blocked by link progress', async ({ page }) => {
@@ -616,14 +669,18 @@ test.describe('Shared progress conflicts', () => {
 		await expect(page.getByRole('region', { name: 'Elegir progreso' })).not.toBeVisible();
 
 		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByRole('region', { name: 'Últimos planes visitados' })).not.toBeVisible();
+		await expect(
+			page
+				.getByRole('region', { name: 'Último plan visitado', exact: true })
+				.or(page.getByRole('region', { name: 'Últimos planes visitados', exact: true }))
+		).toHaveCount(0);
 
 		await studyPlan.goto('utn-frcu-isi-2023');
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
 		await page.getByRole('banner').getByRole('link', { name: 'Plande', exact: true }).click();
 		await expect(
 			page
-				.getByRole('region', { name: 'Últimos planes visitados' })
+				.getByRole('region', { name: 'Último plan visitado' })
 				.getByRole('link', { name: /Continuar con Ingeniería en Sistemas de Información/ })
 		).toBeVisible();
 	});
@@ -803,7 +860,7 @@ test.describe('Storage edge cases', () => {
 		await page.getByRole('banner').getByRole('link', { name: 'Plande', exact: true }).click();
 		await expect(
 			page
-				.getByRole('region', { name: 'Últimos planes visitados' })
+				.getByRole('region', { name: 'Último plan visitado' })
 				.getByRole('group', { name: 'Último plan usado' })
 		).toBeVisible();
 
@@ -830,7 +887,11 @@ test.describe('Storage edge cases', () => {
 
 		await expect(page).toHaveURL('/');
 		await expect(page.getByRole('textbox', { name: /buscar carrera/i })).toBeVisible();
-		await expect(page.getByRole('region', { name: 'Últimos planes visitados' })).toHaveCount(0);
+		await expect(
+			page
+				.getByRole('region', { name: 'Último plan visitado', exact: true })
+				.or(page.getByRole('region', { name: 'Últimos planes visitados', exact: true }))
+		).toHaveCount(0);
 	});
 
 	test('ignores malformed remembered plans and progress', async ({ page, studyPlan }) => {
