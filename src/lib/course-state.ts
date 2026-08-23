@@ -135,7 +135,11 @@ export const decodeCoursesStates = (letters: string) => {
 	return decompressCoursesStatesLetters(letters)
 		.toUpperCase()
 		.split('')
-		.map((letter) => courseStatesFromInitials[letter]);
+		.map(
+			(letter) =>
+				courseStatesFromInitials[letter as keyof typeof courseStatesFromInitials] ??
+				courseStates.notTaken
+		);
 };
 
 export const encodeCoursesStates = (states: CourseState[]) => {

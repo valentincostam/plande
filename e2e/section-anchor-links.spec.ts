@@ -9,7 +9,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await expect(anchorLink).toBeVisible();
 	});
@@ -18,7 +18,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await anchorLink.click();
 
@@ -29,7 +29,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await anchorLink.click();
 
@@ -47,7 +47,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await anchorLink.click();
 
@@ -61,7 +61,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.goto('utn-frcu-isi-2023');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await anchorLink.click();
 
@@ -72,7 +72,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.goto('utn-frba-isi-2023');
 
 		const yearSection = page.getByRole('region', { name: /quinto Año/i });
-		const anchorLink = yearSection.getByRole('link', { name: 'Copiar enlace a 5to año' });
+		const anchorLink = yearSection.getByRole('link', { name: 'Copiar link a 5to año' });
 
 		await anchorLink.click();
 
@@ -105,7 +105,7 @@ test.describe('Section Anchor Links', () => {
 		await studyPlan.setCourseState('Álgebra y Geometría Analítica', 'Aprobada');
 
 		const section = page.getByRole('region', { name: 'Estadísticas' });
-		const anchorLink = section.getByRole('link', { name: 'Copiar enlace a Estadísticas' });
+		const anchorLink = section.getByRole('link', { name: 'Copiar link a Estadísticas' });
 
 		await anchorLink.click();
 

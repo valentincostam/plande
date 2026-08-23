@@ -67,6 +67,17 @@ Playwright E2E tests.
    });
    ```
 
+## Visual Assertions
+
+- Keep behavioral E2E focused on user tasks and observable outcomes.
+- Use scoped `toHaveScreenshot` assertions for visual contracts such as colors, spacing, borders,
+  typography, hover states, and responsive composition.
+- Do not assert implementation mechanisms such as CSS classes, `mask-image`, animation keyframes, or
+  DOM node identity.
+- Use `toHaveCSS` only for user-visible behavior that screenshots cannot capture reliably, such as the
+  mouse cursor.
+- Disable animations and capture the smallest meaningful component to keep snapshots stable.
+
 ## Fixtures
 
 Using Playwright Fixtures with functional approach:

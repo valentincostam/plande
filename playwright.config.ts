@@ -7,6 +7,14 @@ export default defineConfig({
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
 	reporter: 'html',
+	snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{ext}',
+	expect: {
+		toHaveScreenshot: {
+			animations: 'disabled',
+			maxDiffPixelRatio: 0.02,
+			scale: 'css'
+		}
+	},
 	use: {
 		baseURL: process.env.BASE_URL || 'http://localhost:5173',
 		trace: 'on-first-retry'

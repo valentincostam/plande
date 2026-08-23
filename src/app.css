@@ -4,10 +4,19 @@
 
 :root {
 	color-scheme: light;
+	/* Shared by every course-state chart and donut. */
+	--course-state-chart-not-taken: #d1d5db;
+	--course-state-chart-in-progress: #60a5fa;
+	--course-state-chart-taken: #fbbf24;
+	--course-state-chart-passed: #22c55e;
 }
 
 .dark {
 	color-scheme: dark;
+	--course-state-chart-not-taken: #3f3f46;
+	--course-state-chart-in-progress: #3b82f6;
+	--course-state-chart-taken: #f59e0b;
+	--course-state-chart-passed: #22c55e;
 	--color-gray-50: #09090b;
 	--color-gray-100: #18181b;
 	--color-gray-200: #27272a;

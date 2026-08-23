@@ -17,7 +17,12 @@
 	import ExportButton from './export-button.svelte';
 	import { marked } from 'marked';
 	import StatePill from './state-pill.svelte';
-	import { courseStates, decodeCoursesStates, encodeCoursesStates } from '$lib/course-state';
+	import {
+		courseStates,
+		decodeCoursesStates,
+		encodeCoursesStates,
+		type CourseState
+	} from '$lib/course-state';
 	import {
 		pushState as pushHistoryState,
 		undo as historyUndo,
@@ -38,8 +43,22 @@
 	import Link from '$lib/link.svelte';
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
-	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
+	import { markPlanUsed } from '$lib/plan-memory';
+	import {
+		getMeaningfulProgressSignature,
+		getProgressSignature,
+		getStudyPlanStorageKey,
+		hasStoredProgress,
+		parseStoredStudyPlan,
+		readStoredStudyPlan,
+		removeStoredStudyPlan,
+		writeStoredStudyPlan,
+		type StoredStudyPlan
+	} from '$lib/stored-study-plan';
+	import { summarizeStudyPlanProgress } from '$lib/study-plan-progress';
+	import SharedProgressSheet from './shared-progress-sheet.svelte';
+	import { setSharedProgressComparisonContext } from '$lib/shared-progress-comparison-context';
 
 	let { data }: PageProps = $props();
 
@@ -87,6 +106,19 @@
 	let showCodes = $state(untrack(() => data.showCodes));
 	let useCycleButton = $state(false);
 	let isInitializing = $state(true);
+	let persistenceMode = $state<'synced' | 'url-only'>('synced');
+	let sharedProgressState = $state<'none' | 'conflict'>('none');
+	let sharedProgressReservedHeight = $state(0);
+	const studyPlanStyle = $derived(
+		sharedProgressState !== 'none' && sharedProgressReservedHeight > 0
+			? `padding-bottom: calc(2.25rem + ${sharedProgressReservedHeight}px)`
+			: undefined
+	);
+	let localSnapshot = $state<StoredStudyPlan | undefined>();
+	let persistenceError = $state('');
+	let hasStoredState = false;
+	let lastMeaningfulProgressSignature = '';
+	let skipNextStorageWrite = false;
 
 	const courses = untrack(() =>
 		createCourses(
@@ -98,8 +130,6 @@
 	);
 
 	let isRouterReady = $state(false);
-
-	const storageKey = $derived(`plande-${data.slug}`);
 
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
@@ -117,6 +147,14 @@
 
 		// Track state changes for undo/redo
 		const encodedStates = encodeCoursesStates(coursesStates);
+		const meaningfulProgressSignature = getMeaningfulProgressSignature(
+			encodedStates,
+			coursesGrades
+		);
+		const meaningfulProgressChanged =
+			lastMeaningfulProgressSignature.length > 0 &&
+			meaningfulProgressSignature !== lastMeaningfulProgressSignature;
+		lastMeaningfulProgressSignature = meaningfulProgressSignature;
 
 		if (!getIsApplyingHistory()) {
 			pushHistoryState(encodedStates);
@@ -124,15 +162,37 @@
 			clearIsApplyingHistory();
 		}
 
-		const storageData = {
-			coursesStates: encodedStates,
-			isStrictModeEnabled,
-			showCodes,
-			useCycleButton,
-			grades: coursesGrades
-		};
+		const shouldSkipStorageWrite = skipNextStorageWrite;
+		skipNextStorageWrite = false;
 
-		localStorage.setItem(storageKey, JSON.stringify(storageData));
+		if (persistenceMode === 'synced' && !shouldSkipStorageWrite) {
+			const hasDataToStore =
+				hasStoredState ||
+				encodedStates.length > 0 ||
+				encodeGrades(coursesGrades).length > 0 ||
+				!isStrictModeEnabled ||
+				showCodes ||
+				useCycleButton;
+
+			if (hasDataToStore) {
+				hasStoredState = writeStoredStudyPlan(data.slug, {
+					coursesStates: encodedStates,
+					isStrictModeEnabled,
+					showCodes,
+					useCycleButton,
+					grades: coursesGrades,
+					updatedAt: Date.now()
+				});
+				if (!hasStoredState) {
+					persistenceError =
+						'No pudimos guardar los cambios en este dispositivo. La URL mantiene tu progreso.';
+				}
+			}
+
+			if (meaningfulProgressChanged) {
+				markPlanUsed(data.slug);
+			}
+		}
 
 		tick().then(() => {
 			const hash = window.location.hash;
@@ -150,52 +210,208 @@
 			return;
 		}
 
-		const savedData = localStorage.getItem(storageKey);
+		localSnapshot = readStoredStudyPlan(data.slug);
+		hasStoredState = Boolean(localSnapshot);
 
-		if (!savedData) {
-			isInitializing = false;
+		if (localSnapshot) {
+			useCycleButton = localSnapshot.useCycleButton;
+			if (!data.hasUrlShowCodes) {
+				showCodes = localSnapshot.showCodes;
+			}
+		}
+
+		if (data.hasUrlProgress) {
+			if (hasStoredProgress(localSnapshot)) {
+				const urlSignature = getProgressSignature(
+					encodeCoursesStates(data.coursesStates),
+					data.coursesGrades,
+					data.isStrictModeEnabled
+				);
+				const localSignature = getProgressSignature(
+					localSnapshot.coursesStates,
+					localSnapshot.grades,
+					localSnapshot.isStrictModeEnabled
+				);
+
+				if (urlSignature !== localSignature) {
+					persistenceMode = 'url-only';
+					sharedProgressState = 'conflict';
+				}
+			}
+		} else if (localSnapshot) {
+			applyStoredProgress(localSnapshot);
+		}
+
+		lastMeaningfulProgressSignature = getMeaningfulProgressSignature(
+			encodeCoursesStates(courses.map((course) => course.state)),
+			courses.map((course) => course.grade)
+		);
+		isInitializing = false;
+
+		const handleStorage = (event: StorageEvent) => {
+			if (event.key !== getStudyPlanStorageKey(data.slug)) return;
+
+			const incoming = parseStoredStudyPlan(event.newValue);
+			localSnapshot = incoming;
+			hasStoredState = Boolean(incoming);
+
+			if (persistenceMode === 'url-only') return;
+
+			const target =
+				incoming ??
+				({
+					coursesStates: '',
+					grades: [],
+					isStrictModeEnabled: true,
+					showCodes: false,
+					useCycleButton: false
+				} satisfies StoredStudyPlan);
+			const current = getCurrentStoredProgress();
+			const isSame =
+				getProgressSignature(current.coursesStates, current.grades, current.isStrictModeEnabled) ===
+					getProgressSignature(target.coursesStates, target.grades, target.isStrictModeEnabled) &&
+				current.showCodes === target.showCodes &&
+				current.useCycleButton === target.useCycleButton;
+
+			if (isSame) return;
+
+			skipNextStorageWrite = true;
+			lastMeaningfulProgressSignature = getMeaningfulProgressSignature(
+				target.coursesStates,
+				target.grades
+			);
+			applyStoredProgress(target);
+		};
+
+		window.addEventListener('storage', handleStorage);
+		return () => window.removeEventListener('storage', handleStorage);
+	});
+
+	function applyStoredProgress(stored: StoredStudyPlan) {
+		isStrictModeEnabled = stored.isStrictModeEnabled;
+		showCodes = stored.showCodes;
+		useCycleButton = stored.useCycleButton;
+
+		const savedStates = decodeCoursesStates(stored.coursesStates);
+		courses.forEach((course, index) => {
+			course.state = savedStates[index] ?? courseStates.notTaken;
+			course.grade = stored.grades[index] ?? undefined;
+		});
+	}
+
+	function getCurrentStoredProgress(): StoredStudyPlan {
+		return {
+			coursesStates: encodeCoursesStates(courses.map((course) => course.state)),
+			grades: courses.map((course) => course.grade),
+			isStrictModeEnabled,
+			showCodes,
+			useCycleButton,
+			updatedAt: Date.now()
+		};
+	}
+
+	$effect(() => {
+		if (isInitializing || persistenceMode !== 'url-only') return;
+
+		if (!hasStoredProgress(localSnapshot)) {
+			persistenceMode = 'synced';
+			sharedProgressState = 'none';
 			return;
 		}
 
-		try {
-			const parsed = JSON.parse(savedData);
+		const current = getCurrentStoredProgress();
+		const currentSignature = getProgressSignature(
+			current.coursesStates,
+			current.grades,
+			current.isStrictModeEnabled
+		);
+		const localSignature = getProgressSignature(
+			localSnapshot.coursesStates,
+			localSnapshot.grades,
+			localSnapshot.isStrictModeEnabled
+		);
 
-			if (parsed.useCycleButton !== undefined) {
-				useCycleButton = parsed.useCycleButton;
-			}
-
-			// Load grades from localStorage only if not in URL
-			if (data.coursesGrades.length === 0 && parsed.grades) {
-				courses.forEach((course, index) => {
-					if (index < parsed.grades.length) {
-						course.grade = parsed.grades[index] ?? undefined;
-					}
-				});
-			}
-
-			// Load states from localStorage only if not in URL
-			if (data.coursesStates.length === 0) {
-				const decodedStates = decodeCoursesStates(parsed.coursesStates);
-
-				courses.forEach((course, index) => {
-					if (decodedStates[index]) {
-						course.state = decodedStates[index];
-					}
-				});
-
-				if (parsed.isStrictModeEnabled !== undefined) {
-					isStrictModeEnabled = parsed.isStrictModeEnabled;
-				}
-
-				if (parsed.showCodes !== undefined) {
-					showCodes = parsed.showCodes;
-				}
-			}
-		} catch (error) {
-			console.warn('Failed to parse saved course states:', error);
-		} finally {
-			isInitializing = false;
+		if (currentSignature === localSignature) {
+			persistenceMode = 'synced';
+			sharedProgressState = 'none';
 		}
+	});
+
+	function saveSharedProgress() {
+		const current = getCurrentStoredProgress();
+		if (!writeStoredStudyPlan(data.slug, current)) {
+			persistenceError =
+				'No pudimos guardar los cambios en este dispositivo. La URL mantiene tu progreso.';
+			return;
+		}
+		persistenceError = '';
+		localSnapshot = current;
+		hasStoredState = true;
+		persistenceMode = 'synced';
+		sharedProgressState = 'none';
+		lastMeaningfulProgressSignature = getMeaningfulProgressSignature(
+			current.coursesStates,
+			current.grades
+		);
+		markPlanUsed(data.slug);
+	}
+
+	function restoreLocalProgress() {
+		if (!localSnapshot) return;
+
+		applyStoredProgress(localSnapshot);
+		persistenceMode = 'synced';
+		sharedProgressState = 'none';
+		lastMeaningfulProgressSignature = getMeaningfulProgressSignature(
+			localSnapshot.coursesStates,
+			localSnapshot.grades
+		);
+		markPlanUsed(data.slug);
+	}
+
+	const currentProgressSummary = $derived.by(() =>
+		summarizeStudyPlanProgress(
+			data.studyPlan,
+			encodeCoursesStates(courses.map((course) => course.state)),
+			courses.map((course) => course.grade)
+		)
+	);
+
+	const localProgressSummary = $derived.by(() =>
+		localSnapshot
+			? summarizeStudyPlanProgress(
+					data.studyPlan,
+					localSnapshot.coursesStates,
+					localSnapshot.grades
+				)
+			: undefined
+	);
+
+	const differentCoursesCount = $derived.by(() => {
+		if (!localSnapshot) return 0;
+
+		const currentStates = courses.map((course) => course.state);
+		const localStates = decodeCoursesStates(localSnapshot.coursesStates);
+		return courses.filter(
+			(_course, index) =>
+				currentStates[index] !== (localStates[index] ?? courseStates.notTaken) ||
+				(courses[index].grade ?? undefined) !== (localSnapshot?.grades[index] ?? undefined)
+		).length;
+	});
+
+	const localCourseStatesById = $derived.by(() => {
+		const states: Record<number, CourseState> = {};
+		if (sharedProgressState !== 'conflict' || !localSnapshot) return states;
+
+		const localStates = decodeCoursesStates(localSnapshot.coursesStates);
+		courses.forEach((course, index) => {
+			states[course.id] = localStates[index] ?? courseStates.notTaken;
+		});
+		return states;
+	});
+
+	setSharedProgressComparisonContext({
+		getLocalCourseState: (courseId) => localCourseStatesById[courseId]
 	});
 
 	function resetAllState() {
@@ -211,7 +427,11 @@
 		isStrictModeEnabled = true;
 		showCodes = false;
 		useCycleButton = false;
-		localStorage.removeItem(storageKey);
+		if (persistenceMode === 'synced') {
+			removeStoredStudyPlan(data.slug);
+			hasStoredState = false;
+			localSnapshot = undefined;
+		}
 		resetHistory();
 	}
 
@@ -358,7 +578,7 @@
 	})}<${'/'}script>`}
 </svelte:head>
 
-<div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
+<div style={studyPlanStyle} class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
 		<p>
@@ -370,6 +590,15 @@
 			<ViewToggle bind:value={viewMode} />
 		</div>
 	</header>
+
+	{#if persistenceError}
+		<p
+			role="alert"
+			class="mx-3 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-900 md:mx-0 dark:border-red-800 dark:bg-red-950 dark:text-red-100"
+		>
+			{persistenceError}
+		</p>
+	{/if}
 
 	<main class="grid gap-9">
 		{#if viewMode === 'diagram'}
@@ -559,6 +788,17 @@
 
 	<Footer />
 </div>
+
+{#if sharedProgressState === 'conflict' && localProgressSummary}
+	<SharedProgressSheet
+		currentSummary={currentProgressSummary}
+		localSummary={localProgressSummary}
+		{differentCoursesCount}
+		onUseShared={saveSharedProgress}
+		onUseLocal={restoreLocalProgress}
+		bind:reservedHeight={sharedProgressReservedHeight}
+	/>
+{/if}
 
 <style>
 	.note :global(ul) {

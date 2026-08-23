@@ -35,12 +35,16 @@
 	};
 
 	const persistThemePreference = (nextThemePreference: ThemePreference) => {
-		if (nextThemePreference === 'system') {
-			localStorage.removeItem('theme');
-			return;
-		}
+		try {
+			if (nextThemePreference === 'system') {
+				localStorage.removeItem('theme');
+				return;
+			}
 
-		localStorage.setItem('theme', nextThemePreference);
+			localStorage.setItem('theme', nextThemePreference);
+		} catch {
+			// Theme persistence is optional.
+		}
 	};
 
 	let announcement = $state('');
@@ -59,7 +63,12 @@
 
 		mediaQuery.addEventListener('change', onSystemThemeChange);
 
-		const storedTheme = localStorage.getItem('theme');
+		let storedTheme: string | null = null;
+		try {
+			storedTheme = localStorage.getItem('theme');
+		} catch {
+			// Keep the system theme when storage is unavailable.
+		}
 		themePreference = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'system';
 		applyTheme(themePreference);
 

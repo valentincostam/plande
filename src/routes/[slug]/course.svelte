@@ -15,6 +15,7 @@
 	import ChevronDownIcon from './chevron-down-icon.svelte';
 	import Requirement from './requirement.svelte';
 	import StateSelect from './state-select.svelte';
+	import SavedStateIndicator from './saved-state-indicator.svelte';
 	import Dependent from './dependent.svelte';
 
 	type Props = {
@@ -145,16 +146,20 @@
 				</span>
 			{/if}
 			{#if !course.isEnabled}
-				<span
-					class="flex w-22 flex-none justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
-				>
-					Bloqueada
+				<span class="relative inline-flex w-22 flex-none">
+					<span
+						class="flex w-full justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
+					>
+						Bloqueada
+					</span>
+					<SavedStateIndicator courseId={course.id} currentState={course.state} />
 				</span>
 			{/if}
 		</button>
 		{#if course.isEnabled}
 			<StateSelect
 				id={`${toKebabCase(course.name)}-state-select`}
+				courseId={course.id}
 				bind:value={course.state}
 				canPass={course.canPass}
 				courseName={course.name}

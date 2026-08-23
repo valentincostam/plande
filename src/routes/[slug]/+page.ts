@@ -14,6 +14,7 @@ export const load: PageLoad = ({ params, url }) => {
 	const gradeLetters = url.searchParams.get('n') || url.searchParams.get('notas');
 	const strictMode = url.searchParams.get('r') || url.searchParams.get('estricto');
 	const showCodesParam = url.searchParams.get('c') || url.searchParams.get('codigos');
+	const hasUrlProgress = stateLetters !== null || gradeLetters !== null;
 	const isStrictModeEnabled = strictMode ? strictMode === 'si' : true;
 	const showCodes = showCodesParam ? showCodesParam === 'si' : false;
 
@@ -42,6 +43,8 @@ export const load: PageLoad = ({ params, url }) => {
 		slug,
 		coursesStates: stateLetters ? decodeCoursesStates(stateLetters) : [],
 		coursesGrades: gradeLetters ? decodeGrades(gradeLetters) : [],
+		hasUrlProgress,
+		hasUrlShowCodes: showCodesParam !== null,
 		isStrictModeEnabled,
 		showCodes
 	};

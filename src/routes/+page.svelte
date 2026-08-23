@@ -3,16 +3,90 @@
 	import FaqItem from './faq-item.svelte';
 	import Footer from './footer.svelte';
 	import HighlightText from './highlight-text.svelte';
+	import RecentPlansSheet from './recent-plans-sheet.svelte';
 	import { allStudyPlans } from './[slug]/data/all-study-plans';
 	import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlugWithYear } from '$lib/study-plan';
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
 	import Link from '$lib/link.svelte';
 	import { resolve } from '$app/paths';
+	import { onMount } from 'svelte';
+	import { readPlanMemory, removeRecentPlan, writePlanMemory } from '$lib/plan-memory';
+	import { readStoredStudyPlan } from '$lib/stored-study-plan';
+	import {
+		summarizeStudyPlanProgress,
+		type StudyPlanProgressSummary
+	} from '$lib/study-plan-progress';
+	import type { StudyPlan } from '$lib/study-plan';
 
 	const seoTitle = 'Planificá tu carrera universitaria | Plande';
 	const seoDescription = `Explorá ${allStudyPlans.length} planes de estudio interactivos. Visualizá correlatividades, descubrí qué materias podés cursar y llevá tu progreso sin crear una cuenta.`;
 	const seoImageUrl = 'https://plande.app/og.png';
+
+	const validPlanSlugs = new Set(allStudyPlans.map(getStudyPlanSlugWithYear));
+	const studyPlansBySlug = new Map(
+		allStudyPlans.map((studyPlan) => [getStudyPlanSlugWithYear(studyPlan), studyPlan])
+	);
+
+	type QuickPlan = {
+		slug: string;
+		studyPlan: StudyPlan;
+		summary: StudyPlanProgressSummary;
+	};
+
+	let recentQuickPlans = $state<QuickPlan[]>([]);
+	let recentPlansReservedHeight = $state(0);
+	const showRecentPlans = $derived(recentQuickPlans.length > 0);
+	const homeStyle = $derived(
+		showRecentPlans && recentPlansReservedHeight > 0
+			? `padding-bottom: calc(2.25rem + ${recentPlansReservedHeight}px)`
+			: undefined
+	);
+
+	function toQuickPlan(slug: string): QuickPlan | undefined {
+		const studyPlan = studyPlansBySlug.get(slug);
+		if (!studyPlan) return undefined;
+
+		const stored = readStoredStudyPlan(slug);
+		const summary = summarizeStudyPlanProgress(
+			studyPlan,
+			stored?.coursesStates ?? '',
+			stored?.grades ?? []
+		);
+
+		return { slug, studyPlan, summary };
+	}
+
+	function refreshQuickPlans() {
+		const memory = readPlanMemory();
+		const validRecentSlugs = [
+			...new Set(memory.recentPlanSlugs.filter((slug) => validPlanSlugs.has(slug)))
+		].slice(0, 3);
+		const cleanedMemory = {
+			version: 1 as const,
+			recentPlanSlugs: validRecentSlugs
+		};
+
+		if (cleanedMemory.recentPlanSlugs.join('|') !== memory.recentPlanSlugs.join('|')) {
+			writePlanMemory(cleanedMemory);
+		}
+
+		recentQuickPlans = validRecentSlugs
+			.map(toQuickPlan)
+			.filter((quickPlan): quickPlan is QuickPlan => Boolean(quickPlan));
+	}
+
+	function removeQuickPlan(slug: string) {
+		if (removeRecentPlan(slug)) refreshQuickPlans();
+	}
+
+	onMount(() => {
+		refreshQuickPlans();
+
+		const handleStorage = () => refreshQuickPlans();
+		window.addEventListener('storage', handleStorage);
+		return () => window.removeEventListener('storage', handleStorage);
+	});
 
 	let searchQuery = $state('');
 
@@ -148,7 +222,7 @@
 				name: '¿Cómo guardo mi progreso?',
 				acceptedAnswer: {
 					'@type': 'Answer',
-					text: 'Plande guarda tu progreso automáticamente en tu dispositivo y en la URL. No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu dispositivo.'
+					text: 'Plande guarda tu progreso automáticamente en tu dispositivo y en la URL. Si abrís un link con progreso distinto, podés compararlo antes de reemplazar lo guardado. No necesitás crear cuenta ni iniciar sesión.'
 				}
 			},
 			{
@@ -179,7 +253,7 @@
 	})}<${'/'}script>`}
 </svelte:head>
 
-<div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
+<div class="mx-auto grid gap-9 py-9 md:max-w-2xl" style={homeStyle}>
 	<header class=" gap-1 px-3 text-center">
 		<h1 class="text-xl font-bold">Plande 🎓</h1>
 		<span class="text-sm text-gray-500">Planes de Estudios Interactivos</span>
@@ -545,6 +619,10 @@
 						No necesitás crear cuenta ni iniciar sesión. Tu información nunca sale de tu
 						dispositivo.
 					</p>
+					<p class="mt-2">
+						Si abrís un link con un progreso distinto, Plande te permite compararlo antes de
+						reemplazar lo que ya tenías guardado.
+					</p>
 				</FaqItem>
 
 				<FaqItem
@@ -628,3 +706,11 @@
 
 	<Footer />
 </div>
+
+{#if showRecentPlans}
+	<RecentPlansSheet
+		plans={recentQuickPlans}
+		onRemove={removeQuickPlan}
+		bind:reservedHeight={recentPlansReservedHeight}
+	/>
+{/if}

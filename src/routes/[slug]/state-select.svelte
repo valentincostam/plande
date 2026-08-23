@@ -5,11 +5,14 @@
 		type CourseState,
 		masculineCourseStateLabels
 	} from '$lib/course-state';
+	import { getSharedProgressComparisonContext } from '$lib/shared-progress-comparison-context';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fly } from 'svelte/transition';
+	import SavedStateIndicator from './saved-state-indicator.svelte';
 
 	type Props = {
 		id: string;
+		courseId: number;
 		value: CourseState;
 		isEnabled?: boolean;
 		canPass: boolean;
@@ -22,6 +25,7 @@
 
 	let {
 		id,
+		courseId,
 		isEnabled = true,
 		value = $bindable(),
 		onchange,
@@ -31,6 +35,8 @@
 		canPass,
 		courseName
 	}: Props = $props();
+
+	const sharedProgressComparison = getSharedProgressComparisonContext();
 
 	const stateButtonBackgroundColors = {
 		[courseStates.notTaken]: 'bg-gray-600',
@@ -68,6 +74,15 @@
 	const labelSlideDistance = $derived(prefersReducedMotion.current ? 0 : 8);
 	const labelSlideDuration = $derived(prefersReducedMotion.current ? 0 : 140);
 	const stateControlLabel = $derived(`Estado de ${courseName}: ${currentLabel}`);
+	const localState = $derived(sharedProgressComparison?.getLocalCourseState(courseId));
+	const localStateLabel = $derived(localState ? getStateLabel(localState) : undefined);
+	const localStateDescriptionId = $derived(`${id}-local-state`);
+	const keyboardShortcutsId = $derived(`${id}-keyboard-shortcuts`);
+	const describedBy = $derived(
+		[localState ? localStateDescriptionId : undefined, keyboardShortcutsId]
+			.filter(Boolean)
+			.join(' ')
+	);
 
 	function onclick() {
 		if (!isEnabled) return;
@@ -78,69 +93,78 @@
 	}
 </script>
 
-{#if useCycleButton}
-	<button
-		{id}
-		data-state-select
-		type="button"
-		{onclick}
-		{onkeydown}
-		aria-label={stateControlLabel}
-		aria-describedby={`${id}-next-state ${id}-keyboard-shortcuts ${id}-announcement`}
-		aria-keyshortcuts="n e r a"
-		disabled={!isEnabled}
-		class={[
-			stateButtonBackgroundColors[value],
-			!isEnabled && 'opacity-50',
-			'w-22 shrink-0 appearance-none overflow-hidden rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
-			'cursor-pointer touch-manipulation whitespace-nowrap focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
-		]}
-		title={currentLabel}
-	>
-		<span aria-hidden="true" class="relative block h-4">
-			{#key currentLabel}
-				<span
-					in:fly={{ x: labelSlideDistance, duration: labelSlideDuration }}
-					out:fly={{ x: -labelSlideDistance, duration: labelSlideDuration }}
-					class="absolute inset-0 flex items-center justify-center whitespace-nowrap"
-				>
-					{currentLabel}
-				</span>
-			{/key}
+<span class="relative inline-flex shrink-0">
+	<SavedStateIndicator {courseId} currentState={value} {gender} />
+	{#if localState && localStateLabel}
+		<span id={localStateDescriptionId} class="sr-only">
+			Guardado en este dispositivo: {localStateLabel}.
 		</span>
-	</button>
+	{/if}
 
-	<span id={`${id}-next-state`} class="sr-only">Activar para cambiar a {nextLabel}.</span>
-	<span id={`${id}-keyboard-shortcuts`} class="sr-only">Atajos de teclado: N, E, R, A.</span>
-	<span id={`${id}-announcement`} class="sr-only" aria-live="polite">{announcement}</span>
-{:else}
-	<select
-		{id}
-		data-state-select
-		bind:value
-		{onchange}
-		{onkeydown}
-		aria-label={stateControlLabel}
-		aria-describedby={`${id}-keyboard-shortcuts`}
-		aria-keyshortcuts="n e r a"
-		disabled={!isEnabled}
-		class={[
-			stateButtonBackgroundColors[value],
-			!isEnabled && 'opacity-50',
-			'w-22 shrink-0 rounded-md border-none px-2 py-1 text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
-			'cursor-pointer touch-manipulation focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
-		]}
-		title={currentLabel}
-	>
-		{#each Object.values(courseStates) as state (state)}
-			<option value={state} disabled={!canPass && state === courseStates.passed}>
-				{getStateLabel(state)}
-			</option>
-		{/each}
-	</select>
+	{#if useCycleButton}
+		<button
+			{id}
+			data-state-select
+			type="button"
+			{onclick}
+			{onkeydown}
+			aria-label={stateControlLabel}
+			aria-describedby={`${id}-next-state ${describedBy} ${id}-announcement`}
+			aria-keyshortcuts="n e r a"
+			disabled={!isEnabled}
+			class={[
+				stateButtonBackgroundColors[value],
+				!isEnabled && 'opacity-50',
+				'w-22 shrink-0 appearance-none overflow-hidden rounded-md border-none bg-none px-2 py-1 text-center text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
+				'cursor-pointer touch-manipulation whitespace-nowrap focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
+			]}
+			title={currentLabel}
+		>
+			<span aria-hidden="true" class="relative block h-4">
+				{#key currentLabel}
+					<span
+						in:fly={{ x: labelSlideDistance, duration: labelSlideDuration }}
+						out:fly={{ x: -labelSlideDistance, duration: labelSlideDuration }}
+						class="absolute inset-0 flex items-center justify-center whitespace-nowrap"
+					>
+						{currentLabel}
+					</span>
+				{/key}
+			</span>
+		</button>
 
-	<span id={`${id}-keyboard-shortcuts`} class="sr-only">Atajos de teclado: N, E, R, A.</span>
-{/if}
+		<span id={`${id}-next-state`} class="sr-only">Activar para cambiar a {nextLabel}.</span>
+		<span id={keyboardShortcutsId} class="sr-only">Atajos de teclado: N, E, R, A.</span>
+		<span id={`${id}-announcement`} class="sr-only" aria-live="polite">{announcement}</span>
+	{:else}
+		<select
+			{id}
+			data-state-select
+			bind:value
+			{onchange}
+			{onkeydown}
+			aria-label={stateControlLabel}
+			aria-describedby={describedBy}
+			aria-keyshortcuts="n e r a"
+			disabled={!isEnabled}
+			class={[
+				stateButtonBackgroundColors[value],
+				!isEnabled && 'opacity-50',
+				'w-22 shrink-0 rounded-md border-none px-2 py-1 text-xs text-white transition-colors duration-200 ease-out select-none dark:text-gray-100',
+				'cursor-pointer touch-manipulation focus:ring-0 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500'
+			]}
+			title={currentLabel}
+		>
+			{#each Object.values(courseStates) as state (state)}
+				<option value={state} disabled={!canPass && state === courseStates.passed}>
+					{getStateLabel(state)}
+				</option>
+			{/each}
+		</select>
+
+		<span id={keyboardShortcutsId} class="sr-only">Atajos de teclado: N, E, R, A.</span>
+	{/if}
+</span>
 
 <style>
 	select {

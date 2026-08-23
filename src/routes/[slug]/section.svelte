@@ -18,7 +18,7 @@
 	<AnchoredHeading
 		{id}
 		{headingId}
-		ariaLabel={`Copiar enlace a ${title}`}
+		ariaLabel={`Copiar link a ${title}`}
 		class="p-3 text-lg font-bold"
 	>
 		{title}

@@ -84,7 +84,7 @@
 			<AnchoredHeading
 				id={yearId}
 				{headingId}
-				ariaLabel={`Copiar enlace a ${yearOrdinalPrefix} año`}
+				ariaLabel={`Copiar link a ${yearOrdinalPrefix} año`}
 				class="text-lg font-bold"
 			>
 				<Ordinal number={year.year} noun="Año" />

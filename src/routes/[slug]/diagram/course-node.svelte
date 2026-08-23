@@ -5,6 +5,7 @@
 	import { courseTypeLabels, isElectiveOrOptative } from '$lib/course-type';
 	import type { CourseNodeData } from './diagram-utils';
 	import StateSelect from '../state-select.svelte';
+	import SavedStateIndicator from '../saved-state-indicator.svelte';
 
 	type DiagramCourseNodeData = CourseNodeData & {
 		useCycleButton: boolean;
@@ -91,16 +92,20 @@
 	{#if data.course.isEnabled}
 		<StateSelect
 			id={`diagram-${data.course.id}-state`}
+			courseId={data.course.id}
 			bind:value={data.course.state}
 			canPass={data.course.canPass}
 			courseName={data.course.name}
 			useCycleButton={data.useCycleButton}
 		/>
 	{:else}
-		<span
-			class="w-22 flex-none rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
-		>
-			Bloqueada
+		<span class="relative inline-flex w-22 flex-none">
+			<span
+				class="w-full rounded-md bg-gray-400 px-2 py-1 text-center text-xs text-white dark:bg-gray-500 dark:text-gray-100"
+			>
+				Bloqueada
+			</span>
+			<SavedStateIndicator courseId={data.course.id} currentState={data.course.state} />
 		</span>
 	{/if}
 

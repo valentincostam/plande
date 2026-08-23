@@ -33,38 +33,56 @@
 	</div>
 	<div class="flex h-2 w-full gap-0.5 overflow-hidden rounded">
 		{#if pctNotTaken > 0}
-			<div class="h-full basis-0 bg-gray-300" style={`flex-grow: ${pctNotTaken}`}></div>
+			<div class="state-not-taken h-full basis-0" style={`flex-grow: ${pctNotTaken}`}></div>
 		{/if}
 		{#if pctInProgress > 0}
-			<div class="h-full basis-0 bg-blue-400" style={`flex-grow: ${pctInProgress}`}></div>
+			<div class="state-in-progress h-full basis-0" style={`flex-grow: ${pctInProgress}`}></div>
 		{/if}
 		{#if pctTaken > 0}
-			<div class="h-full basis-0 bg-amber-400" style={`flex-grow: ${pctTaken}`}></div>
+			<div class="state-taken h-full basis-0" style={`flex-grow: ${pctTaken}`}></div>
 		{/if}
 		{#if pctPassed > 0}
-			<div class="h-full basis-0 bg-green-500" style={`flex-grow: ${pctPassed}`}></div>
+			<div class="state-passed h-full basis-0" style={`flex-grow: ${pctPassed}`}></div>
 		{/if}
 	</div>
 	<div class="grid grid-cols-2 gap-2 text-xs text-gray-600 sm:grid-cols-4">
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-gray-300"></span>{feminineCourseStateLabels[
+			<span class="state-not-taken h-2 w-2 rounded-sm"></span>{feminineCourseStateLabels[
 				courseStates.notTaken
 			]} ({countNotTaken})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-blue-400"></span>{feminineCourseStateLabels[
+			<span class="state-in-progress h-2 w-2 rounded-sm"></span>{feminineCourseStateLabels[
 				courseStates.inProgress
 			]} ({countInProgress})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-amber-400"></span>{feminineCourseStateLabels[
+			<span class="state-taken h-2 w-2 rounded-sm"></span>{feminineCourseStateLabels[
 				courseStates.taken
 			]} ({countTaken})
 		</div>
 		<div class="flex items-center gap-2">
-			<span class="h-2 w-2 rounded-sm bg-green-500"></span>{feminineCourseStateLabels[
+			<span class="state-passed h-2 w-2 rounded-sm"></span>{feminineCourseStateLabels[
 				courseStates.passed
 			]} ({countPassed})
 		</div>
 	</div>
 </div>
+
+<style>
+	.state-not-taken {
+		background-color: var(--course-state-chart-not-taken);
+	}
+
+	.state-in-progress {
+		background-color: var(--course-state-chart-in-progress);
+	}
+
+	.state-taken {
+		background-color: var(--course-state-chart-taken);
+	}
+
+	.state-passed {
+		background-color: var(--course-state-chart-passed);
+	}
+</style>

@@ -1,6 +1,7 @@
 import { courseStates } from './course-state';
 import { courseTypes, isElectiveOrOptative } from './course-type';
-import type { Course } from './course.svelte';
+import type { CourseState } from './course-state';
+import type { CourseType } from './course-type';
 
 export type DegreeProgressType =
 	| 'mandatory-only' // Solo materias obligatorias (ej: UADER FCyT LSI)
@@ -19,8 +20,14 @@ export type DegreeProgressCalculation = {
 	percentage: number;
 };
 
+export type DegreeProgressCourse = {
+	state: CourseState;
+	type: CourseType;
+	hours?: number;
+};
+
 export function calculateDegreeProgress(
-	courses: Course[],
+	courses: DegreeProgressCourse[],
 	config: DegreeProgressConfig
 ): DegreeProgressCalculation {
 	const mandatoryCourses = courses.filter((course) => course.type === courseTypes.mandatory);
