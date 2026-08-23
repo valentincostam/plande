@@ -63,6 +63,33 @@ test.describe('Milestone requirements', () => {
 		await expect(panel.getByText('Pendiente', { exact: true })).toHaveCount(0);
 	});
 
+	test('UNS intermediate title requires the complete first cycle and two electives', async ({
+		page,
+		studyPlan
+	}) => {
+		await studyPlan.goto('uns-dcs-le-2017');
+
+		const stateSelect = page.getByRole('combobox', {
+			name: 'Estado de Título intermedio: Enfermero/a: Pendiente',
+			exact: true
+		});
+		await expect(stateSelect).toBeDisabled();
+
+		await studyPlan.setYearState(1, 'Aprobadas');
+		await studyPlan.setYearState(2, 'Aprobadas');
+		await studyPlan.setYearState(3, 'Aprobadas');
+		await studyPlan.setCourseState(
+			'Abordaje Cualitativo de la Investigación en Salud',
+			'No cursada'
+		);
+		await studyPlan.setCourseState('Gestión en Servicios de Salud', 'No cursada');
+		await studyPlan.setCourseState('Herramientas Informáticas E', 'No cursada');
+
+		await expect(stateSelect).toBeDisabled();
+		await studyPlan.setCourseState('Abordaje Cualitativo de la Investigación en Salud', 'Aprobada');
+		await expect(stateSelect).toBeEnabled();
+	});
+
 	test('UNLP English sufficiency milestone is shown and used by course requirements', async ({
 		page,
 		studyPlan

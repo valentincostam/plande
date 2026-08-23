@@ -1,4 +1,27 @@
+import { req, select } from '$lib/study-plan-helpers';
 import type { StudyPlanData } from '$lib/study-plan-data';
+
+const firstCycleMandatoryCourseIds = [
+	'20084',
+	'1093',
+	'20083',
+	'20085',
+	'4511',
+	'4843',
+	'20086',
+	'4526',
+	'1293',
+	'1362',
+	'4842',
+	'20087',
+	'1129',
+	'20021',
+	'20088',
+	'20095',
+	'20089',
+	'2155',
+	'20028'
+];
 
 export const unsDcsLe2017: StudyPlanData = {
 	info: {
@@ -17,10 +40,6 @@ export const unsDcsLe2017: StudyPlanData = {
 			}
 		],
 		notes: [
-			{
-				id: 1,
-				text: 'El plan otorga el **título intermedio de Enfermero** al completar los requisitos correspondientes.'
-			},
 			{
 				id: 2,
 				text: 'Existe un **Curso de Nivelación** para carreras que articulan, con las materias Enfermería en Salud Colectiva y Familiar A (20097) y Fundamentos de los Procesos Biológicos (1183).'
@@ -1296,6 +1315,19 @@ export const unsDcsLe2017: StudyPlanData = {
 			requirements: {}
 		},
 		{
+			id: 'titulo-intermedio-enfermero',
+			seqId: 37,
+			kind: 'milestone',
+			name: 'Título intermedio: Enfermero/a',
+			placements: [],
+			requirements: {
+				complete: req.all(
+					req.every(select.items(...firstCycleMandatoryCourseIds), 'passed'),
+					req.countTag('third-year-second-semester-elective', 2, 'passed')
+				)
+			}
+		},
+		{
 			id: '20093',
 			seqId: 32,
 			kind: 'course',
@@ -1613,29 +1645,29 @@ export const unsDcsLe2017: StudyPlanData = {
 	requirements: {
 		graduation: [
 			{
-				"id": "mandatory",
-				"label": "Materias obligatorias",
-				"expr": {
-					"type": "percent",
-					"selector": {
-						"type": "all",
-						"courseType": "mandatory"
+				id: 'mandatory',
+				label: 'Materias obligatorias',
+				expr: {
+					type: 'percent',
+					selector: {
+						type: 'all',
+						courseType: 'mandatory'
 					},
-					"minPercent": 100,
-					"state": "passed"
+					minPercent: 100,
+					state: 'passed'
 				}
 			},
 			{
-				"id": "elective-count",
-				"label": "Materias electivas requeridas de 3er año",
-				"expr": {
-					"type": "count",
-					"selector": {
-						"type": "tag",
-						"tag": "third-year-second-semester-elective"
+				id: 'elective-count',
+				label: 'Materias electivas requeridas de 3er año',
+				expr: {
+					type: 'count',
+					selector: {
+						type: 'tag',
+						tag: 'third-year-second-semester-elective'
 					},
-					"min": 2,
-					"state": "passed"
+					min: 2,
+					state: 'passed'
 				}
 			}
 		]

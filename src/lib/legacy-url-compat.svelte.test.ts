@@ -60,9 +60,10 @@ const inEffectRoot = <T>(run: () => T): T => {
 };
 
 describe('legacy URL compatibility (uns-dcs-le-2017)', () => {
-	it('keeps the legacy positional order: seqId order equals the legacy array order', () => {
+	it('keeps the legacy positional order and appends new items', () => {
 		const orderedIds = sortItemsBySeqId(unsDcsLe2017.items).map((item) => item.id);
-		expect(orderedIds).toEqual(legacyCourseIdOrder);
+		expect(orderedIds.slice(0, legacyCourseIdOrder.length)).toEqual(legacyCourseIdOrder);
+		expect(orderedIds.slice(legacyCourseIdOrder.length)).toEqual(['titulo-intermedio-enfermero']);
 	});
 
 	it('decodes a legacy URL created before item 4586 became a milestone', () => {
