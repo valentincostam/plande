@@ -10,18 +10,18 @@ test.describe('UNSa Trabajo Final requirements', () => {
 		const panel = await studyPlan.getCourseDetailsPanel('Trabajo Final');
 		await expect(panel.getByText('Requisitos para cursar', { exact: true })).toBeVisible();
 		const percentRequirement = panel.getByText(/80% de las materias del plan/);
-		await expect(percentRequirement).toContainText(
-			/80% de las materias del plan\s+Aprobadas: se necesitan\s+26, pero ninguna lo está\./
+		expect((await percentRequirement.innerText()).replaceAll('\u00a0', ' ')).toBe(
+			'80% de las materias del plan deben estar Aprobadas pero ninguna lo está (0 de 32 y faltan 26)'
 		);
 		await expect(
 			panel.getByText('Todas las materias restantes de la carrera aprobadas', { exact: true })
 		).toBeVisible();
-		await expect(panel.getByText(/24 materias obligatorias/)).toContainText(
-			'24 materias obligatorias Aprobadas, pero ninguna lo está.'
-		);
-		await expect(panel.getByText(/2 materias optativas/)).toContainText(
-			'2 materias optativas Aprobadas, pero ninguna lo está.'
-		);
+		expect(
+			(await panel.getByText(/24 materias obligatorias/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('24 materias obligatorias deben estar Aprobadas pero ninguna lo está (faltan 24)');
+		expect(
+			(await panel.getByText(/2 materias optativas/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('2 materias optativas deben estar Aprobadas pero ninguna lo está (faltan 2)');
 		await expect(panel.getByText('(0 de 24)', { exact: true })).not.toBeVisible();
 		await expect(
 			panel.getByRole('link', { name: 'Introducción a los Circuitos Eléctricos' })
@@ -71,8 +71,10 @@ test.describe('UNSa Trabajo Final requirements', () => {
 
 		await courseButton.click();
 		let panel = await studyPlan.getCourseDetailsPanel('Trabajo Final');
-		await expect(panel.getByText(/80% de las materias del plan/)).toContainText(
-			/80% de las materias del plan\s+Aprobadas: se necesitan\s+26,\s+pero solo\s+25 lo están, es decir, el 78%\./
+		expect(
+			(await panel.getByText(/80% de las materias del plan/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe(
+			'80% de las materias del plan deben estar Aprobadas pero solo el 78% lo está (25 de 32 y falta 1)'
 		);
 		await expect(studyPlan.getCourseButton('Trabajo Final')).toContainText('Bloqueada');
 
@@ -82,8 +84,8 @@ test.describe('UNSa Trabajo Final requirements', () => {
 
 		await courseButton.click();
 		panel = await studyPlan.getCourseDetailsPanel('Trabajo Final');
-		await expect(panel.getByText(/80% de las materias del plan/)).toContainText(
-			/80% de las materias del plan\s+Aprobadas: se necesitan\s+26\s+y\s+26 lo están, es decir, el 81%\./
-		);
+		expect(
+			(await panel.getByText(/80% de las materias del plan/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('80% de las materias del plan deben estar Aprobadas');
 	});
 });

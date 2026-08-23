@@ -17,9 +17,9 @@ test.describe('Courses gated by a count of regularized courses', () => {
 
 		await esiButton.click();
 		const esiPanel = await studyPlan.getCourseDetailsPanel('Educación Sexual Integral');
-		await expect(esiPanel.getByText(/5 materias del plan/)).toContainText(
-			/5 materias del plan\s+Regulares, pero ninguna lo está\./
-		);
+		expect(
+			(await esiPanel.getByText(/5 materias del plan/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('5 materias del plan deben estar Regulares pero ninguna lo está (faltan 5)');
 		await expect(esiPanel.getByText('(0 de 5)', { exact: true })).not.toBeVisible();
 		await esiButton.click();
 
@@ -37,10 +37,19 @@ test.describe('Courses gated by a count of regularized courses', () => {
 
 		// Still blocked with 4 of 5
 		await expect(esiButton).toHaveAttribute('aria-label', /bloqueada por correlativas/i);
+		await esiButton.click();
+		expect(
+			(await esiPanel.getByText(/5 materias del plan/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('5 materias del plan deben estar Regulares pero solo 4 lo están (falta 1)');
+		await esiButton.click();
 
 		await studyPlan.setCourseState(firstYearCourses[4], 'Regular');
 
 		await expect(esiButton).not.toHaveAttribute('aria-label', /bloqueada/i);
 		await expect(esiStateControl).toBeVisible();
+		await esiButton.click();
+		expect(
+			(await esiPanel.getByText(/5 materias del plan/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('5 materias del plan deben estar Regulares');
 	});
 });

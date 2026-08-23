@@ -30,6 +30,9 @@ test.describe('Requirement rendering and multi-placement stats', () => {
 			name: 'Detalles de Título intermedio: Técnico Universitario en Comercio Internacional'
 		});
 		await expect(milestoneDetails.getByLabel('primer año', { exact: true })).toBeVisible();
+		expect(
+			(await milestoneDetails.getByText(/7 materias de/).innerText()).replaceAll('\u00a0', ' ')
+		).toBe('7 materias de 1er año deben estar Aprobadas pero ninguna lo está (faltan 7)');
 		await expect(milestoneDetails.getByText('Aprobadas', { exact: true })).toHaveCount(3);
 		await expect(milestoneDetails.getByText('(0 de 7)', { exact: true })).toHaveCount(0);
 		await expect(page.getByText(/items de section/i)).toHaveCount(0);

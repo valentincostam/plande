@@ -58,44 +58,61 @@
 			{#if node.variant === 'count'}
 				<span class="font-noto">
 					{node.totalUnits}
-					<NativeRequirementSelector {node} />&nbsp;
+					<NativeRequirementSelector {node} /> deben estar
 					<StatePill
 						state={requiredCourseState(node.requiredState)}
 						plural={node.totalUnits !== 1}
-					/>{#if node.metItemCount === 0}, pero ninguna lo está.{:else if node.met}, y {node.metItemCount}
-						{node.metItemCount === 1 ? 'lo está' : 'lo están'}.{:else}, pero solo
-						{node.metItemCount}
-						{node.metItemCount === 1 ? 'lo está' : 'lo están'}.{/if}
+					/>{#if !node.met}&nbsp;{#if node.metItemCount === 0}pero ninguna lo está{:else}pero solo
+							{node.metItemCount}
+							{node.metItemCount === 1 ? 'lo está' : 'lo están'}{/if} ({node.totalUnits -
+							node.completedUnits ===
+						1
+							? 'falta'
+							: 'faltan'}
+						{node.totalUnits - node.completedUnits}){/if}
 				</span>
 			{:else if node.variant === 'percent'}
 				<span class="font-noto">
-					{node.minPercent}% de <NativeRequirementSelector {node} article />&nbsp;
-					<StatePill state={requiredCourseState(node.requiredState)} plural />: se necesitan
-					{node.totalUnits}{#if node.metItemCount === 0}, pero ninguna lo está.{:else if node.met}
-						&nbsp;y&nbsp;{node.metItemCount} lo están, es decir, el {currentPercent(node)}%.{:else},
-						pero solo
-						{node.metItemCount} lo están, es decir, el {currentPercent(node)}%.{/if}
+					{node.minPercent}% de <NativeRequirementSelector {node} article /> deben estar
+					<StatePill
+						state={requiredCourseState(node.requiredState)}
+						plural
+					/>{#if !node.met}&nbsp;{#if node.metItemCount === 0}pero ninguna lo está{:else}pero solo
+							el {currentPercent(node)}% lo está{/if} ({node.metItemCount}
+						de {node.matchedItemCount} y {node.totalUnits - node.completedUnits === 1
+							? 'falta'
+							: 'faltan'}
+						{node.totalUnits - node.completedUnits}){/if}
 				</span>
 			{:else if node.variant === 'sum'}
 				<span class="font-noto">
-					{node.totalUnits}
+					Se deben acumular {node.totalUnits}
 					{node.metric === 'credits'
 						? 'créditos'
 						: node.metric === 'totalHours'
 							? 'horas totales'
-							: 'horas'} de <NativeRequirementSelector {node} />&nbsp;
+							: 'horas'} de <NativeRequirementSelector {node} />
 					<StatePill
 						state={requiredCourseState(node.requiredState)}
 						plural
-					/>{#if node.completedUnits === 0}, pero todavía no se acumuló ninguna.{:else if node.met},
-						y ya se acumularon
-						{node.completedUnits}.{:else}, pero solo se acumularon {node.completedUnits}.{/if}
+					/>{#if !node.met}&nbsp;{#if node.completedUnits === 0}pero todavía no se acumuló nada{:else}pero
+							solo se acumularon {node.completedUnits}{/if} ({node.totalUnits -
+							node.completedUnits ===
+						1
+							? 'falta'
+							: 'faltan'}
+						{node.totalUnits - node.completedUnits}){/if}
 				</span>
 			{:else}
 				<span class="font-noto">
-					{node.label ?? `${node.totalUnits} de las siguientes opciones`}: {#if node.completedUnits === 0}ninguna
-						se cumple.{:else if node.met}{node.completedUnits} se cumplen.{:else}solo
-						{node.completedUnits} se {node.completedUnits === 1 ? 'cumple' : 'cumplen'}.{/if}
+					{node.label ??
+						`Deben cumplirse ${node.totalUnits} de las siguientes opciones`}{#if !node.met}&nbsp;{#if node.completedUnits === 0}pero
+							ninguna se cumple{:else}pero solo {node.completedUnits} se {node.completedUnits === 1
+								? 'cumple'
+								: 'cumplen'}{/if} ({node.totalUnits - node.completedUnits === 1
+							? 'falta'
+							: 'faltan'}
+						{node.totalUnits - node.completedUnits}){/if}
 				</span>
 			{/if}
 		</span>
