@@ -77,7 +77,7 @@
 				aria-hidden={!expanded}
 				inert={!expanded}
 				class:is-visible={expanded}
-				class="expanded-panel relative overflow-hidden rounded-xl border"
+				class="expanded-panel relative overflow-hidden rounded-xl shadow-[0_0.25rem_0.5rem_var(--recent-shadow)] ring-1 ring-gray-900/10"
 			>
 				<header class="panel-divider border-b">
 					<h2 id="recent-plans-heading">
@@ -213,7 +213,7 @@
 					aria-label={expandLabel}
 					aria-expanded="false"
 					class:is-visible={!expanded}
-					class="compact-button absolute bottom-0 left-1/2 flex h-[2.875rem] w-max max-w-full -translate-x-1/2 cursor-pointer items-center rounded-full border pl-3 text-left"
+					class="compact-button absolute bottom-0 left-1/2 flex h-[2.875rem] w-max max-w-full -translate-x-1/2 cursor-pointer items-center rounded-full pl-3 text-left shadow-[0_0.25rem_0.5rem_var(--recent-shadow)] ring-1 ring-gray-900/10"
 				>
 					<StateDistributionDonut
 						percentage={latestPlan.summary.percentage}
@@ -294,11 +294,8 @@
 	.expanded-panel,
 	.compact-button {
 		background-color: var(--recent-bg);
-		box-shadow: 0 0.25rem 0.5rem var(--recent-shadow);
 	}
 
-	.expanded-panel,
-	.compact-button,
 	.panel-divider {
 		border-color: var(--recent-border);
 	}

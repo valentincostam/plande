@@ -62,7 +62,7 @@
 				aria-hidden={!expanded}
 				inert={!expanded}
 				class:is-visible={expanded}
-				class="expanded-panel relative overflow-hidden rounded-xl border"
+				class="expanded-panel relative overflow-hidden rounded-xl shadow-[0_0.25rem_0.5rem_var(--sheet-shadow)] ring-1 ring-gray-900/10"
 			>
 				<header class="panel-divider border-b">
 					<button
@@ -204,7 +204,7 @@
 				aria-label="Expandir opciones de progreso"
 				aria-expanded="false"
 				class:is-visible={!expanded}
-				class="compact-button absolute bottom-0 left-1/2 flex h-[2.875rem] w-max max-w-full -translate-x-1/2 cursor-pointer items-center rounded-full border pl-3 text-left"
+				class="compact-button absolute bottom-0 left-1/2 flex h-[2.875rem] w-max max-w-full -translate-x-1/2 cursor-pointer items-center rounded-full pl-3 text-left shadow-[0_0.25rem_0.5rem_var(--sheet-shadow)] ring-1 ring-gray-900/10"
 			>
 				<StateDistributionDonut
 					percentage={currentSummary.percentage}
@@ -287,8 +287,6 @@
 	.expanded-panel,
 	.compact-button {
 		background-color: var(--sheet-bg);
-		border-color: var(--sheet-border);
-		box-shadow: 0 0.25rem 0.5rem var(--sheet-shadow);
 	}
 
 	.panel-divider,
