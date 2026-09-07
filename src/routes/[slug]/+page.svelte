@@ -39,6 +39,7 @@
 	import { preparePlan } from '$lib/prepare-plan';
 	import { PlanSession } from '$lib/plan-session.svelte';
 	import NativeStudyPlanSection from './native-study-plan-section.svelte';
+	import AuthMenu from '$lib/auth/auth-menu.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -392,6 +393,14 @@
 			{data.studyPlan.collegeSlug ?? ''}
 		</p>
 		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
+		<div class="mt-2 flex justify-center">
+			<AuthMenu
+				auth={data.auth}
+				enabled={data.authEnabled}
+				authUnavailable={data.authUnavailable}
+				signOutFailed={data.signOutFailed}
+			/>
+		</div>
 		<div class="mt-4 flex justify-center">
 			<ViewToggle bind:value={viewMode} />
 		</div>

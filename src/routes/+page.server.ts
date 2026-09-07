@@ -1,5 +1,8 @@
 import { studyPlanReader } from './[slug]/data/study-plan-reader.server';
 
-export const prerender = true;
+export const prerender = false;
 
-export const load = async () => ({ studyPlans: await studyPlanReader.loadCatalog() });
+export const load = async ({ url }: { url: URL }) => ({
+	studyPlans: await studyPlanReader.loadCatalog(),
+	signOutFailed: url.searchParams.get('auth') === 'sign-out-failed'
+});

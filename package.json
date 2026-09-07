@@ -16,6 +16,8 @@
 		"supabase:seed": "bun scripts/local-supabase.ts seed",
 		"supabase:dev": "bun scripts/local-supabase.ts dev",
 		"test:supabase": "bun scripts/local-supabase.ts test",
+		"auth:dev": "bun scripts/local-supabase.ts auth-dev",
+		"test:auth": "bun scripts/local-supabase.ts auth-test",
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",

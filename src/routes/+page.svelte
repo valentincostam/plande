@@ -8,6 +8,7 @@
 	import { handleSmoothScroll } from '$lib/smooth-scroll';
 	import { matchesSearch, normalizeSearchText } from '$lib/search';
 	import Link from '$lib/link.svelte';
+	import AuthMenu from '$lib/auth/auth-menu.svelte';
 	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
@@ -182,6 +183,14 @@
 	<header class=" gap-1 px-3 text-center">
 		<h1 class="text-xl font-bold">Plande 🎓</h1>
 		<span class="text-sm text-gray-500">Planes de Estudios Interactivos</span>
+		<div class="mt-2 flex justify-center">
+			<AuthMenu
+				auth={data.auth}
+				enabled={data.authEnabled}
+				authUnavailable={data.authUnavailable}
+				signOutFailed={data.signOutFailed}
+			/>
+		</div>
 	</header>
 
 	<main class="grid gap-9">
