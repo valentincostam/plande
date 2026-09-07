@@ -1,11 +1,11 @@
 import type { RequestHandler } from './$types';
-import { studyPlanCatalog } from '../[slug]/data/study-plan-catalog';
+import { studyPlanReader } from '../[slug]/data/study-plan-reader.server';
 import { getStudyPlanSlug } from '$lib/study-plan';
 
 export const prerender = true;
 
-function generateLlmsTxt(): string {
-	const studyPlans = [...studyPlanCatalog];
+function generateLlmsTxt(catalog: Awaited<ReturnType<typeof studyPlanReader.loadCatalog>>): string {
+	const studyPlans = [...catalog];
 
 	// Sort study plans by university, then college, then degree
 	const sortedPlans = studyPlans.sort((planA, planB) => {
@@ -277,7 +277,7 @@ GET /llms.txt                # Este archivo
 }
 
 export const GET: RequestHandler = async () => {
-	const content = generateLlmsTxt();
+	const content = generateLlmsTxt(await studyPlanReader.loadCatalog());
 
 	return new Response(content, {
 		headers: {

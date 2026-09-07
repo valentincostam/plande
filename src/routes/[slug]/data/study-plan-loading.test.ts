@@ -4,8 +4,89 @@ import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 import { allStudyPlans } from './all-study-plans';
 import { studyPlanCatalog } from './study-plan-catalog';
 import { getCanonicalStudyPlanSlug, loadStudyPlan, studyPlanSlugs } from './study-plan-loaders';
+import { createSupabaseStudyPlanReader, parseStudyPlanDocument } from './study-plan-reader.server';
 
 describe('lightweight study plan loading', () => {
+	it('preserves every native static document through runtime parsing', () => {
+		for (const plan of allStudyPlans) {
+			const document: unknown = JSON.parse(JSON.stringify(plan));
+			expect(parseStudyPlanDocument(document)).toEqual(document);
+		}
+	});
+
+	it('rejects course-only fields on a milestone', () => {
+		const malformed = {
+			info: {
+				degreeName: 'Test',
+				degreeSlug: 'test',
+				universityName: 'Test',
+				universitySlug: 'test'
+			},
+			sections: [],
+			items: [
+				{
+					id: 'milestone',
+					seqId: 0,
+					name: 'Milestone',
+					kind: 'milestone',
+					placements: [],
+					type: 'mandatory'
+				}
+			]
+		};
+		expect(() => parseStudyPlanDocument(malformed)).toThrow(
+			'Supabase returned an invalid study plan document.'
+		);
+	});
+
+	it('rejects a course whose required type is missing', () => {
+		const malformed = {
+			info: {
+				degreeName: 'Test',
+				degreeSlug: 'test',
+				universityName: 'Test',
+				universitySlug: 'test'
+			},
+			sections: [{ id: 'core', label: 'Core' }],
+			items: [
+				{
+					id: 'course',
+					seqId: 0,
+					name: 'Course',
+					kind: 'course',
+					placements: [{ sectionId: 'core' }]
+				}
+			]
+		};
+
+		expect(() => parseStudyPlanDocument(malformed)).toThrow(
+			'Supabase returned an invalid study plan document.'
+		);
+	});
+
+	it('rejects a Supabase document before it reaches the native engine when its shape is invalid', () => {
+		expect(() => parseStudyPlanDocument({ info: {}, sections: [], items: {} })).toThrow(
+			'Supabase returned an invalid study plan document.'
+		);
+	});
+
+	it('rejects an invalid nested Supabase requirement', () => {
+		const plan = structuredClone(allStudyPlans[0]);
+		plan.items[0].requirements = {
+			enroll: { type: 'item', itemId: plan.items[1].id, state: 'not-a-state' as never }
+		};
+
+		expect(() => parseStudyPlanDocument(plan)).toThrow(
+			'Supabase returned an invalid study plan document.'
+		);
+	});
+
+	it('keeps a missing Supabase plan missing instead of loading the static module', async () => {
+		const reader = createSupabaseStudyPlanReader(async () => []);
+
+		await expect(reader.loadPlan('uns-dcs-le-2017')).resolves.toBeUndefined();
+	});
+
 	it('keeps one lightweight entry per plan', () => {
 		expect(studyPlanCatalog).toHaveLength(47);
 		expect(studyPlanSlugs).toHaveLength(47);

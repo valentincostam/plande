@@ -1,9 +1,10 @@
 import { getStudyPlanSlug, getStudyPlanSlugWithYear } from '$lib/study-plan';
-import { studyPlanCatalog as allStudyPlans } from '../[slug]/data/study-plan-catalog';
+import { studyPlanReader } from '../[slug]/data/study-plan-reader.server';
 
 export const prerender = true;
 
 export async function GET() {
+	const allStudyPlans = await studyPlanReader.loadCatalog();
 	// Genera slugs únicos para todas las carreras (con y sin año)
 	const slugs = new Set<string>();
 

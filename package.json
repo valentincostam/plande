@@ -13,6 +13,9 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"registry:seq": "bun scripts/generate-seq-id-registry.ts",
+		"supabase:seed": "bun scripts/local-supabase.ts seed",
+		"supabase:dev": "bun scripts/local-supabase.ts dev",
+		"test:supabase": "bun scripts/local-supabase.ts test",
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",
@@ -40,6 +43,7 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^3.5.0",
 		"prettier-plugin-tailwindcss": "^0.7.2",
+		"supabase": "2.116.0",
 		"svelte": "^5.53.6",
 		"svelte-check": "^4.4.4",
 		"tailwindcss": "^4.2.1",
@@ -50,12 +54,15 @@
 		"vitest": "^4.0.18"
 	},
 	"dependencies": {
+		"@supabase/ssr": "0.12.6",
+		"@supabase/supabase-js": "2.115.0",
 		"@dagrejs/dagre": "^1.1.8",
 		"@ethercorps/sveltekit-og": "^4.2.1",
 		"@microsoft/clarity": "^1.0.2",
 		"@vercel/analytics": "^1.6.1",
 		"@xyflow/svelte": "^1.5.1",
 		"html-to-image": "1.11.11",
-		"marked": "^16.4.2"
+		"marked": "^16.4.2",
+		"zod": "4.3.6"
 	}
 }

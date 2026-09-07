@@ -1,13 +1,15 @@
 import type { RequestHandler } from './$types';
 import { groupStudyPlansByUniversityAndCollege, getStudyPlanSlug } from '$lib/study-plan';
-import { studyPlanCatalog as allStudyPlans } from '../../[slug]/data/study-plan-catalog';
+import { studyPlanReader } from '../../[slug]/data/study-plan-reader.server';
 
 export const prerender = true;
 
 /**
  * Generate markdown representation of the homepage
  */
-function generateHomepageMarkdown(): string {
+function generateHomepageMarkdown(
+	allStudyPlans: Awaited<ReturnType<typeof studyPlanReader.loadCatalog>>
+): string {
 	const grouped = groupStudyPlansByUniversityAndCollege(allStudyPlans);
 
 	let markdown = `# Plande - Planificador de Carreras Universitarias
@@ -119,8 +121,10 @@ Si tu carrera no está disponible, completar el formulario en https://forms.gle/
 /**
  * Generate plain text representation
  */
-function generateHomepagePlainText(): string {
-	return generateHomepageMarkdown()
+function generateHomepagePlainText(
+	allStudyPlans: Awaited<ReturnType<typeof studyPlanReader.loadCatalog>>
+): string {
+	return generateHomepageMarkdown(allStudyPlans)
 		.replace(/# /g, '')
 		.replace(/## /g, '')
 		.replace(/### /g, '')
@@ -133,7 +137,9 @@ function generateHomepagePlainText(): string {
 /**
  * Generate JSON representation
  */
-function generateHomepageJSON() {
+function generateHomepageJSON(
+	allStudyPlans: Awaited<ReturnType<typeof studyPlanReader.loadCatalog>>
+) {
 	const grouped = groupStudyPlansByUniversityAndCollege(allStudyPlans);
 
 	return {
@@ -176,6 +182,7 @@ function generateHomepageJSON() {
 }
 
 export const GET: RequestHandler = async ({ request }) => {
+	const allStudyPlans = await studyPlanReader.loadCatalog();
 	const acceptHeader = request.headers.get('accept') || '*/*';
 
 	const headers = {
@@ -189,7 +196,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	const acceptsAny = acceptHeader.includes('*/*');
 
 	if (acceptsJSON) {
-		return new Response(JSON.stringify(generateHomepageJSON(), null, 2), {
+		return new Response(JSON.stringify(generateHomepageJSON(allStudyPlans), null, 2), {
 			headers: {
 				...headers,
 				'Content-Type': 'application/json; charset=utf-8'
@@ -198,7 +205,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	}
 
 	if (acceptsPlain) {
-		return new Response(generateHomepagePlainText(), {
+		return new Response(generateHomepagePlainText(allStudyPlans), {
 			headers: {
 				...headers,
 				'Content-Type': 'text/plain; charset=utf-8'
@@ -208,7 +215,7 @@ export const GET: RequestHandler = async ({ request }) => {
 
 	// Default to markdown for markdown or wildcard
 	if (acceptsMarkdown || acceptsAny) {
-		return new Response(generateHomepageMarkdown(), {
+		return new Response(generateHomepageMarkdown(allStudyPlans), {
 			headers: {
 				...headers,
 				'Content-Type': 'text/markdown; charset=utf-8'
@@ -217,7 +224,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	}
 
 	// Fallback
-	return new Response(generateHomepageMarkdown(), {
+	return new Response(generateHomepageMarkdown(allStudyPlans), {
 		headers: {
 			...headers,
 			'Content-Type': 'text/markdown; charset=utf-8'

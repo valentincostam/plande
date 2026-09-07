@@ -1,6 +1,6 @@
 import type { RequestHandler } from './$types';
 import { error, json } from '@sveltejs/kit';
-import { loadStudyPlan } from './data/study-plan-loaders';
+import { studyPlanReader } from './data/study-plan-reader.server';
 import { studyPlanToMarkdown } from '$lib/formatters/study-plan-markdown';
 import { studyPlanToPlainText } from '$lib/formatters/study-plan-plaintext';
 import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
@@ -169,7 +169,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 	const { slug } = params;
 
 	// Lookup study plan
-	const studyPlan = await loadStudyPlan(slug);
+	const studyPlan = await studyPlanReader.loadPlan(slug);
 
 	if (!studyPlan) {
 		error(404, {

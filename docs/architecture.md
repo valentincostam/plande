@@ -4,8 +4,10 @@ Plande renders immutable curriculum definitions plus a reactive user session. Th
 
 ## Loading
 
-- `src/routes/+page.server.ts`, `api/home`, sitemap and `llms.txt` use `study-plan-catalog.ts`, which contains metadata only.
-- `src/routes/[slug]/+page.server.ts` resolves aliases and dynamically imports one plan through `study-plan-loaders.ts`.
+- Page, export, OG, home API, sitemap and `llms.txt` loaders use the server-only study-plan reader. Its static default uses metadata-only `study-plan-catalog.ts` and dynamically loads one plan through `study-plan-loaders.ts`.
+- `PLANDE_STUDY_PLAN_READER=supabase` selects published native snapshots and lightweight metadata from PostgreSQL. Errors never silently fall back to static plans. External JSON passes the strict native schema and `preparePlan` before use.
+- Existing prerendered outputs use the configured reader at build time. Database publication freshness must be addressed before enabling collaborative publication in the pilot; changing a DB row does not regenerate prerendered pages.
+- See [local Supabase](supabase-local.md) for startup, identity, grants, parity and security checks. Production remains static until an authorized cutover.
 - Plan payloads stay out of client chunks until their route is requested.
 - `all-study-plans.ts` exists for server tooling, validation and generation only.
 - `bun run registry:seq` regenerates catalog, dynamic loaders and the append-only `seqId` registry after a plan is added.

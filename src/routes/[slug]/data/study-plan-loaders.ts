@@ -99,6 +99,10 @@ const canonicalSlugByShortSlug: Record<string, string> = {
 	'utn-frsf-isi': 'utn-frsf-isi-2023'
 };
 
+export const studyPlanAliases = Object.entries(canonicalSlugByShortSlug).map(
+	([slug, canonicalSlug]) => ({ slug, canonicalSlug })
+);
+
 export const getCanonicalStudyPlanSlug = (slug: string) =>
 	canonicalSlugByShortSlug[slug.toLowerCase()] ?? slug.toLowerCase();
 

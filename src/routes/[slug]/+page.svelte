@@ -219,8 +219,8 @@
 					showCodes = parsed.showCodes;
 				}
 			}
-		} catch (error) {
-			console.warn('Failed to parse saved course states:', error);
+		} catch {
+			console.warn('Failed to parse saved course states.');
 		} finally {
 			isInitializing = false;
 		}

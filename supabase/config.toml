@@ -1,0 +1,20 @@
+project_id = "plande-local"
+
+[api]
+port = 55421
+schemas = ["public"]
+
+[db]
+port = 55422
+
+[analytics]
+enabled = false
+port = 55427
+
+[studio]
+port = 55423
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:5174"
+additional_redirect_urls = ["http://127.0.0.1:5174/auth/callback"]

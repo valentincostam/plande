@@ -98,6 +98,10 @@ ${aliasEntries.join(',\n')}
 export const getCanonicalStudyPlanSlug = (slug: string) =>
 \tcanonicalSlugByShortSlug[slug.toLowerCase()] ?? slug.toLowerCase();
 
+export const studyPlanAliases = Object.entries(canonicalSlugByShortSlug).map(
+\t([slug, canonicalSlug]) => ({ slug, canonicalSlug })
+);
+
 export const loadStudyPlan = async (slug: string) =>
 \tstudyPlanLoaders[getCanonicalStudyPlanSlug(slug)]?.();
 `;

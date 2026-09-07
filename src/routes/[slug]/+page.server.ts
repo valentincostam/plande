@@ -3,12 +3,13 @@ import { decodeGrades } from '$lib/grade-encoding';
 import { studyPlanDataToCatalogEntry } from '$lib/study-plan-catalog';
 import type { PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
-import { getCanonicalStudyPlanSlug, loadStudyPlan } from './data/study-plan-loaders';
+import { getCanonicalStudyPlanSlug } from './data/study-plan-loaders';
+import { studyPlanReader } from './data/study-plan-reader.server';
 
 export const load: PageServerLoad = async ({ params, url }) => {
 	const slug = params.slug.toLowerCase();
 	const canonicalSlug = getCanonicalStudyPlanSlug(slug);
-	const nativeStudyPlan = await loadStudyPlan(canonicalSlug);
+	const nativeStudyPlan = await studyPlanReader.loadPlan(canonicalSlug);
 
 	if (!nativeStudyPlan) error(404, { message: 'Not found' });
 	if (slug !== canonicalSlug) {

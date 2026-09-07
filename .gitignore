@@ -25,3 +25,7 @@ vite.config.ts.timestamp-*
 # Playwright
 test-results/
 playwright-report/
+
+# Supabase local runtime
+supabase/.temp/
+supabase/.branches/
