@@ -6,9 +6,10 @@
 		value: MilestoneState;
 		canComplete: boolean;
 		milestoneName: string;
+		onstatechange?: (state: MilestoneState) => void;
 	};
 
-	let { id, value = $bindable(), canComplete, milestoneName }: Props = $props();
+	let { id, value, canComplete, milestoneName, onstatechange }: Props = $props();
 
 	const labels = {
 		[milestoneStates.pending]: 'Pendiente',
@@ -27,7 +28,8 @@
 
 <select
 	{id}
-	bind:value
+	{value}
+	onchange={(event) => onstatechange?.((event.target as HTMLSelectElement).value as MilestoneState)}
 	aria-label={stateControlLabel}
 	disabled={!isEnabled}
 	class={[

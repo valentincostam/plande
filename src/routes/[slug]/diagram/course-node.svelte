@@ -92,10 +92,11 @@
 		<div class="nodrag nopan pointer-events-auto relative z-2">
 			<StateSelect
 				id={`diagram-${data.item.item.def.id}-state`}
-				bind:value={data.item.item.state}
+				value={data.item.item.state}
 				canPass={data.item.item.canPass}
 				courseName={data.item.item.def.name}
 				useCycleButton={data.useCycleButton}
+				onstatechange={(state) => data.item.item.setState(state)}
 			/>
 		</div>
 	{:else}

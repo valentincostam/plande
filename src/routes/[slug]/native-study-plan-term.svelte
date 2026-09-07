@@ -36,9 +36,10 @@
 		const target = event.target as HTMLSelectElement;
 		const newState = target.value as CourseState;
 		if (newState) {
-			courseItems.forEach((item) => {
-				item.item.state = newState;
-			});
+			courseItems[0]?.item.session.setCourseStates(
+				courseItems.map((item) => item.item.def.id),
+				newState
+			);
 		}
 		selectValue = '';
 	}

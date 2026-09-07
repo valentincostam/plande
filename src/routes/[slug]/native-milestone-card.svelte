@@ -46,9 +46,10 @@
 		</button>
 		<MilestoneStateSelect
 			id={`${domId}-state`}
-			bind:value={item.item.state}
+			value={item.item.state}
 			{canComplete}
 			milestoneName={item.item.def.name}
+			onstatechange={(state) => item.item.setState(state)}
 		/>
 	</div>
 

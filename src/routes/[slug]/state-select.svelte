@@ -18,18 +18,20 @@
 		gender?: 'feminine' | 'masculine';
 		useCycleButton?: boolean;
 		courseName: string;
+		onstatechange?: (state: CourseState) => void;
 	};
 
 	let {
 		id,
 		isEnabled = true,
-		value = $bindable(),
+		value,
 		onchange,
 		onkeydown,
 		gender = 'feminine',
 		useCycleButton = false,
 		canPass,
-		courseName
+		courseName,
+		onstatechange
 	}: Props = $props();
 
 	const stateButtonBackgroundColors = {
@@ -72,9 +74,15 @@
 	function onclick() {
 		if (!isEnabled) return;
 
-		value = getNextState(value);
-		announcement = `Estado de ${courseName}: ${getStateLabel(value)}`;
+		const candidate = getNextState(value);
+		onstatechange?.(candidate);
+		announcement = `Estado de ${courseName}: ${getStateLabel(candidate)}`;
 		onchange?.(new Event('change'));
+	}
+
+	function onselectchange(event: Event) {
+		onstatechange?.((event.target as HTMLSelectElement).value as CourseState);
+		onchange?.(event);
 	}
 </script>
 
@@ -117,8 +125,8 @@
 	<select
 		{id}
 		data-state-select
-		bind:value
-		{onchange}
+		{value}
+		onchange={onselectchange}
 		{onkeydown}
 		aria-label={stateControlLabel}
 		aria-describedby={`${id}-keyboard-shortcuts`}

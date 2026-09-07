@@ -5,6 +5,7 @@
 		courseNameColors,
 		hoursColors,
 		courseStates,
+		feminineCourseStateLabels,
 		courseStatesFromInitials
 	} from '$lib/course-state';
 	import { courseAttributeLabels } from '$lib/course-attribute';
@@ -15,6 +16,7 @@
 	import StateSelect from './state-select.svelte';
 	import NativeRequirementNode from './native-requirement-node.svelte';
 	import NativeDependent from './native-dependent.svelte';
+	import StatePill from './state-pill.svelte';
 	import type { StudyPlanViewItem } from '$lib/study-plan-view';
 
 	type Props = {
@@ -65,7 +67,7 @@
 		if (!newState) return;
 		if (newState === courseStates.passed && !item.item.canPass) return;
 		e.preventDefault();
-		item.item.state = newState;
+		item.item.setState(newState);
 	}
 
 	const formatHours = (hours: number) => Math.round(hours);
@@ -147,6 +149,14 @@
 				</span>
 			{/if}
 			{#if !item.item.isEnabled}
+				{#if item.item.state !== courseStates.notTaken}
+					<span
+						role="status"
+						aria-label={`Estado registrado de ${item.item.def.name}: ${feminineCourseStateLabels[item.item.state]}`}
+					>
+						<StatePill state={item.item.state} class="text-xs" />
+					</span>
+				{/if}
 				<span
 					class="flex w-22 flex-none justify-center rounded-md bg-gray-400 px-2 py-1 text-xs text-white select-none dark:bg-gray-500 dark:text-gray-100"
 					>Bloqueada</span
@@ -156,10 +166,11 @@
 		{#if item.item.isEnabled}
 			<StateSelect
 				id={`${domId}-state-select`}
-				bind:value={item.item.state}
+				value={item.item.state}
 				canPass={item.item.canPass}
 				courseName={item.item.def.name}
 				{useCycleButton}
+				onstatechange={(state) => item.item.setState(state)}
 				onkeydown={handleKeydown}
 			/>
 		{/if}

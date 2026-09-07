@@ -84,23 +84,21 @@ export class PlanItemState {
 		this.state = initialState;
 		this.grade = grade;
 		this.dependents = session.prepared.dependentEdgesByItemId.get(def.id) ?? [];
-
-		$effect(() => {
-			if (this.session.isInitializing) return;
-
-			const corrected = normalizeItemState(this.def, this.state, {
-				isEnabled: this.isEnabled,
-				canComplete: this.canComplete
-			});
-
-			if (corrected !== this.state) {
-				this.state = corrected;
-			}
-		});
 	}
 
 	setState(state: ItemState) {
+		if (
+			this.session.strictMode &&
+			normalizeItemState(this.def, state, {
+				isEnabled: this.isEnabled,
+				canComplete: this.canComplete
+			}) !== state
+		) {
+			return false;
+		}
+
 		this.state = state;
+		return true;
 	}
 }
 
@@ -155,9 +153,7 @@ export class PlanSession {
 			return contextItem;
 		};
 		const getContextItems = (ids: string[]) =>
-			ids
-				.map(getContextItem)
-				.filter((item): item is RequirementContextItem => item !== undefined);
+			ids.map(getContextItem).filter((item): item is RequirementContextItem => item !== undefined);
 		this.context = {
 			getItem: getContextItem,
 			getAllItems: () =>
@@ -230,6 +226,43 @@ export class PlanSession {
 				item.state = next;
 			}
 		});
+	}
+
+	setCourseStates(itemIds: string[], state: CourseState) {
+		const items = dedupeItemStatesById(
+			itemIds
+				.map((itemId) => this.itemsById.get(itemId))
+				.filter((item): item is PlanItemState => item !== undefined && item.def.kind === 'course')
+		);
+
+		if (items.length === 0) return false;
+
+		const previousStates = items.map((item) => item.state);
+		items.forEach((item) => {
+			item.state = state;
+		});
+
+		if (this.strictMode) {
+			const allowed = items.every((item) => {
+				const enroll = item.def.requirements?.enroll;
+				const complete = item.def.requirements?.complete;
+				return (
+					normalizeItemState(item.def, state, {
+						isEnabled: !enroll || evaluateRequirement(enroll, this.context, item.def.id),
+						canComplete: !complete || evaluateRequirement(complete, this.context, item.def.id)
+					}) === state
+				);
+			});
+
+			if (!allowed) {
+				items.forEach((item, index) => {
+					item.state = previousStates[index];
+				});
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	reset() {

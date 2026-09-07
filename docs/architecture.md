@@ -41,7 +41,7 @@ The same unified stream backs URL sharing, local storage, undo/redo and reset. E
 
 `buildStudyPlanView` creates section, term, anchor, dependent and requirement-tree identities once per page load. Reactive getters expose leaf state and progress without rebuilding the tree. Selector contexts are cached and read current session state through getters.
 
-State autocorrection remains one `$effect` per item. Bulk changes and persistence tests show a stable final URL and no intermediate history entries, so fixed-point normalization is unnecessary today.
+Eligibility recalculates from the current requirements, but it never rewrites recorded item states or grades. `PlanItemState.setState` enforces strict requirements for new actions. URL and local-storage restoration assign the recorded stream directly, so a later plan correction cannot erase academic history.
 
 ## Rendering and outputs
 

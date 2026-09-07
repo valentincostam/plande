@@ -41,13 +41,13 @@
 		const target = event.target as HTMLSelectElement;
 		const newState = target.value as CourseState;
 		if (newState) {
-			section.terms
+			const courses = section.terms
 				.flatMap((term) => term.items)
-				.forEach((item) => {
-					if (item.item.def.kind === 'course') {
-						item.item.setState(newState);
-					}
-				});
+				.filter((item) => item.item.def.kind === 'course');
+			courses[0]?.item.session.setCourseStates(
+				courses.map((item) => item.item.def.id),
+				newState
+			);
 		}
 		selectValue = '';
 	}
