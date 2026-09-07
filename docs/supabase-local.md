@@ -41,3 +41,17 @@ Auth integration tests use their separate configuration and controlled local ide
 `PUBLIC_PLANDE_ENV=qa` or `pilot` disables Clarity and Vercel Analytics. The local dev wrapper sets qa. Default production telemetry is unchanged. Do not use real progress for QA. The native schema rejects malformed external documents before they reach the typed engine, without including payloads in errors.
 
 No production migration, deployment, credential provisioning, or Google provider setup is performed by these commands.
+
+## Collaboration development
+
+After the collaboration migration is applied, run `bun run test:collaboration` before starting a collaboration-enabled app. The wrapper reads local setup credentials into memory, rotates the password of `plande_collaboration`, and gives the test process its restricted connection URL. It does not print that URL or write an env file. Setup accepts only the dedicated PostgreSQL database on loopback port 55422. Password setup sends a SCRAM verifier to PostgreSQL, not the plaintext password.
+
+For the app, stop only the existing 5174 app process, then run:
+
+```sh
+PLANDE_LOCAL_COLLABORATION=1 bun run auth:dev
+```
+
+This rotates the restricted password again and injects `COLLABORATION_DATABASE_URL` into the server process. Do not run these provisioning commands concurrently or while another collaboration test is using that role. Existing connections may survive a rotation, but new connections from an older app process will fail. Restart that named app through the wrapper after database tests.
+
+The application uses Postgres.js with the restricted LOGIN role. That role can execute the collaboration functions but cannot read their tables or private progress. Public search and draft reads expose unreviewed metadata, not a private workspace. Authentication and private progress continue to use the request-scoped Supabase client. Never configure the application with the setup/admin database URL or a service-role key.

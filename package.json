@@ -18,6 +18,8 @@
 		"test:supabase": "bun scripts/local-supabase.ts test",
 		"auth:dev": "bun scripts/local-supabase.ts auth-dev",
 		"test:auth": "bun scripts/local-supabase.ts auth-test",
+		"test:collaboration": "bun scripts/local-supabase.ts collaboration-test",
+		"test:private-progress": "bun scripts/local-supabase.ts private-progress-test",
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",
@@ -56,15 +58,16 @@
 		"vitest": "^4.0.18"
 	},
 	"dependencies": {
-		"@supabase/ssr": "0.12.6",
-		"@supabase/supabase-js": "2.115.0",
 		"@dagrejs/dagre": "^1.1.8",
 		"@ethercorps/sveltekit-og": "^4.2.1",
 		"@microsoft/clarity": "^1.0.2",
+		"@supabase/ssr": "0.12.6",
+		"@supabase/supabase-js": "2.115.0",
 		"@vercel/analytics": "^1.6.1",
 		"@xyflow/svelte": "^1.5.1",
 		"html-to-image": "1.11.11",
 		"marked": "^16.4.2",
+		"postgres": "^3.4.9",
 		"zod": "4.3.6"
 	}
 }

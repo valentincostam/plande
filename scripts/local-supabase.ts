@@ -1,4 +1,5 @@
 import { requireLocalSupabaseUrl } from './local-supabase-url';
+import { provisionLocalCollaboration } from './local-collaboration';
 
 const action = process.argv[2];
 const commands: Record<string, string[][]> = {
@@ -11,10 +12,12 @@ const commands: Record<string, string[][]> = {
 	'auth-dev': [
 		['bun', 'run', 'dev', '--', '--host', '127.0.0.1', '--port', '5174', '--strictPort']
 	],
-	'auth-test': [['bunx', 'playwright', 'test', '--config=playwright.auth.config.ts']]
+	'auth-test': [['bunx', 'playwright', 'test', '--config=playwright.auth.config.ts']],
+	'collaboration-test': [['bun', 'scripts/test-plan-collaboration.ts']],
+	'private-progress-test': [['bun', 'scripts/test-private-progress.ts']]
 };
 if (!action || !commands[action])
-	throw new Error('Choose seed, test, dev, auth-dev, or auth-test.');
+	throw new Error(`Choose one of: ${Object.keys(commands).join(', ')}.`);
 
 const status = Bun.spawnSync(['bunx', 'supabase', 'status', '-o', 'json'], {
 	stdout: 'pipe',
@@ -35,7 +38,13 @@ const environment: Record<string, string | undefined> = {
 	PLANDE_CONTROLLED_AUTH: action === 'auth-test' ? '1' : undefined
 };
 delete environment.SUPABASE_SERVICE_ROLE_KEY;
-if (action === 'seed' || action === 'test') {
+if (
+	action === 'collaboration-test' ||
+	(action === 'auth-dev' && process.env.PLANDE_LOCAL_COLLABORATION === '1')
+) {
+	environment.COLLABORATION_DATABASE_URL = await provisionLocalCollaboration(configuration.DB_URL);
+}
+if (action === 'seed' || action === 'test' || action === 'private-progress-test') {
 	if (typeof configuration.SERVICE_ROLE_KEY !== 'string')
 		throw new Error('Local test setup key missing.');
 	environment.SUPABASE_SERVICE_ROLE_KEY = configuration.SERVICE_ROLE_KEY;

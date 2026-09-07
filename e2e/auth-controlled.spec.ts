@@ -64,12 +64,16 @@ test('switching accounts clears the old session and preserves anonymous academic
 			await expect(page.getByRole('link', { name: 'Iniciar sesión', exact: true })).toBeVisible();
 		}
 	};
-	const assertSavedProgress = async () => {
+	const assertSavedProgress = async (state = 'Aprobada') => {
 		await gotoPlan(page, 'uns-dcs-le-2017');
 		await expect(
-			page.getByRole('combobox', { name: 'Estado de Antropología y Salud: Aprobada', exact: true })
+			page.getByRole('combobox', {
+				name: `Estado de Antropología y Salud: ${state}`,
+				exact: true
+			})
 		).toBeVisible();
 	};
+	let cleanupFailed = false;
 	try {
 		for (let index = 0; index < 2; index++) {
 			const email = `val23-${crypto.randomUUID()}@example.test`;
@@ -126,7 +130,7 @@ test('switching accounts clears the old session and preserves anonymous academic
 			await readHome(identity.id);
 			await page.reload();
 			await expect(page.getByRole('button', { name: 'Cerrar sesión', exact: true })).toBeVisible();
-			await assertSavedProgress();
+			await assertSavedProgress(identity.id === identities[0].id ? 'Aprobada' : 'No cursada');
 			const [signOutResponse] = await Promise.all([
 				page.waitForResponse((response) => new URL(response.url()).pathname === '/auth/sign-out'),
 				page.getByRole('button', { name: 'Cerrar sesión', exact: true }).click()
@@ -153,7 +157,7 @@ test('switching accounts clears the old session and preserves anonymous academic
 				if (!response.ok) throw new Error('Controlled identity cleanup failed.');
 			})
 		);
-		if (cleanup.some((result) => result.status === 'rejected'))
-			throw new Error('Some controlled identities could not be cleaned up.');
+		cleanupFailed = cleanup.some((result) => result.status === 'rejected');
 	}
+	if (cleanupFailed) throw new Error('Some controlled identities could not be cleaned up.');
 });

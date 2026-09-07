@@ -26,6 +26,7 @@
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount, tick, untrack } from 'svelte';
+	import { SvelteMap } from 'svelte/reactivity';
 	import Footer from '../footer.svelte';
 	import Disclaimer from '../disclaimer.svelte';
 	import { getFullCollegeName } from '$lib/study-plan';
@@ -34,12 +35,12 @@
 	import CourseDiagram from './diagram/course-diagram.svelte';
 	import PriorityCourses from './priority-courses.svelte';
 	import NativeMilestoneCard from './native-milestone-card.svelte';
-	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import { preparePlan } from '$lib/prepare-plan';
 	import { PlanSession } from '$lib/plan-session.svelte';
 	import NativeStudyPlanSection from './native-study-plan-section.svelte';
 	import AuthMenu from '$lib/auth/auth-menu.svelte';
+	import { createPrivateProgressSync } from '$lib/private-progress/private-progress-sync.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -82,7 +83,7 @@
 		}
 	}
 
-	// These are intentional one-time captures - data doesn't change in SvelteKit page lifecycle
+	// The layout remounts this session when the plan or account changes.
 	let isStrictModeEnabled = $state(untrack(() => data.isStrictModeEnabled));
 	let showCodes = $state(untrack(() => data.showCodes));
 	let useCycleButton = $state(false);
@@ -109,7 +110,7 @@
 	// Deduped by item id: multi-placement courses appear in several sections
 	// but must count once in stats, charts, diagram and lists.
 	const courseItems = untrack(() => {
-		const seen = new Map<string, StudyPlanViewItem>();
+		const seen = new SvelteMap<string, StudyPlanViewItem>();
 		for (const section of studyPlanView.sections) {
 			for (const term of section.terms) {
 				for (const item of term.items) {
@@ -121,24 +122,31 @@
 		}
 		return [...seen.values()];
 	});
-	const courseItemsById = new Map<string, StudyPlanViewItem>(
+	const courseItemsById = new SvelteMap<string, StudyPlanViewItem>(
 		courseItems.map((item) => [item.item.def.id, item])
 	);
-	const orderedCourseItems = untrack(() =>
-		v5Session
-			.getCourseItems()
-			.map((item) => courseItemsById.get(item.def.id))
-			.filter(Boolean) as StudyPlanViewItem[]
+	const orderedCourseItems = untrack(
+		() =>
+			v5Session
+				.getCourseItems()
+				.map((item) => courseItemsById.get(item.def.id))
+				.filter(Boolean) as StudyPlanViewItem[]
 	);
 
 	let isRouterReady = $state(false);
-
-	const storageKey = $derived(`plande-${data.slug}`);
+	const privateSubject = untrack(() => data.auth?.subject);
+	const privatePlanId = untrack(() => data.planId);
+	const anonymousStorageKey = untrack(() => `plande-${data.slug}`);
+	const storageKey = privateSubject
+		? `plande-private-${privateSubject}-${privatePlanId ?? untrack(() => data.slug)}`
+		: anonymousStorageKey;
+	const privateProgress = untrack(() =>
+		createPrivateProgressSync(v5Session, { planId: privatePlanId, subject: privateSubject })
+	);
+	let disposed = false;
 
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
-
-		// One stream over ALL items (courses + milestones) ordered by seqId
 		const encodedStates = v5Session.serializeStates();
 		const itemGrades = v5Session.items.map((item) =>
 			item.def.kind === 'course' ? item.grade : undefined
@@ -149,82 +157,94 @@
 			showCodes,
 			encodeGrades(itemGrades)
 		);
-
 		if (!browser) return;
-
-		// Track state changes for undo/redo
-		if (!getIsApplyingHistory()) {
-			pushHistoryState(encodedStates);
-		} else {
-			clearIsApplyingHistory();
-		}
-
+		if (!getIsApplyingHistory()) pushHistoryState(encodedStates);
+		else clearIsApplyingHistory();
 		const storageData = {
 			coursesStates: encodedStates,
 			isStrictModeEnabled,
 			showCodes,
 			useCycleButton,
-			grades: itemGrades
+			grades: itemGrades,
+			...(privateSubject
+				? {
+						...privateProgress.cache
+					}
+				: {})
 		};
-
-		localStorage.setItem(storageKey, JSON.stringify(storageData));
-
+		try {
+			localStorage.setItem(storageKey, JSON.stringify(storageData));
+		} catch {
+			privateProgress.localStorageFailed();
+		}
 		tick().then(() => {
+			if (disposed) return;
 			const hash = window.location.hash;
 			const query = urlSearchParams.toString();
-
 			replaceState(resolve(`/${data.slug}${query ? `?${query}` : ''}${hash}` as `/${string}`), {});
 		});
 	});
 
 	onMount(() => {
 		isRouterReady = true;
-
-		if (!browser) {
-			isInitializing = false;
-			return;
-		}
-
-		const savedData = localStorage.getItem(storageKey);
-
-		if (!savedData) {
-			isInitializing = false;
-			return;
-		}
-
-		try {
-			const parsed = JSON.parse(savedData);
-
-			if (parsed.useCycleButton !== undefined) {
-				useCycleButton = parsed.useCycleButton;
-			}
-
-			// Load grades from localStorage only if not in URL
-			if (data.itemGrades.length === 0 && parsed.grades) {
-				v5Session.items.forEach((item, index) => {
-					if (item.def.kind === 'course' && index < parsed.grades.length) {
-						item.grade = parsed.grades[index] ?? undefined;
+		resetHistory();
+		void (async () => {
+			try {
+				const oldOwner = localStorage.getItem(`${anonymousStorageKey}-private-owner`);
+				const mayImportAnonymous = !privateSubject || !oldOwner || oldOwner === privateSubject;
+				const ownSavedData = localStorage.getItem(storageKey);
+				const importedData =
+					privateSubject && !ownSavedData && mayImportAnonymous
+						? localStorage.getItem(anonymousStorageKey)
+						: null;
+				const savedData = ownSavedData ?? importedData;
+				if (savedData && (privateSubject || mayImportAnonymous)) {
+					const parsed = JSON.parse(savedData);
+					if (importedData && privateSubject)
+						localStorage.setItem(`${anonymousStorageKey}-private-owner`, privateSubject);
+					if (parsed.useCycleButton !== undefined) useCycleButton = parsed.useCycleButton;
+					if (privateSubject)
+						privateProgress.restoreCache(
+							parsed.privateProgressBase,
+							parsed.privateProgressLocal,
+							data.itemStates.length === 0 && data.itemGrades.length === 0
+						);
+					if (
+						!(
+							privateSubject &&
+							parsed.privateProgressLocal &&
+							data.itemStates.length === 0 &&
+							data.itemGrades.length === 0
+						)
+					) {
+						if (data.itemGrades.length === 0 && Array.isArray(parsed.grades)) {
+							v5Session.items.forEach((item, index) => {
+								if (item.def.kind === 'course') item.grade = parsed.grades[index] ?? undefined;
+							});
+						}
+						if (data.itemStates.length === 0)
+							v5Session.applySerializedStates(parsed.coursesStates ?? '');
 					}
-				});
-			}
-
-			// Load states from localStorage only if not in URL
-			if (data.itemStates.length === 0) {
-				v5Session.applySerializedStates(parsed.coursesStates ?? '');
-
-				if (parsed.isStrictModeEnabled !== undefined) {
-					isStrictModeEnabled = parsed.isStrictModeEnabled;
+					if (data.itemStates.length === 0) {
+						if (parsed.isStrictModeEnabled !== undefined)
+							isStrictModeEnabled = parsed.isStrictModeEnabled;
+						if (parsed.showCodes !== undefined) showCodes = parsed.showCodes;
+					}
 				}
-
-				if (parsed.showCodes !== undefined) {
-					showCodes = parsed.showCodes;
-				}
+			} catch {
+				console.warn('Failed to restore local progress.');
 			}
-		} catch {
-			console.warn('Failed to parse saved course states.');
-		} finally {
-			isInitializing = false;
-		}
+			await privateProgress.hydrate();
+			if (!disposed) isInitializing = false;
+		})();
+		return () => {
+			disposed = true;
+			privateProgress.dispose();
+		};
+	});
+
+	$effect(() => {
+		if (!isInitializing) privateProgress.sync();
 	});
 
 	function resetAllState() {
@@ -239,6 +259,7 @@
 		useCycleButton = false;
 		localStorage.removeItem(storageKey);
 		resetHistory();
+		if (privateProgress.active) return;
 		tick().then(() => {
 			window.location.replace(resolve(`/${data.slug}` as `/${string}`));
 		});
@@ -292,9 +313,7 @@
 			(section) => section.year === year - 1
 		);
 		if (previousYearSections.length === 0) return true;
-		return previousYearSections.every(
-			(section) => section.section.state === courseStates.passed
-		);
+		return previousYearSections.every((section) => section.section.state === courseStates.passed);
 	}
 
 	// SEO metadata - derived from data
@@ -308,8 +327,7 @@
 		// Build query params for OG URLs
 		const initialStateLetters =
 			data.itemStates.length > 0 ? encodeCoursesStates(data.itemStates) : '';
-		const initialGradeLetters =
-			data.itemGrades.length > 0 ? encodeGrades(data.itemGrades) : '';
+		const initialGradeLetters = data.itemGrades.length > 0 ? encodeGrades(data.itemGrades) : '';
 		const ogQuery = [
 			initialStateLetters ? `s=${encodeURIComponent(initialStateLetters)}` : '',
 			initialGradeLetters ? `n=${encodeURIComponent(initialGradeLetters)}` : ''
@@ -401,6 +419,43 @@
 				signOutFailed={data.signOutFailed}
 			/>
 		</div>
+		{#if data.privateProgressUnavailable}
+			<p class="mt-2" role="alert">
+				Tu progreso sigue en este dispositivo. No pudimos conectar tu cuenta.
+			</p>
+			<button type="button" class="btn btn-sm mt-2" onclick={() => window.location.reload()}
+				>Reintentar conexión</button
+			>
+		{/if}
+		{#if privateProgress.active && privateProgress.status}
+			<div class="mt-2">
+				{#if privateProgress.status === 'pending'}
+					<p role="status">Guardando tu progreso privado…</p>
+				{:else if privateProgress.status === 'saved'}
+					<p role="status">Progreso privado guardado.</p>
+				{:else if privateProgress.status === 'session-changed'}
+					<p class="alert alert-warning" role="alert">
+						La cuenta cambió en otra pestaña. Recargá para continuar.
+					</p>
+					<button type="button" class="btn btn-sm mt-2" onclick={() => window.location.reload()}
+						>Recargar</button
+					>
+				{:else if privateProgress.status === 'conflict'}
+					<p class="alert alert-warning" role="alert">
+						Hay diferencias pendientes entre este dispositivo y tu cuenta.
+					</p>
+				{:else}
+					<p class="alert alert-error" role="alert">No pudimos guardar tu progreso privado.</p>
+					<button
+						class="btn btn-sm mt-2"
+						type="button"
+						onclick={() => void privateProgress.retry()}
+					>
+						Reintentar
+					</button>
+				{/if}
+			</div>
+		{/if}
 		<div class="mt-4 flex justify-center">
 			<ViewToggle bind:value={viewMode} />
 		</div>
