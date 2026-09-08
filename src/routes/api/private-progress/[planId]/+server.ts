@@ -1,9 +1,9 @@
 import {
 	assertPrivateProgressPlanId,
 	parsePrivateProgress,
-	parsePrivateProgressSave,
-	privateProgressSave,
-	privateProgressAccountHeader
+	parsePrivateProgressAttempt,
+	privateProgressAccountHeader,
+	privateProgressSaveOnce
 } from '$lib/private-progress/private-progress-contract';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
@@ -51,11 +51,12 @@ export const POST: RequestHandler = async ({ request, locals, params }) => {
 
 	try {
 		const planId = assertPrivateProgressPlanId(params.planId);
-		const save = parsePrivateProgressSave(await request.json());
-		const { data, error } = await locals.supabase.rpc(privateProgressSave, {
+		const save = parsePrivateProgressAttempt(await request.json());
+		const { data, error } = await locals.supabase.rpc(privateProgressSaveOnce, {
 			p_plan_id: planId,
 			p_expected_version: save.expectedVersion,
-			p_items: save.items
+			p_items: save.items,
+			p_request_id: save.requestId
 		});
 		if (error?.code === 'P0001') return unavailable(409);
 		if (error) return unavailable(503);

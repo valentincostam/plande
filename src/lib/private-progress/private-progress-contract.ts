@@ -17,11 +17,19 @@ export type PrivateProgressSave = {
 	items: PrivateProgressItem[];
 };
 
+export type PrivateProgressAttempt = PrivateProgressSave & {
+	requestId: string;
+};
+
 export type PrivateProgressConflict = {
 	itemId: string;
 	field: 'state' | 'grade';
 	local: ItemState | number | undefined;
 	server: ItemState | number | undefined;
+};
+
+export type PrivateProgressResolution = PrivateProgressConflict & {
+	choice: 'local' | 'server';
 };
 
 export type PrivateProgressMerge = {
@@ -30,6 +38,7 @@ export type PrivateProgressMerge = {
 };
 
 export const privateProgressSave = 'private_progress_save';
+export const privateProgressSaveOnce = 'private_progress_save_once';
 export const privateProgressAccountHeader = 'x-plande-account';
 
 export class PrivateProgressContractError extends Error {
@@ -118,8 +127,46 @@ export const parsePrivateProgressSave = (value: unknown): PrivateProgressSave =>
 	};
 };
 
-export const createPrivateProgressSaveBody = (save: PrivateProgressSave) =>
-	JSON.stringify(parsePrivateProgressSave(save));
+export const parsePrivateProgressAttempt = (value: unknown): PrivateProgressAttempt => {
+	if (
+		!isRecord(value) ||
+		typeof value.requestId !== 'string' ||
+		!uuidPattern.test(value.requestId)
+	) {
+		throw new PrivateProgressContractError();
+	}
+	return { ...parsePrivateProgressSave(value), requestId: value.requestId };
+};
+
+export const parsePrivateProgressResolutions = (value: unknown): PrivateProgressResolution[] => {
+	if (!Array.isArray(value)) throw new PrivateProgressContractError();
+	return value.map((resolution) => {
+		if (
+			!isRecord(resolution) ||
+			typeof resolution.itemId !== 'string' ||
+			resolution.itemId.length === 0 ||
+			(resolution.field !== 'state' && resolution.field !== 'grade') ||
+			(resolution.choice !== 'local' && resolution.choice !== 'server')
+		)
+			throw new PrivateProgressContractError();
+		const local = resolution.local;
+		const server = resolution.server;
+		if (
+			(resolution.field === 'state' &&
+				(!states.has(local as ItemState) || !states.has(server as ItemState))) ||
+			(resolution.field === 'grade' &&
+				((local !== undefined && (typeof local !== 'number' || !Number.isInteger(local))) ||
+					(server !== undefined && (typeof server !== 'number' || !Number.isInteger(server)))))
+		)
+			throw new PrivateProgressContractError();
+		return resolution as PrivateProgressResolution;
+	});
+};
+
+export const createPrivateProgressSaveBody = (save: PrivateProgressSave | PrivateProgressAttempt) =>
+	JSON.stringify(
+		'requestId' in save ? parsePrivateProgressAttempt(save) : parsePrivateProgressSave(save)
+	);
 
 const indexItems = (items: PrivateProgressItem[]) =>
 	new Map(items.map((item) => [item.itemId, item]));

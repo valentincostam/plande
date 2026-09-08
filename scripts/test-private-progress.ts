@@ -144,8 +144,53 @@ try {
 	);
 	const unchanged = await api(`private_plan_progress?plan_id=eq.${planId}&select=version`, {}, a);
 	assert.deepEqual(await unchanged.json(), [{ version: 1 }]);
+	const requestId = crypto.randomUUID();
+	const saveOnce = (
+		accessToken: string,
+		expectedVersion: number,
+		requestItems = item,
+		id = requestId
+	) =>
+		api(
+			'rpc/private_progress_save_once',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					p_plan_id: planId,
+					p_expected_version: expectedVersion,
+					p_items: requestItems,
+					p_request_id: id
+				})
+			},
+			accessToken
+		);
+	const repeated = await Promise.all([saveOnce(a, 1), saveOnce(a, 1)]);
+	for (const response of repeated) {
+		assert.equal(response.status, 200, 'Concurrent retries must confirm the same write.');
+		assert.deepEqual(await response.json(), [{ version: 2 }]);
+	}
+	const changedRequest = await saveOnce(a, 1, [{ ...item[0], grade: 9 }]);
+	assert.notEqual(changedRequest.status, 200);
+	assert.equal((await changedRequest.json()).code, '22023');
+	const changedBase = await saveOnce(a, 2);
+	assert.notEqual(changedBase.status, 200);
+	assert.equal((await changedBase.json()).code, '22023');
+	const staleRequestId = crypto.randomUUID();
+	assert.notEqual((await saveOnce(a, 1, item, staleRequestId)).status, 200);
+	const next = await saveOnce(a, 2, item, staleRequestId);
+	assert.equal(next.status, 200);
+	assert.deepEqual(await next.json(), [{ version: 3 }]);
+	const oldReceipt = await saveOnce(a, 1);
+	assert.equal(oldReceipt.status, 200);
+	assert.deepEqual(await oldReceipt.json(), [{ version: 2 }]);
+	const latest = await api(`private_plan_progress?plan_id=eq.${planId}&select=version`, {}, a);
+	assert.deepEqual(await latest.json(), [{ version: 3 }]);
+	const otherOwner = await saveOnce(b, -1);
+	assert.equal(otherOwner.status, 200);
+	assert.deepEqual(await otherOwner.json(), [{ version: 0 }]);
+	assert.notEqual((await api('private_progress_save_receipts?select=*', {}, a)).status, 200);
 	console.log(
-		'Private progress API: owner versioning, stale/null/unknown rejection and direct-write denial passed.'
+		'Private progress API: ownership, versioning, idempotent retries and direct-write denial passed.'
 	);
 } finally {
 	const cleanup = await Promise.allSettled(

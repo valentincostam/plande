@@ -91,6 +91,49 @@ test('private progress restores for its owner and stays isolated by plan and acc
 				exact: true
 			})
 		).toBeVisible();
+		await firstPage
+			.getByRole('combobox', {
+				name: 'Estado de Antropología y Salud: Aprobada',
+				exact: true
+			})
+			.selectOption({ label: 'En curso' });
+		await expect(
+			firstPage.getByRole('status').filter({ hasText: 'Progreso privado guardado.' })
+		).toBeVisible();
+		await cleanPage
+			.getByRole('combobox', {
+				name: 'Estado de Antropología y Salud: Aprobada',
+				exact: true
+			})
+			.selectOption({ label: 'Regular' });
+		await expect(
+			cleanPage.getByRole('heading', { name: 'Elegí qué progreso conservar', exact: true })
+		).toBeVisible();
+		await cleanPage.reload();
+		await expect(
+			cleanPage.getByRole('heading', { name: 'Elegí qué progreso conservar', exact: true })
+		).toBeVisible();
+		await cleanPage
+			.getByRole('button', {
+				name: 'Usar la cuenta para Antropología y Salud: En curso',
+				exact: true
+			})
+			.click();
+		await expect(
+			cleanPage.getByRole('heading', { name: 'Elegí qué progreso conservar', exact: true })
+		).not.toBeVisible();
+		await expect(
+			cleanPage.getByRole('status').filter({ hasText: 'Progreso privado guardado.' })
+		).toBeVisible();
+		const resolvedContext = await signIn(first);
+		const resolvedPage = await resolvedContext.newPage();
+		await gotoPlan(resolvedPage, 'uns-dcs-le-2017');
+		await expect(
+			resolvedPage.getByRole('combobox', {
+				name: 'Estado de Antropología y Salud: En curso',
+				exact: true
+			})
+		).toBeVisible();
 		await gotoPlan(cleanPage, 'utn-frcu-isi-2023');
 		await expect(
 			cleanPage.getByRole('heading', { name: /Ingeniería en Sistemas de Información/i })
@@ -116,10 +159,10 @@ test('private progress restores for its owner and stays isolated by plan and acc
 		await firstContext.addCookies(await secondContext.cookies());
 		await firstPage
 			.getByRole('combobox', {
-				name: 'Estado de Antropología y Salud: Aprobada',
+				name: 'Estado de Antropología y Salud: En curso',
 				exact: true
 			})
-			.selectOption({ label: 'En curso' });
+			.selectOption({ label: 'Regular' });
 		await expect(firstPage.getByRole('alert')).toHaveText(
 			'La cuenta cambió en otra pestaña. Recargá para continuar.'
 		);

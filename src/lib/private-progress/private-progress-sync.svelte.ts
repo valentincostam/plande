@@ -5,18 +5,28 @@ import {
 	createPrivateProgressSaveBody,
 	mergePrivateProgress,
 	parsePrivateProgress,
-	privateProgressEndpoint,
+	parsePrivateProgressAttempt,
+	parsePrivateProgressResolutions,
 	privateProgressAccountHeader,
-	type PrivateProgress
+	privateProgressEndpoint,
+	type PrivateProgress,
+	type PrivateProgressAttempt,
+	type PrivateProgressConflict,
+	type PrivateProgressResolution
 } from './private-progress-contract';
 
 type ProgressSession = Pick<PlanSession, 'items' | 'itemsById' | 'reset'>;
+type PersistAttempt = (attempt: PrivateProgressAttempt | null) => boolean;
 
 class AccountChangedError extends Error {}
 
 export function createPrivateProgressSync(
 	session: ProgressSession,
-	{ planId, subject }: { planId?: string; subject?: string }
+	{
+		planId,
+		subject,
+		persistAttempt
+	}: { planId?: string; subject?: string; persistAttempt?: PersistAttempt }
 ) {
 	const privateProgressActive = Boolean(subject && planId);
 	const defaultPrivateProgress: PrivateProgress = {
@@ -34,9 +44,11 @@ export function createPrivateProgressSync(
 	let privateProgressServer = $state<PrivateProgress | null>(null);
 	let privateProgressExpectedVersion = $state(-1);
 	let privateProgressLastSaved = $state('');
-	let privateProgressConflict = $state(false);
+	let privateProgressConflicts = $state<PrivateProgressConflict[]>([]);
+	let privateProgressResolutions = $state<PrivateProgressResolution[]>([]);
+	let privateProgressPendingAttempt = $state<PrivateProgressAttempt | null>(null);
 	let privateProgressSaving = false;
-	let queuedPrivateProgress: PrivateProgress | null = null;
+	let queuedPrivateProgress = false;
 	let disposed = false;
 	const requests = new AbortController();
 
@@ -50,7 +62,7 @@ export function createPrivateProgressSync(
 		]
 	});
 
-	const progressFingerprint = (progress: PrivateProgress) =>
+	const progressFingerprint = (progress: Pick<PrivateProgress, 'items'>) =>
 		JSON.stringify([...progress.items].sort((a, b) => a.itemId.localeCompare(b.itemId)));
 
 	const capturePrivateProgress = (): PrivateProgress => ({
@@ -86,6 +98,56 @@ export function createPrivateProgressSync(
 		}
 	};
 
+	const persistPendingAttempt = (attempt: PrivateProgressAttempt | null) => {
+		if (!(persistAttempt?.(attempt) ?? true)) return false;
+		privateProgressPendingAttempt = attempt;
+		return true;
+	};
+
+	const reconcile = (
+		server: PrivateProgress,
+		local = capturePrivateProgress(),
+		base = privateProgressBase
+	) => {
+		const merged = mergePrivateProgress({ base, local, server });
+		const resolved = merged.conflicts.filter((conflict) =>
+			privateProgressResolutions.some(
+				(resolution) =>
+					resolution.itemId === conflict.itemId &&
+					resolution.field === conflict.field &&
+					resolution.local === conflict.local &&
+					resolution.server === conflict.server
+			)
+		);
+		for (const conflict of resolved) {
+			const resolution = privateProgressResolutions.find(
+				(candidate) =>
+					candidate.itemId === conflict.itemId &&
+					candidate.field === conflict.field &&
+					candidate.local === conflict.local &&
+					candidate.server === conflict.server
+			);
+			const item = merged.merged.items.find((candidate) => candidate.itemId === conflict.itemId);
+			if (!item || !resolution) continue;
+			const value = conflict[resolution.choice];
+			if (conflict.field === 'state') item.state = value as typeof item.state;
+			else if (value === undefined) delete item.grade;
+			else item.grade = value as number;
+		}
+		const unresolved = merged.conflicts.filter((conflict) => !resolved.includes(conflict));
+		privateProgressServer = server;
+		privateProgressExpectedVersion = server.version;
+		privateProgressLastSaved = progressFingerprint(server);
+		privateProgressConflicts = unresolved;
+		if (unresolved.length > 0) {
+			privateProgressStatus = 'conflict';
+			return false;
+		}
+		applyPrivateProgress(merged.merged);
+		privateProgressBase = server;
+		return true;
+	};
+
 	async function readPrivateProgress(): Promise<PrivateProgress | null> {
 		if (!planId) throw new Error('Private progress is unavailable.');
 		const response = await fetch(privateProgressEndpoint(planId), {
@@ -106,19 +168,15 @@ export function createPrivateProgressSync(
 			const stored = await readPrivateProgress();
 			if (disposed) return;
 			const confirmed = completePrivateProgress(stored ?? defaultPrivateProgress);
-			const local = capturePrivateProgress();
-			const merged = mergePrivateProgress({ base: privateProgressBase, local, server: confirmed });
-			privateProgressServer = confirmed;
+			const merged = reconcile(confirmed);
 			privateProgressExpectedVersion = stored?.version ?? -1;
-			privateProgressLastSaved = progressFingerprint(confirmed);
-			privateProgressConflict = merged.conflicts.length > 0;
-			if (privateProgressConflict) {
-				privateProgressStatus = 'conflict';
-			} else {
-				applyPrivateProgress(merged.merged);
-				privateProgressBase = confirmed;
-				privateProgressStatus = stored ? 'saved' : null;
-			}
+			if (
+				privateProgressPendingAttempt &&
+				progressFingerprint(confirmed) === progressFingerprint(privateProgressPendingAttempt)
+			)
+				persistPendingAttempt(null);
+			if (privateProgressPendingAttempt) privateProgressStatus = 'failed';
+			else if (merged) privateProgressStatus = stored ? 'saved' : null;
 			privateProgressReady = true;
 		} catch (error) {
 			if (!disposed)
@@ -126,21 +184,32 @@ export function createPrivateProgressSync(
 		}
 	}
 
+	const createAttempt = (progress: PrivateProgress): PrivateProgressAttempt => ({
+		expectedVersion: privateProgressExpectedVersion,
+		items: progress.items,
+		requestId: crypto.randomUUID()
+	});
+
 	async function savePrivateProgress(progress = capturePrivateProgress()) {
 		if (
 			!planId ||
 			!privateProgressReady ||
-			privateProgressConflict ||
+			privateProgressConflicts.length > 0 ||
 			disposed ||
 			privateProgressStatus === 'session-changed'
 		)
 			return;
 		if (privateProgressSaving) {
-			queuedPrivateProgress = progress;
+			queuedPrivateProgress = true;
 			return;
 		}
-		const serialized = progressFingerprint(progress);
-		if (serialized === privateProgressLastSaved) return;
+		const attempt = privateProgressPendingAttempt ?? createAttempt(progress);
+		if (!privateProgressPendingAttempt && progressFingerprint(attempt) === privateProgressLastSaved)
+			return;
+		if (!privateProgressPendingAttempt && !persistPendingAttempt(attempt)) {
+			privateProgressStatus = 'failed';
+			return;
+		}
 		privateProgressSaving = true;
 		privateProgressStatus = 'pending';
 		try {
@@ -151,10 +220,7 @@ export function createPrivateProgressSync(
 					[privateProgressAccountHeader]: subject ?? ''
 				},
 				signal: requests.signal,
-				body: createPrivateProgressSaveBody({
-					expectedVersion: privateProgressExpectedVersion,
-					items: progress.items
-				})
+				body: createPrivateProgressSaveBody(attempt)
 			});
 			if (disposed) return;
 			if (response.status === 401) {
@@ -162,14 +228,15 @@ export function createPrivateProgressSync(
 				return;
 			}
 			if (response.status === 409) {
-				privateProgressConflict = true;
-				privateProgressStatus = 'conflict';
-				try {
-					const latest = await readPrivateProgress();
-					if (!disposed && latest) privateProgressServer = completePrivateProgress(latest);
-				} catch (error) {
-					if (!disposed && error instanceof AccountChangedError)
-						privateProgressStatus = 'session-changed';
+				persistPendingAttempt(null);
+				const latest = await readPrivateProgress();
+				if (!disposed && latest) {
+					const merged = reconcile(completePrivateProgress(latest));
+					if (merged) {
+						privateProgressStatus = 'saved';
+						if (progressFingerprint(capturePrivateProgress()) !== privateProgressLastSaved)
+							void savePrivateProgress();
+					}
 				}
 				return;
 			}
@@ -184,19 +251,28 @@ export function createPrivateProgressSync(
 				body.version < 0
 			)
 				throw new Error('Private progress save failed.');
-			privateProgressExpectedVersion = body.version;
-			privateProgressBase = { version: body.version, items: progress.items };
-			privateProgressServer = privateProgressBase;
-			privateProgressLastSaved = serialized;
-			privateProgressStatus = 'saved';
-		} catch {
-			if (!disposed) privateProgressStatus = 'failed';
+			const latest = await readPrivateProgress();
+			if (disposed || !latest) return;
+			persistPendingAttempt(null);
+			const merged = reconcile(completePrivateProgress(latest), capturePrivateProgress(), {
+				version: body.version,
+				items: attempt.items
+			});
+			if (merged) {
+				privateProgressResolutions = [];
+				privateProgressStatus = 'saved';
+				if (progressFingerprint(capturePrivateProgress()) !== privateProgressLastSaved)
+					void savePrivateProgress();
+			}
+		} catch (error) {
+			if (!disposed)
+				privateProgressStatus = error instanceof AccountChangedError ? 'session-changed' : 'failed';
 		} finally {
 			privateProgressSaving = false;
-			const queued = queuedPrivateProgress;
-			queuedPrivateProgress = null;
-			if (queued && !disposed && privateProgressStatus !== 'failed')
-				void savePrivateProgress(queued);
+			if (queuedPrivateProgress && !disposed && privateProgressStatus === 'saved') {
+				queuedPrivateProgress = false;
+				void savePrivateProgress();
+			}
 		}
 	}
 
@@ -207,24 +283,66 @@ export function createPrivateProgressSync(
 		get status() {
 			return privateProgressStatus;
 		},
+		get conflicts() {
+			return privateProgressConflicts;
+		},
 		get cache() {
 			return {
 				privateProgressBase,
 				privateProgressServer,
-				privateProgressLocal: capturePrivateProgress()
+				privateProgressLocal: capturePrivateProgress(),
+				privateProgressPendingAttempt,
+				privateProgressResolutions
 			};
 		},
-		restoreCache(base: unknown, local: unknown, restoreItems: boolean) {
+		restoreCache(
+			base: unknown,
+			server: unknown,
+			local: unknown,
+			pendingAttempt: unknown,
+			resolutions: unknown,
+			restoreItems: boolean
+		) {
 			if (base) privateProgressBase = completePrivateProgress(parsePrivateProgress(base));
+			if (server) privateProgressServer = completePrivateProgress(parsePrivateProgress(server));
+			if (pendingAttempt)
+				privateProgressPendingAttempt = parsePrivateProgressAttempt(pendingAttempt);
+			if (resolutions) privateProgressResolutions = parsePrivateProgressResolutions(resolutions);
 			if (restoreItems && local) applyPrivateProgress(parsePrivateProgress(local));
 		},
 		hydrate: hydratePrivateProgress,
 		sync() {
-			if (!privateProgressActive || !privateProgressReady || privateProgressConflict) return;
+			if (
+				!privateProgressActive ||
+				!privateProgressReady ||
+				privateProgressConflicts.length > 0 ||
+				privateProgressStatus === 'failed'
+			)
+				return;
 			const progress = capturePrivateProgress();
 			untrack(() => {
 				void savePrivateProgress(progress);
 			});
+		},
+		resolve(itemId: string, field: PrivateProgressConflict['field'], choice: 'local' | 'server') {
+			const conflict = privateProgressConflicts.find(
+				(candidate) => candidate.itemId === itemId && candidate.field === field
+			);
+			if (!conflict) return;
+			privateProgressResolutions = [
+				...privateProgressResolutions.filter(
+					(candidate) => candidate.itemId !== itemId || candidate.field !== field
+				),
+				{ ...conflict, choice }
+			];
+			const server = privateProgressServer;
+			if (!server) return;
+			const merged = reconcile(server);
+			if (merged) {
+				if (progressFingerprint(capturePrivateProgress()) === privateProgressLastSaved)
+					privateProgressStatus = 'saved';
+				else void savePrivateProgress();
+			}
 		},
 		retry() {
 			return privateProgressReady ? savePrivateProgress() : hydratePrivateProgress();

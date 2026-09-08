@@ -40,6 +40,7 @@
 	import { PlanSession } from '$lib/plan-session.svelte';
 	import NativeStudyPlanSection from './native-study-plan-section.svelte';
 	import AuthMenu from '$lib/auth/auth-menu.svelte';
+	import PrivateProgressConflict from '$lib/private-progress/private-progress-conflict.svelte';
 	import { createPrivateProgressSync } from '$lib/private-progress/private-progress-sync.svelte';
 
 	let { data }: PageProps = $props();
@@ -101,6 +102,9 @@
 				strictMode: initialStrictMode
 			})
 	);
+	const privateProgressItemNames = untrack(() =>
+		Object.fromEntries(v5Session.items.map((item) => [item.def.id, item.def.name]))
+	);
 
 	$effect(() => {
 		v5Session.strictMode = isStrictModeEnabled;
@@ -140,8 +144,25 @@
 	const storageKey = privateSubject
 		? `plande-private-${privateSubject}-${privatePlanId ?? untrack(() => data.slug)}`
 		: anonymousStorageKey;
+	const persistPrivateProgressAttempt = (attempt: unknown) => {
+		try {
+			const saved = localStorage.getItem(storageKey);
+			const existing = saved ? JSON.parse(saved) : {};
+			localStorage.setItem(
+				storageKey,
+				JSON.stringify({ ...existing, privateProgressPendingAttempt: attempt })
+			);
+			return true;
+		} catch {
+			return false;
+		}
+	};
 	const privateProgress = untrack(() =>
-		createPrivateProgressSync(v5Session, { planId: privatePlanId, subject: privateSubject })
+		createPrivateProgressSync(v5Session, {
+			planId: privatePlanId,
+			subject: privateSubject,
+			persistAttempt: persistPrivateProgressAttempt
+		})
 	);
 	let disposed = false;
 
@@ -206,7 +227,10 @@
 					if (privateSubject)
 						privateProgress.restoreCache(
 							parsed.privateProgressBase,
+							parsed.privateProgressServer,
 							parsed.privateProgressLocal,
+							parsed.privateProgressPendingAttempt,
+							parsed.privateProgressResolutions,
 							data.itemStates.length === 0 && data.itemGrades.length === 0
 						);
 					if (
@@ -441,9 +465,11 @@
 						>Recargar</button
 					>
 				{:else if privateProgress.status === 'conflict'}
-					<p class="alert alert-warning" role="alert">
-						Hay diferencias pendientes entre este dispositivo y tu cuenta.
-					</p>
+					<PrivateProgressConflict
+						conflicts={privateProgress.conflicts}
+						itemNames={privateProgressItemNames}
+						onchoose={(itemId, field, choice) => privateProgress.resolve(itemId, field, choice)}
+					/>
 				{:else}
 					<p class="alert alert-error" role="alert">No pudimos guardar tu progreso privado.</p>
 					<button

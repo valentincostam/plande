@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mergePrivateProgress, type PrivateProgress } from './private-progress-contract';
-import { createPrivateProgressSaveBody } from './private-progress-contract';
+import {
+	createPrivateProgressSaveBody,
+	mergePrivateProgress,
+	parsePrivateProgressAttempt,
+	parsePrivateProgressResolutions,
+	type PrivateProgress
+} from './private-progress-contract';
 
 const progress = (items: PrivateProgress['items'], version = 0): PrivateProgress => ({
 	version,
@@ -74,6 +79,52 @@ describe('mergePrivateProgress', () => {
 
 it('accepts -1 only as the first private-progress save version', () => {
 	expect(() => createPrivateProgressSaveBody({ expectedVersion: -1, items: [] })).not.toThrow();
+});
+
+it('accepts an immutable request identifier with the save payload', () => {
+	expect(
+		parsePrivateProgressAttempt({
+			expectedVersion: 2,
+			items: [{ itemId: 'course', state: 'passed', grade: 8 }],
+			requestId: '8e1b7bd8-f692-4c79-8b91-cd285f6a11c4'
+		})
+	).toEqual({
+		expectedVersion: 2,
+		items: [{ itemId: 'course', state: 'passed', grade: 8 }],
+		requestId: '8e1b7bd8-f692-4c79-8b91-cd285f6a11c4'
+	});
+});
+
+it('keeps the request identifier when serializing a pending save', () => {
+	expect(
+		JSON.parse(
+			createPrivateProgressSaveBody({
+				expectedVersion: 2,
+				items: [],
+				requestId: '8e1b7bd8-f692-4c79-8b91-cd285f6a11c4'
+			})
+		)
+	).toMatchObject({ requestId: '8e1b7bd8-f692-4c79-8b91-cd285f6a11c4' });
+});
+
+it('rejects a pending save without a UUID request identifier', () => {
+	expect(() =>
+		parsePrivateProgressAttempt({ expectedVersion: 2, items: [], requestId: 'retry' })
+	).toThrow('Private progress payload is invalid.');
+});
+
+it('keeps the alternatives that made a conflict resolution valid', () => {
+	expect(
+		parsePrivateProgressResolutions([
+			{
+				itemId: 'course',
+				field: 'state',
+				local: 'passed',
+				server: 'inProgress',
+				choice: 'local'
+			}
+		])
+	).toHaveLength(1);
 });
 
 it('keeps a local grade clear when the server did not change that grade', () => {
