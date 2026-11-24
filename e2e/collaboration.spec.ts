@@ -1,186 +1,41 @@
-import { strict as assert } from 'node:assert';
-import { createServerClient } from '@supabase/ssr';
-import { expect, test, type BrowserContext } from '@playwright/test';
-import postgres from 'postgres';
-import { spawnSync } from 'node:child_process';
-import { resolve } from 'node:path';
-
-type LocalStatus = {
-	API_URL?: unknown;
-	PUBLISHABLE_KEY?: unknown;
-	ANON_KEY?: unknown;
-	SERVICE_ROLE_KEY?: unknown;
-	DB_URL?: unknown;
-};
+import { expect, test } from '@playwright/test';
+import {
+	addBasicCourse,
+	createDraft,
+	getPlacementEditor,
+	getPlacementSummary,
+	saveDraft,
+	selectOfferField,
+	waitForEditor
+} from './helpers/draft-editor';
+import { withControlledDraft } from './helpers/controlled-draft';
 
 test.skip(
 	process.env.PLANDE_CONTROLLED_COLLABORATION !== '1',
 	'Set PLANDE_CONTROLLED_COLLABORATION=1 after root enables the local collaboration app.'
 );
 
-test.use({ trace: 'off' });
+test.use({ trace: 'off', actionTimeout: 5000 });
 
-test('a student creates an empty-source draft, reuses it, and shares its unreviewed link', async ({
-	page,
-	context
+test('a student reuses an empty-source draft and shares its unreviewed link', async ({
+	browser
 }) => {
-	const status = spawnSync(
-		resolve(process.cwd(), 'node_modules/.bin/supabase'),
-		['status', '-o', 'json'],
-		{
-			encoding: 'utf8',
-			stdio: 'pipe'
-		}
-	);
-	if (status.status !== 0)
-		throw new Error('Start local Supabase before collaboration browser tests.');
-	const local = JSON.parse(status.stdout) as LocalStatus;
-	if (
-		local.API_URL !== 'http://127.0.0.1:55421' ||
-		(typeof local.PUBLISHABLE_KEY !== 'string' && typeof local.ANON_KEY !== 'string') ||
-		typeof local.SERVICE_ROLE_KEY !== 'string' ||
-		typeof local.DB_URL !== 'string'
-	)
-		throw new Error('Controlled collaboration tests require local credentials.');
-
-	const apiUrl = local.API_URL;
-	const publishableKey = local.PUBLISHABLE_KEY ?? local.ANON_KEY;
-	const serviceKey = local.SERVICE_ROLE_KEY;
-	const admin = postgres(local.DB_URL, { max: 1, idle_timeout: 5, connect_timeout: 5 });
-	const marker = crypto.randomUUID();
-	const university = `Universidad de prueba ${marker}`;
-	const faculty = `Facultad de prueba ${marker}`;
-	const offer = `Oferta de prueba ${marker}`;
-	const password = crypto.randomUUID();
-	let actorId: string | undefined;
-	let planId: string | undefined;
-	let failure: unknown;
-
-	const removeFixtures = async () => {
-		const candidates = planId
-			? [planId]
-			: (
-					await admin<Array<{ plan_id: string }>>`
-						select identity.plan_id
-						from plan_collaboration.plan_offer_identity identity
-						join plan_collaboration.academic_offers offer on offer.id = identity.offer_id
-						where offer.university_name = ${university} and identity.is_draft
-					`
-				).map((row) => row.plan_id);
-		const errors: unknown[] = [];
-		const attempt = async (operation: () => Promise<unknown>) => {
-			try {
-				await operation();
-			} catch (error) {
-				errors.push(error);
-			}
-		};
-		if (candidates.length > 0) {
-			await attempt(
-				async () =>
-					admin`delete from plan_collaboration.draft_sources where plan_id = any(${candidates}::uuid[])`
-			);
-			await attempt(
-				async () =>
-					admin`delete from plan_collaboration.draft_envelopes where plan_id = any(${candidates}::uuid[])`
-			);
-			await attempt(
-				async () =>
-					admin`delete from plan_collaboration.plan_offer_identity where plan_id = any(${candidates}::uuid[])`
-			);
-			await attempt(
-				async () => admin`delete from public.study_plans where id = any(${candidates}::uuid[])`
-			);
-			await attempt(
-				async () =>
-					admin`delete from plan_collaboration.academic_offers where university_name = ${university}`
-			);
-		}
-		if (actorId) {
-			await attempt(
-				async () =>
-					admin`delete from plan_collaboration.student_permissions where subject_id = ${actorId}::uuid`
-			);
-			await attempt(async () => {
-				const response = await fetch(`${apiUrl}/auth/v1/admin/users/${actorId}`, {
-					method: 'DELETE',
-					headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` }
-				});
-				if (!response.ok) throw new Error('Could not remove controlled collaboration identity.');
-			});
-		}
-		if (errors.length > 0) throw new Error('Controlled collaboration fixture cleanup failed.');
-	};
-
-	try {
-		const response = await fetch(`${apiUrl}/auth/v1/admin/users`, {
-			method: 'POST',
-			headers: {
-				apikey: serviceKey,
-				Authorization: `Bearer ${serviceKey}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: `collaboration-${crypto.randomUUID()}@example.test`,
-				password,
-				email_confirm: true
-			})
-		});
-		if (!response.ok) throw new Error('Could not create controlled collaboration identity.');
-		const identity = (await response.json()) as { id?: unknown; email?: unknown };
-		if (typeof identity.id !== 'string' || typeof identity.email !== 'string')
-			throw new Error('Controlled collaboration identity is invalid.');
-		actorId = identity.id;
-
-		let cookies: Parameters<BrowserContext['addCookies']>[0] = [];
-		const auth = createServerClient(apiUrl, publishableKey, {
-			cookies: {
-				getAll: () => [],
-				setAll: (values) => {
-					cookies = values.map(({ name, value, options }) => ({
-						name,
-						value,
-						domain: '127.0.0.1',
-						path: options.path ?? '/',
-						httpOnly: options.httpOnly,
-						secure: options.secure,
-						sameSite:
-							options.sameSite === 'strict' || options.sameSite === true
-								? 'Strict'
-								: options.sameSite === 'none'
-									? 'None'
-									: 'Lax'
-					}));
-				}
-			}
-		});
-		const signedIn = await auth.auth.signInWithPassword({
-			email: identity.email,
-			password
-		});
-		if (signedIn.error || !signedIn.data.session)
-			throw new Error('Controlled collaboration sign-in failed.');
-		await context.addCookies(cookies);
-
-		const fillIdentity = async () => {
-			await page.getByLabel('Universidad', { exact: true }).fill(university);
-			await page.getByLabel('Facultad', { exact: true }).fill(faculty);
-			await page.getByLabel('Carrera', { exact: true }).fill(offer);
-			await page.getByLabel('Año del plan, si figura en la fuente', { exact: true }).fill('2036');
-		};
-		await page.goto('/plans/new');
-		await fillIdentity();
-		await page.getByRole('button', { name: 'Crear o continuar borrador' }).click();
-		await expect(page).toHaveURL(/\/draft\/[0-9a-f-]{36}$/);
-		planId = page.url().split('/').at(-1);
-		assert.ok(planId, 'Draft creation must return a stable link.');
+	await withControlledDraft(browser, 'VAL27 compartir', async (fixture) => {
+		const student = await fixture.createStudent();
+		const page = await fixture.openStudentPage(student);
+		const browserErrors: string[] = [];
+		page.on('pageerror', (error) => browserErrors.push(error.message));
+		const planId = await createDraft(page, fixture.identity);
 
 		await page.goto('/plans/new');
-		await fillIdentity();
+		await selectOfferField(page, 'Universidad', fixture.identity.university);
+		await selectOfferField(page, 'Facultad o unidad académica', fixture.identity.faculty);
+		await selectOfferField(page, 'Carrera', fixture.identity.offer);
+		await page.getByLabel('Año del plan, si figura en la fuente', { exact: true }).fill('2036');
 		await page.getByRole('button', { name: 'Crear o continuar borrador' }).click();
 		await expect(page).toHaveURL(new RegExp(`/draft/${planId}$`));
 
-		const anonymous = await context.browser()!.newContext();
+		const anonymous = await browser.newContext();
 		try {
 			const anonymousPage = await anonymous.newPage();
 			await anonymousPage.goto('/plans/new');
@@ -189,26 +44,237 @@ test('a student creates an empty-source draft, reuses it, and shares its unrevie
 			await expect(anonymousPage.getByRole('heading', { name: 'Coincidencias' })).not.toBeVisible();
 			await anonymousPage.goto(`/draft/${planId}`);
 			await expect(anonymousPage.getByRole('status')).toContainText('borrador sin revisión');
-			await expect(anonymousPage.getByRole('heading', { name: offer, exact: true })).toBeVisible();
+			await expect(
+				anonymousPage.getByRole('heading', { name: fixture.identity.offer, exact: true })
+			).toBeVisible();
+			await expect(
+				anonymousPage.getByRole('button', { name: 'Agregar sección' })
+			).not.toBeVisible();
 			await expect(
 				anonymousPage.getByRole('heading', { name: 'Fuentes para comparar' })
 			).toBeVisible();
 		} finally {
 			await anonymous.close();
 		}
-	} catch (error) {
-		failure = error;
-	}
-	try {
-		await removeFixtures();
-	} catch (cleanupError) {
-		if (!failure) failure = cleanupError;
-	} finally {
-		try {
-			await admin.end({ timeout: 5 });
-		} catch (endError) {
-			if (!failure) failure = endError;
-		}
-	}
-	if (failure) throw failure;
+		expect(browserErrors).toEqual([]);
+	});
+});
+
+test('a student saves, reloads, and clears course metadata', async ({ browser }) => {
+	await withControlledDraft(browser, 'VAL27 metadatos', async (fixture) => {
+		const student = await fixture.createStudent();
+		const page = await fixture.openStudentPage(student);
+		const browserErrors: string[] = [];
+		page.on('pageerror', (error) => browserErrors.push(error.message));
+		await createDraft(page, fixture.identity);
+		await addBasicCourse(page);
+		await expect(
+			page.getByRole('button', { name: 'Mostrar detalle de Álgebra', exact: true })
+		).toHaveAttribute('aria-expanded', 'true');
+		await page
+			.getByRole('combobox', { name: 'Tipo', exact: true })
+			.selectOption({ label: 'Electiva' });
+		await page.getByLabel('Código').fill('ALG-101');
+		await page.getByLabel('Horas', { exact: true }).fill('96');
+		await page.getByLabel('Créditos').fill('8');
+		await page.getByLabel('Etiquetas, separadas por coma').fill('base, matemática');
+		await page.getByRole('button', { name: '+ Agregar hito general', exact: true }).click();
+		await expect(page.getByLabel('Nombre del hito general')).toBeFocused();
+		await page.getByLabel('Nombre del hito general').fill('Acreditación de inglés');
+		await saveDraft(page);
+		await expect(page.getByRole('button', { name: 'Guardar cambios', exact: true })).toBeDisabled();
+
+		await page.reload();
+		await waitForEditor(page);
+		await expect(page.getByLabel('Título de sección')).toHaveValue('Formación básica');
+		await expect(page.getByLabel('Nombre de materia')).toHaveValue('Álgebra');
+		await expect(page.getByLabel('Nombre del hito general')).toHaveValue('Acreditación de inglés');
+		await page.getByRole('button', { name: 'Mostrar detalle de Álgebra', exact: true }).click();
+		await expect(page.getByRole('combobox', { name: 'Tipo', exact: true })).toHaveValue('elective');
+		await expect(page.getByLabel('Código')).toHaveValue('ALG-101');
+		await expect(page.getByLabel('Horas', { exact: true })).toHaveValue('96');
+		await expect(page.getByLabel('Créditos')).toHaveValue('8');
+		await expect(page.getByLabel('Etiquetas, separadas por coma')).toHaveValue('base, matemática');
+		await page.getByLabel('Horas', { exact: true }).fill('');
+		await saveDraft(page);
+
+		await page.reload();
+		await waitForEditor(page);
+		await page.getByRole('button', { name: 'Mostrar detalle de Álgebra', exact: true }).click();
+		await expect(page.getByLabel('Horas', { exact: true })).toHaveValue('');
+		expect(browserErrors).toEqual([]);
+	});
+});
+
+test('a student removes a course placement and its now-empty second section', async ({
+	browser
+}) => {
+	await withControlledDraft(browser, 'VAL27 ubicaciones', async (fixture) => {
+		const student = await fixture.createStudent();
+		const page = await fixture.openStudentPage(student);
+		await createDraft(page, fixture.identity);
+		await addBasicCourse(page);
+		await page.getByRole('button', { name: '+ Agregar sección', exact: true }).click();
+		await page.keyboard.insertText('Formación avanzada');
+		const advancedSection = page.getByRole('region', { name: 'Formación avanzada', exact: true });
+		await expect(advancedSection).toBeVisible();
+		const basicPlacementEditor = getPlacementEditor(
+			page.getByRole('region', { name: 'Formación básica', exact: true })
+		);
+		await basicPlacementEditor
+			.getByRole('button', { name: 'Agregar ubicación', exact: true })
+			.click();
+		await basicPlacementEditor
+			.getByLabel('Sección para la nueva ubicación')
+			.selectOption({ label: 'Formación avanzada' });
+		await basicPlacementEditor
+			.getByRole('button', { name: 'Agregar ubicación', exact: true })
+			.click();
+		await saveDraft(page);
+
+		await page.reload();
+		await waitForEditor(page);
+		const reloadedAdvancedSection = page.getByRole('region', {
+			name: 'Formación avanzada',
+			exact: true
+		});
+		await expect(reloadedAdvancedSection.getByLabel('Nombre de materia')).toHaveValue('Álgebra');
+		await reloadedAdvancedSection
+			.getByRole('button', { name: 'Retirar Formación avanzada', exact: true })
+			.click();
+		const blockedRetirement = page.getByRole('alertdialog', {
+			name: 'Retirar Formación avanzada',
+			exact: true
+		});
+		await expect(blockedRetirement).toContainText(
+			'Antes de retirarlo, corregí las referencias o mové los elementos que dependen de él.'
+		);
+		await expect(
+			blockedRetirement.getByRole('button', { name: 'Retirar del borrador', exact: true })
+		).not.toBeVisible();
+		await blockedRetirement.getByRole('button', { name: 'Volver', exact: true }).click();
+		await reloadedAdvancedSection
+			.getByRole('button', { name: 'Mostrar detalle de Álgebra', exact: true })
+			.click();
+		const advancedPlacementEditor = getPlacementEditor(reloadedAdvancedSection);
+		await getPlacementSummary(advancedPlacementEditor, 'Formación avanzada').click();
+		await advancedPlacementEditor
+			.getByRole('button', { name: 'Retirar ubicación', exact: true })
+			.click();
+		await expect(reloadedAdvancedSection.getByLabel('Nombre de materia')).not.toBeVisible();
+		await reloadedAdvancedSection
+			.getByRole('button', { name: 'Retirar Formación avanzada', exact: true })
+			.click();
+		await expect(
+			page.getByRole('heading', { name: 'Retirar Formación avanzada', exact: true })
+		).toBeVisible();
+		await page.getByRole('button', { name: 'Retirar del borrador', exact: true }).click();
+		await expect(reloadedAdvancedSection).not.toBeVisible();
+		await saveDraft(page);
+
+		await page.reload();
+		await waitForEditor(page);
+		await expect(
+			page.getByRole('region', { name: 'Formación avanzada', exact: true })
+		).not.toBeVisible();
+	});
+});
+
+test('a student inserts sections and courses beneath their visible predecessors', async ({
+	browser
+}) => {
+	await withControlledDraft(browser, 'VAL27 inserciones', async (fixture) => {
+		const student = await fixture.createStudent();
+		const page = await fixture.openStudentPage(student);
+		await createDraft(page, fixture.identity);
+		await addBasicCourse(page);
+		const basicSection = page.getByRole('region', { name: 'Formación básica', exact: true });
+		await expect(
+			basicSection.getByRole('button', { name: 'Mostrar detalle de Álgebra', exact: true })
+		).toHaveAttribute('aria-expanded', 'true');
+
+		await page.getByRole('button', { name: '+ Agregar sección', exact: true }).click();
+		await page.keyboard.insertText('Formación avanzada');
+		await basicSection.getByRole('button', { name: 'Agregar sección debajo', exact: true }).click();
+		await page.keyboard.insertText('Formación intermedia');
+		await basicSection
+			.getByRole('button', { name: 'Insertar materia debajo', exact: true })
+			.click();
+		await page.keyboard.insertText('Geometría');
+		await basicSection
+			.getByRole('button', { name: 'Mostrar detalle de Geometría', exact: true })
+			.click();
+
+		const structure = page.getByRole('region', { name: 'Estructura del plan', exact: true });
+		const orderedSections = structure.getByRole('region', {
+			name: /^(Formación básica|Formación intermedia|Formación avanzada|Hitos generales)$/
+		});
+		await expect(orderedSections).toHaveText([
+			/Formación básica/,
+			/Formación intermedia/,
+			/Formación avanzada/,
+			/Hitos generales/
+		]);
+		const insertedCourses = basicSection.getByRole('textbox', { name: 'Nombre de materia' });
+		await expect(insertedCourses).toHaveCount(2);
+		await expect(insertedCourses.nth(0)).toHaveValue('Álgebra');
+		await expect(insertedCourses.nth(1)).toHaveValue('Geometría');
+		await saveDraft(page);
+
+		await page.reload();
+		await waitForEditor(page);
+		const reloadedStructure = page.getByRole('region', {
+			name: 'Estructura del plan',
+			exact: true
+		});
+		await expect(
+			reloadedStructure.getByRole('region', {
+				name: /^(Formación básica|Formación intermedia|Formación avanzada|Hitos generales)$/
+			})
+		).toHaveText([
+			/Formación básica/,
+			/Formación intermedia/,
+			/Formación avanzada/,
+			/Hitos generales/
+		]);
+		const reloadedCourses = page
+			.getByRole('region', { name: 'Formación básica', exact: true })
+			.getByRole('textbox', { name: 'Nombre de materia' });
+		await expect(reloadedCourses).toHaveCount(2);
+		await expect(reloadedCourses.nth(0)).toHaveValue('Álgebra');
+		await expect(reloadedCourses.nth(1)).toHaveValue('Geometría');
+	});
+});
+
+test('a student can edit the draft on a narrow keyboard-only layout', async ({ browser }) => {
+	await withControlledDraft(browser, 'VAL27 móvil', async (fixture) => {
+		const student = await fixture.createStudent();
+		const page = await fixture.openStudentPage(student);
+		await createDraft(page, fixture.identity);
+		await addBasicCourse(page, 'Álgebra lineal');
+		await page.getByLabel('Título de sección').fill('Formación profesional');
+		await saveDraft(page);
+		await page.reload();
+		await waitForEditor(page);
+		await page.screenshot({ path: test.info().outputPath('editor-desktop.png'), fullPage: true });
+		await page.setViewportSize({ width: 390, height: 844 });
+		await expect(page.getByLabel('Título de sección')).toBeVisible();
+		await expect(page.getByLabel('Nombre de materia')).toBeVisible();
+		await page.getByLabel('Título de sección').focus();
+		await page.keyboard.press('Tab');
+		await expect(
+			page.getByRole('button', { name: 'Retirar Formación profesional', exact: true })
+		).toBeFocused();
+		await page.keyboard.press('Tab');
+		await expect(
+			page.getByRole('button', { name: 'Agregar sección debajo', exact: true })
+		).toBeFocused();
+		await page.keyboard.press('Tab');
+		await expect(
+			page.getByRole('button', { name: 'Mostrar detalle de Álgebra lineal', exact: true })
+		).toBeFocused();
+		await page.keyboard.press('Tab');
+		await expect(page.getByLabel('Nombre de materia')).toBeFocused();
+		await page.screenshot({ path: test.info().outputPath('editor-mobile.png'), fullPage: true });
+	});
 });

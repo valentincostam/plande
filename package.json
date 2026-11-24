@@ -20,6 +20,7 @@
 		"test:auth": "bun scripts/local-supabase.ts auth-test",
 		"test:collaboration": "bun scripts/local-supabase.ts collaboration-test",
 		"test:private-progress": "bun scripts/local-supabase.ts private-progress-test",
+		"test:draft-editor": "bun scripts/test-draft-editor.ts",
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",
@@ -29,6 +30,7 @@
 		"@axe-core/playwright": "^4.11.1",
 		"@eslint/compat": "^1.4.1",
 		"@eslint/js": "^9.39.3",
+		"@internationalized/date": "^3.12.0",
 		"@playwright/test": "^1.58.2",
 		"@sveltejs/adapter-vercel": "^6.3.4",
 		"@sveltejs/kit": "^2.53.4",
@@ -60,14 +62,20 @@
 	"dependencies": {
 		"@dagrejs/dagre": "^1.1.8",
 		"@ethercorps/sveltekit-og": "^4.2.1",
+		"@lucide/svelte": "^1.47.0",
 		"@microsoft/clarity": "^1.0.2",
 		"@supabase/ssr": "0.12.6",
 		"@supabase/supabase-js": "2.115.0",
 		"@vercel/analytics": "^1.6.1",
 		"@xyflow/svelte": "^1.5.1",
+		"bits-ui": "^2.19.0",
+		"clsx": "^2.1.1",
 		"html-to-image": "1.11.11",
 		"marked": "^16.4.2",
 		"postgres": "^3.4.9",
-		"zod": "4.3.6"
+		"sveltekit-superforms": "^2.30.2",
+		"tailwind-merge": "^3.6.0",
+		"tailwind-variants": "^3.3.1",
+		"zod": "4.5.4"
 	}
 }

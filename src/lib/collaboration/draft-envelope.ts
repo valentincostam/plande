@@ -1,6 +1,6 @@
 export type OfferIdentity = {
 	university: string;
-	faculty: string;
+	faculty: string | null;
 	offer: string;
 	campus?: string;
 	modality?: string;
@@ -29,9 +29,9 @@ type DraftEnvelopeInput = {
 	content: Record<string, unknown>;
 };
 
-const normalizeText = (value: string | undefined) => value?.trim() ?? '';
+const normalizeText = (value: string | null | undefined) => value?.trim() ?? '';
 
-const normalizeOptionalText = (value: string | undefined) => {
+const normalizeOptionalText = (value: string | null | undefined) => {
 	const normalized = normalizeText(value);
 	return normalized || undefined;
 };

@@ -1,8 +1,13 @@
 import { courseStates, type CourseState } from './course-state';
 import { preparePlan } from './prepare-plan';
 import { evaluateGraduation, type RequirementContext } from './requirement-evaluator';
-import { isCoursePlanItem, milestoneStates, type ItemState, type StudyPlanData } from './study-plan-data';
-import { comparableCourseStateToItemState } from './study-plan-url-state';
+import {
+	isCoursePlanItem,
+	milestoneStates,
+	type ItemState,
+	type StudyPlanData
+} from './study-plan-data';
+import { comparableCourseStateToItemState, progressItemPositions } from './study-plan-url-state';
 
 export type StudyPlanSnapshot = {
 	graduationPercentage: number;
@@ -17,13 +22,15 @@ export type StudyPlanSnapshot = {
 export const calculateStudyPlanSnapshot = (
 	plan: StudyPlanData,
 	initialStates: CourseState[],
-	grades: (number | undefined)[]
+	grades: (number | undefined)[],
+	progressItemIds?: readonly string[]
 ): StudyPlanSnapshot => {
 	const prepared = preparePlan(plan);
+	const positions = progressItemPositions(prepared.orderedItems, progressItemIds);
 	const states = new Map<string, ItemState>(
-		prepared.orderedItems.map((item, index) => [
+		prepared.orderedItems.map((item) => [
 			item.id,
-			comparableCourseStateToItemState(item, initialStates[index])
+			comparableCourseStateToItemState(item, initialStates[positions.get(item.id)!])
 		])
 	);
 	const contextItems = (ids: string[]) =>
@@ -38,14 +45,21 @@ export const calculateStudyPlanSnapshot = (
 		getItemsByTag: (tag) => contextItems(prepared.itemIdsByTag.get(tag) ?? []),
 		getItemsBySection: (sectionId) => contextItems(prepared.itemIdsBySection.get(sectionId) ?? [])
 	};
-	const courses = prepared.orderedItems.flatMap((item, index) =>
+	const courses = prepared.orderedItems.flatMap((item) =>
 		isCoursePlanItem(item)
-			? [{ item, state: states.get(item.id) as CourseState, grade: grades[index] }]
+			? [
+					{
+						item,
+						state: states.get(item.id) as CourseState,
+						grade: grades[positions.get(item.id)!]
+					}
+				]
 			: []
 	);
 	const stateDistribution = {
 		[courseStates.notTaken]: courses.filter(({ state }) => state === courseStates.notTaken).length,
-		[courseStates.inProgress]: courses.filter(({ state }) => state === courseStates.inProgress).length,
+		[courseStates.inProgress]: courses.filter(({ state }) => state === courseStates.inProgress)
+			.length,
 		[courseStates.taken]: courses.filter(({ state }) => state === courseStates.taken).length,
 		[courseStates.passed]: courses.filter(({ state }) => state === courseStates.passed).length
 	};

@@ -87,6 +87,47 @@ describe('lightweight study plan loading', () => {
 		await expect(reader.loadPlan('uns-dcs-le-2017')).resolves.toBeUndefined();
 	});
 
+	it('loads stable progress positions with the same published document', async () => {
+		const document = allStudyPlans[0];
+		const order = [
+			'retired-item',
+			...[...document.items].sort((a, b) => a.seqId - b.seqId).map((item) => item.id)
+		];
+		const reader = createSupabaseStudyPlanReader(async () => [
+			{
+				document,
+				progress_item_order: order,
+				snapshot_id: 'a965723c-9bc9-4283-8c40-3120f5ce8bcb',
+				progress_item_kinds: Object.fromEntries([
+					['retired-item', 'course'],
+					...document.items.map((item) => [item.id, item.kind])
+				])
+			}
+		]);
+		await expect(reader.loadPlanWithProgress('plan')).resolves.toMatchObject({
+			document,
+			progressItemIds: order,
+			progressItemKinds: expect.objectContaining({ 'retired-item': 'course' }),
+			snapshotId: 'a965723c-9bc9-4283-8c40-3120f5ce8bcb'
+		});
+		const invalid = createSupabaseStudyPlanReader(async () => [
+			{ document, progress_item_order: ['retired-item'] }
+		]);
+		await expect(invalid.loadPlanWithProgress('plan')).rejects.toThrow('Progress positions');
+		for (const kinds of [
+			{},
+			{
+				...Object.fromEntries(document.items.map((item) => [item.id, item.kind])),
+				'retired-item': null
+			}
+		]) {
+			const invalidKinds = createSupabaseStudyPlanReader(async () => [
+				{ document, progress_item_order: order, progress_item_kinds: kinds }
+			]);
+			await expect(invalidKinds.loadPlanWithProgress('plan')).rejects.toThrow();
+		}
+	});
+
 	it('keeps one lightweight entry per plan', () => {
 		expect(studyPlanCatalog).toHaveLength(47);
 		expect(studyPlanSlugs).toHaveLength(47);

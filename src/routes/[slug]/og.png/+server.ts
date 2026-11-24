@@ -9,11 +9,12 @@ import { calculateStudyPlanSnapshot } from '$lib/study-plan-progress';
 export const GET: RequestHandler = async ({ params, url }) => {
 	const { slug } = params;
 
-	const studyPlan = await studyPlanReader.loadPlan(slug);
+	const publishedPlan = await studyPlanReader.loadPlanWithProgress(slug);
 
-	if (!studyPlan) {
+	if (!publishedPlan) {
 		error(404, { message: 'Study plan not found' });
 	}
+	const studyPlan = publishedPlan.document;
 
 	// Decode states from query params
 	const stateLetters = url.searchParams.get('s') || url.searchParams.get('estado');
@@ -21,7 +22,12 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	const itemStates = stateLetters ? decodeItemStates(stateLetters) : [];
 	const itemGrades = gradeLetters ? decodeGrades(gradeLetters) : [];
-	const snapshot = calculateStudyPlanSnapshot(studyPlan, itemStates, itemGrades);
+	const snapshot = calculateStudyPlanSnapshot(
+		studyPlan,
+		itemStates,
+		itemGrades,
+		publishedPlan.progressItemIds
+	);
 	const { stateDistribution, passedCourses, totalCourses, passedYears, totalYears, average } =
 		snapshot;
 

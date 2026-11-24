@@ -126,6 +126,93 @@ describe('evaluateRequirement', () => {
 		);
 		expect(evaluateRequirement(req.item('ingles-e', 'completed'), context)).toBe(true);
 	});
+
+	it('distinguishes item count from countOf and rounds percentage thresholds up', () => {
+		const context = createContext([
+			{ item: algebra, state: courseStates.passed },
+			{ item: analisis, state: courseStates.notTaken },
+			{ item: electivaA, state: courseStates.passed }
+		]);
+
+		expect(
+			evaluateRequirement(
+				req.count(select.items('algebra', 'analisis', 'electiva-a'), 2, 'passed'),
+				context
+			)
+		).toBe(true);
+		expect(
+			evaluateRequirement(
+				req.countOf(
+					[
+						req.all(req.item('algebra', 'passed'), req.item('analisis', 'passed')),
+						req.item('electiva-a', 'passed')
+					],
+					2
+				),
+				context
+			)
+		).toBe(false);
+		expect(
+			evaluateProgress(
+				req.percent(select.items('algebra', 'analisis', 'electiva-a'), 67, 'passed'),
+				context
+			)
+		).toEqual({ completedUnits: 2, totalUnits: 3, met: false });
+	});
+
+	it('recalculates sums from metrics and tags and deduplicates section memberships', () => {
+		const electiveWithHours = { ...electivaA, hours: 10, totalHours: 12 };
+		const otherElectiveWithHours = { ...electivaB, hours: 6, totalHours: 8 };
+		const context = createContext([
+			{ item: electiveWithHours, state: courseStates.passed },
+			{ item: otherElectiveWithHours, state: courseStates.passed }
+		]);
+
+		expect(evaluateRequirement(req.sumTag('electivas', 'hours', 16, 'passed'), context)).toBe(true);
+		expect(evaluateRequirement(req.sumTag('electivas', 'totalHours', 20, 'passed'), context)).toBe(
+			true
+		);
+		expect(evaluateRequirement(req.sumTag('electivas', 'credits', 12, 'passed'), context)).toBe(
+			true
+		);
+
+		const retagged = createContext([
+			{ item: electiveWithHours, state: courseStates.passed },
+			{ item: { ...otherElectiveWithHours, tags: [] }, state: courseStates.passed }
+		]);
+		expect(evaluateRequirement(req.sumTag('electivas', 'credits', 12, 'passed'), retagged)).toBe(
+			false
+		);
+		const reweighted = createContext([
+			{ item: electiveWithHours, state: courseStates.passed },
+			{ item: { ...otherElectiveWithHours, credits: 5 }, state: courseStates.passed }
+		]);
+		expect(evaluateRequirement(req.sumTag('electivas', 'credits', 12, 'passed'), reweighted)).toBe(
+			false
+		);
+
+		const placedTwice = createContext([
+			{
+				item: {
+					...algebra,
+					placements: [
+						place.year(1, courseTerms.firstSemester),
+						place.year(2, courseTerms.firstSemester)
+					]
+				},
+				state: courseStates.passed
+			}
+		]);
+		expect(
+			evaluateRequirement(
+				req.count(select.sections(['year-1', 'year-2']), 2, 'passed'),
+				placedTwice
+			)
+		).toBe(false);
+		expect(
+			evaluateRequirement(req.count(select.sections(['year-2']), 1, 'passed'), placedTwice)
+		).toBe(true);
+	});
 });
 
 describe('evaluateProgress', () => {
@@ -220,9 +307,9 @@ describe('evaluateProgress', () => {
 				context
 			)
 		).toBe(true);
-		expect(evaluateRequirement(req.every(select.sections(['year-1', 'year-3']), 'passed'), context)).toBe(
-			false
-		);
+		expect(
+			evaluateRequirement(req.every(select.sections(['year-1', 'year-3']), 'passed'), context)
+		).toBe(false);
 	});
 });
 

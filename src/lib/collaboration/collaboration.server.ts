@@ -1,11 +1,12 @@
 import { env } from '$env/dynamic/private';
 import postgres from 'postgres';
 import type { DraftEnvelope, DraftSource } from './draft-envelope';
+import { parseDraftPlanContent, type DraftPlanContent } from '$lib/plan-editor/draft-plan-content';
 
 type DraftRow = {
 	plan_id: string;
 	university_name: string;
-	faculty_name: string;
+	faculty_name: string | null;
 	offer_name: string;
 	campus: string | null;
 	modality: string | null;
@@ -41,14 +42,27 @@ export type SetDraftYearResult =
 	| { disposition: 'updated' | 'unchanged'; planId: string; conflictingPlanId: null }
 	| { disposition: 'year_conflict'; planId: string; conflictingPlanId: string };
 
+export type DraftEditorDocument = {
+	planId: string;
+	content: DraftPlanContent;
+	version: number;
+	reviewInvalidationRevision: number;
+};
+
+export type SaveDraftDocumentResult = DraftEditorDocument & {
+	disposition: 'saved' | 'unchanged' | 'version_conflict';
+};
+
 let client: postgres.Sql | undefined;
 
-const getClient = () => {
+export const getCollaborationDatabase = () => {
 	const connection = env.COLLABORATION_DATABASE_URL;
 	if (!connection) return undefined;
 	client ??= postgres(connection, { max: 2, idle_timeout: 10, connect_timeout: 5 });
 	return client;
 };
+
+const getClient = getCollaborationDatabase;
 
 const mapOffer = (row: {
 	university_name: string;
@@ -197,4 +211,82 @@ export const readDraft = async (planId: string): Promise<DraftEnvelope | undefin
 		sources: row.sources,
 		content: row.content
 	};
+};
+
+const parseDatabaseVersion = (value: unknown): number => {
+	if (typeof value !== 'number' && (typeof value !== 'string' || !/^(0|[1-9]\d*)$/.test(value)))
+		throw new Error('Invalid draft version.');
+	const version = Number(value);
+	if (!Number.isSafeInteger(version) || version < 0) throw new Error('Invalid draft version.');
+	return version;
+};
+
+const mapDraftEditorDocument = (row: {
+	plan_id: string;
+	content: unknown;
+	version: number;
+	review_invalidation_revision: number;
+}): DraftEditorDocument => ({
+	planId: row.plan_id,
+	content: parseDraftPlanContent(row.content),
+	version: parseDatabaseVersion(row.version),
+	reviewInvalidationRevision: parseDatabaseVersion(row.review_invalidation_revision)
+});
+
+export const readDraftEditor = async (planId: string): Promise<DraftEditorDocument | undefined> => {
+	const sql = getClient();
+	if (!sql) throw new Error('Collaboration database is unavailable.');
+	const [row] = await sql<
+		Array<{
+			plan_id: string;
+			content: unknown;
+			version: number;
+			review_invalidation_revision: number;
+		}>
+	>`select * from plan_collaboration.read_draft_editor(${planId}::uuid)`;
+	return row ? mapDraftEditorDocument(row) : undefined;
+};
+
+export const readDraftRevision = async (
+	planId: string,
+	version: number
+): Promise<DraftEditorDocument | undefined> => {
+	const sql = getClient();
+	if (!sql) throw new Error('Collaboration database is unavailable.');
+	const [row] = await sql<
+		Array<{
+			plan_id: string;
+			content: unknown;
+			version: number;
+			review_invalidation_revision: number;
+		}>
+	>`select * from plan_collaboration.read_draft_revision(${planId}::uuid, ${version})`;
+	return row ? mapDraftEditorDocument(row) : undefined;
+};
+
+export const saveDraftDocument = async (
+	planId: string,
+	expectedVersion: number,
+	content: DraftPlanContent,
+	actor: string
+): Promise<SaveDraftDocumentResult> => {
+	const sql = getClient();
+	if (!sql) throw new Error('Collaboration database is unavailable.');
+	const [row] = await sql<
+		Array<{
+			plan_id: string;
+			disposition: 'saved' | 'unchanged' | 'version_conflict';
+			content: unknown;
+			version: number;
+			review_invalidation_revision: number;
+		}>
+	>`select * from plan_collaboration.save_draft_document(
+		${planId}::uuid,
+		${expectedVersion},
+		${sql.json(content as unknown as postgres.JSONValue)},
+		${actor}::uuid
+	)`;
+	if (!row || !['saved', 'unchanged', 'version_conflict'].includes(row.disposition))
+		throw new Error('Collaboration database returned an invalid draft document result.');
+	return { ...mapDraftEditorDocument(row), disposition: row.disposition };
 };

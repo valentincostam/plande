@@ -19,8 +19,10 @@ export type PreparePlanOptions = {
 	previousSeqIds?: SeqIdRegistry;
 };
 
-export type PreparedPlan = {
-	plan: StudyPlanData;
+export type PlanStructure = Pick<StudyPlanData, 'sections' | 'items' | 'requirements'>;
+
+export type PreparedPlan<TPlan extends PlanStructure = StudyPlanData> = {
+	plan: TPlan;
 	orderedItems: PlanItem[];
 	itemsById: Map<string, PlanItem>;
 	itemIdsByTag: Map<string, string[]>;
@@ -401,11 +403,11 @@ const validateGraduationRequirement = (
 	);
 };
 
-export const preparePlan = (
-	plan: StudyPlanData,
+export const preparePlan = <TPlan extends PlanStructure>(
+	plan: TPlan,
 	{ previousSeqIds = {} }: PreparePlanOptions = {}
-): PreparedPlan => {
-	const normalizedPlan: StudyPlanData = {
+): PreparedPlan<TPlan> => {
+	const normalizedPlan = {
 		...plan,
 		sections: plan.sections.map((section) => {
 			const yearMatch = /^year-(\d+)$/.exec(section.id);
@@ -414,7 +416,7 @@ export const preparePlan = (
 				year: section.year ?? (yearMatch ? Number(yearMatch[1]) : undefined)
 			};
 		})
-	};
+	} as TPlan;
 	const sectionIds = new Set(normalizedPlan.sections.map((section) => section.id));
 	if (sectionIds.size !== plan.sections.length) {
 		throw new Error('Duplicate section id');

@@ -19,10 +19,13 @@ const note = z.strictObject({ id: number, text: z.string() });
 const info = z.strictObject({
 	degreeName: z.string(),
 	degreeSlug: z.string(),
+	canonicalSlug: z.string().optional(),
 	universityName: z.string(),
 	universitySlug: z.string(),
 	collegeName: z.string().optional(),
 	collegeSlug: z.string().optional(),
+	campus: z.string().optional(),
+	modality: z.string().optional(),
 	year: number.optional(),
 	sources: z.array(source).optional(),
 	notes: z.array(note).optional()
@@ -83,6 +86,8 @@ const requirement: z.ZodType<RequirementExpr> = z.lazy(() =>
 		})
 	])
 );
+
+export { requirement as requirementExpressionSchema };
 
 const item = {
 	id: z.string(),

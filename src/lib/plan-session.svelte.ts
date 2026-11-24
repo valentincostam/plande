@@ -1,8 +1,9 @@
-import { courseStates, type CourseState } from './course-state';
+import { courseStates, encodeCoursesStates, type CourseState } from './course-state';
 import {
 	comparableCourseStateToItemState,
 	decodeItemStates,
-	encodeItemStates
+	itemStateToComparableCourseState,
+	progressItemPositions
 } from './study-plan-url-state';
 import type { PreparedPlan } from './prepare-plan';
 import type { DependentEdge, Section } from './study-plan-data';
@@ -17,8 +18,9 @@ import { milestoneStates, type ItemState, type PlanItem } from './study-plan-dat
 
 export type PlanSessionOptions = {
 	strictMode?: boolean;
-	// Raw states ordered by seqId over ALL items (courses and milestones), as
-	// decoded from the URL/localStorage letter stream.
+	progressItemIds?: readonly string[];
+	progressItemKinds?: Readonly<Record<string, 'course' | 'milestone'>>;
+	// URL/localStorage positions include retired items in progressItemIds.
 	initialStates?: CourseState[];
 	// Grades ordered the same way; milestone positions are ignored.
 	initialGrades?: (number | undefined)[];
@@ -119,8 +121,12 @@ export class PlanSession {
 	prepared: PreparedPlan;
 	isInitializing = $state(true);
 	strictMode = $state(true);
-	// All items ordered by seqId — the canonical serialization order.
 	items: PlanItemState[];
+	private progressItemIds: readonly string[];
+	private progressIndex: Map<string, number>;
+	private progressItemKinds: Readonly<Record<string, 'course' | 'milestone'>>;
+	private restoredStates = $state.raw<CourseState[]>([]);
+	private restoredGrades = $state.raw<(number | undefined)[]>([]);
 	courseItems: PlanItemState[];
 	milestoneItems: PlanItemState[];
 	itemsById: Map<string, PlanItemState>;
@@ -133,6 +139,9 @@ export class PlanSession {
 	constructor(prepared: PreparedPlan, options: PlanSessionOptions = {}) {
 		this.prepared = prepared;
 		this.strictMode = options.strictMode ?? true;
+		this.progressIndex = progressItemPositions(prepared.orderedItems, options.progressItemIds);
+		this.progressItemIds = [...this.progressIndex.keys()];
+		this.progressItemKinds = options.progressItemKinds ?? {};
 		this.itemsById = new Map();
 		const contextItemsById = new Map<string, RequirementContextItem>();
 		const contextArraysByTag = new Map<string, RequirementContextItem[]>();
@@ -176,14 +185,16 @@ export class PlanSession {
 
 		const initialStates = options.initialStates ?? [];
 		const initialGrades = options.initialGrades ?? [];
+		this.restoredStates = [...initialStates];
+		this.restoredGrades = [...initialGrades];
 
 		this.items = prepared.orderedItems.map(
-			(item, index) =>
+			(item) =>
 				new PlanItemState(
 					item,
 					this,
-					comparableCourseStateToItemState(item, initialStates[index]),
-					item.kind === 'course' ? initialGrades[index] : undefined
+					comparableCourseStateToItemState(item, initialStates[this.progressIndex.get(item.id)!]),
+					item.kind === 'course' ? initialGrades[this.progressIndex.get(item.id)!] : undefined
 				)
 		);
 
@@ -212,7 +223,115 @@ export class PlanSession {
 	}
 
 	serializeStates() {
-		return encodeItemStates(this.items.map((item) => ({ def: item.def, state: item.state })));
+		return encodeCoursesStates(
+			this.progressItemIds.map((id, index) => {
+				const item = this.itemsById.get(id);
+				return item
+					? itemStateToComparableCourseState(item.def, item.state)
+					: (this.restoredStates[index] ?? courseStates.notTaken);
+			})
+		);
+	}
+
+	serializeGrades() {
+		return this.progressItemIds.map((id, index) => {
+			const item = this.itemsById.get(id);
+			return item
+				? item.def.kind === 'course'
+					? item.grade
+					: undefined
+				: this.restoredGrades[index];
+		});
+	}
+
+	applyGrades(grades: (number | null | undefined)[]) {
+		this.restoredGrades = grades.map((grade) => grade ?? undefined);
+		for (const item of this.courseItems)
+			item.grade = this.restoredGrades[this.progressIndex.get(item.def.id)!];
+	}
+
+	projectProgress(
+		records: readonly { itemId: string; state: ItemState; grade?: number }[],
+		useRestored = true
+	) {
+		const projected = [...records];
+		for (const [itemId, index] of this.progressIndex) {
+			if (this.itemsById.has(itemId) || projected.some((record) => record.itemId === itemId))
+				continue;
+			const kind = this.progressItemKinds[itemId];
+			if (!kind) continue;
+			projected.push({
+				itemId,
+				state:
+					kind === 'milestone'
+						? useRestored && this.restoredStates[index] === courseStates.passed
+							? milestoneStates.completed
+							: milestoneStates.pending
+						: ((useRestored ? this.restoredStates[index] : undefined) ?? courseStates.notTaken),
+				...(kind === 'course' && useRestored && this.restoredGrades[index] !== undefined
+					? { grade: this.restoredGrades[index] }
+					: {})
+			});
+		}
+		return projected.map((record) => {
+			const index = this.progressIndex.get(record.itemId);
+			if (index === undefined) return { ...record };
+			const kind =
+				this.itemsById.get(record.itemId)?.def.kind ??
+				this.progressItemKinds[record.itemId] ??
+				(record.state === milestoneStates.pending || record.state === milestoneStates.completed
+					? 'milestone'
+					: 'course');
+			const state = useRestored ? this.restoredStates[index] : undefined;
+			if (kind === 'milestone')
+				return {
+					itemId: record.itemId,
+					state: state === courseStates.passed ? milestoneStates.completed : milestoneStates.pending
+				};
+			return {
+				itemId: record.itemId,
+				state: state ?? record.state,
+				...(useRestored && index < this.restoredGrades.length
+					? this.restoredGrades[index] === undefined
+						? {}
+						: { grade: this.restoredGrades[index] }
+					: record.grade === undefined
+						? {}
+						: { grade: record.grade })
+			};
+		});
+	}
+
+	applyProgress(records: readonly { itemId: string; state: ItemState; grade?: number }[]) {
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity -- This lookup exists only during the synchronous restore.
+		const byId = new Map(records.map((record) => [record.itemId, record]));
+		const hasLocalOnlyRetiredProgress = this.progressItemIds.some(
+			(id, index) =>
+				!this.itemsById.has(id) &&
+				!byId.has(id) &&
+				!this.progressItemKinds[id] &&
+				(this.restoredStates[index] !== undefined || this.restoredGrades[index] !== undefined)
+		);
+		this.applyStates(
+			this.progressItemIds.map((id, index) => {
+				const state = byId.get(id)?.state;
+				if (state === undefined && !this.itemsById.has(id))
+					return this.restoredStates[index] ?? courseStates.notTaken;
+				if (state === milestoneStates.completed) return courseStates.passed;
+				if (state === milestoneStates.pending || state === undefined) return courseStates.notTaken;
+				return state;
+			})
+		);
+		this.applyGrades(
+			this.progressItemIds.map((id, index) =>
+				byId.has(id)
+					? byId.get(id)?.grade
+					: this.itemsById.has(id)
+						? undefined
+						: this.restoredGrades[index]
+			)
+		);
+		return hasLocalOnlyRetiredProgress;
 	}
 
 	applySerializedStates(encoded: string) {
@@ -220,8 +339,12 @@ export class PlanSession {
 	}
 
 	applyStates(states: CourseState[]) {
-		this.items.forEach((item, index) => {
-			const next = comparableCourseStateToItemState(item.def, states[index]);
+		this.restoredStates = [...states];
+		this.items.forEach((item) => {
+			const next = comparableCourseStateToItemState(
+				item.def,
+				states[this.progressIndex.get(item.def.id)!]
+			);
 			if (item.state !== next) {
 				item.state = next;
 			}
@@ -266,6 +389,8 @@ export class PlanSession {
 	}
 
 	reset() {
+		this.restoredStates = [];
+		this.restoredGrades = [];
 		for (const item of this.items) {
 			item.state = item.def.kind === 'course' ? courseStates.notTaken : milestoneStates.pending;
 			item.grade = undefined;

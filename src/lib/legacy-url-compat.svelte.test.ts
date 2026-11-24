@@ -4,6 +4,7 @@ import { milestoneStates } from './study-plan-data';
 import { preparePlan } from './prepare-plan';
 import { PlanSession } from './plan-session.svelte';
 import { decodeItemStates, sortItemsBySeqId } from './study-plan-url-state';
+import { decodeGrades, encodeGrades } from './grade-encoding';
 import { unsDcsLe2017 } from '../routes/[slug]/data/uns-dcs-le-2017';
 
 // Golden fixture derived from production data on main (commit a29fd3d,
@@ -141,5 +142,47 @@ describe('legacy URL compatibility (uns-dcs-le-2017)', () => {
 		expect(session.itemsById.get('20084')?.grade).toBe(8);
 		expect(session.itemsById.get('20093')?.grade).toBe(10);
 		expect(session.itemsById.get('4586')?.grade).toBeUndefined();
+	});
+
+	it('keeps saved URL progress in stable positions after a course is removed and restored', () => {
+		const reopened = inEffectRoot(() => {
+			const original = new PlanSession(preparePlan(unsDcsLe2017), { strictMode: false });
+			original.itemsById.get('20099')!.state = courseStates.passed;
+			original.itemsById.get('20099')!.grade = 8;
+			original.itemsById.get('20091')!.state = courseStates.taken;
+			original.itemsById.get('20100')!.state = courseStates.passed;
+			original.itemsById.get('20100')!.grade = 9;
+
+			const savedStates = original.serializeStates();
+			const savedGrades = encodeGrades(
+				original.items.map((item) => (item.def.kind === 'course' ? item.grade : undefined))
+			);
+			const revised = structuredClone(unsDcsLe2017);
+			revised.items = revised.items.filter((item) => item.id !== '20100');
+
+			const progressItemIds = original.items.map((item) => item.def.id);
+			const revisedSession = new PlanSession(preparePlan(revised), {
+				progressItemIds,
+				initialStates: decodeItemStates(savedStates),
+				initialGrades: decodeGrades(savedGrades),
+				strictMode: false
+			});
+			revisedSession.applyGrades(JSON.parse(JSON.stringify(decodeGrades(savedGrades))));
+			expect(revisedSession.itemsById.get('20084')?.grade).toBeUndefined();
+			expect(revisedSession.itemsById.get('20099')?.state).toBe(courseStates.passed);
+			expect(revisedSession.itemsById.get('20099')?.grade).toBe(8);
+			return new PlanSession(preparePlan(unsDcsLe2017), {
+				progressItemIds,
+				initialStates: decodeItemStates(revisedSession.serializeStates()),
+				initialGrades: revisedSession.serializeGrades(),
+				strictMode: false
+			});
+		});
+
+		expect(reopened.itemsById.get('20099')?.state).toBe(courseStates.passed);
+		expect(reopened.itemsById.get('20099')?.grade).toBe(8);
+		expect(reopened.itemsById.get('20091')?.state).toBe(courseStates.taken);
+		expect(reopened.itemsById.get('20100')?.state).toBe(courseStates.passed);
+		expect(reopened.itemsById.get('20100')?.grade).toBe(9);
 	});
 });

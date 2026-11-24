@@ -1,7 +1,9 @@
 // @vitest-environment node
-import { expect, test, vi } from 'vitest';
+import { beforeEach, expect, test, vi } from 'vitest';
 
 const createOrFindDraft = vi.fn();
+
+beforeEach(() => createOrFindDraft.mockReset());
 
 vi.mock('$lib/collaboration/collaboration.server', () => ({
 	collaborationUnavailable: () => false,
@@ -27,8 +29,8 @@ const validForm = {
 	campus: '',
 	modality: '',
 	year: '2026',
-	'source-label': 'Centro de estudiantes',
-	'source-url': 'https://drive.google.com/example',
+	sourceLabel: 'Centro de estudiantes',
+	sourceUrl: 'https://drive.google.com/example',
 	actor: 'browser-controlled-subject'
 };
 
@@ -84,11 +86,43 @@ test('create command permits an incomplete draft with no source yet', async () =
 		year: null
 	});
 
-	await actions.create(commandEvent({ ...validForm, 'source-label': '', 'source-url': '' }));
+	await actions.create(commandEvent({ ...validForm, sourceLabel: '', sourceUrl: '' }));
 	expect(createOrFindDraft).toHaveBeenLastCalledWith(
 		expect.objectContaining({ sources: [] }),
 		'student-subject'
 	);
+});
+
+test('create command permits any safe integer year', async () => {
+	createOrFindDraft.mockResolvedValue({
+		planId: null,
+		disposition: 'identity_ambiguous',
+		year: null
+	});
+
+	await actions.create(commandEvent({ ...validForm, year: '-7' }));
+	expect(createOrFindDraft).toHaveBeenLastCalledWith(
+		expect.objectContaining({ year: -7 }),
+		'student-subject'
+	);
+});
+
+test('create command returns field errors and posted values', async () => {
+	await expect(
+		actions.create(commandEvent({ ...validForm, university: '', sourceUrl: 'nota' }))
+	).resolves.toMatchObject({
+		status: 400,
+		data: {
+			form: {
+				data: expect.objectContaining({ university: '', sourceUrl: 'nota' }),
+				errors: expect.objectContaining({
+					university: expect.any(Array),
+					sourceUrl: expect.any(Array)
+				})
+			}
+		}
+	});
+	expect(createOrFindDraft).not.toHaveBeenCalled();
 });
 
 test('an ambiguous legacy offer returns a recoverable error instead of creating a draft', async () => {
@@ -100,6 +134,11 @@ test('an ambiguous legacy offer returns a recoverable error instead of creating 
 
 	await expect(actions.create(commandEvent(validForm))).resolves.toMatchObject({
 		status: 409,
-		data: { error: expect.stringContaining('ofertas parecidas') }
+		data: {
+			form: {
+				data: expect.objectContaining({ offer: validForm.offer }),
+				errors: { offer: [expect.stringContaining('ofertas parecidas')] }
+			}
+		}
 	});
 });

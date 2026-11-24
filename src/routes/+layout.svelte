@@ -27,6 +27,6 @@
 	<meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
 </svelte:head>
 
-{#key `${page.params.slug ?? ''}:${data.auth?.subject ?? 'anonymous'}`}
+{#key `${page.params.slug ?? ''}:${data.auth?.subject ?? 'anonymous'}:${page.data.publicationSnapshotId ?? ''}`}
 	{@render children()}
 {/key}

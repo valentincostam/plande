@@ -55,3 +55,17 @@ PLANDE_LOCAL_COLLABORATION=1 bun run auth:dev
 This rotates the restricted password again and injects `COLLABORATION_DATABASE_URL` into the server process. Do not run these provisioning commands concurrently or while another collaboration test is using that role. Existing connections may survive a rotation, but new connections from an older app process will fail. Restart that named app through the wrapper after database tests.
 
 The application uses Postgres.js with the restricted LOGIN role. That role can execute the collaboration functions but cannot read their tables or private progress. Public search and draft reads expose unreviewed metadata, not a private workspace. Authentication and private progress continue to use the request-scoped Supabase client. Never configure the application with the setup/admin database URL or a service-role key.
+
+## Draft editor database checks
+
+After migration `20260907230000` is applied, run `bun run test:draft-editor`. It checks draft revisions, stale-version rejection, coauthor recording, retired sequence IDs, duplicate placements, and restricted grants. The entire fixture transaction rolls back, including its temporary role membership. It does not rotate the collaboration password or restart the app.
+
+Before that migration is applied, `bun scripts/test-draft-editor.ts --migration-smoke` runs the migration and the same checks in the rollback transaction. Do not use this flag after applying it. The migration stops if it finds existing draft items that need identity backfilling. Do not bypass that guard or reset the stack to hide such data.
+
+Private progress uses a separate idempotent save function introduced in migration `20260907220000`. `bun run test:private-progress` checks concurrent retries and rejected request-ID reuse against the local API, then deletes its controlled test accounts. Save receipts have no browser or collaboration-role read grants.
+
+## First publication checks
+
+Migration `20260908110000` adds publication receipts and restricted publication functions. Run `bun scripts/test-draft-publication.ts` after applying it. The test checks review requirements, objections, stale revisions, immutable publication, public reader visibility, safe retries and restricted permissions. Its controlled identities and publications roll back together; it does not delete immutable snapshots or restart services.
+
+Use `--migration-smoke` only before applying this migration. It applies the migration inside the same rollback transaction and verifies that temporary grants leave the previous role memberships unchanged. The local Supabase administrator can already have an administrative membership without inheritance or SET ROLE permission; the test preserves that baseline.

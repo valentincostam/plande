@@ -16,10 +16,13 @@ export const getDurationYearsFromPlanData = getDurationYears;
 export const studyPlanDataToCatalogEntry = (plan: StudyPlanData): StudyPlanCatalogEntry => ({
 	degreeName: plan.info.degreeName,
 	degreeSlug: plan.info.degreeSlug,
+	canonicalSlug: plan.info.canonicalSlug,
 	universityName: plan.info.universityName,
 	universitySlug: plan.info.universitySlug,
 	collegeName: plan.info.collegeName,
 	collegeSlug: plan.info.collegeSlug,
+	campus: plan.info.campus,
+	modality: plan.info.modality,
 	durationYears: getDurationYears(plan),
 	year: plan.info.year,
 	sources: plan.info.sources ?? [],

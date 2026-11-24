@@ -2,8 +2,51 @@
 @plugin '@tailwindcss/forms';
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+}
+
 :root {
 	color-scheme: light;
+}
+
+:root,
+.dark {
+	--background: var(--color-gray-50);
+	--foreground: var(--color-gray-950);
+	--card: #ffffff;
+	--card-foreground: var(--color-gray-950);
+	--popover: var(--color-gray-50);
+	--popover-foreground: var(--color-gray-950);
+	--primary: var(--color-gray-900);
+	--primary-foreground: var(--color-gray-50);
+	--secondary: var(--color-gray-100);
+	--secondary-foreground: var(--color-gray-900);
+	--muted: var(--color-gray-100);
+	--muted-foreground: var(--color-gray-600);
+	--accent: var(--color-gray-100);
+	--accent-foreground: var(--color-gray-900);
+	--destructive: var(--color-red-600);
+	--border: var(--color-gray-200);
+	--input: var(--color-gray-300);
+	--ring: var(--color-blue-500);
 }
 
 .dark {
@@ -63,6 +106,8 @@
 	--color-red-800: #fecaca;
 	--color-red-900: #fee2e2;
 	--color-red-950: #fef2f2;
+	--card: #111113;
+	--card-foreground: #fafafa;
 }
 
 @font-face {

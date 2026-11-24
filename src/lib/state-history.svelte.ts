@@ -1,57 +1,57 @@
 const MAX_HISTORY_SIZE = 50;
 
-let undoStack = $state<string[]>([]);
-let redoStack = $state<string[]>([]);
-let currentState = $state<string>('');
+export type HistoryState = { states: string; grades: string };
+
+let undoStack = $state<HistoryState[]>([]);
+let redoStack = $state<HistoryState[]>([]);
+let currentState = $state<HistoryState | null>(null);
 let isApplyingHistory = $state(false);
+
+const clone = (state: HistoryState): HistoryState => ({ ...state });
+const sameState = (left: HistoryState, right: HistoryState) =>
+	left.states === right.states && left.grades === right.grades;
 
 export function getIsApplyingHistory() {
 	return isApplyingHistory;
 }
 
-export function pushState(encoded: string) {
-	if (isApplyingHistory) return;
+export function pushState(state: HistoryState) {
+	if (isApplyingHistory || (currentState !== null && sameState(currentState, state))) return;
 
-	if (currentState === encoded) return;
-
-	if (currentState !== '') {
-		undoStack = [...undoStack, currentState].slice(-MAX_HISTORY_SIZE);
+	if (currentState !== null) {
+		undoStack = [...undoStack, clone(currentState)].slice(-MAX_HISTORY_SIZE);
 		redoStack = [];
 	}
 
-	currentState = encoded;
+	currentState = clone(state);
 }
 
-export function undo(): string | null {
+export function undo(): HistoryState | null {
 	if (undoStack.length === 0) return null;
 
 	const previous = undoStack[undoStack.length - 1];
 	undoStack = undoStack.slice(0, -1);
 
-	if (currentState !== '') {
-		redoStack = [...redoStack, currentState];
-	}
+	if (currentState !== null)
+		redoStack = [...redoStack, clone(currentState)].slice(-MAX_HISTORY_SIZE);
 
 	isApplyingHistory = true;
-	currentState = previous;
-
-	return previous;
+	currentState = clone(previous);
+	return clone(previous);
 }
 
-export function redo(): string | null {
+export function redo(): HistoryState | null {
 	if (redoStack.length === 0) return null;
 
 	const next = redoStack[redoStack.length - 1];
 	redoStack = redoStack.slice(0, -1);
 
-	if (currentState !== '') {
-		undoStack = [...undoStack, currentState];
-	}
+	if (currentState !== null)
+		undoStack = [...undoStack, clone(currentState)].slice(-MAX_HISTORY_SIZE);
 
 	isApplyingHistory = true;
-	currentState = next;
-
-	return next;
+	currentState = clone(next);
+	return clone(next);
 }
 
 export function clearIsApplyingHistory() {
@@ -61,6 +61,6 @@ export function clearIsApplyingHistory() {
 export function resetHistory() {
 	undoStack = [];
 	redoStack = [];
-	currentState = '';
+	currentState = null;
 	isApplyingHistory = false;
 }

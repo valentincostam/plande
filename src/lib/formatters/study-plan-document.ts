@@ -35,7 +35,9 @@ const stateLabel = (state: RequirementState, plural: boolean, milestone = false)
 	return labels[state][plural ? 1 : 0];
 };
 
-const selectorLabel = (selector: Selector, plan: StudyPlanData) => {
+type RequirementDescriptionPlan = Pick<StudyPlanData, 'items' | 'sections'>;
+
+const selectorLabel = (selector: Selector, plan: RequirementDescriptionPlan) => {
 	switch (selector.type) {
 		case 'items':
 			return 'materias seleccionadas';
@@ -57,7 +59,10 @@ const selectorLabel = (selector: Selector, plan: StudyPlanData) => {
 	}
 };
 
-export const describeRequirement = (expr: RequirementExpr, plan: StudyPlanData): string => {
+export const describeRequirement = (
+	expr: RequirementExpr,
+	plan: RequirementDescriptionPlan
+): string => {
 	const itemsById = new Map(plan.items.map((item) => [item.id, item]));
 
 	const describe = (node: RequirementExpr): string => {

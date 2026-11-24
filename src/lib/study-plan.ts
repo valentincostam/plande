@@ -1,4 +1,3 @@
-
 export type StudyPlanSource = {
 	id: number;
 	label: string;
@@ -13,10 +12,13 @@ export type StudyPlanNote = {
 export type StudyPlanMetadata = {
 	degreeName: string;
 	degreeSlug: string;
+	canonicalSlug?: string;
 	universityName: string;
 	universitySlug: string;
 	collegeName?: string;
 	collegeSlug?: string;
+	campus?: string;
+	modality?: string;
 	year?: number;
 };
 
@@ -27,19 +29,25 @@ export type StudyPlanCatalogEntry = StudyPlanMetadata & {
 };
 
 export const getStudyPlanSlug = ({
+	canonicalSlug,
 	universitySlug,
 	collegeSlug,
 	degreeSlug
 }: StudyPlanMetadata) => {
+	if (canonicalSlug) return canonicalSlug.toLowerCase();
+
 	return [universitySlug, collegeSlug, degreeSlug].filter(Boolean).join('-').toLowerCase();
 };
 
 export const getStudyPlanSlugWithYear = ({
+	canonicalSlug,
 	universitySlug,
 	collegeSlug,
 	degreeSlug,
 	year
 }: StudyPlanMetadata) => {
+	if (canonicalSlug) return canonicalSlug.toLowerCase();
+
 	return [universitySlug, collegeSlug, degreeSlug, year].filter(Boolean).join('-').toLowerCase();
 };
 
@@ -49,11 +57,13 @@ export const getFullCollegeName = ({
 	universityName,
 	universitySlug
 }: StudyPlanMetadata) => {
+	const university = `${universityName}${universitySlug ? ` (${universitySlug})` : ''}`;
+
 	if (collegeName) {
-		return `${collegeName} (${collegeSlug}) de la ${universityName} (${universitySlug})`;
+		return `${collegeName}${collegeSlug ? ` (${collegeSlug})` : ''} de la ${university}`;
 	}
 
-	return `${universityName} (${universitySlug})`;
+	return university;
 };
 
 export type GroupedStudyPlans<T extends StudyPlanMetadata = StudyPlanMetadata> = {
@@ -73,10 +83,9 @@ export const groupStudyPlansByUniversityAndCollege = <T extends StudyPlanMetadat
 
 	for (const studyPlan of studyPlans) {
 		const universityKey = `${studyPlan.universityName}|${studyPlan.universitySlug}`;
-		const collegeKey =
-			studyPlan.collegeName && studyPlan.collegeSlug
-				? `${studyPlan.collegeName}|${studyPlan.collegeSlug}`
-				: '';
+		const collegeKey = studyPlan.collegeName
+			? `${studyPlan.collegeName}|${studyPlan.collegeSlug ?? ''}`
+			: '';
 
 		if (!universityMap.has(universityKey)) {
 			universityMap.set(universityKey, new Map());

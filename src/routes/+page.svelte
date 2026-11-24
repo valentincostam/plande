@@ -22,10 +22,18 @@
 			plan.universityName,
 			plan.universitySlug,
 			plan.collegeName,
-			plan.collegeSlug
+			plan.collegeSlug,
+			plan.campus,
+			plan.modality
 		]
 			.filter(Boolean)
 			.join(' ');
+	}
+
+	function getPlanContext(plan: (typeof allStudyPlans)[number]) {
+		return [plan.campus && `Sede: ${plan.campus}`, plan.modality && `Modalidad: ${plan.modality}`]
+			.filter(Boolean)
+			.join(' · ');
 	}
 
 	const normalizedQuery = $derived(normalizeSearchText(searchQuery));
@@ -406,28 +414,34 @@
 					<div class="divide-y divide-gray-300">
 						{#each groupedPlans as university (university.universitySlug)}
 							<div class="relative grid gap-5 p-6 md:px-0">
-								<img
-									src={`/${university.universitySlug.toLowerCase()}.png`}
-									alt={university.universityName}
-									class={[
-										'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale dark:grayscale dark:invert',
-										'md:absolute md:top-5 md:right-5 md:max-h-16 md:max-w-32 md:opacity-30'
-									]}
-								/>
+								{#if university.universitySlug}
+									<img
+										src={`/${university.universitySlug.toLowerCase()}.png`}
+										alt={university.universityName}
+										class={[
+											'mx-auto max-h-10 max-w-24 object-contain opacity-50 grayscale dark:grayscale dark:invert',
+											'md:absolute md:top-5 md:right-5 md:max-h-16 md:max-w-32 md:opacity-30'
+										]}
+									/>
+								{/if}
 								<h3 class="text-center font-semibold text-gray-900 md:text-left">
 									<HighlightText text={university.universityName} query={searchQuery} />
-									<span class="font-normal text-gray-500">
-										<HighlightText text={university.universitySlug} query={searchQuery} />
-									</span>
+									{#if university.universitySlug}
+										<span class="font-normal text-gray-500">
+											<HighlightText text={university.universitySlug} query={searchQuery} />
+										</span>
+									{/if}
 								</h3>
 								{#each university.colleges as college, collegeIndex (`${university.universitySlug}-${college.collegeSlug ?? college.collegeName ?? collegeIndex}`)}
 									{#if college.collegeName}
 										<div class="grid gap-2">
 											<h4 class="font-medium text-gray-700">
 												<HighlightText text={college.collegeName} query={searchQuery} />
-												<span class="font-normal text-gray-500">
-													<HighlightText text={college.collegeSlug ?? ''} query={searchQuery} />
-												</span>
+												{#if college.collegeSlug}
+													<span class="font-normal text-gray-500">
+														<HighlightText text={college.collegeSlug} query={searchQuery} />
+													</span>
+												{/if}
 											</h4>
 											<ul class="space-y-2 md:pl-4">
 												{#each college.degrees as degree (getStudyPlanSlugWithYear(degree))}
@@ -441,6 +455,11 @@
 																	class="inline-block text-xs whitespace-nowrap text-gray-500 uppercase"
 																>
 																	Plan {degree.year}</span
+																>
+															{/if}
+															{#if getPlanContext(degree)}
+																<span class="block text-xs text-gray-500"
+																	>{getPlanContext(degree)}</span
 																>
 															{/if}
 														</Link>
@@ -461,6 +480,11 @@
 																class="inline-block text-xs whitespace-nowrap text-gray-500 uppercase"
 															>
 																Plan {degree.year}</span
+															>
+														{/if}
+														{#if getPlanContext(degree)}
+															<span class="block text-xs text-gray-500"
+																>{getPlanContext(degree)}</span
 															>
 														{/if}
 													</Link>

@@ -17,10 +17,13 @@ export type StudyPlanNote = {
 export type StudyPlanInfo = {
 	degreeName: string;
 	degreeSlug: string;
+	canonicalSlug?: string;
 	universityName: string;
 	universitySlug: string;
 	collegeName?: string;
 	collegeSlug?: string;
+	campus?: string;
+	modality?: string;
 	year?: number;
 	sources?: StudyPlanSource[];
 	notes?: StudyPlanNote[];
@@ -157,6 +160,8 @@ export type StudyPlanData = {
 };
 
 export const getStudyPlanDataSlug = ({ info }: StudyPlanData) => {
+	if (info.canonicalSlug) return info.canonicalSlug.toLowerCase();
+
 	return [info.universitySlug, info.collegeSlug, info.degreeSlug]
 		.filter(Boolean)
 		.join('-')
@@ -164,6 +169,8 @@ export const getStudyPlanDataSlug = ({ info }: StudyPlanData) => {
 };
 
 export const getStudyPlanDataSlugWithYear = ({ info }: StudyPlanData) => {
+	if (info.canonicalSlug) return info.canonicalSlug.toLowerCase();
+
 	return [info.universitySlug, info.collegeSlug, info.degreeSlug, info.year]
 		.filter(Boolean)
 		.join('-')

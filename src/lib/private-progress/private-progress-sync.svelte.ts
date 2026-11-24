@@ -15,7 +15,10 @@ import {
 	type PrivateProgressResolution
 } from './private-progress-contract';
 
-type ProgressSession = Pick<PlanSession, 'items' | 'itemsById' | 'reset'>;
+type ProgressSession = Pick<
+	PlanSession,
+	'items' | 'itemsById' | 'applyProgress' | 'projectProgress'
+>;
 type PersistAttempt = (attempt: PrivateProgressAttempt | null) => boolean;
 
 class AccountChangedError extends Error {}
@@ -31,10 +34,13 @@ export function createPrivateProgressSync(
 	const privateProgressActive = Boolean(subject && planId);
 	const defaultPrivateProgress: PrivateProgress = {
 		version: 0,
-		items: session.items.map((item) => ({
-			itemId: item.def.id,
-			state: item.def.kind === 'course' ? 'notTaken' : 'pending'
-		}))
+		items: [
+			...session.items.map((item) => ({
+				itemId: item.def.id,
+				state: item.def.kind === 'course' ? ('notTaken' as const) : ('pending' as const)
+			})),
+			...session.projectProgress([], false)
+		]
 	};
 	let privateProgressReady = $state(false);
 	let privateProgressStatus = $state<
@@ -47,6 +53,8 @@ export function createPrivateProgressSync(
 	let privateProgressConflicts = $state<PrivateProgressConflict[]>([]);
 	let privateProgressResolutions = $state<PrivateProgressResolution[]>([]);
 	let privateProgressPendingAttempt = $state<PrivateProgressAttempt | null>(null);
+	let retiredProgress = $state<PrivateProgress['items']>([]);
+	let privateProgressHasLocalOnlyRetiredProgress = false;
 	let privateProgressSaving = false;
 	let queuedPrivateProgress = false;
 	let disposed = false;
@@ -71,6 +79,7 @@ export function createPrivateProgressSync(
 			...new SvelteMap([
 				...privateProgressBase.items.map((item) => [item.itemId, item] as const),
 				...(privateProgressServer?.items ?? []).map((item) => [item.itemId, item] as const),
+				...session.projectProgress(retiredProgress).map((item) => [item.itemId, item] as const),
 				...session.items.map(
 					(item) =>
 						[
@@ -89,13 +98,8 @@ export function createPrivateProgressSync(
 	});
 
 	const applyPrivateProgress = (progress: PrivateProgress) => {
-		session.reset();
-		for (const record of progress.items) {
-			const item = session.itemsById.get(record.itemId);
-			if (!item) continue;
-			item.state = record.state;
-			if (item.def.kind === 'course') item.grade = record.grade;
-		}
+		retiredProgress = progress.items.filter((item) => !session.itemsById.has(item.itemId));
+		privateProgressHasLocalOnlyRetiredProgress = session.applyProgress(progress.items);
 	};
 
 	const persistPendingAttempt = (attempt: PrivateProgressAttempt | null) => {
@@ -176,7 +180,9 @@ export function createPrivateProgressSync(
 			)
 				persistPendingAttempt(null);
 			if (privateProgressPendingAttempt) privateProgressStatus = 'failed';
-			else if (merged) privateProgressStatus = stored ? 'saved' : null;
+			else if (merged)
+				privateProgressStatus =
+					stored && !privateProgressHasLocalOnlyRetiredProgress ? 'saved' : null;
 			privateProgressReady = true;
 		} catch (error) {
 			if (!disposed)
@@ -233,7 +239,7 @@ export function createPrivateProgressSync(
 				if (!disposed && latest) {
 					const merged = reconcile(completePrivateProgress(latest));
 					if (merged) {
-						privateProgressStatus = 'saved';
+						privateProgressStatus = privateProgressHasLocalOnlyRetiredProgress ? null : 'saved';
 						if (progressFingerprint(capturePrivateProgress()) !== privateProgressLastSaved)
 							void savePrivateProgress();
 					}
@@ -260,7 +266,7 @@ export function createPrivateProgressSync(
 			});
 			if (merged) {
 				privateProgressResolutions = [];
-				privateProgressStatus = 'saved';
+				privateProgressStatus = privateProgressHasLocalOnlyRetiredProgress ? null : 'saved';
 				if (progressFingerprint(capturePrivateProgress()) !== privateProgressLastSaved)
 					void savePrivateProgress();
 			}
@@ -269,7 +275,12 @@ export function createPrivateProgressSync(
 				privateProgressStatus = error instanceof AccountChangedError ? 'session-changed' : 'failed';
 		} finally {
 			privateProgressSaving = false;
-			if (queuedPrivateProgress && !disposed && privateProgressStatus === 'saved') {
+			if (
+				queuedPrivateProgress &&
+				!disposed &&
+				privateProgressStatus !== 'failed' &&
+				privateProgressStatus !== 'session-changed'
+			) {
 				queuedPrivateProgress = false;
 				void savePrivateProgress();
 			}
@@ -308,7 +319,14 @@ export function createPrivateProgressSync(
 			if (pendingAttempt)
 				privateProgressPendingAttempt = parsePrivateProgressAttempt(pendingAttempt);
 			if (resolutions) privateProgressResolutions = parsePrivateProgressResolutions(resolutions);
-			if (restoreItems && local) applyPrivateProgress(parsePrivateProgress(local));
+			if (local) {
+				const progress = parsePrivateProgress(local);
+				if (restoreItems) applyPrivateProgress(progress);
+				else
+					retiredProgress = session.projectProgress(
+						progress.items.filter((item) => !session.itemsById.has(item.itemId))
+					);
+			}
 		},
 		hydrate: hydratePrivateProgress,
 		sync() {

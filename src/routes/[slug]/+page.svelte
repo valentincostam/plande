@@ -20,9 +20,10 @@
 		redo as historyRedo,
 		getIsApplyingHistory,
 		clearIsApplyingHistory,
-		resetHistory
+		resetHistory,
+		type HistoryState
 	} from '$lib/state-history.svelte';
-	import { encodeGrades } from '$lib/grade-encoding';
+	import { encodeGrades, decodeGrades } from '$lib/grade-encoding';
 	import Charts from './charts.svelte';
 	import { browser } from '$app/environment';
 	import { onMount, tick, untrack } from 'svelte';
@@ -42,8 +43,10 @@
 	import AuthMenu from '$lib/auth/auth-menu.svelte';
 	import PrivateProgressConflict from '$lib/private-progress/private-progress-conflict.svelte';
 	import { createPrivateProgressSync } from '$lib/private-progress/private-progress-sync.svelte';
+	import ProposalForm from '$lib/plan-editor/proposal-form.svelte';
+	import { publicationChanges } from '$lib/publication-changes';
 
-	let { data }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 
 	let viewMode = $state<'list' | 'diagram'>('list');
 	let diagramRef = $state<CourseDiagram | undefined>();
@@ -97,6 +100,8 @@
 	const v5Session = untrack(
 		() =>
 			new PlanSession(preparePlan(initialNativeStudyPlan), {
+				progressItemIds: data.progressItemIds,
+				progressItemKinds: data.progressItemKinds,
 				initialStates: initialItemStates,
 				initialGrades: initialItemGrades,
 				strictMode: initialStrictMode
@@ -144,6 +149,8 @@
 	const storageKey = privateSubject
 		? `plande-private-${privateSubject}-${privatePlanId ?? untrack(() => data.slug)}`
 		: anonymousStorageKey;
+	let publicationSnapshotId: string | undefined;
+	let unseenPublications = $state<Array<{ snapshotId: string; argument: string | null }>>([]);
 	const persistPrivateProgressAttempt = (attempt: unknown) => {
 		try {
 			const saved = localStorage.getItem(storageKey);
@@ -169,9 +176,7 @@
 	$effect(() => {
 		if (isInitializing || !isRouterReady) return;
 		const encodedStates = v5Session.serializeStates();
-		const itemGrades = v5Session.items.map((item) =>
-			item.def.kind === 'course' ? item.grade : undefined
-		);
+		const itemGrades = v5Session.serializeGrades();
 		const urlSearchParams = createUrlSearchParams(
 			encodedStates,
 			isStrictModeEnabled,
@@ -179,9 +184,11 @@
 			encodeGrades(itemGrades)
 		);
 		if (!browser) return;
-		if (!getIsApplyingHistory()) pushHistoryState(encodedStates);
+		if (!getIsApplyingHistory())
+			pushHistoryState({ states: encodedStates, grades: encodeGrades(itemGrades) });
 		else clearIsApplyingHistory();
 		const storageData = {
+			publicationSnapshotId,
 			coursesStates: encodedStates,
 			isStrictModeEnabled,
 			showCodes,
@@ -221,6 +228,15 @@
 				const savedData = ownSavedData ?? importedData;
 				if (savedData && (privateSubject || mayImportAnonymous)) {
 					const parsed = JSON.parse(savedData);
+					publicationSnapshotId =
+						typeof parsed.publicationSnapshotId === 'string'
+							? parsed.publicationSnapshotId
+							: undefined;
+					unseenPublications = publicationChanges(
+						data.publicationHistory,
+						publicationSnapshotId,
+						data.publicationSnapshotId
+					);
 					if (importedData && privateSubject)
 						localStorage.setItem(`${anonymousStorageKey}-private-owner`, privateSubject);
 					if (parsed.useCycleButton !== undefined) useCycleButton = parsed.useCycleButton;
@@ -242,9 +258,7 @@
 						)
 					) {
 						if (data.itemGrades.length === 0 && Array.isArray(parsed.grades)) {
-							v5Session.items.forEach((item, index) => {
-								if (item.def.kind === 'course') item.grade = parsed.grades[index] ?? undefined;
-							});
+							v5Session.applyGrades(parsed.grades);
 						}
 						if (data.itemStates.length === 0)
 							v5Session.applySerializedStates(parsed.coursesStates ?? '');
@@ -258,6 +272,17 @@
 			} catch {
 				console.warn('Failed to restore local progress.');
 			}
+			const loadedPublication = data.publicationHistory.findIndex(
+				(entry) => entry.snapshotId === data.publicationSnapshotId
+			);
+			const previousPublication = data.publicationHistory.findIndex(
+				(entry) => entry.snapshotId === publicationSnapshotId
+			);
+			if (
+				loadedPublication >= 0 &&
+				(previousPublication < 0 || loadedPublication <= previousPublication)
+			)
+				publicationSnapshotId = data.publicationSnapshotId;
 			await privateProgress.hydrate();
 			if (!disposed) isInitializing = false;
 		})();
@@ -289,8 +314,9 @@
 		});
 	}
 
-	function applyHistoryState(encoded: string) {
-		v5Session.applySerializedStates(encoded);
+	function applyHistoryState(snapshot: HistoryState) {
+		v5Session.applySerializedStates(snapshot.states);
+		v5Session.applyGrades(decodeGrades(snapshot.grades));
 	}
 
 	function handleUndo() {
@@ -340,11 +366,24 @@
 		return previousYearSections.every((section) => section.section.state === courseStates.passed);
 	}
 
+	function getInstitutionLabel() {
+		return [
+			data.studyPlan.universitySlug || data.studyPlan.universityName,
+			data.studyPlan.collegeSlug || data.studyPlan.collegeName
+		]
+			.filter(Boolean)
+			.join(' · ');
+	}
+
 	// SEO metadata - derived from data
 	const seo = $derived.by(() => {
-		const collegeAbbr = data.studyPlan.collegeSlug ? data.studyPlan.collegeSlug.toUpperCase() : '';
-		const universityAbbr = data.studyPlan.universitySlug.toUpperCase();
-		const institution = collegeAbbr ? `${universityAbbr} ${collegeAbbr}` : universityAbbr;
+		const university = data.studyPlan.universitySlug
+			? data.studyPlan.universitySlug.toUpperCase()
+			: data.studyPlan.universityName;
+		const college = data.studyPlan.collegeSlug
+			? data.studyPlan.collegeSlug.toUpperCase()
+			: data.studyPlan.collegeName;
+		const institution = college ? `${university} ${college}` : university;
 		const title = `${data.studyPlan.degreeName} ・ ${institution} ・ Plande`;
 		const description = `Plan de Estudios de ${data.studyPlan.degreeName} en ${data.studyPlan.universityName}${data.studyPlan.collegeName ? ` ・ ${data.studyPlan.collegeName}` : ''}. Visualizá materias, correlatividades y tu progreso académico.`;
 
@@ -430,11 +469,83 @@
 <div class="mx-auto grid gap-9 py-9 md:max-w-2xl">
 	<header class="px-3 text-center">
 		<Link href={resolve('/')} class="text-sm leading-loose">Plande</Link>
-		<p>
-			Plan de Estudios {data.studyPlan.year ?? ''} · {data.studyPlan.universitySlug}
-			{data.studyPlan.collegeSlug ?? ''}
-		</p>
+		<p>Plan de Estudios {data.studyPlan.year ?? ''} · {getInstitutionLabel()}</p>
 		<h1 class="text-2xl font-bold">{data.studyPlan.degreeName}</h1>
+		{#if unseenPublications.length > 0}
+			<div class="mt-3 text-left text-sm">
+				<p role="status">El plan recibió correcciones. Tu progreso se conserva.</p>
+				<details class="mt-1">
+					<summary>Ver cambios</summary>
+					<ul class="mt-2 grid gap-2">
+						{#each unseenPublications as version (version.snapshotId)}
+							<li>{version.argument}</li>
+						{/each}
+					</ul>
+				</details>
+			</div>
+		{/if}
+		{#if data.proposal || form?.form}
+			<details class="mt-3 text-left text-sm" open={Boolean(form?.form)}>
+				<summary>Proponer corrección</summary>
+				<div class="mt-3 grid gap-3">
+					{#if data.proposal?.active || form?.proposalPlanId}
+						<a
+							class="underline"
+							href={resolve('/draft/[id]', { id: form?.proposalPlanId ?? data.proposal!.planId })}
+							>Ver propuesta en curso</a
+						>
+					{/if}
+					{#if form?.form || (data.proposal && !data.proposal.active)}
+						<ProposalForm
+							form={form?.form ?? data.proposal!.form}
+							error={form?.error}
+							versions={data.publicationHistory}
+						/>
+					{/if}
+				</div>
+			</details>
+		{:else if !data.auth && data.authEnabled && data.publicationHistory.length > 0}
+			<p class="mt-3 text-sm">
+				<a class="underline" href={resolve('/auth/sign-in')}
+					>Iniciá sesión para proponer una corrección</a
+				>
+			</p>
+		{/if}
+		{#if data.publicationHistory.length > 0}
+			<details class="mt-2 text-left text-sm">
+				<summary>Historial de publicación</summary>
+				<ul class="mt-2 grid gap-2">
+					{#each data.publicationHistory as version (version.snapshotId)}
+						<li>
+							{#if version.publishedAt}<time datetime={version.publishedAt}
+									>{new Date(version.publishedAt).toLocaleString('es-AR', {
+										timeZone: 'America/Argentina/Buenos_Aires'
+									})}</time
+								> (hora argentina)
+							{:else}Versión inicial{/if}
+							{#if version.isCurrent}
+								· Vigente{/if}
+							{#if version.argument}<p>{version.argument}</p>{/if}
+						</li>
+					{/each}
+				</ul>
+			</details>
+		{:else if data.publication?.publishedAt}
+			<details class="mt-2 text-sm">
+				<summary>Historial de publicación</summary>
+				<p>
+					Publicación vigente:
+					<time datetime={data.publication.publishedAt}
+						>{new Date(data.publication.publishedAt).toLocaleString('es-AR', {
+							dateStyle: 'long',
+							timeStyle: 'short',
+							timeZone: 'America/Argentina/Buenos_Aires'
+						})}</time
+					>
+					(hora argentina)
+				</p>
+			</details>
+		{/if}
 		<div class="mt-2 flex justify-center">
 			<AuthMenu
 				auth={data.auth}
@@ -561,13 +672,29 @@
 						<span class="font-bold text-gray-900 dark:text-gray-900"
 							>{data.studyPlan.collegeName.split(' ')[0]}:</span
 						>
-						{data.studyPlan.collegeName} ({data.studyPlan.collegeSlug})
+						{data.studyPlan.collegeName}{data.studyPlan.collegeSlug
+							? ` (${data.studyPlan.collegeSlug})`
+							: ''}
 					</li>
 				{/if}
 				<li>
 					<span class="font-bold text-gray-900 dark:text-gray-900">Universidad:</span>
-					{data.studyPlan.universityName} ({data.studyPlan.universitySlug})
+					{data.studyPlan.universityName}{data.studyPlan.universitySlug
+						? ` (${data.studyPlan.universitySlug})`
+						: ''}
 				</li>
+				{#if data.studyPlan.campus}
+					<li>
+						<span class="font-bold text-gray-900 dark:text-gray-900">Sede:</span>
+						{data.studyPlan.campus}
+					</li>
+				{/if}
+				{#if data.studyPlan.modality}
+					<li>
+						<span class="font-bold text-gray-900 dark:text-gray-900">Modalidad:</span>
+						{data.studyPlan.modality}
+					</li>
+				{/if}
 				<li>
 					<span class="font-bold text-gray-900 dark:text-gray-900">Duración:</span>
 					{data.studyPlan.durationYears} años

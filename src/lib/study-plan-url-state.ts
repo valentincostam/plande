@@ -5,6 +5,16 @@ import { milestoneStates, type ItemState, type PlanItem } from './study-plan-dat
 export const sortItemsBySeqId = <T extends Pick<PlanItem, 'seqId'>>(items: T[]) =>
 	[...items].sort((a, b) => a.seqId - b.seqId);
 
+export const progressItemPositions = (
+	items: readonly Pick<PlanItem, 'id'>[],
+	order: readonly string[] = items.map((item) => item.id)
+) => {
+	const positions = new Map(order.map((id, index) => [id, index]));
+	if (positions.size !== order.length || items.some((item) => !positions.has(item.id)))
+		throw new Error('Progress positions must uniquely cover every current item.');
+	return positions;
+};
+
 // State is serialized as ONE letter stream covering ALL items (courses and
 // milestones) ordered by seqId. Milestones project onto the course letters
 // (completed <-> passed) so URLs created when an item was still a course keep
