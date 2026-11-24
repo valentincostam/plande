@@ -76,9 +76,9 @@ Plande guarda el estado de las materias en la URL mediante el parámetro \`s\`:
 
 Ejemplo: \`https://plande.app/utn-frcu-isi?s=a2n3r1\`
 
-## Solicitar nuevos planes
+## Estado del proyecto
 
-Si tu carrera no está disponible, completar el formulario en https://forms.gle/bCC6rCb44LLYERHu6
+Plande está en modo mantenimiento. Las carreras publicadas siguen disponibles, pero no se agregan carreras nuevas. Alternativas: Hornero (https://www.horneroapp.ar) o miFACU (https://mifacu.com.ar).
 
 ## Información técnica para LLMs
 

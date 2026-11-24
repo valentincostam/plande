@@ -591,6 +591,16 @@
 		</div>
 	</header>
 
+	<aside
+		class="mx-3 grid gap-1 rounded-lg bg-amber-100 px-4 py-3 text-center text-sm text-amber-900 md:mx-0"
+	>
+		<p>
+			Plande quedó en modo mantenimiento. No voy a sumar carreras ni cosas nuevas, pero este plan
+			sigue funcionando igual.
+		</p>
+		<p><Link href="https://valentincosta.com">Valentín</Link></p>
+	</aside>
+
 	{#if persistenceError}
 		<p
 			role="alert"

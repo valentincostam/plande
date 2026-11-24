@@ -243,10 +243,10 @@
 			},
 			{
 				'@type': 'Question',
-				name: '¿Cómo puedo agregar mi carrera?',
+				name: '¿Se van a agregar más carreras?',
 				acceptedAnswer: {
 					'@type': 'Answer',
-					text: 'Si tu carrera no está disponible, completá el formulario en https://forms.gle/bCC6rCb44LLYERHu6 con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.'
+					text: 'No. Plande quedó en modo mantenimiento y ya no voy a sumar carreras. Si la tuya no está, probá con Hornero (https://www.horneroapp.ar) o miFACU (https://mifacu.com.ar).'
 				}
 			}
 		]
@@ -258,6 +258,22 @@
 		<h1 class="text-xl font-bold">Plande 🎓</h1>
 		<span class="text-sm text-gray-500">Planes de Estudios Interactivos</span>
 	</header>
+
+	<aside
+		aria-labelledby="maintenance-title"
+		class="mx-6 grid gap-2 rounded-lg bg-amber-100 p-4 text-sm text-amber-900 md:mx-0"
+	>
+		<h2 id="maintenance-title" class="font-bold text-amber-950">
+			Plande quedó en modo mantenimiento
+		</h2>
+		<p>
+			Ya no voy a sumar carreras ni cosas nuevas. Las que ya están siguen funcionando igual y tu
+			progreso queda guardado en tu navegador, como siempre. Si ves algo mal en tu plan,
+			<Link href="https://forms.gle/5iR99PJAffwFmayC6">avisame</Link> y lo reviso.
+		</p>
+		<p>Gracias a todos los que lo usaron, lo compartieron y me escribieron todos estos años.</p>
+		<p><Link href="https://valentincosta.com">Valentín</Link></p>
+	</aside>
 
 	<main class="grid gap-9">
 		<section class="relative bg-[#F5F1EB] p-6 md:rounded-md dark:bg-[#161717]">
@@ -541,9 +557,11 @@
 
 					<div class="px-6 md:px-0">
 						<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center">
-							<span class="text-sm text-gray-600">¿No está tu carrera?</span>
-							<Link href="https://forms.gle/bCC6rCb44LLYERHu6" class="ml-1 text-sm">Pedila acá</Link
-							>
+							<p class="text-sm text-gray-600">
+								¿No está tu carrera? Ya no estoy sumando carreras nuevas. Probá con
+								<Link href="https://www.horneroapp.ar">Hornero</Link> o
+								<Link href="https://mifacu.com.ar">miFACU</Link>.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -653,15 +671,15 @@
 				</FaqItem>
 
 				<FaqItem
-					question="¿Cómo puedo agregar mi carrera?"
+					question="¿Se van a agregar más carreras?"
 					answerId="faq-answer-5"
 					isExpanded={expandedFaqIndex === 5}
 					onToggle={() => toggleFaq(5)}
 					isLast
 				>
-					Si tu carrera no está disponible, completá el formulario en
-					<Link href="https://forms.gle/bCC6rCb44LLYERHu6">este link</Link>
-					con el plan de estudios oficial de tu universidad. Los planes se agregan manualmente.
+					No. Plande quedó en modo mantenimiento y ya no voy a sumar carreras. Si la tuya no está,
+					probá con <Link href="https://www.horneroapp.ar">Hornero</Link> o
+					<Link href="https://mifacu.com.ar">miFACU</Link>.
 				</FaqItem>
 			</div>
 		</section>
@@ -675,27 +693,16 @@
 				<p class="text-center text-gray-700">Plande está para que te recibas sin vueltas.</p>
 			</header>
 
-			<div class="grid gap-3">
-				<h3 class="text-lg font-bold">Contruyamos Plande juntos</h3>
-				<p class="text-gray-700">
-					Con tu ayuda podemos hacer de Plande la mejor app para planificar tu carrera.
-				</p>
-				<ul class="list-disc space-y-1 pl-5 text-gray-700">
-					<li>¿Qué es lo que más te complica cuando planificás tu carrera?</li>
-					<li>¿Qué funcionalidades te gustaría ver en Plande?</li>
-				</ul>
-				<p class="text-gray-700">
-					Tu opinión va a definir la siguiente versión de Plande. Usá el siguiente link para
-					contarme tus ideas y sugerencias.
-				</p>
-			</div>
+			<p class="text-center text-gray-700">
+				¿Encontraste un error en tu plan? Avisame y lo reviso.
+			</p>
 
 			<div class="grid justify-center gap-3 text-center">
 				<a
 					href="https://forms.gle/5iR99PJAffwFmayC6"
 					class="block rounded bg-blue-700 px-6 py-3 text-white transition-colors select-none hover:bg-blue-800 active:scale-95 active:bg-blue-900 dark:bg-blue-200 dark:hover:bg-blue-300 dark:active:bg-blue-400"
 				>
-					Escribir opinión o sugerencia
+					Reportar un error
 				</a>
 				<p class="text-sm text-gray-600">
 					<em>Hagamos que recibirse sea más fácil y rápido</em>

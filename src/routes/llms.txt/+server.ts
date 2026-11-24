@@ -194,13 +194,9 @@ ${topUniversitiesSection}
 
 ${otherUniversitiesSection}
 
-## Cómo Solicitar Nuevos Planes
+## Estado del Proyecto
 
-Si un plan de estudios no está disponible:
-
-1. Visitar https://forms.gle/bCC6rCb44LLYERHu6
-2. Completar el formulario con el plan de estudios oficial de la universidad
-3. El mantenedor agregará el plan manualmente a la base de datos
+Plande está en modo mantenimiento. Las carreras publicadas siguen disponibles, pero no se agregan carreras ni funciones nuevas. Si una carrera no está disponible, alternativas: Hornero (https://www.horneroapp.ar) o miFACU (https://mifacu.com.ar).
 
 ## Estructura de Datos
 
@@ -259,15 +255,14 @@ GET /llms.txt                # Este archivo
 
 ## Limitaciones
 
-- Los planes deben agregarse manualmente (no hay integración automática con universidades)
+- No se agregan carreras nuevas (modo mantenimiento)
 - Progreso almacenado localmente o en URLs (sin cuentas de usuario)
 - Enfocado en universidades argentinas (pero extensible a otros países)
 
 ## Recursos Adicionales
 
 - Website: https://plande.app
-- Solicitar planes: https://forms.gle/bCC6rCb44LLYERHu6
-- Feedback: https://forms.gle/5iR99PJAffwFmayC6
+- Reportar errores: https://forms.gle/5iR99PJAffwFmayC6
 
 ---
 
