@@ -1,38 +1,28 @@
-# sv
+# Plande
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Interactive study plans for Argentine universities. Live at [plande.app](https://plande.app).
 
-## Creating a project
+Students pick their degree, mark each course as not taken, in progress, regular or passed, and Plande shows which courses they can take next, which final exams to prioritize, and how much of the degree is left. Progress lives in the browser and in the URL, so it can be shared as a link. No accounts.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Status
 
-```bash
-# create a new project in the current directory
-npx sv create
+**Maintenance mode.** The published degrees stay online and free. I do not add new degrees or features. Bug reports for existing study plans are welcome.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Stack
 
-## Developing
+- SvelteKit 5, TypeScript, Tailwind CSS 4, DaisyUI
+- Static study plan data in `src/routes/[slug]/data/`, one file per degree
+- Playwright and Vitest for tests
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Development
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+bun install
+bun run dev
+bun run check
+bun run test:e2e
 ```
 
-## Building
+## License
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+[MIT](LICENSE). The study plan data comes from public documents published by each university. Always check the official documentation of your university.
